@@ -1,0 +1,874 @@
+https://metanit.com/sharp/patterns/3.5.php
+
+сейчас https://metanit.com/sharp/patterns/3.8.php
+
+
+
+
+
+Фабричный метод (Factory Method)
+Абстрактная фабрика (Abstract Factory)
+
+Одиночка (Singleton, Синглтон)
+
+Прототип (Prototype)
+
+Стратегия (Strategy)
+Наблюдатель (Observer)
+
+Команда (Command)
+Шаблонный метод (Template Method)
+Состояние (State)
+Цепочка Обязанностей (Chain of responsibility)
+Хранитель (Memento)
+
+Адаптер (Adapter)
+Фасад (Facade)
+
+SOLID
+
+
+
+
+
+Фабричный метод (Factory Method)
+
+есть продукт и разные создатели продукта которые делают разные его вариации
+в каждом создателе объявляется метод который будет создавать
+
+// абстрактный класс строительной компании
+abstract class Developer
+{
+    public string Name { get; set; }
+ 
+    public Developer (string n)
+    { 
+        Name = n; 
+    }
+    // фабричный метод
+    abstract public House Create();
+}
+// строит панельные дома
+class PanelDeveloper : Developer
+{
+    public PanelDeveloper(string n) : base(n)
+    { }
+ 
+    public override House Create()
+    {
+        return new PanelHouse();
+    }
+}
+// строит деревянные дома
+class WoodDeveloper : Developer
+{ 
+    public WoodDeveloper(string n) : base(n)
+    { }
+ 
+    public override House Create()
+    {
+        return new WoodHouse();
+    }
+}
+ 
+abstract class House
+{ }
+ 
+class PanelHouse : House 
+{ 
+    public PanelHouse()
+    {
+        Console.WriteLine("Панельный дом построен");
+    }
+}
+class WoodHouse : House
+{ 
+    public WoodHouse()
+    {
+        Console.WriteLine("Деревянный дом построен");
+    }
+}
+
+
+
+
+
+
+
+
+
+Абстрактная фабрика (Abstract Factory)
+
+abstract class AbstractFactory
+{
+    public abstract AbstractProductA CreateProductA();
+    public abstract AbstractProductB CreateProductB();
+}
+class ConcreteFactory1: AbstractFactory
+{
+    public override AbstractProductA CreateProductA()
+    {
+        return new ProductA1();
+    }
+         
+    public override AbstractProductB CreateProductB()   
+    {
+        return new ProductB1(); 
+    }
+}
+class ConcreteFactory2: AbstractFactory
+{
+    public override AbstractProductA CreateProductA()
+    {
+        return new ProductA2();
+    }
+         
+    public override AbstractProductB CreateProductB()
+    {
+        return new ProductB2();
+    }
+}
+...
+class ProductA1: AbstractProductA   
+{}
+...
+//еще пример
+
+//абстрактный класс - оружие
+abstract class Weapon
+{
+    public abstract void Hit();
+}
+// абстрактный класс движение
+abstract class Movement
+{
+    public abstract void Move();
+}
+ 
+// класс арбалет
+class Arbalet : Weapon
+{
+    
+}
+// движение полета
+class FlyMovement : Movement
+{
+    
+}
+// класс абстрактной фабрики
+abstract class HeroFactory
+{
+    public abstract Movement CreateMovement();
+    public abstract Weapon CreateWeapon();
+}
+// Фабрика создания летящего героя с арбалетом
+class ElfFactory : HeroFactory
+{
+    public override Movement CreateMovement()
+    {
+        return new FlyMovement();
+    }
+ 
+    public override Weapon CreateWeapon()
+    {
+            return new Arbalet();
+    }
+}
+
+
+
+
+Одиночка (Singleton, Синглтон)
+
+class Singleton
+{
+    private static Singleton instance;
+ 
+    private Singleton()
+    {}
+ 
+    public static Singleton getInstance()
+    {
+//lock тут нужен если не 1 поток
+        if (instance == null)
+            instance = new Singleton();
+        return instance;
+    }
+}
+
+
+
+без использования lock
+public class Singleton
+{
+    private static readonly Singleton instance = new Singleton();
+ 
+    public string Name { get; private set; }
+ 
+    private Singleton()
+    {
+        Name = System.Guid.NewGuid().ToString();
+    }
+ 
+    public static Singleton GetInstance()
+    {
+        return instance;
+    }
+}
+Lazy-реализация
+
+public class Singleton
+{
+    public string Name { get; private set; }
+ 
+    private Singleton()
+    {
+        Name = System.Guid.NewGuid().ToString();
+    }
+     
+    public static Singleton GetInstance()
+    {
+        return Nested.instance;
+    }
+ 
+    private class Nested
+    {
+        internal static readonly Singleton instance = new Singleton();
+    }
+}
+
+Реализация через класс Lazy<T>
+
+public class Singleton
+{
+    private static readonly Lazy<Singleton> lazy = 
+        new Lazy<Singleton>(() => new Singleton());
+ 
+    public string Name { get; private set; }
+         
+    private Singleton()
+    {
+        Name = System.Guid.NewGuid().ToString();
+    }
+     
+    public static Singleton GetInstance()
+    {
+        return lazy.Value;
+    }
+}
+
+
+
+
+
+
+
+
+
+Прототип (Prototype)
+
+interface IFigure
+{
+    IFigure Clone();
+}
+class Rectangle: IFigure
+{   
+    public IFigure Clone()
+    {
+//return this.MemberwiseClone() as IFigure;
+        return new Rectangle(this.width, this.height);
+    }
+}
+class Circle : IFigure
+{
+public IFigure Clone()
+    {
+        return new Circle(this.radius);
+    }
+}
+
+
+
+
+
+
+
+Стратегия (Strategy)
+
+есть класс с определенным методом, и этот метод задается вне класса а класс на него просто ссылается
+
+public interface IStrategy
+{
+    void Algorithm();
+}
+ 
+public class ConcreteStrategy1 : IStrategy
+{
+    public void Algorithm()
+    {}
+}
+ 
+public class ConcreteStrategy2 : IStrategy
+{
+    public void Algorithm()
+    {}
+}
+ 
+public class Context
+{
+    public IStrategy ContextStrategy { get; set; }
+ 
+    public Context(IStrategy _strategy)
+    {
+        ContextStrategy = _strategy;
+    }
+ 
+    public void ExecuteAlgorithm()
+    {
+        ContextStrategy.Algorithm();
+    }
+}
+
+
+
+
+
+Наблюдатель (Observer)
+
+
+interface IObservable
+{
+    void AddObserver(IObserver o);
+    void RemoveObserver(IObserver o);
+    void NotifyObservers();
+}
+class ConcreteObservable : IObservable
+{
+    private List<IObserver> observers;
+    public ConcreteObservable()
+    {
+        observers = new List<IObserver>();
+    }
+    public void AddObserver(IObserver o)
+    {
+        observers.Add(o);
+    }
+ 
+    public void RemoveObserver(IObserver o)
+    {
+        observers.Remove(o);
+    }
+ 
+    public void NotifyObservers()
+    {
+        foreach (IObserver observer in observers)
+            observer.Update();
+    }
+}
+ 
+interface IObserver
+{
+    void Update();
+}
+class ConcreteObserver :IObserver
+{
+    public void Update()
+    {
+    }
+}
+
+
+
+
+
+
+Команда (Command)
+
+
+
+есть классы command, pult, tv
+интерфейс Icommand
+в pult хранится интерфейс Icommand и через него вызываются команды наследника (command)
+в классе command хранятся методы для взаимодействия с tv и сам tv
+если классов по типу (tv) не сколько то для каждого создается _command
+в tv просто методы для самого класса
+
+
+
+
+
+Шаблонный метод (Template Method)
+
+
+abstract class AbstractClass
+{
+    public void TemplateMethod()
+    {
+        Operation1();
+        Operation2();
+    }
+    public abstract void Operation1();
+    public abstract void Operation2();
+}
+ 
+class ConcreteClass : AbstractClass
+{
+    public override void Operation1()
+    {
+    }
+ 
+    public override void Operation2()
+    {
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+Состояние (State)
+
+есть объект для которого возможны некоторое количество состояний
+в нем определен интерфейс(поле) состояния в котором хранится текущее состояние
+при изменении состояния вызывается метод этого интерфейса и 
+передается в него сам объект для которого определены состояния
+
+
+
+в интерфейсе состояния определены методы только для перехода в смежные состояния
+в классах реализующих интерфейс состояния переопределяются эти методы для перехода в конкретное состояние
+(для жидкой воды это в газ и в лед     для льда это в лед(крепче если заморозка продожится) и в жидкую воду
+и в объекте для которого определены состояния изменяется поле(для него создается объект с уже следующим состоянием)
+
+
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Water water = new Water(new LiquidWaterState());
+        water.Heat();
+        water.Frost();
+        water.Frost();
+ 
+        Console.Read();
+    }
+}
+ class Water
+    {
+        public IWaterState State { get; set; }
+ 
+        public Water(IWaterState ws)
+        {
+            State = ws;
+        }
+ 
+        public void Heat()
+        {
+            State.Heat(this);
+        }
+        public void Frost()
+        {
+            State.Frost(this);
+        }
+    }
+ 
+interface IWaterState
+{
+    void Heat(Water water);
+    void Frost(Water water);
+}
+ 
+class SolidWaterState : IWaterState
+{
+    public void Heat(Water water)
+    {
+        Console.WriteLine("Превращаем лед в жидкость");
+        water.State = new LiquidWaterState();
+    }
+ 
+    public void Frost(Water water)
+    {
+        Console.WriteLine("Продолжаем заморозку льда");
+    }
+}
+class LiquidWaterState : IWaterState
+{
+    public void Heat(Water water)
+    {
+        Console.WriteLine("Превращаем жидкость в пар");
+        water.State = new GasWaterState();
+    }
+ 
+    public void Frost(Water water)
+    {
+        Console.WriteLine("Превращаем жидкость в лед");
+        water.State = new SolidWaterState();
+    }
+}
+class GasWaterState : IWaterState
+{
+    public void Heat(Water water)
+    {
+        Console.WriteLine("Повышаем температуру водяного пара");
+    }
+ 
+    public void Frost(Water water)
+    {
+        Console.WriteLine("Превращаем водяной пар в жидкость");
+        water.State = new LiquidWaterState();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Цепочка Обязанностей (Chain of responsibility)
+
+
+
+
+class Client
+{
+    void Main()
+    {
+        Handler h1 = new ConcreteHandler1();
+        Handler h2 = new ConcreteHandler2();
+        h1.Successor = h2;
+        h1.HandleRequest(2);
+    }
+}
+abstract class Handler
+{
+    public Handler Successor { get; set; }
+    public abstract void HandleRequest(int condition);
+}
+ 
+class ConcreteHandler1 : Handler
+{
+    public override void HandleRequest(int condition)
+    {
+        if (condition == 1)
+        {
+            // обработка;
+        }
+        else if (Successor != null)
+        {
+            Successor.HandleRequest(condition);
+        }
+    }
+}
+ 
+class ConcreteHandler2 : Handler
+{
+    public override void HandleRequest(int condition)
+    {
+        if (condition==2)
+        {
+            // обработка;
+        }
+        else if (Successor != null)
+        {
+            Successor.HandleRequest(condition);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+Хранитель (Memento)
+
+
+
+
+class Memento
+{
+    public string State { get; private set;}
+    public Memento(string state)
+    {
+        this.State = state;
+    }
+}
+ 
+class Caretaker
+{
+    public Memento Memento { get; set; }
+}
+ 
+class Originator
+{
+    public string State { get; set; }
+    public void SetMemento(Memento memento)
+    {
+        State = memento.State;
+    }
+    public Memento CreateMemento()
+    {
+        return new Memento(State);
+    }
+}
+
+
+
+
+
+
+
+Адаптер (Adapter)
+
+в коде используется определенный класс и мы хотим использовать вместо него другой
+мы создаем класс который наследуем от того который мы уже используем и в нем храним объект класса который хотим использовать
+переопределяем методы(нужно указать virtual) и получаем наследника с другими методами в которые можно засунуть функционал любого класса(или того который в нем храним уже)
+
+без адаптера пришлось бы указывать 1 интерфейс менять методы и использовать уже по интерфейсу
+
+class Client
+{
+    public void Request(Target target)
+    {
+        target.Request();
+    }
+}
+
+
+// класс, к которому надо адаптировать другой класс   
+class Target
+{
+    public virtual void Request()
+    {}
+}
+  
+// Адаптер
+class Adapter : Target
+{
+    private Adaptee adaptee = new Adaptee();
+  
+    public override void Request()
+    {
+        adaptee.SpecificRequest();
+    }
+}
+  
+// Адаптируемый класс
+class Adaptee
+{
+    public void SpecificRequest()
+    {}
+}
+
+
+
+
+
+
+
+
+
+Фасад (Facade)
+есть некоторые классы, с методами, создается новый класс в котором хранятся(если надо) эти классы, и в котором
+определены методы для группировки методов из классов которые были
+
+
+class SubsystemA
+{
+    public void A1()
+    {}
+}
+class SubsystemB
+{
+    public void B1()
+    {}
+}
+class SubsystemC
+{
+    public void C1()
+    {}
+}
+ 
+public class Facade
+{
+    SubsystemA subsystemA;
+    SubsystemB subsystemB;
+    SubsystemC subsystemC;
+ 
+    public Facade(SubsystemA sa, SubsystemB sb, SubsystemC sc)
+    {
+        subsystemA = sa;
+        subsystemB = sb;
+        subsystemC = sc;
+    }
+    public void Operation1()
+    {
+        subsystemA.A1();
+        subsystemB.B1();
+        subsystemC.C1();
+    }
+    public void Operation2()
+    {
+        subsystemB.B1();
+        subsystemC.C1();
+    }
+}
+ 
+class Client
+{
+    public void Main()
+    {
+        Facade facade = new Facade(new SubsystemA(), new SubsystemB(), new SubsystemC());
+        facade.Operation1();
+        facade.Operation2();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+Принципы SOLID
+
+Single Responsibility Principle (Принцип единственной обязанности)
+пример с принтером
+реализация методов которые по смыслу отличаются от назначения класса выносится в новый класс , а тут только вызывается
+что то похожее на патер стратегия, но класс не хранится(но может и храниться) а просто передается и вызывается внутри метода
+
+
+Open/Closed Principle (Принцип открытости/закрытости)
+открыто для расширения, закрыто для изменения
+пример с поваром
+{
+повар умеет готовить, и мы просто передаем в него класс блюда, а он только .готовит
+
+}
+
+тотже паттерн стратегия
+
+
+
+
+Liskov Substitution Principle (Принцип подстановки Лисков)
+при наследовании наследник не должен реализовывать меньше функционал чем родитель
+в переопределяемом методе не должно быть больше предусловий
+Постусловия (Postconditions) не могут быть ослаблены в подклассе. То есть подклассы должны выполнять все постусловия, которые определены в базовом классе.
+Инварианты (Invariants) — все условия базового класса - также должны быть сохранены и в подклассе
+
+решение:
+абстрагирования и выделения общего функционала, который уже наследуют классы Account и MicroAccount. 
+То есть не один из них наследуется от другого, а оба они наследуются от одного общего класса.
+
+
+Interface Segregation Principle (Принцип разделения интерфейсов)
+есть интерфейс который реализуется многими классами 
+многие(но не все) классы нужнаются в ДОП методе а некоторые НЕ нужнаются
+в таком случае нужно создать новый интерфейс с родителем старого инт. и уже выбирать какой класс от какого наследовать
+
+
+
+Dependency Inversion Principle (Принцип инверсии зависимостей)
+1 из ситуаций: паттерн стратегия и в классе храним другой класс метод которого вызывается
+это плохо тк мы может туда засунуть только наследников этого класса
+решение
+хранить там интерфейс и от этого интерфейса уже делать констретные реализации
+и хранить ту которая нужна+ делать метод что бы изменять динамически хранимую переменную
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

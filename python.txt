@@ -1,0 +1,34 @@
+проверка форматирования кода peep8 http://pep8online.com/checkresult
+
+python -m pip install --upgrade pip
+
+
+установка пакета
+добавить python что бы не было unknown comand
+cmd python -m pip install --upgrade (название)
+в пороект:
+путь до pip проекта pip3.exe install (название)
+C:\Users\zsuz\PycharmProjects\lab3_morph\venv\Scripts\pip3.exe install
+
+C:\Users\zsuz\PycharmProjects
+//
+
+
+path pip  C:\Users\zsuz\AppData\Local\pip
+python C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\python.exe
+
+ctrl+alt+s  настройка интерпритатора
+
+sturtup
+C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\Lib\site-packages\boto\pyami
+
+
+
+
+
+
+
+
+
+
+

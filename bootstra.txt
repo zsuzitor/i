@@ -1,0 +1,109 @@
+http://bootstrap-3.ru/css.php
+
+
+list-unstyled   убрать отступы и точки у ul #ul #li
+list-inline     тоже что list-unstyled  но еще и инлайн отобразит
+цвет текста{
+text-primary
+Ц primary
+Ц secondary
+Ц success
+Ц danger
+Ц warning
+Ц infolight
+Ц dark.
+
+}
+
+img{
+<img class="img-fluid"/>    картинка нормально отображаетс€ ??
+ img-fluid rounded       закругленные углы дл€ картинки
+img-fluid rounded-circle   круглое
+float-left выравниваем по краю и вроде бы становитс€ обтекаемой
+}
+<div class="text-center">   по центру то что внутри
+<p class="help-block">   серый цвет+ прижимаетс€ к тому что сверху
+<div class="checkbox">   в див засовываем чекбоксы
+<div class="radio"> в див засовываем радиобаттоны
+<label class="checkbox-inline"> в каждом таком блоке по 1 чекбоксу
+<input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>   "отключает"
+{
+задаем стиль
+<div class="form-group has-success">    если добавить класс has-feedback то не только выделение цветом, но и иконки соответсвующие будут
+.has-warning, .has-error, или .has-success     
+<label class="control-label" for="inputSuccess1">”спешный ввод</label>   св€зываетс€ с input
+
+}
+<div class="row">  вложенные дивы будут в строку и по col-xs-2 можно мен€ть длину
+  <div class="col-xs-2">
+
+
+
+{
+#button #кнопки
+
+
+<!-- Standard button -->
+<button type="button" class="btn btn-default">Default</button>
+
+<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+<button type="button" class="btn btn-primary">Primary</button>
+
+<!-- Indicates a successful or positive action -->
+<button type="button" class="btn btn-success">Success</button>
+
+<!-- Contextual button for informational alert messages -->
+<button type="button" class="btn btn-info">Info</button>
+
+<!-- Indicates caution should be taken with this action -->
+<button type="button" class="btn btn-warning">Warning</button>
+
+<!-- Indicates a dangerous or potentially negative action -->
+<button type="button" class="btn btn-danger">Danger</button>
+
+<!-- Deemphasize a button by making it look like a link while maintaining button behavior -->
+<button type="button" class="btn btn-link">—сылка</button>
+
+
+<button type="button" class="btn btn-primary btn-lg">Ѕольша€ кнопка</button>
+<button type="button" class="btn btn-primary">ѕо умолчанию</button>
+<button type="button" class="btn btn-primary btn-sm">ћала€ кнопка</button>
+<button type="button" class="btn btn-primary btn-xs">ќчень мала€ кнопка</button>
+
+<a href="#" class="btn btn-primary btn-lg active" role="button">√лавна€ ссылка</a>
+
+<button type="button" class="close" aria-hidden="true">&times;</button>     кнопка закрыти€
+<span class="caret"></span>       кнопка "развернуть"
+
+
+
+
+}
+
+
+<div class="show">...</div>        скрывает\показывает блок
+<div class="hidden">...</div>
+.invisible
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

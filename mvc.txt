@@ -1,0 +1,5593 @@
+записать 
+надо
+https://metanit.com/sharp/tutorial/9.2.php
+https://metanit.com/sharp/tutorial/11.2.php  +дальше все про потоки
+ https://metanit.com/sharp/tutorial/12.2.php +дальше все про task
+https://metanit.com/sharp/tutorial/13.4.php   обработка исключений
+https://metanit.com/sharp/tutorial/13.6.php
+https://metanit.com/sharp/tutorial/14.2.php  вся глава про рефлексию даже не читал
+https://metanit.com/sharp/tutorial/15.1.php   тут все методы linq надо бы записать + дальше
+https://metanit.com/sharp/tutorial/16.2.php   xml
+так
+
+https://metanit.com/sharp/tutorial/7.4.php
+https://metanit.com/sharp/tutorial/18.1.php  процессы
+
+
+https://metanit.com/sharp/tutorial/7.5.php
+
+
+
+
+TODO
+@Html.AntiForgeryToken()
+
+
+
+
+
+
+#js
+
+#class
+
+function Machine() {//функция конструктор класса, если нужны параметры то закидывать
+  var enabled = false;//private свойство, 
+
+function asd(){//private функция, не будет наслодоваться, если  надо наседовать то объявлять через this._asd  ,  _- указывает что функция прайват
+
+}
+  this.enable = function() {//public функция будет наследоваться
+    enabled = true;
+  };
+
+  this.disable = function() {
+    enabled = false;
+  };
+}
+
+
+
+var sdf=new Machine();// или(но лучше со скобками) var sdf=new Machine;
+
+
+2 способ с 2015 года
+
+
+'use strict';//указывает о том что новые стандарты используются
+
+class User {
+//нельзя указывать поля(var a)
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayHi() {
+    alert(this.name);
+  }
+
+
+static createGuest() {
+    return new User("Гость", "Сайта");
+  }
+
+}
+
+let user = new User("Вася");
+
+
+
+
+
+
+
+
+
+наследование 
+function CoffeeMachine(power) {
+  Machine.call(this); // унаследовать то что через this. задано(public свойства)
+//или так
+//Machine.apply(this, arguments)
+
+// переопределить this.enable
+  this.enable = function() {
+    /* enable для кофеварки */
+  };
+
+
+//если хотим дополнить метод то так
+var parentEnable = this.enable; 
+  this.enable = function() { 
+      parentEnable.call(this);
+      this.run(); 
+}
+}
+
+
+
+
+наследование при class
+
+'use strict';
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  walk() {
+    alert("I walk: " + this.name);
+  }
+}
+
+class Rabbit extends Animal {
+  walk() {
+    super.walk();//метод родителя будет вызываться
+    alert("...and jump!");
+  }
+
+constructor() {
+
+//Вызвать конструктор родителя можно только изнутри конструктора потомка. В частности, super() нельзя вызвать из произвольного метода.
+//В конструкторе потомка мы обязаны вызвать super() до обращения к this. До вызова super не существует this, так как по спецификации в этом случае именно super инициализирует this.
+    // вызвать конструктор Animal с аргументом "Кроль"
+    super("Кроль"); // то же, что и Animal.call(this, "Кроль")
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#html
+
+#отображать #div #текст как он есть  #html #pre>
+#<pre></pre>
+
+
+#html #div #size #% #width
+div1-width 30%
+и
+div1-width 70%
+не умещаются по ширине(перенос на новую строку) в внешний элемент
+дивы не умещаются в див
+.parent {
+/*внешний див В который не умещаются*/
+    font-size: 0;
+}
+
+.child {
+/* это надо для восстановления шрифта к вложенным дивам (которые не умещаются)*/
+    font-size: 16px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#c#
+
+
+#struct
+
+в структуре нельзя создать конструктор по умолчанию(он генерируется системой В ЛЮБОМ СЛУЧАЕ даже если мы определим другие)
+если в конструкторе не инициализировать поля то комплятор НЕ сгенерирует им значения, а в классе сгенерирует
+в структуре нельзя инициализировать перменные в месте их объявления
+в структ можно засунуть индексатор и статик конструктор
+не ссылочный тип данных
+не наследуется от класса и от структур и не может быть родителем для них, но может от интерфейса
+нельзя определять деструкторы
+члены структуры нельзя указывать как abstract virtual protected
+объект может быть создан через new(но может и без него)
+struct b{}
+b perem;perem.val=10;//не вызывая конструктор
+
+
+#class  
+
+если класс наследуется , при вызове конструктора вызывается сначала конструктор родителя(даже если не применили слово #base)
+public class cl{
+}
+cl perem=new cl();
+cl perem=new cl(){val=10};
+cl perem=new cl{val=10};
+
+
+
+
+
+
+#virtual - для возможности переопределения в наследниках
+#override - для переопределения чего либо
+
+#sealed - если перед class то запретить наследование
+если перед методом то только перед тем для которого должны были указать override - запретит переопределение через override
+
+
+
+
+
+
+
+
+
+
+
+#enum
+
+[:int]- тип перечисления
+enum apple[:int]{val1,val2,val3,val4=10}
+(int)apple.val1;//0
+(int)apple.val4;//10
+
+for(apple i=apple.val1;i<apple.val4&&(i)<20;++i)
+console.writeline(i);//val1...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Finalize и #Dispose #IDisposable
+
+если наследуем от класса с IDispose то тоже надо реализовать
+private bool IsDisposed = false;
+ 
+    protected override void Dispose(bool disposing)
+    {
+        if (IsDisposed) return;
+        if (disposing)
+        {
+            // Освобождение управляемых ресурсов
+        }
+        IsDisposed = true;
+        // Обращение к методу Dispose базового класса
+        base.Dispose(disposing);
+    }
+
+
+
+
+
+public class SomeClass: IDisposable
+{
+    private bool disposed = false;
+ 
+    // реализация интерфейса IDisposable.
+    public void Dispose()
+    {
+        Dispose(true);
+        // подавляем финализацию
+        GC.SuppressFinalize(this);
+    }
+ 
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposed)
+        {
+            if (disposing)
+            {
+                // Освобождаем управляемые ресурсы
+            }
+            // освобождаем неуправляемые объекты
+            disposed = true;
+        }
+    }
+ 
+    // Деструктор
+    ~SomeClass()
+    {
+        Dispose (false);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#синхронизация
+#Interlocked
+тоже самое что и lock но быстрее и проще, для блокировки простых типов
+CompareExchange()	Безопасно проверяет два значения на эквивалентность. Если они эквивалентны, изменяет одно из значений на третье
+Decrement()	Безопасно уменьшает значение на 1
+Exchange()	Безопасно меняет два значения местами
+Increment()	Безопасно увеличивает значение на 1
+//+возвращает это же число
+int newVal = Interlocked.Increment(ref intVal);
+Interlocked.Exchange(ref mylnt, 83);
+
+
+
+
+
+#Monitor
+у monitor есть метод TryEnter-- он заставляет ждать определенное время а не бесконечность
+lock преобразуется в monitor
+private object obj = new object();
+#lock (obj)
+{
+   // синхронизированная область для obj
+}
+//преабразуется в
+Monitor.Enter(obj);
+try
+{
+   // синхронизированная область для obj
+}
+finally
+{
+   Monitor.Exit(obj);
+}
+if (Monitor.TryEnter(lockObject, 300)) {  
+    try {  
+        // Place code protected by the Monitor here.  
+    }  
+    finally {  
+        Monitor.Exit(lockObject);  
+    }  
+}  
+else {  
+    // Code to execute if the attempt times out.  
+}
+
+
+
+
+
+#Synchronization]
+#[Synchronization]
+тоже синхронизация но такое
+
+#Mutex
+тоже синхронизация
+
+#ReaderWriterLock
+блокировка только на запись
+
+
+ #ManualResetEvent
+ #AutoResetEvent
+
+
+
+
+
+
+c#
+
+#Параллельное #программирование #TPL
+#Task
+System.Threading.Tasks
+//1 способ
+
+Task task = new Task(() => Console.WriteLine("Hello Task!"));
+task.Start();
+//2 способ
+//	
+Task task = Task.Factory.StartNew(() => Console.WriteLine("Hello Task!"));
+//3 способ
+Task task = Task.Run(() => Console.WriteLine("Hello Task!"));
+
+//получить результат
+Task<int> task1 = new Task<int>(()=>Factorial(5));
+        task1.Start();
+//эта строка будет ждать завершения выполнения задачи
+var f=task1.Result
+
+//остановит поток до выполнения задачи
+ task.Wait();
+//остановит поток до выполнения всех задач в массиве  tasks
+Task.WaitAll(tasks)
+//остановит поток до выполнения хотя бы 1 задачи в массиве  tasks
+Task.WaitAny(tasks)
+
+//task2 начнет выполнение после завершения task1
+//который в качестве параметра принимает делегат Action<Task>
+ Task task2 = task1.ContinueWith(Display);
+void Display(Task t)
+        {}
+||
+Task task3 = task1.ContinueWith((Task t) =>
+    {
+        Console.WriteLine("Id задачи: {0}", Task.CurrentId);
+    });
+
+
+
+
+//массивы
+Task[] tasks1 = new Task[3]
+foreach
+ t.Start();
+||
+for (int i = 0; i < tasks2.Length; i++)
+    tasks2[i] = Task.Factory.StartNew(() => Console.WriteLine($"Task {j++}"));
+
+Класс Task имеет ряд свойств, с помощью которых мы можем получить информацию об объекте. Некоторые из них:
+AsyncState: возвращает объект состояния задачи
+CurrentId: возвращает идентификатор текущей задачи
+Exception: возвращает объект исключения, возникшего при выполнении задачи
+Status: возвращает статус задачи
+
+//вложенные задачи и из за параметра внешняя будет "ждать внутреннюю"
+var outer = Task.Factory.StartNew(() =>      // внешняя задача
+    {
+var inner = Task.Factory.StartNew(() =>  // вложенная задача
+        {
+ }, TaskCreationOptions.AttachedToParent);
+    });
+outer.Wait(); // ожидаем выполнения внешней задачи
+
+
+
+#Параллельное #программирование #TPL
+#Parallel
+
+Parallel.Invoke(Display, 
+        () => {  },() => Factorial(5));
+
+
+For(int, int, Action<int>)
+первый параметр задает начальный индекс элемента в цикле, а второй параметр - конечный индекс. 
+Третий параметр - делегат Action - указывает на метод, который будет выполняться один раз за итерацию
+Parallel.For(1, 10, Factorial);
+void Factorial(int x)
+{}
+
+
+ParallelLoopResult result = Parallel.ForEach<int>(new List<int>() { 1, 3, 5, 8 },
+                Factorial);
+
+//выход из цикла
+
+//проверка вышли ли мы из цикла, это не в методе который в цикл передается
+if (!result.IsCompleted)
+        Console.WriteLine("Выполнение цикла завершено на итерации {0}", 
+                                        result.LowestBreakIteration);
+//циклы при этой не изменяются(все как выше)
+//метод который будет выполняться и в котором надо остановить цикл
+void Factorial(int x, ParallelLoopState pls)
+{
+ pls.Break();
+}
+свойства ParallelLoopResult
+IsCompleted: определяет, завершилось ли полное выполнение параллельного цикла
+LowestBreakIteration: возвращает индекс, на котором произошло прерывание работы цикла
+
+
+//остановить задачу
+//вне задачи объявить
+ CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+    CancellationToken token = cancelTokenSource.Token;
+//остановить 
+cancelTokenSource.Cancel();
+//в task
+if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+//если операция внешняя передавать ссылку на токен
+Task task1 = new Task(() => Factorial(5, token));
+void Factorial(int x, CancellationToken token)
+{
+
+
+
+//прерывание операции в цикле
+//также объявить токен и в любом потоке также отменить
+//в другом потоке где нужны циклы
+try
+    {   
+        Parallel.ForEach<int>(new List<int>() { 1,2,3,4,5,6,7,8}, 
+                                new ParallelOptions { CancellationToken=token}, Factorial);
+        // или так
+        //Parallel.For(1, 8, new ParallelOptions { CancellationToken = token }, Factorial);
+    }
+    catch(OperationCanceledException ex)
+    {
+        Console.WriteLine("Операция прервана");
+    }
+    finally
+    {
+        cancelTokenSource.Dispose();
+    }
+
+
+Асинхронные делегаты
+public delegate int DisplayHandler();
+//выполняем в ассинхронном режиме
+//Первый параметр представляет делегат System.AsyncCallback  AsyncCallback указывает на метод, который будет выполняться в результате завершения работы асинхронного делегата
+//Второй параметр представляет произвольный объект, с помощью которого мы можем передать дополнительную информацию в метод завершения, указанный в предыдущем параметре. 
+IAsyncResult resultObj = handler.BeginInvoke(null, null);
+//ждет выполнения
+int result = handler.EndInvoke(resultObj);
+
+
+//с параметрами
+// добавляем параметр в делегат и в сам метод
+ public delegate int DisplayHandler(int k);
+int Display(int k)
+        {}
+//метод который будет вызываться по завершению
+static void AsyncCompleted(IAsyncResult resObj)
+        {
+            string mes = (string)resObj.AsyncState;//Асинхронные вызовы
+}
+DisplayHandler handler = new DisplayHandler(Display);
+ //1- параметр в метод 2- метод после завершения 3-параметр для метода после завешения
+            IAsyncResult resultObj = handler.BeginInvoke(10, new AsyncCallback(AsyncCompleted), "Асинхронные вызовы");
+
+            int res = handler.EndInvoke(resultObj);
+
+
+
+#async и #await
+ассинхронные методы -суффикс Async
+async void DisplayResultAsync()
+    {
+//возращает int тк есть await если его нет то возвращает task
+int result = await FactorialAsync(num);
+}
+static Task<int> FactorialAsync(int x)
+    {
+return Task.Run(() =>
+        {});
+
+//вызвать метод
+DisplayResultAsync();
+||
+Task t = DisplayResultAsync();
+    t.Wait();
+||
+//.GetAwaiter(), который остановит выполнение в вызывающем потоке, пока задача не завершится, и .GetResult(), который возвращает результат
+DisplayResultAsync().GetAwaiter().GetResult();
+
+//ждать выполнение всех задач
+ Task<int> t1 = FactorialAsync(num1);
+await Task.WhenAll(new[] { t1, t2, t3 });
+ var gg=t1.Result
+
+
+
+
+
+
+
+
+#рефлексия
+
+получить тип
+Type myType = typeof(className);
+Type myType = object.GetType();
+//1- полное название с namespace 2-генерить ли исключение если не найдено 3-учитывать ли регистр у 1 параметра
+Type myType = Type.GetType("TestConsole.User", false, true);
+
+
+
+#Parallel #LINQ
+при возникновении ошибка в 1 потоке прерываются все
+
+#AsParallel выполение запроса разбивая задачу на потоки
+//будет обрабатывать коллекцию не по порядку если так будет быстрее и если не быстрее то обработает как обычно
+var factorials = numbers.AsParallel().Select(x => Factorial(x));
+
+#ForAll
+.ForAll(n => Console.WriteLine(n));
+ForAll выполняет действие в каждом потоке для той части которая находится в нем
+без ForAll происходит склейка данных в 1 потоке и потом действие для всех элементов
+
+#AsOrdered()
+.AsParallel().AsOrdered()
+разделяем на потоки и потом выставляем в том порядке как было бы если бы не разделяли
+
+#AsUnordered()
+разупорядочивание , если мы упорядочили но дальше какие то операции котораые не требуют порядка, ускорит все
+
+
+обработка ошибок 
+catch (AggregateException ex)
+{
+    foreach (var e in ex.InnerExceptions)
+    {
+        Console.WriteLine(e.Message);
+    }
+}
+
+отмена параллельной операции
+CancellationTokenSource cts = new CancellationTokenSource();
+ cts.Cancel();// установить токен для отмены
+try{
+numbers.AsParallel().WithCancellation(cts.Token)
+}
+catch(OperationCanceledException ex)
+    {
+        Console.WriteLine("Операция была прервана");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#string 
+#Конкатенация 
+String.Concat(s3, "!!!");
+"123"+"332"
+
+Сравнение строк
+Если первая строка по алфавиту стоит выше второй, то возвращается число меньше нуля. В противном случае возвращается число больше нуля. И третий случай - если строки равны, то возвращается число 0.
+#Compare
+int result = String.Compare(s1, s2);
+поиск
+s1.IndexOf(ch);
+LastIndexOf   EndsWith  StartWith
+разделение
+#Split
+Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+string[] words = text.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+
+Обрезка строки
+text.Trim();--убирает пробелы вначале и в конце
+text.Trim(new char[] { 'd', 'h' });
+функция TrimStart обрезает начальные символы, а функция TrimEnd обрезает конечные символы
+
+// обрезаем начиная с третьего символа
+text = text.Substring(2);
+// обрезаем сначала до последних двух символов
+text = text.Substring(0, text.Length - 2);
+
+Вставка
+text = text.Insert(8, text2);
+Удаление строк
+// вырезаем  символ
+text = text.Remove(8);
+// вырезаем первые два символа
+text = text.Remove(0, 2);
+
+Replace
+text = text.Replace("хороший", "плохой");
+
+hello.ToLower()
+hello.ToUpper()
+
+
+#деконструкторы #Deconstruct
+class Person
+{
+public void Deconstruct(out string name, out int age)
+    {
+        name = this.Name;
+}}
+(string name, int age) = person;
+
+
+#Индексаторы #[]
+могут быть перегружены
+class Library
+{
+    Book[] books;
+ public Book this[int i, int j]{}
+ public Book this[int index]
+    {
+        get
+        {
+            return books[index];
+        }
+        set
+        {
+            books[index] = value;
+        }
+    }
+
+
+#Сериализация
+[Serializable]
+class Person
+{
+[NonSerialized]
+    public string accNumber;
+//точно также можно делать и с массивом и тд
+ // создаем объект BinaryFormatter
+            BinaryFormatter formatter = new BinaryFormatter();
+            // получаем поток, куда будем записывать сериализованный объект
+            using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, person);
+            }
+ 
+            // десериализация из файла people.dat
+            using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate))
+            {
+                Person newPerson = (Person)formatter.Deserialize(fs);
+            }
+
+#SOAP. #SoapFormatter
+https://metanit.com/sharp/tutorial/6.3.php
+
+#XML. #XmlSerializer
+https://metanit.com/sharp/tutorial/6.4.php
+
+#JSON. #DataContractJsonSerializer
+
+using Newtonsoft.Json;
+data = JsonConvert.DeserializeObject<AllData>(upload_text);
+//mass ---- var g= JsonConvert.DeserializeObject<test_t[]>(json);
+str=JsonConvert.SerializeObject(section);
+// через потоки
+
+DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Person[]));
+ 
+            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            {
+                jsonFormatter.WriteObject(fs, people);
+            }
+ 
+            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            {
+                Person[] newpeople = (Person[])jsonFormatter.ReadObject(fs);
+
+            }
+
+
+если не известен класс но знаем поля
+using Newtonsoft.Json;  //JSON.NET
+using Newtonsoft.Json.Linq;
+var o = JObject.Parse(json);
+var accessToken = (string)o["access_token"]; // "13a85707de16fbb1c290250872f30e0b"
+var errorCode = (int)o["error"]["code"];     // 0
+var duration = TimeSpan.FromSeconds((double)o["duration"]);
+
+
+
+
+#расширение #расширения #extension #extends
+//создать static class 
+//подключить это namespase к месту где будет использовать этот метод
+
+public static class StringExtension
+{
+//this перед тем параметром к которому это будет применяться
+    public static int WordCount(this string str, char c)
+    {}
+(string)str.WordCount((char)c);
+
+
+
+
+#delegate #делегаты #standart #стандартные
+//стандартные делегаты не надо объявлять они уже есть
+
+#Action
+public delegate void Action<T1,T2,....T16>(T obj1,T obj2... T obj16)
+Action<int, int> op=(a,b)=>{return;};
+
+#Predicate
+Predicate<int> isPositive =  (int x)=>{ return x > 0; };
+
+#Func
+//последний параметр всегда выходной
+Func<T> isPositive
+Func<T1, T2,... T16,TResult>
+Func<int> isPositive=()=>{return 1;}
+ Func<int, int> retFunc =( x)=>{return x;}
+
+
+#перегрузка
+
+#operator #перегрузка #операторов
+при перегрузке не должны изменяться те объекты, которые передаются в оператор через параметры
+class Counter
+{
+public static возвращаемый_тип operator оператор(параметры)
+{  }
+public static Counter operator +(Counter c1, Counter c2)
+
+зависимые друг от друга(противоположные) надо перегружать оба сразу
+public static bool operator (>||<)(Counter c1, Counter c2) 
+public static Counter operator ++(Counter c1)
+{
+    return new Counter { Value = c1.Value + 10 };
+}
+для if()
+public static bool operator true(Counter c1)
+  public static bool operator false(Counter c1)  
+
+логические
+public static bool operator (|,!,&)(Counter c1, Counter c2) 
+
+укороченные логические
+нужно перегрузить true false
+нужно перегрузить(возможно) !
+нужно перегрузить |, & - возвращаемый тип -объект для которого if(объект) -true
+public static Counter operator (|)(Counter c1, Counter c2) 
+
+
+
+
+
+#приведение #типов #перегрузка
+#explicit-явное (type)obj  #implicit-не явное
+public static implicit|explicit operator Тип_в_который_надо_преобразовать(исходный_тип param){
+return new Тип_в_который_надо_преобразовать(param);
+}
+
+
+
+#интерфесы #interface 
+все без уровня доступа
+interface IName{
+//свойство не будет самореализуемым, get\set тоже без уровня доступа
+int nm{
+get;
+set;
+}
+
+return_type this[type val]{
+get;set;
+}
+
+void methodname(){}
+}
+
+явная реализация метода
+class g: IName{
+void IName.methodname1(){}//без уровня доступа
+public void methodname(){}
+
+}
+g g_=new g();
+IName g1=new g();
+g_.methodname1();//нельзя, надо сначала упаковать
+g1.methodname1();
+
+
+
+
+
+
+#IComparable
+
+#Sort()
+//не обобщенная версия надо приводить к типам
+public interface IComparable
+{
+    int CompareTo(object o);
+}
+//обобщенная, приводить к типу не надо
+IComparable<Person>
+ public int CompareTo(Person p)
+    {}
+
+Меньше нуля. Значит, текущий объект должен находиться перед объектом, который передается в качестве параметра
+Равен нулю. Значит, оба объекта равны
+Больше нуля. Значит, текущий объект должен находиться после объекта, передаваемого в качестве параметра
+
+PeopleComparer--- класс которые реализует интерфейс #IComparer<Person>
+Array.Sort(new[]Person, new PeopleComparer());
+
+
+
+
+#сравнение #равенство #IComparer
+IComparer<Person>
+interface IComparer
+{
+    int Compare(object o1, object o2);
+}
+
+если первый объект больше второго, то возвращается число больше 0, если меньше - то число меньше нуля; если оба объекта равны, возвращается ноль.
+
+
+
+
+
+
+#ICloneable #clone()
+//сам интерфейс
+public interface ICloneable
+{
+    object Clone();
+}
+//реализация через MemberwiseClone--поверхностное копирование(если есть ссылки внутри то останутся ссылками на те же объекты)
+public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
+
+
+
+
+#ref #out
+
+ref local
+
+int x = 5;
+ref int xRef = ref x;
+
+будет ссылаться на элемент массива
+ref int numberRef = ref Find(4, numbers);
+static ref int Find(int[] numbers)
+{
+return ref numbers[0];
+}
+
+
+
+
+
+#обобщения  #обобщение
+
+class Transaction<T> where T: Account
+{
+    public T FromAccount { get; set; }
+}
+class Transaction<T> 
+{
+    public T FromAccount { get; set; }
+}
+Transaction<Account> transaction1 = new Transaction<Account>
+        {
+}
+
+class Account<T> where T : struct
+{}
+class Transaction<T> where T : class
+{}
+//есть конструктор без параметров
+class Transaction<T> where T : new()
+{}
+
+class Transaction<U, V>
+        where U : Account<int>
+        where V : struct
+{}
+public static void Transact<T>(T acc1, T acc2, int sum) where T : Account<int>{}
+
+
+
+
+
+
+
+#Console
+
+Beep: подача звукового сигнала
+Clear: очистка консоли
+WriteLine: вывод строки текста, включая символ возврата каретки (то есть с переводом на новую строку)
+Write: вывод строки текста, но без символа возврата каретки
+ReadLine: считывание строки текста со входного потока
+Read: считывание введенного символа в виде числового кода данного символа. С помощью преобразования к типу char мы можем получить введенный символ
+ReadKey: считывание нажатой клавиши клавиатуры (ConsoleKeyInfo key= Console.ReadKey();)
+Кроме того, класс Console обладает свойствами, которые позволяют управлять консолью. Некоторые из них:
+BackgroundColor: цвет фона консоли
+ForegroundColor: цвет шрифта консоли
+BufferHeight: высота буфера консоли
+BufferWidth: ширина буфера консоли
+Title: заголовок консоли
+WindowHeight и WindowWidth: высота и ширина консоли соответственно
+
+
+
+
+exeption
+try{
+throw new Exception("Длина строки больше 6 символов");
+}
+catch(... ex){
+ex.Message
+}
+catch(Exeption ex) when (y==0){
+ex.Message
+}
+catch{
+
+}
+finally{}
+
+
+-----------------------------
+кортеж
+
+var tuple = (5, "tre");
+или 	 (int, string) tuple = (5, "tre");
+tuple.Item1 += 26;
+
+var tuple = (count:5, sum:10);
+tuple.count=5;
+
+var (name, age) = ("Tom", 23);
+ Console.WriteLine(name);
+
+var tuple = GetValues();
+private static (int, int) GetValues()
+{
+    var result = (1, 3);
+
+private static (int sum, int count) GetNamedValues()
+{
+    var result = (sum:0, count: 0);
+
+
+ var (name, age) = GetTuple(("Tom", 23), 12);
+private static (string name, int age) GetTuple((string n, int a) tuple, int x)
+{
+    var result = (name: tuple.n, age: tuple.a + x);
+
+
+
+
+https://metanit.com/sharp/tutorial/2.19.php
+-----------------------------
+
+
+#error
+не работает точка останова  удалить все файлы в проекте .pdb
+
+
+
+
+#image #uploadImage #img
+
+отображение из байтов 
+ <div class="div_image_standart" style="background:url( data:image/jpeg;base64,@Convert.ToBase64String(a.Data)) no-repeat;background-size: cover;">
+        </div>
+
+растянет очень криво но ничего не обрежет, и пустых мест не будет
+<div id="main_tag_one_img_id_@a.Id" class="class_image_standart" style="background:url( data:image/jpeg;base64,@Convert.ToBase64String(a.Data)) no-repeat;background-size: 100% 100%;"> 
+</div>
+
+
+загрузка картинок на сервер сюда код формы метод для преобразования картинок в байты и тд
+@using (Html.BeginForm("Add_new_image", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.Hidden("from", "Personal_record")
+                        @Html.Hidden("for_what", "main_img")
+
+                        <input type="file" name="uploadImage[0]" />
+                            <input type="submit" class="submit" value="Поделиться" />
+                    }
+
+ public ActionResult AddMemePerson(string id_user, HttpPostedFileBase[] uploadImage,string text)
+{  
+var list_img_byte = Get_photo_post(uploadImage);
+}
+
+public static List<byte[]> Get_photo_post(HttpPostedFileBase[] uploadImage)
+        {
+
+            /* сохранение картинок как файл ...
+              HttpPostedFileBase image = Request.Files["fileInput"];
+            
+            if (image != null && image.ContentLength > 0 && !string.IsNullOrEmpty(image.FileName))
+            {
+                string fileName = image.FileName;
+                image.SaveAs(Path.Combine(Server.MapPath("Images"), fileName));
+            }
+             
+             * */
+            List<byte[]> res = new List<byte[]>();
+            if (uploadImage != null)
+            {
+                foreach (var i in uploadImage)
+                {
+                    try
+                    {
+                        byte[] imageData = null;
+                        // считываем переданный файл в массив байтов
+                        using (var binaryReader = new BinaryReader(i.InputStream))
+                        {
+                            imageData = binaryReader.ReadBytes(i.ContentLength);
+                        }
+                        // установка массива байтов
+                        res.Add(imageData);
+                    }
+                    catch
+                    {}
+                }
+
+            }
+
+            return res;
+        }
+
+
+#uploadfile #upload #file
+FunctionName(HttpPostedFileBase file) 
+{ 
+string result = new StreamReader(file.InputStream).ReadToEnd(); 
+}
+
+
+#image #byte #img
+
+//image from byte
+public static Image byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
+        }
+
+
+
+
+#image to byte
+//baseFormat = (Image)imageIn.RawFormat
+public static byte[] ImageToByteArray(System.Drawing.Image imageIn, ImageFormat baseFormat)
+        {
+            using (var ms = new MemoryStream())
+            {
+                //var encoder = GetEncoderInfo("image/jpg");
+                imageIn.Save(ms, baseFormat);//System.Drawing.Imaging.ImageFormat.Jpeg 
+                return ms.ToArray();
+            }
+        }
+
+
+
+
+#resize
+//меняем размер картинки
+
+ private static Image ResizeImage(int newSize, Image originalImage)
+        {
+            if (originalImage.Width <= newSize)
+                newSize = originalImage.Width;
+
+            var newHeight = originalImage.Height * newSize / originalImage.Width;
+
+            if (newHeight > newSize)
+            {
+                // Resize with height instead
+                newSize = originalImage.Width * newSize / originalImage.Height;
+                newHeight = newSize;
+            }
+
+            return originalImage.GetThumbnailImage(newSize, newHeight, null, IntPtr.Zero);
+        }
+
+
+
+
+
+
+
+
+#io  #file #load #byte
+//открыть файл и вернуть байты
+ public static byte[] FileToByteArray(string fileName)
+        {
+            byte[] buff = null;
+            FileStream fs = new FileStream(fileName,
+                                           FileMode.Open,
+                                           FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+            long numBytes = new FileInfo(fileName).Length;
+            buff = br.ReadBytes((int)numBytes);
+            return buff;
+        }
+
+
+
+
+
+
+
+
+#относительный #relative путь к файлу на сервере
+File.ReadAllText(HostingEnvironment.MapPath($"~/tsqlscripts/{i}.txt"))
+
+
+
+
+
+
+
+
+#html #<> #скобки #><
+ <p> будет выглядеть как &lt;p&gt;
+
+
+
+#graph #graphic
+http://htmlbook.ru/blog/grafiki-i-diagrammy
+
+https://google-developers.appspot.com/chart/interactive/docs/gallery
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#html5
+#атрибуты #attr #atribute
+
+accesskey: определяет клавишу для быстрого доступа к элементу
+class: задает класс CSS, который будет применяться к элементу
+contenteditable: определяет, можно ли редактировать содержимое элемента
+contextmenu: определяет контекстное меню для элемента, которое отображается при нажатии на элемент правой кнопкой мыши
+dir: устанавливает направление текста в элементе
+draggable: определяет, можно ли перетаскивать элемент
+dropzone: определяет, можно ли копировать переносимые данные при переносе на элемент
+hidden: скрывает элемент
+id: уникальный идентификатор элемента. На веб-странице элементы не должны иметь повторяющихся идентификаторов
+lang: определяет язык элемента
+spellcheck: указывает, будет ли для данного элемента использоваться проверка правописания
+style: задает стиль элемента
+tabindex: определяет порядок, в котором по элементам можно переключаться с помощью клавиши TAB
+title: устанавливает дополнительное описание для элемента
+translate: определяет, должно ли переводиться содержимое элемента
+
+target для <a>  -- позволяет по разному открывать ссылку(фрейм окно и тд)
+
+
+#tags
+
+<b>: выделяет текст жирным
+<del>: зачеркивает текст
+<i>: выделяет текст курсивом
+<em>: выделяет текст курсивом, в отличие от тега <i> носит логическое значение, придает выделяемому тексту оттенок важности
+<s>: зачеркивает текст
+<small>: делает текст чуть меньше размером, чем окружающий
+<strong>: выделяет текст жирным. В отличие от тега <b> предназначен для логического выделения, чтобы показать важность текста. А <b> не носит характера логического выделения, выполняет функции только форматирования
+<sub>: помещает текст под строкой
+<sup>: помещает текст над строкой
+<u>: подчеркивает текст
+<ins>: определяет вставленный (или добавленный) текст
+<mark>: выделяет текст цветом, придавая ему оттенок важности
+
+
+#спойлер с названием и стрелкой #список
+ <details>
+            <summary>Флагманы 2015</summary>
+</details>
+
+
+внутренняя ссылка на странице #href #link #якорь 
+<a href="#paragraph1">Параграф 1</a>
+<h2 id="paragraph1">Параграф 1</h2>
+
+
+выделит красиво в 1 блок(линией по краям) и legend будет заголовком(НА линии и перекрывает ее)
+ <fieldset>
+                <legend>Введите данные:</legend>
+</fieldset>
+
+
+.article > p{}
+только на те элементы которые в .article не включая блоки которые вложены еще в какой то блок 
+<div class="article">
+            <p>меняется</p>
+            <div class="content">
+                <p>не меняется</p>
+            </div>
+
+
+.article + p{}   для элемента p который следует за .ar
+//возможна комбинация из нескольких +
+
+ h2~div { color: red; }
+<h2>Заголовок</h2>
+        <p>Аннотация</p>
+        <div>
+            <p>red</p>
+        </div>
+        <div>
+            <p>red</p>
+        </div>
+
+
+
+
+#градиенты #gradient
+обязательно юзать -moz-  -webkit-
+с левого верхнего угла в противоположный перелив из черного в белый
+background-image: linear-gradient(top left,black,white);
+20% 80%--- это положение точки, вроде как ширина
+background-image: linear-gradient(left, #ccc, red 20%, red 80%, #ccc);
+повторяющийся градиент
+background-image: repeating-linear-gradient(left, #ccc 20px, red 30px, rgba(0, 0, 126, .5) 40px);
+
+градиент для круга
+белый-центр и черный края
+background-image: radial-gradient(white, black);
+для элипса
+radial-gradient(ellipse, white, black);
+
+задать центр   -- 25% от левой границы и 30 от верхней
+background-image: radial-gradient(25% 30%, circle, white, black);
+
+closest-side: градиент распространяется из центра только до ближайшей к центру стороне элемента. То есть градиент остается внутри элемента
+closest-corner: ширина градиента вычисляется по расстоянию из его центра до ближайшего угла элемента, поэтому градиент может выйти за пределы элемента.
+farthest-side: градиент распространяется из центра до самой дальней стороны элемента
+farthest-corner: ширина градиента вычисляется по расстоянию из его центра до самого дальнего угла элемента
+background-image: radial-gradient(25% 30%, circle farthest-corner, white, black);
+
+
+
+#transform
+ширина\высота
+  transform: scale(2, 0.5);
+transform: scale(0.5);
+угол
+  transform: rotate(30deg);
+зеркальное отражение
+transform: scaleX(-1);
+
+перемещение
+transform: translate(offset_X, offset_Y);
+наклон(квердат станет паралелограммом)
+  transform: skew(30deg, 10deg);
+
+
+точка относительно которой трансформация
+transform-origin: left top;
+left top: левый верхний угол элемента
+left bottom: левый нижний угол элемента
+right top: правый верхний угол элемента
+right bottom: правый нижний угол элемента
+
+
+
+#transition
+transition-delay: 500ms;
+ transition-timing-function: ease-in-out;
+linear: линейная функция плавности, изменение свойства происходит равномерно по времени
+ease: функция плавности, при которой анимация ускоряется к середине и замедляется к концу, предоставляя более естественное изменение
+ease-in: функция плавности, при которой происходит только ускорение в начале
+ease-out: функция плавности, при которой происходит только ускорение в конце анимации
+ease-in-out: функция плавности, при которой анимация ускоряется к середине и замедляется к концу, предоставляя более естественное изменение
+cubic-bezier: для анимации применяется кубическая функция Безье
+
+
+
+
+#keyframes   #frame
+ animation-name: название_анимации;
+animation-iteration-count: 3;  /*количество повторений, может быть   infinite*/
+animation-fill-mode: forwards;   /*после выполнения оставить стиль на 100% */
+animation-duration: 5s;
+animation-direction: alternate;    /*анимация идет 0%->100%  100->0  0->100*/
+
+@keyframes название_анимации {
+    from {/*можно 0% вместо from*/
+        /* начальные значения свойств CSS */
+    }
+    to {/*можно 100% вместо to*/
+        /* конечные значения свойств CSS */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+#псевдоклассы
+ a:not(.blueLink) { color: red; }
+все а кроме . сделает красными
+
+//выбирает элемент, который является единственным элементом определенного типа в контейнере.
+span:only-of-type{
+         
+            color: green;   /* зеленый цвет */
+        }
+
+
+:enabled {   если не установлен атрибут  disabled
+:checked  если установлен атрибут checked          // :checked + span {
+ :valid и :invalid стилизуют элементы формы в зависимости от того, проходят они валидацию или нет
+input:invalid 
+            input:valid {
+стилизуют элементы формы в зависимости от того, попадает ли их значение в определенный диапазон
+:in-range 
+            :out-of-range {
+<input type="number" min="1" max="100" value="10" id="age" name="age"/>
+
+
+:optional                Не установлен required
+            :required {  установлен атрибут required
+
+
+
+
+
+nth-child позволяет стилизовать каждый второй, третий элемент, только четные или только нечетные элементы и т.д.
+tr:nth-child(odd){} для нечетных элементов, 
+tr:nth-child(even){} четных элементов в
+tr:nth-child(3)  под номером 3
+tr:nth-child(2n+1) { background-color: #bbb; } к каждой второй нечетной строке.
+
+tr:nth-last-child(2) {    тоже самое,с конца
+
+
+
+
+first-child: представляет элемент, который является первым дочерним элементом
+:last-child: представляет элемент, который является последним дочерним элементом
+:only-child: представляет элемент, который является единственным дочерним элементом в каком-нибудь контейнере
+:only-of-type: выбирает элемент, который является единственным элементом определенного типа (тега) в каком-нибудь контейнере
+:nth-child(n): представляет дочерний элемент, который имеет определенный номер n, например, второй дочерний элемент
+:nth-last-child(n): представляет дочерний элемент, который имеет определенный номер n, начиная с конца
+:nth-of-type(n): выбирает дочерний элемент определенного типа, который имеет определенный номер
+:nth-last-of-type(n): выбирает дочерний элемент определенного типа, который имеет определенный номер, начиная с конца
+
+
+
+::first-letter: позволяет выбрать первую букву из текста
+::first-line: стилизует первую строку текста
+::before: добавляет сообщение до определенного элемента
+::after: добавляет сообщение после определенного элемента
+::selection: выбирает выбранные пользователем элементы     работает например для выделенного текста
+
+
+input[type="text"]{
+.link[href="http://apple.com"]{
+a[href^="https://"]{        начинается с подстроки
+img[src$=".jpg"]{           заканчивается
+a[href*="microsoft"]{           есть вхождения
+
+
+В этом случае вне зависимости от наличия других селекторов с большим количеством баллов к ссылкам будет применяться красный цвет, определяемый первым стилем.
+a {font-size: 18px; color: red !important;}
+
+
+
+
+#Спецсимволы #html #img #image
+#стандарт #css #символ #картинка
+https://html5book.ru/specsimvoly-html/
+css content:'\2718';
+
+
+#shadow
+box-shadow: 0 0 10px rgba(0,0,0,0.5);
+
+
+#кэш #кэширование
+[OutputCache(Duration=30, Location= OutputCacheLocation.Downstream)]
+        public string Index()
+        {
+CacheProfle: определяет конфигурацию кэширования
+Duration: продолжительность кэширования контента в секундах. Важно оптимально подобрать временной отрезок, так как если задать большое значение, то пользователи будут работать практически со статичными данными, а при очень маленьком значении будет слишком часто обновление кэша, что нивелирует преимущества его использования
+Location: место, где размещается кэшированный контент
+NoStore: если данное значение равно true, в ответе в заголовке Cache-Control устанавливается флаг no-store, что указывает браузеру, что контент не надо сохранять
+SqlDependency: определяет зависимость между кэшем и таблицой в бд
+VaryByCustom: указывает произвольное значение, по которому будут определяться различные версии кэшированных данных
+VaryByHeader="user-agent": указывает на набор заголовков, по которым будут определяться различные версии кэшированных данных
+VaryByParam="title;id": указывает на параметры строки запроса или параметры переданных форм, по которым будут определяться различные версии кэшированных данных
+
+Any: контент кэшируется как на клиенте, так и на прокси-сервере и в выходном кэше сервера
+Client: контент кэшируется на клиенте
+Downstream: контент кэшируется как на клиенте, так и на прокси-сервере. Выходной кэш сервера не используется
+None: для заголовка Cache-Control устанавливается значение no-cache, что значит, что контент не будет нигде кэшироваться
+Server: контент кэшируется только в выходном кэше сервера
+ServerAndClient: контент кэшируется на клиенте и в выходном кэше сервера
+
+
+
+
+mvc 
+плагин для добавление автоматической пагинации(переключение страниц, нумерация страниц, Постраничный вывод)
+#пагинация
+https://metanit.com/sharp/mvc5/17.7.php
+
+
+
+js-html
+JqGrid пакет для добавления таблицы со стриницами поиском  редактированием тд
+https://metanit.com/sharp/mvc5/17.3.php
+
+
+
+
+
+
+
+
+Диалоговые окна и CRUD-интерфейс
+реазилация partial action для окна(редактирование элемента например)
+https://metanit.com/sharp/mvc5/17.2.php
+
+
+jQuery UI и Autocomplete
+для подгрузки блжайших совпадений при поиске
+https://metanit.com/sharp/mvc5/17.1.php
+
+
+
+разрешить ответ на get запрос
+return Json(data, JsonRequestBehavior.AllowGet);
+
+
+
+
+
+
+обратная связь с клиентом  #SignalR #hubs
+
+NuGet библиотеку Microsoft ASP.NET SignalR
+если в проекте нет класса Startup(там где web.config, не в папках) 
+то добавить его если есть то дописать(или дописать в конец файла Startup.Auth.cs 
+в метод ConfigureAuth класса Startup тк он вызывается если указана строка  ConfigureAuth(app); 
+в файле Startup)  app.MapSignalR();
+
+using Microsoft.Owin;
+using Owin;
+[assembly: OwinStartup(typeof(SignalRMvc.Startup))]
+namespace SignalRMvc
+{
+    public class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            app.MapSignalR();
+        }
+    }
+} 
+
+класс для хранения пользователей
+public class User
+{
+    public string ConnectionId { get; set; }
+    public string UserId { get; set; }
+}
+Теперь добавим в проект новую папку. Назовем ее Hubs. В ней будут находиться хабы нашего приложения. В эту папку добавим новый item(SignalR Hub Class (v2)) ChatHub.cs
+ public class ChatHub : Hub
+    {
+        static List<UserForHub> Users = new List<UserForHub>();
+//объявляем методы к которым будем обращаться 
+public void Send(int id)
+        {
+ Clients.Group(groupName).MethodOnClient(id_dialog);
+}
+ public void JoinToHub()
+        {
+//добавляем группу если ее нет и добавляем в нее юзера
+ Groups.Add(Context.ConnectionId, groupName);
+//удаляем
+Groups.Remove(Context.ConnectionId, roomName);
+}
+
+// Отключение пользователя
+        public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
+        {
+            var item = Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            if (item != null)
+            {
+                Users.Remove(item);
+                var id = Context.ConnectionId;
+                //Clients.All.onUserDisconnected(id);
+            }
+
+            return base.OnDisconnected(stopCalled);
+        }
+}
+
+HTML(в конце боди лучше)
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <!--Ссылка на библиотеку SignalR -->
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/util.js"></script>
+
+
+JS
+//методы на стороне сервера нужно вызывать с маленькой буквы
+создаем файл util.js
+
+$(function () {
+    // Ссылка на автоматически-сгенерированный прокси хаба
+    var chat = $.connection.chatHub;
+
+// Объявление функции
+    chat.client.MethodOnClient = function (id_dialog) {
+}
+
+// Открываем соединение
+    $.connection.hub.start().done(function () {
+//так вызывается любой метод на сервере
+        chat.server.joinToHub();
+}
+});
+
+
+
+
+
+полезное:
+//id пользователя в Hube
+Context.ConnectionId
+// Посылаем сообщение текущему пользователю
+                Clients.Caller.onConnected(id, userName, Users);
+// Посылаем сообщение всем пользователям, кроме текущего
+                Clients.AllExcept(id).onNewUserConnected(id, userName);
+//всем
+Clients.All.addMessage(name, message);
+
+
+
+Вызов метода на всех клиентах: Clients.All.addMessage(name, message);
+Вызов метода только на текущем клиенте, который обратился к серверу: Clients.Caller.addMessage(name, message);
+Вызов метода на всех клиентах, кроме того, который обратился к серверу: Clients.Others.addMessage(name, message);
+Вызов метода только у клиента с определенным id: Clients.Client(Context.ConnectionId).addMessage(name, message);
+Вызов метода на всех клиентах, кроме клиента с определенным id: Clients.AllExcept(connectionId).addMessage(name, message);
+Вызов метода на всех клиентах указанной группы: Clients.Group(groupName).addMessage(name, message);
+Вызов метода на всех клиентах указанной группы, за исключением клиента, у которого id - connectionId: Clients.Group(groupName, connectionId).addMessage(name, message);
+Вызов метода на всех клиентах указанной группы, за исключением обратившегося к серверу клиента: Clients.OthersInGroup(groupName).addMessage(name, message);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://metanit.com/sharp/mvc5/16.2.php
+
+
+#бандлы #bundle/head подлючение скриптов
+@Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+более удобное подключение группы скриптов, объединяет несколько скриптов в 1 файл и ускоряет работу и js.js.min делает
+в файле BundleConfig.cs
+bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-{version}.js"));
+параметр {version} является заменителем для любого символьного обозначения версии скрипта
+"~/Scripts/jquery.validate*" с помощью знака звездочки заменяет остальную часть строки.
+Однако само объявление бандлов в файле BundleConfig.cs еще не подключает автоматически их в проект. Для этого в файле Global.asax прописывается соответствующая директива:
+protected void Application_Start()
+    {
+        //..............................................
+        BundleConfig.RegisterBundles(BundleTable.Bundles);
+    }
+
+
+бандлы CDN
+загрузка скриптов с сайтов
+лучше всего проверять загрузился ли скрипт
+public static void RegisterBundles(BundleCollection bundles)
+        {
+            bundles.UseCdn = true;   //включаем поддержку CDN
+            // добавляем адрес нужной библиотеки в какой-нибудь сети CDN
+            var jqueryCdnPath = "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js";
+            bundles.Add(new ScriptBundle("~/bundles/jquery",
+                        jqueryCdnPath).Include(
+                        "~/Scripts/jquery-{version}.js"));
+
+
+
+
+Минификация
+при развертывании приложения ускоряет работу за счет бандлов, делает js.js.min и объединяет файлы
+для включения надо отключить #режим #отладки
+ В файле web.config меняем на false
+<configuration>
+  <!--------------------------------------->
+  <system.web>
+    <authentication mode="None" />
+    <compilation debug="true" targetFramework="4.5" />
+    <httpRuntime targetFramework="4.5" />
+
+
+
+
+
+
+для формирования из строки с русскими буквами строку без них(кодирование) (например для запроса на сервер через ссылку)
+encodeURIComponent
+(декодирование)
+decodeURIComponent
+
+ActionName
+
+хэш пароля
+https://ru.stackoverflow.com/questions/545944/%D0%9A%D0%B0%D0%BA-%D0%B7%D0%B0%D1%88%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D0%B0%D1%80%D0%BE%D0%BB%D0%B8
+
+фильтры атрибуты для методов
+RequireHttps-заставляет использовать https
+[OutputCache (Duration=360)]-кэширует данные 360 секунд для увеличение работы с бд
+ValidateAntiforgeryToken- применять к методам авторизации регистрации
+
+
+отправка статуса кода
+#404 #200 #500
+  return new HttpStatusCodeResult(404);
+
+Response.StatusCode = (int)HttpStatusCode.BadRequest; 
+Response.StatusCode = 404;
+                return Content(ex.Message);
+
+
+
+
+
+[AllowAnonymous]/ [Authorize]
+#controller
+string controller_name = ViewContext.RequestContext.RouteData.Values["controller"].ToString(); ;
+
+
+#linq #join
+var phones = db.Phones.Join(db.Companies, // второй набор
+        p => p.CompanyId, // свойство-селектор объекта из первого набора
+        c => c.Id, // свойство-селектор объекта из второго набора
+        (p, c) => new // результат
+        {
+            Name=p.Name, 
+            Company = c.Name, 
+            Price=p.Price
+        });
+
+
+Когда следует использовать AsNoTracking? Если нам надо просто вывести данные для отображения без необходимости их дальнейшего обновления, тогда как раз тот случай, когда мы можем использовать AsNoTracking.
+не сохранит изменения и ускорит работу, не получится дозагрузить какие либо данные из бд (load,reference и тд)
+Phone firstPhone = db.Phones.AsNoTracking().FirstOrDefault();
+firstPhone.Name = "Samsung Galaxy Ace 2";
+db.SaveChanges();
+возможно стоит присоеденять запись и тогда можно будет ее обновить db.Set<ApplicationUser>().Attach(this);
+
+
+
+Объединение Union()   Пересечение Intersect()  Разность  Except
+https://metanit.com/sharp/entityframework/4.6.php
+
+
+#AJAX
+
+
+#AJAX #js #jquery #img #image #post #httppost #uploadImage
+
+html
+
+обычная форма
+
+<form id="commentForm" class="form" method="post"  enctype="multipart/form-data">
+    <fieldset>
+        <input type="text" id="text" placeholder="text"  name="text">
+        <input id="id_user" type="text" placeholder="id_user:"  name="id_user">
+        
+        <input id="uploadImage" type="file"  name="uploadImage">
+        
+    </fieldset>
+    <input id="button" class="submit" type="submit" value="Отправить" name="submit">
+</form>
+
+
+
+js
+
+
+
+jQuery(document).ready(function () {
+        $("#commentForm").submit(function () { return false; });
+
+        $("#button").on("click", function () {
+
+                $(".submit").replaceWith("<div class='form_dscr'><p class='sending'>Отправка...</p></div>");
+            //получаем форму
+                var form = document.forms.commentForm;
+
+                var formData = new FormData(form);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/SocialNetwork/AddMemePerson");
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            //при возврате actionresult и тд, вернет -"<html>"
+                            var data = xhr.responseText;
+                            
+                        }
+                    }
+                };
+
+                xhr.send(formData);
+
+        });
+    });
+
+
+тоже самое но вообще без html и jquery
+(это не тестил)
+
+function getXmlHttp() {
+    var xmlhttp;
+    try {
+      xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+    try {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    } catch (E) {
+      xmlhttp = false;
+    }
+    }
+    if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+      xmlhttp = new XMLHttpRequest();
+    }
+    return xmlhttp;
+  }
+  function summa() {
+    var a = document.getElementById("a").value; // Считываем значение a
+    var b = document.getElementById("b").value; // Считываем значение b
+    var xmlhttp = getXmlHttp(); // Создаём объект XMLHTTP
+    xmlhttp.open('POST', 'test.php', true); // Открываем асинхронное соединение
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем кодировку
+    xmlhttp.send("a=" + encodeURIComponent(a) + "&b=" + encodeURIComponent(b)); // Отправляем POST-запрос
+    xmlhttp.onreadystatechange = function() { // Ждём ответа от сервера
+      if (xmlhttp.readyState == 4) { // Ответ пришёл
+        if(xmlhttp.status == 200) { // Сервер вернул код 200 (что хорошо)
+          document.getElementById("summa").innerHTML = xmlhttp.responseText; // Выводим ответ сервера
+        }
+      }
+    };
+  }
+
+
+
+
+
+
+#get #js
+без jquery и ajax
+
+var x = new XMLHttpRequest();
+x.open("GET", "/echo/json/", true);
+x.onload = function (){
+    alert( x.responseText);
+}
+x.send(null);
+
+
+
+
+
+
+
+
+
+
+
+
+можно проверить является ли запрос ajax
+!Request.IsAjaxRequest()
+
+#ajax #post #jquery #form #get
+оба возвращают сам объект(не надо определять из json)
+$.post( "/Info/Add_section", { name: "John", time: "2pm" })
+  .done(function( data ) {
+    alert( "Data Loaded: " + data );
+  });
+
+var dt={'Head':'sdf','parrent_sec_id':'sss'};
+            $.ajax({
+                url: "/Info/Add_section",
+                data:dt,
+                
+                success: OnComplete_Add_section,//функция
+                error: function () { alert("ошибка загрузки"); },
+                // shows the loader element before sending.
+                beforeSend: function () { alert("before"); },
+                // hides the loader after completion of request, whether successfull or failor.             
+                complete: function () { alert("after"); },
+                type: 'POST', dataType: 'json'//'html'
+            });
+
+//проверенный post
+
+var dt = {
+        'id': id
+    };
+    $.ajax({
+        url: "/SocialNetwork/SendComment",
+        data: dt,
+        success: function (data) {
+            ShowCommentsRecord(id, false)
+        },
+        error: function () {
+            alert("ошибка загрузки");
+            PreloaderAction(false);
+
+        },
+        beforeSend: function () { PreloaderAction(true); },
+        complete: function () {
+            PreloaderAction(false);
+
+        },
+        type: 'POST', dataType: 'json'//html
+    });
+
+
+
+
+
+
+из js отправить #get запрос
+$('#results').load('@Url.Action("BookSearch", "Home")?name='+name)
+
+
+
+$.ajax({
+  url: url,
+  data: data,
+  success: onAjaxSuccess,
+  dataType: dataType
+});
+function onAjaxSuccess(data)
+{
+  // Здесь мы получаем данные, отправленные сервером и выводим их на экран.
+  alert(data);
+}
+
+
+
+
+
+
+
+
+
+@using (Ajax.BeginForm("BookSearch", new AjaxOptions
+{
+    UpdateTargetId = "results",
+    OnBegin = "OnBegin",
+    OnFailure = "OnFailure",
+    OnSuccess = "OnSuccess",
+    OnComplete = "OnComplete"
+}))
+{
+    <input type="submit" value="Поиск" />
+}
+
+
+
+Confirm="Выполнить AJAX-запрос?" - настраивает сообщение о подтверждении отправки запроса на сервер. Если пользователь не подтвердит, то запрос не будет отправлен
+
+HttpMethod - устанавливает метод (Get или Post), с помощью которого выполняется запрос
+
+InsertionMode - устанавливает, как полученные результаты будут отображаться на странице. Может принимать одно из трех значений перечисления InsertionMode: InsertAfter, InsertBefore и Replace(по умолчанию).
+
+LoadingElementId="loading"- устанавливает id элемента html-страницы, который будет отображаться во время запроса. Обычно это какая-нибудь анимация, которая дает знать, что некоторая работа выполняется в фоновом режиме
+
+LoadingElementDuration=1000 - устанавливает количество миллисекунд, через которое появится элемент, указанный в параметре LoadingElementId
+
+OnBegin - задает обратный вызов перед отправкой запроса. Соотносится с событием beforeSend библиотеки jQuery 
+function OnBegin() {
+
+
+
+OnComplete - задает обратный вызов, который вызывается после выполнения запроса (как удачного, так и неудачного). Соотносится с событием complete библиотеки jQuery
+function OnComplete(request, status) {
+
+
+OnFailure - задает обратный вызов, который вызывается после неудачного выполнения запроса. Соотносится с событием error библиотеки jQuery
+ function OnFailure(request, error) {
+
+
+OnSuccess - задает обратный вызов, который вызывается после удачного выполнения запроса. Соотносится с событием success библиотеки jQuery
+function OnSuccess(data) {
+
+
+
+UpdateTargetId - указывает на id элемента, в котором будут выводиться результаты запроса
+
+Url - устанавливает адрес Url сервера, на который отправляется запрос. Установив данное свойство, можно не использовать название имя контроллера и его действие в качестве параметров Ajax.BeginForm
+
+
+
+
+
+
+
+
+
+LINQ  https://metanit.com/sharp/tutorial/15.1.php
+
+
+
+
+
+
+
+фильтры и не только это не обрабатывал и многое не понял  https://metanit.com/sharp/mvc5/8.1.php          -https://metanit.com/sharp/mvc5/8.9.php
+
+
+
+возможно получение параметров в методе https://metanit.com/sharp/mvc5/9.5.php
+
+
+поставщик значений
+	https://metanit.com/sharp/mvc5/9.4.php
+
+
+
+!!!!!!!!!!!! https://metanit.com/sharp/mvc5/7.1.php    указывать тип для редактирования
+
+
+
+
+
+
+
+
+
+#атрибуты для #отображение #редактирование #attr #atribute
+
+[...]
+ public int Id { get; set; }
+
+[HiddenInput (DisplayValue=false)] --- создаст hidden
+
+ [Display(Name = "Название")]   корректно отображается через editorformodel() и LabelFor(=>)
+[ScaffoldColumn(false)] --полностью скроет, не будет создано ничего
+//editorfor
+[DataType(DataType.Password)] --редактирем отображение
+
+DataType.{
+Currency --Отображает текст в виде валюты
+
+DateTime--Отображает дату и время
+Date--Отображает только дату, без времени
+Time--Отображает только время
+Text--Отображает однострочный текст
+MultilineText--Отображает многострочный текст (элемент textarea)
+Password--Отображает символы с использованием маски
+Url--Отображает строку URL
+EmailAddress-Отображает электронный адрес
+}
+
+#json атрибуты
+ [JsonProperty("startX")] -- меняет имя для формата json
+
+
+ [UIHint("Url")]
+ [UIHint("")]{
+Boolean--Хелперы редактирования создают флажок (checkbox) для булевых значений. Для значений типа bool? (nullable) создается элемент select с параметрами True, False и Not Set
+Хелперы отображения генерируют те же элементы html, что и хелперы редактирования, только с атрибутом disabled
+
+Collection--Используется соответствующий шаблон для рендеринга каждого элемента коллекции. Причем элементы могут быть разных типов.
+
+Decimal--Хелперы редактирования создают однострочное текстовое поле - элемент input
+
+EmailAddress--Хелперы редактирования создают однострочное текстовое поле.
+Хелперы отображения генерируют элемент ссылка, где атрибут href имеет значение mailto:url
+
+HiddenInput--Создается скрытое поле - элемент hidden input
+
+Html--Хелперы редактирования создают однострочное текстовое поле.
+Хелперы отображения просто показывают текст
+
+MultilineText--Хелперы редактирования создают многострочное текстовое поле (элемент textarea)
+
+Object--Хелперы изучают свойства объекта и выбирают наиболее подходящие для него шаблоны.
+
+Password--Хелперы редактирования создают текстовое поле для ввода символов с использованием маски
+Хелперы отображения показывают пароль как есть, без использования маски
+
+String--Хелперы редактирования создают однострочное текстовое поле
+
+Url--Хелперы редактирования создают текстовое поле
+Хелперы отображения создают элемент ссылки для данного Url
+
+}
+
+@Html.EditorForModel()
+<input type="hidden" id="Id" name="Id" value="1" />
+
+
+
+https://metanit.com/sharp/mvc5/7.1.php
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+#куки #сессия #сессии #session #Cookies
+получить
+string id =HttpContext.Request.Cookies["id"].Value;
+установить
+HttpContext.Response.Cookies["id"].Value = "ca-4353w";
+
+удалить(устанавливаем вчерашнюю дату)
+Response.Cookies[«MyCookieName»].Expires = DateTime.Now.AddDays(-1);
+
+проверяем поддержки 
+if (Request.Browser.Cookies)
+{// поддерживает}
+else
+{// не поддерживает}
+проверка отключения
+Если пользователь отключил использование кукисов в броузере, то выше указанный метод Request.Browser.Cookies при проверки всё равно вернет true, но кукисы не будут сохранены на компютере клиета. Один из способов проверки в данном случаи является попытка сохранить кукис на первой странице, а затем используя Response.Redirect перенаправить на другую страницу и прочитать записанный кукис.
+
+
+сессия
+https://professorweb.ru/my/ASP_NET/base/level5/5_4.php
+сессия держится 20 минут
+Session["name"] = "Tom";
+var val = Session["name"];
+удалить
+Session["name"]=null;
+полностью закрываем сессию
+Session.Abandon()
+
+
+HttpSessionState методы
+Count	Количество элементов в коллекции текущего сеанса
+IsCookieless	Указывает, как отслеживается этот сеанс: с помощью cookie-набора или с использованием измененных URL-адресов
+IsNewSession	Указывает, был ли данный сеанс только что создан для текущего запроса. Если в состоянии сеанса на текущий момент не содержится никакой информации, ASP.NET не будет беспокоиться ни об отслеживании сеанса, ни о создании cookie-набора сеанса. Вместо этого сеанс будет воссоздаваться заново при каждом запросе
+Mode	Предоставляет перечислимое значение, которое объясняет, как ASP.NET хранит информацию о состоянии сеанса. Этот режим хранения определяется на основе указанных в файле web.config конфигурационных настроек
+SessionID	Предоставляет строку с уникальным идентификатором сеанса для текущего клиента
+StaticObjects	Предоставляет коллекцию элементов сеанса, предназначенных только для чтения, которые были объявлены в global.asax с помощью дескрипторов <object runat="server">. В основном эта технология не используется и является пережитком ASP-программирования; она поддерживается для обратной совместимости
+Timeout	Текущее количество минут, которое должно пройти, прежде чем текущий сеанс будет завершен при условии отсутствия запросов от клиента. Это значение может изменяться программно, что дает возможность при необходимости продлевать срок жизни коллекции сеанса для более важных операций
+Abandon()	Немедленно завершает текущий сеанс и освобождает все занятые им ресурсы памяти. Такая технология полезна на автономных страницах, поскольку позволяет освобождать ресурсы памяти сервера настолько быстро, насколько возможно
+Clear()	Удаляет все элементы сеанса, но не изменяет идентификатор текущего сеанса
+
+
+
+
+
+#area https://metanit.com/sharp/mvc5/6.5.php
+
+classnameViewModel  для передачи в представление
+переопределение шаблона отображения и редактирования EditorForModel @for @editor @display  https://metanit.com/sharp/mvc5/5.15.php
+создание нового шаблона https://metanit.com/sharp/mvc5/5.14.php
+
+
+
+
+
+
+
+
+
+#создание #html блоков c#
+
+Свойство InnerHtml позволяет установить или получить содержимое тега в виде строки
+
+Метод MergeAttribute (string, string, bool) позволяет добавить к элементу один атрибут. Для получения всех атрибутов можно использовать коллекцию Attributes
+
+Метод SetInnerText(string) устанавливает текстовое содержимое внутри элемента
+
+Метод AddCssClass(string) добавляет класс css к элементу
+
+TagBuilder ul = new TagBuilder("ul");
+TagBuilder li = new TagBuilder("li");
+                li.SetInnerText(item);
+                ul.InnerHtml += li.ToString();
+
+return new MvcHtmlString(ul.ToString());
+
+
+
+
+
+хелперы #helpers #healpers #razor
+	стандартные 
+@using (Html.BeginForm("Action", "Home",
+    new { id = "MyIdValue" },
+    FormMethod.Post,
+    new { @class = "userCssClass", data_formType="user" })){
+<input type="submit" value="Отправить" />
+}
+
+<form id="MyIdValue" class="userCssClass" method="post" action="/Home/Action" data-formType="user" method="post">
+    
+</form>
+
+
+
+
+@Html.TextArea("text", "привет <br /> мир", 5, 50, null) <textarea cols="50" id="text" name="text" rows="5">привет <br /> мир</textarea>
+
+@Html.TextBox(string name, string value, object htmlAttributes)
+
+@Html.Hidden("BookId", "2") <input id="BookId" name="BookId" type="hidden" value="2" />
+
+@Html.Password("UserPassword", "val") <input id="UserPassword" name="UserPassword" type="password" value="val" />
+
+@Html.RadioButton 
+Для создания группы переключателей, надо присвоить всем им одно и то же свойство name
+@Html.RadioButton("color", "red") <input id="color" name="color" type="radio" value="red" />
+
+@Html.CheckBox("Enable", false)
+<input id="Enable" name="Enable" type="checkbox" value="true" />
+<input name="Enable" type="hidden" value="false" />
+
+@Html.Label("Name")<label for="Name">Name</label>
+
+@Html.DropDownList("countires", new SelectList(new string[] {"Russia","USA", "Canada","France"}),"Countries")
+SelectListItem имеет свойства Text (отображаемый текст), Value (само значение, которое может не совпадать с текстом) и Selected
+
+<select id="countires" name="countires"><option value="">Countries</option>
+<option>Russia</option></select>
+
+@Html.ListBox("countires", new MultiSelectList(new string[] {"Россия","США", "Китай","Индия"}))
+<select Length="9" id="countries" multiple="multiple" name="countires">
+<option>Россия</option></select>
+
+Display/DisplayFor Создает элемент разметки для отображения значения указанного свойства модели: Html.Display("Name")
+
+Editor/EditorFor Создает элемент разметки для редактирования указанного свойства модели: Html.Editor("Name")
+
+DisplayText/DisplayTextFor Создает выражение для указанного свойства модели в виде простой строки: Html.DisplayText("Name")
+
+DisplayForModel/EditorForModel Создает поля для чтения для всех свойств модели: Html.DisplayForModel()
+
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+entity
+#entityFraemwork   #db   #bd #ef  #connectionstring
+using System.Data.Entity;
+........................
+Web.config в секцию  <configSections> после  <section name="entityFramework" 
+<connectionStrings>
+    <add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-server_info_web_desk-20180518052414.mdf;Integrated Security=True" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+
+в строке подключения не должно быть вхождения строки Initial Catalog=aspnet-dip-20181007084703;
+(LocalDb)\MSSQLLocalDB можно узнать доступные значения (поиск-> sql , расположение sql server -> настройка )
+
+
+#DbSet #context #DbContext
+
+class SoccerContext : DbContext
+{
+    //public SoccerContext() : base("SoccerDB2")
+public ApplicationDbContext(): base("DefaultConnection", throwIfV1Schema: false)
+    { }
+    public DbSet<Team> Teams { get; set; }
+}
+
+
+
+правильное удаление редактирование   #Attach
+при создании нескольких контекстов на 1 бд ссылающихся и для изменения данных надо прописать
+using(){}
+using(){
+//db.Set<класс_объекта>().Attach(объект);  //ТАК(лучше)
+p1.Price = 60000;
+        //db.Entry(p1).State = EntityState.Modified;//редактирование //ИЛИ ТАК
+}
+для дозагрузки данных в другом контексте reference collection
+#присоединение к #контексту   #Attach
+db.Set<класс_объекта>().Attach(объект);
+
+
+db.Entry(p1).State = EntityState.Deleted;//удаление
+ db.Phones.Attach(p1);//
+        db.SaveChanges();
+https://metanit.com/sharp/entityframework/1.3.php
+
+
+Способы загрузки и получения связанных данных #load #include #loading #ef #virtual
+//для того что бы можно было закинуть лямбду а не строку надо -- using System.Data.Entity;
+Eager Loading  жадная загрузка
+ var players = db.Players.Include(p=>p.Team).ToList();
+
+Explicit Loading  Явная загрузка
+if(!db.Entry(db.Players.FirstOrDefault()).Reference("Team").IsLoad)
+db.Entry(db.Players.FirstOrDefault()).Reference("Team").Load();
+для загрузки коллекций юзать Collection вместо Reference
+
+можно добавлять условия, но нужно менять load на tolist (тк при load не загрузит(не точно))
+var mass=db.Entry(this).Collection(x1 => x1.ImagesLikes).Query().Where(...).Take(...).Select(...).....ToList();
+
+
+
+
+
+
+Lazy Loading
+все делается само но в объявлении модели virtual
+public int? TeamId { get; set; }
+    public virtual Team Team { get; set; }
+
+
+
+настройка связей с Fluent API
+TODO
+
+
+связь 1 к 1
+https://stackoverflow.com/questions/26389707/ef-code-first-one-to-one-relationship-multiplicity-is-not-valid-in-role-in-re
+
+//то что ниже хз мб не для EF
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=relationsdb;Trusted_Connection=True;");
+    }
+     
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder
+            .Entity<User>()
+            .HasOne(u => u.Profile)
+            .WithOne(p => p.User)
+            .HasForeignKey<UserProfile>(p => p.UserKey);
+    }
+
+//должно работать
+
+public class Student
+{
+    public int StudentId { get; set; }
+
+    public StudentAddress Address { get; set; }
+}
+     
+public class StudentAddress 
+{
+    [Key]
+    [ForeignKey("Student")]
+    public int StudentAddressId { get; set; }
+
+    public Student Student { get; set; }
+}
+
+
+
+
+
+
+
+1 ко многим 
+
+https://metanit.com/sharp/entityframework/3.3.php
+если не указать внешний ключ как ?(nullable) то создается cascade(удалении записей связанных)
+
+
+ Player pl1 = new Player {Name = "Роналду", Age = 31, Position = "Нападающий", Team=t2 };
+public class Player
+{
+    public int Id { get; set; }
+// название поле с объектом "Team"+ название поле ключа объекта "Team.Id"
+    public int? TeamId { get; set; }
+    public Team Team { get; set; }
+}
+public class Team
+{
+    public int Id { get; set; }
+    public ICollection<Player> Players { get; set; }
+    public Team()
+    {
+        Players = new List<Player>();
+    }
+}
+
+строка для обNULLения ссылки на team при удалении team на который ссылается
+db.Database.ExecuteSqlCommand("ALTER TABLE dbo.Players ADD CONSTRAINT Players_Teams FOREIGN KEY (TeamId) REFERENCES dbo.Teams (Id) ON DELETE SET NULL");
+
+
+
+
+
+
+
+многие ко многим
+
+
+public class Team
+{
+    public int Id { get; set; }
+    public ICollection<Player> Players { get; set; }
+    public Team()
+    {
+        Players = new List<Player>();
+    }
+}
+public class Player
+{
+    public int Id { get; set; }
+    public ICollection<Team> Teams { get; set; }
+    public Player()
+    {
+        Teams = new List<Team>();
+    }
+}
+
+...{
+ public DbSet<Player> Players { get; set; }
+        public DbSet<Team> Teams { get; set; }
+
+//необязательно, но желательно, обязательно только если между сущностями несколько связей многие ко многим
+ protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Player>().HasMany(c => c.Teams)//1 класс и свойство который связываем
+                .WithMany(s => s.Players)//2 класс и свойство с которым связываем
+                .Map(t => t.MapLeftKey("PlayerId")//id 1 которое в таблице будет
+                .MapRightKey("TeamId")//id 2
+                .ToTable("PlayerTeam"));//название таблицы
+            base.OnModelCreating(modelBuilder);//инициализация что бы роли и все остальное добавилось нормально
+        }
+
+
+закрытие protected override void Dispose(bool disposing)
+{
+    db.Dispose();
+    base.Dispose(disposing);
+}
+
+
+
+
+
+
+
+
+#атрибуты #atribute #attribute #attr #[] #ef #entityframework
+#Аннотации
+System.ComponentModel.DataAnnotations
+установить ключ в качестве идентификатора
+[Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)] //[Key]
+public int Ident { get; set; }
+ [Required]-NOT NULL в БД
+[MaxLength(20)]/MinLength устанавливают максимальное и минимальное количество символов в строке-свойстве
+
+System.ComponentModel.DataAnnotations.Schema
+ [NotMapped]--не сопостовляется/добавляется колонка в дб
+
+[Table("Mobiles")]//указываем название таблиц
+public class Phone
+{
+    public int Id { get; set; }
+    [Column("ModelName")]//указываем  название колонки
+    public string Name { get; set; }
+}
+
+[ForeignKey("CompId")]--внешний ключ
+
+ [Index]--установка индекса
+
+[ConcurrencyCheck]--решает проблему параллелизма(если свойство было изменено пока менялось текущем пользователем то выбрасывает исключение DbUpdateConcurrencyException)
+
+комплексные типы / если в моделе есть другая модель
+[ComplexType]
+public class PhoneInfo
+{
+    public string Company { get; set; }
+    public int Price { get; set; }
+}
+public class Phone
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+ 
+    public PhoneInfo Info { get; set; }
+ 
+    public Phone()
+    {
+        Info = new PhoneInfo { Price = 300 };
+    }
+}
+db.Phones.Add(new Phone 
+    { 
+        Name = "Samsung Galaxy S5", 
+        Info = new PhoneInfo { Company = "Samsung", Price = 17000 } 
+    });
+ foreach (Phone p in db.Phones)
+        Console.WriteLine("{0} - {1}", p.Name, p.Info.Price);
+https://metanit.com/sharp/entityframework/6.4.php
+
+
+Две модели в одной таблице
+[Table("Mobiles")]
+public class PhoneInfo
+{
+    [Key, ForeignKey("Phone")]
+    public int PhoneId { get; set; }
+    public Phone Phone { get; set; }
+}
+[Table("Mobiles")]
+public class Phone
+{
+    [Key, ForeignKey("Info")]
+    public int PhoneId { get; set; }
+    public PhoneInfo Info { get; set; }
+}
+PhoneInfo pi1 = new PhoneInfo { PhoneId=1, Company = "Samsung", Price = 14000};
+Phone p1 = new Phone { PhoneId = 1, Name = "Samsung Galaxy S5", Info = pi1 };
+db.Infos.Add(pi1);
+
+https://metanit.com/sharp/entityframework/6.5.php
+
+Разделение сущности на несколько таблиц
+public DbSet<Phone> Phones { get; set; }
+ 
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Phone>().Map(m =>
+        {
+            m.Properties(d => new { d.Name, d.Id });
+            m.ToTable("Mobiles");
+        }).Map(m =>
+        {
+            m.Properties(d => new { d.Company, d.Price });
+            m.ToTable("MobilesInfo");
+        });
+        base.OnModelCreating(modelBuilder);
+    }
+https://metanit.com/sharp/entityframework/6.6.php
+
+
+конвенции(установить атрибут сразу на определенные свойства всех классов в бд)
+https://metanit.com/sharp/entityframework/6.9.php
+
+
+Наследование в Entity Framework
+
+public class Phone
+{
+    public int Id { get; set; }
+}
+ 
+public class Smartphone : Phone
+{
+    public string OS { get; set; }
+}
+ public DbSet<Phone> Phones { get; set; }
+    public DbSet<Smartphone> Smarts { get; set; }
+создается 1 таблица
+при получении Phone из бд вернутся и Phone и Smartphone
+
+если добавить так
+[Table("Smartphones")]
+public class Smartphone : Phone
+{
+то будут созданы 2 таблицы, в 1 все свойства базового во 2 все свойства производного
+
+для базового и наследника создаются 2 разные таблицы и в каждом свои свойства
+https://metanit.com/sharp/entityframework/7.3.php
+
+
+
+
+
+
+
+
+sql
+добавление своей функции sql
+https://metanit.com/sharp/entityframework/5.2.php
+
+Хранимые процедуры
+https://metanit.com/sharp/entityframework/5.3.php
+
+Fluent API и аннотации//переопределение того как enfr будет связывать таблицы ключи и тд(например изменить тип или название таблицы)
+https://metanit.com/sharp/entityframework/6.1.php
+https://metanit.com/sharp/entityframework/6.2.php
+
+
+#выполнение #sql скрипта 
+db.Database.ExecuteSqlCommand("");
+var comps = db.Database.SqlQuery<Company>("SELECT * FROM Companies");
+возвращает количество затронутых строк
+int numberOfRowInserted = db.Database.ExecuteSqlCommand("INSERT INTO Companies (Name) VALUES ('HTC')");
+получить строку подключения
+db.Database.Connection.ConnectionString
+
+
+
+
+выполнение любого( создание каталога, индекса и тд ) #tsql скрипта из файла
+#full #text #search   #fulltextsearch
+ var connection = new SqlConnection();
+            connection.ConnectionString = "connection string";
+            connection.Open();
+                string script = File.ReadAllText(HostingEnvironment.MapPath($"~/tsqlscripts/file_name.txt"));
+                
+                using (var command = new SqlCommand(script, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+
+
+
+
+получить данные из бд без классов и тдтд
+
+class DbManager
+    {
+        SqlConnection connection;
+        SqlCommand command;
+
+        public DbManager()
+        {
+            connection = new SqlConnection();
+            connection.ConnectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\SOFI.mdf;Integrated Security=True";
+            command = new SqlCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.Text;
+        } // constructor
+
+        public bool GetUsersData(ref string lastname, ref string firstname, ref string age)
+        {
+            bool returnvalue = false;
+            try
+            {
+                command.CommandText = "select * from ActionPros where firstname=@firstname and lastname=@lastname";
+               // command.Parameters.Add("firstname", SqlDbType.VarChar).Value = firstname;
+                //command.Parameters.Add("lastname", SqlDbType.VarChar).Value = lastname;
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+
+                        lastname= reader["actionId"].ToString();
+                        firstname = reader["prosId"].ToString();
+                        // age = reader.GetString(3);
+
+
+                    }
+                }
+                returnvalue = true;
+            }
+            catch
+            { }
+            finally
+            {
+                connection.Close();
+            }
+            return returnvalue;
+
+        }
+
+    }
+}
+
+
+
+получаем данные
+DbManager db = new DbManager();
+
+                bool status = db.GetUsersData(ref lastname, ref firstname, ref age);
+
+
+
+
+
+выполнение tsql скрипта ( создание каталога, индекса и тд ) из файла или из строки
+
+ /// <summary>
+        /// выполнение tsql запроса который ничего не возвращает
+        /// </summary>
+        /// <param name="query - будет использоваться только если command_==null"></param>
+        /// <param name="command_ - если не null то не закрывается"></param>
+        public static void ExecuteNonQuery(string query, SqlCommand command_ = null)
+        {
+            var command = command_;
+            if (command_ == null)
+            {
+                var connection = new SqlConnection() { ConnectionString = Constants.sql_0 };
+                connection.Open();
+                command = new SqlCommand(query, connection);
+
+            }
+            command.ExecuteNonQuery();
+
+            if (command_ == null)
+            {
+                command.Connection.Close();
+                command.Dispose();
+            }
+            
+        }
+
+            
+
+
+
+выполнение tsql скрипта ( выборка данных) из файла или из строки, метод возвращает данные
+
+/// <summary>
+        /// выполнение tsql запроса(например выборка данных) который возвращает данные. при command_-null - откроет новое подключение
+        /// </summary>
+        /// <param name="query - будет использоваться только если command_==null"></param>
+        /// <param name="command_ - если не null то не закрывается"></param>
+        /// <param name="props - список свойств"></param>
+        /// <returns></returns>
+        public static List<Dictionary<string, object>> ExecuteQuery(string query, SqlCommand command_, params string[] props)
+        {
+            List<Dictionary<string, object>> res = new List<Dictionary<string, object>>();
+
+            var command = command_;
+            if (command_ == null)
+            {
+                var connection = new SqlConnection() { ConnectionString = Constants.sql_0 };
+                connection.Open();
+                command = new SqlCommand(query, connection) { CommandType = CommandType.Text };
+
+            }
+
+            using (SqlDataReader reader = command.ExecuteReader())
+                if (reader.HasRows)
+                    while (reader.Read())
+                    {
+                        Dictionary<string, object> dict = new Dictionary<string, object>();
+                        foreach (var i in props)
+                            dict.Add(i, reader[i]);
+                        res.Add(dict);
+                    }
+            if (command_ == null)
+            {
+                command.Connection.Close();
+                command.Dispose();
+            }
+
+            return res;
+        }
+//получаем данные, вызов функции
+var ldr=DataBase.DataBase.ExecuteQuery(q, "keyphrase");
+            foreach (var i in ldr)//список всех выбранных строк
+                res += i["keyphrase"].ToString()+" ";
+
+            return res.Trim();
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Инициализация #базы #данных #seed  #ef #bd #entity #framework
+
+CreateDatabaseIfNotExists: инициализатор, используемый по умолчанию. Он не удаляет автоматчески базу данных и данные, а в случае изменения структуры моделей и контекста данных выбрасывает исключение.
+
+DropCreateDatabaseIfModelChanges: данный инициализатор проверяет на соответствие моделям определения таблиц в базе данных. И если модели не соответствуют определению таблиц, то база данные пересоздается
+
+DropCreateDatabaseAlways: этот инициализатор будет всегда пересоздавать базу данных
+
+
+при старте
+https://metanit.com/sharp/entityframework/3.9.php
+
+class AppDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+{
+    protected override void Seed(ApplicationDbContext db)//название котекста
+    {
+//доп инфа по ролям и созданию пользователей по тегу #roles
+
+db.Phones.Add();
+        db.SaveChanges();
+
+base.Seed(db);//context
+    }
+}
+
+Объявление
+так:
+добавить в класс контекста (статический конструктор)
+//class ApplicationDbContext : DbContext  или так может быть объявлен public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+//{
+static ApplicationDbContext()
+    {
+        Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+    }
+или так
+
+в файл global.asax
+ public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+
+AppDbInitializer  объявить в папке  Models->DataBase
+
+
+
+
+#roles  #seed
+
+к методу [Authorize(Roles="admin")] [Authorize]
+
+в AppDbInitializer->seed
+
+using Microsoft.AspNet.Identity;//!!!!!!!!!!!!!
+
+
+
+var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+ var role1 = new IdentityRole { Name = "admin" };
+roleManager.Create(role1);
+//создание юзера пользователя
+var admin = new ApplicationUser { Email = "admin@mail.ru", UserName = "admin@mail.ru", Name="zsuz",Surname="zsuzSUR",Birthday=DateTime.Now };
+            string password = "Admin1!";
+            var result = userManager.Create(admin, password);
+// если создание пользователя прошло успешно
+            if (result.Succeeded)
+            {
+                // добавляем для пользователя роль
+                userManager.AddToRole(admin.Id, role1.Name);
+	}
+
+
+для добавления роли при регистрации
+accountController
+public async Task<ActionResult> Register(RegisterViewModel model){
+// после этой строки await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+await UserManager.AddToRoleAsync(user.Id, "user");
+
+
+
+
+#roles
+ ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                            .GetUserManager<ApplicationUserManager>();
+IList<string> roles=userManager.GetRoles(user.Id);
+
+
+
+
+сформировать классы по базе данных
+создать класс "linq to sql classes"
+в его конструктор просто перетаскивать из бд таблицы
+
+
+#ef #entity framework
+#mdf #bak #ssms
+создать mdf из bak файла
+по базе данных в microsoft SQL server management studio       задачи->восстановить-> там посоздавать бд   и потом правой кнопкой мыши по ней создать скрипт->использую create там будут пути куда создались файлы будет что то типа
+C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\SOFI.mdf
+
+
+#SQL #server
+расположение server и способ его включить если выключился
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft SQL Server 2017 ->Средства настройки->Диспетчер конфигурации SQL Server 2017
+
+//TODO где то уже есть инфа про строку подключения но другая, надо перетащить сюда
+для формирования #connection #string  #connectionstring
+@"Data Source=.\SQLEXPRESS01;AttachDbFilename=|DataDirectory|\PhysicalEffects.mdf;Integrated Security=True"
+Data Source- ИМЯСЕРВЕРА\ИМЯИНСТАНСА
+можно просто через local задать --  (LocalDb)\MSSQLLocalDB    -- имя можно узнать в cmd -comand---- sqllocaldb i
+можно явно задать .\SQLEXPRESS01  ---  можно узнать какие доступны в  поиск->services ->найти sql server и то что в скобках можно пробовать использовать
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ #block #db #ef
+блокировка записи бд для редактирования и удаления  https://metanit.com/sharp/entityframework/3.10.php
+
+транзакции https://metanit.com/sharp/entityframework/3.11.php
+
+миграция https://metanit.com/sharp/entityframework/3.12.php
+
+мб уже писал db.Entry(p).State = EntityState.Modified;
+#присоединение к #контексту context.Set<User>().Attach(user); //TODO проверить доблируется ли
+
+
+репозитории 
+https://metanit.com/sharp/entityframework/3.13.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////OLD--------------------------------------
+
+
+
+
+
+
+
+
+
+подключение файлов
+@Scripts.Render("~/scripts/jquery.validate.min.js")
+<script src="@Url.Content("~/scripts/jquery.validate.min.js")" type="text/javascript"></script>
+
+
+явная привязка
+public ActionResult Edit()
+{
+    var book = new Book();
+    try
+    {
+        UpdateModel(book);//TryUpdateModel тоже самое но без исключений и возвращает bool
+
+Выборочная привязка
+можно применять к свойству модели и к самой модели
+	привязываются только указанные свойства
+	public ActionResult Create([Bind (Include="Name, Author")] Book b)
+	([Bind (Exclude="Year")] Book b)  исключает из привязки
+
+
+
+
+
+получить параметры  #params #get #post
+#request
+	при post 
+	b.Name = Request.Form["Name"];
+HttpContext.Request.Params.Get("param.1");
+this.Request.QueryString["param.1"];
+Request.Form. В данном случае привязчик получает значения, отправленные с помощью форм
+RouteData.Values. Здесь получает значения с помощью маршрутов приложения
+Request.QueryString. В данном случае привязчик извлекает значения из строки запроса
+Request.Files. В данном случае используются загруженные на сервер файлы
+Request.Cookies		Cookie-наборы, отправленные браузером с этим запросом
+Request.HttpMethod		Метод HTTP (команда наподобие GET или POST), используемый для этого запроса
+Request.Headers		Полный набор заголовков HTTP, отправленных с этим запросом
+Request.Url		Элемент RouteTable.Routes, выбранный для этого запроса
+Request.UserHostAddress		IP-адрес пользователя, сделавшего этот запрос
+RouteData.Route		Элемент Routetable.Routes, выбранный для этого запроса
+RouteData.Values		Активные параметры маршрута (либо извлеченные из URL, либо стандартные значения)
+HttpContext.Application		Хранилище состояния приложения
+HttpContext.Cache		Хранилище кеша приложения
+HttpContext.Items		Хранилище состояния для текущего запроса
+HttpContext.Session		Хранилище состояния для сеанса посетителя
+User		Аутентификационная информация о вошедшем пользователе
+TempData		Временные элементы данных, сохраненные для текущего пользователя
+(string)RouteData.Values["city"]
+
+
+
+
+
+#валидация    #attr #validate
+   https://metanit.com/sharp/mvc5/7.1.php
+атрибуты для полей для валидации 
+System.ComponentModel.DataAnnotations 
+(ErrorMessage ="Идентификатор пользователя не установлен")--может быть у всех атрибутов
+  [Required]-- (свойство обязательно должно быть задано)
+[Required(ErrorMessage = "Поле должно быть установлено")]--с сообщением
+[RegularExpression (@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")]-- проверка регулярками
+[StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]-- ограничение длины строки
+[Range(typeof(decimal), "0.00", "49.99")]   [Range(1700,2000,ErrorMessage="Недопустимый год")]
+//
+оба свойства должны иметь одинаковое значение
+[DataType(DataType.Password)]
+public string Password { get; set; }
+ 
+[Compare("Password",ErrorMessage="Пароли не совпадают")]
+[DataType(DataType.Password)]
+public  string PasswordConfirm { get; set; }
+
+//#валидация для проверки на #сервере
+//перед свойством
+[System.Web.Mvc.Remote("CheckExistingEmail", "Account", HttpMethod = "POST", ErrorMessage = "Email already exists")]
+    
+//
+ // не нужно? [Remote("CheckName", "Home", ErrorMessage = "Name is not valid.")]
+//return false если проверка не пройдена и true если норм
+//[HttpGet]
+public JsonResult CheckName(string name)
+{
+    var result = !(name=="Название");
+    return Json(result, JsonRequestBehavior.AllowGet);
+}
+//
+
+User user = new User { Name = name, Age = age };//создание объекта для которого настроена валидация атрибутами
+//массив в котором будут ошибки
+var results = new List<ValidationResult>();
+//контекст валидации
+            var context = new ValidationContext(user);
+//bool -надо ли валидировать все свойства
+            if (!Validator.TryValidateObject(user, context, results, true))
+            {
+                foreach (var error in results)
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+            }
+
+
+
+
+ @Html.EditorFor(model => model.Name)
+    @Html.ValidationMessageFor(model => model.Name)
+валидация на сервере
+public ActionResult Create([Bind(Include="Id,Name,Author,Year")] Book book){
+if (ModelState.IsValid){
+
+ModelState.AddModelError("Name", "Некорректное название книги"); ---добавить "ошибку валидации" при "Name"=="" это ошибка уровня модели
+
+//по ссылке все примеры и css
+https://metanit.com/sharp/mvc5/7.2.php
+
+
+
+создание своих атрибутов для валидации
+
+//суффикс Attribute
+//применять без суффикса [UserName]
+public class UserNameAttribute : ValidationAttribute
+{
+    public override bool IsValid(object value)
+    {
+        if (value != null)
+        {
+//или к любому типу, если атрибут для всей модели а не для свойства то просто к объекту приводить
+            string userName = value.ToString();
+//если к моделе то можно так
+this.ErrorMessage = "сообщение об ошибке";
+        }
+//false проверка не пройдена true-пройдена
+        return false;
+    }
+}
+
+
+Самовалидация модели
+
+ public class User : IValidatableObject
+    {
+public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            List<ValidationResult> errors = new List<ValidationResult>();
+ 
+            if (string.IsNullOrWhiteSpace(this.Name))
+                errors.Add(new ValidationResult("Не указано имя"));
+return errors;
+        }}
+
+
+
+
+
+
+
+
+
+
+
+#маршрутизация #routing
+routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+игнорирование routes.IgnoreRoute("Home/Index/12");
+ 
+       routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+много параметров routes.MapRoute(name: "Default", url: "{controller}/{action}/{id}/{*catchall}",defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional});
+
+
+#получить #параметры при том что выше , и тд
+ string controller = RouteData.Values["controller"].ToString();
+ string catchall = RouteData.Values["catchall"].ToString();//вернет все параметры
+
+ограничения для маршрутов
+routes.MapRoute(name: "",url: "",defaults: new { },
+        constraints: new {controller="^H.*" , id = @"\d{2}" }//регулярки
+);
+
+
+
+routing через атрибуты https://metanit.com/sharp/mvc5/6.7.php
+
+
+
+
+
+ 
+
+
+
+@RenderSection("Footer", false)   #рендер необязательной #секция
+
+рендер необязательной секции с кодом по умолчанию
+ @if (IsSectionDefined("Footer")) {
+        @RenderSection("Footer")
+    }
+    else 
+    { 
+        <span>Содержание элемента footer по умолчанию.</span>   
+    }
+
+определение секции в view 
+@section Footer {
+    Все права защищены. Syte Corp. 2012.
+}
+
+
+
+
+
+	создание healper хелпера в файле представления
+@helper BookList(IEnumerable<BookStore.Models.Book> books)
+{}
+@BookList(ViewBag.Books)
+
+
+	#создание #healper #хелпера в отдельном файле #helper
+создать в проекте папку под названием App_Code(именно такое)
+создать представление в ней MyHelpers.cshtml
+@helper HtmlList(string[] items)
+{<div></div>}
+@MyHelpers.HtmlList(new string[] { "Лондон", "Париж", "Берлин" })
+
+	создание healper хелпера в отдельном файле на c#
+создадать в проекте новую папку Helpers и добавим в нее новый класс ListHelper
+
+namespace BookStore.Helpers
+{
+    public static class ListHelper
+    {
+        public static MvcHtmlString CreateList(this HtmlHelper html, string[] items, object htmlAttributes = null)
+        {
+            TagBuilder ul = new TagBuilder("ul");
+            ul.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            return new MvcHtmlString(ul.ToString());
+        }
+    }
+}
+@using BookStore.Helpers
+@Html.CreateList(cities, new { @class = "btn", id = "citiesList" })
+
+
+
+
+
+
+Передача данных из контроллера в представление
+#ViewData["
+
+ ViewData["Head"] = "Привет мир!";
+<h2>@ViewData["Head"]</h2>
+
+#ViewBag
+
+ViewBag.Head = "Привет мир!";
+ <h2>@ViewBag.Head</h2>
+
+#ViewData
+при data известен тип 
+
+@Html.TextBox("name", ViewData["Name"])
+@Html.TextBox("name", (string)ViewBag.Name)
+
+#TempData
+хранится до момента прочтения, применение как у data
+
+
+
+
+
+
+#redirect
+так нельзя передавать сложные типы данных!!!! можно закинуть в TempData
+return #RedirectToAction("ListFeText", "Physic", new { listId = list_id });
+return #RedirectToRoute(new { controller = "Physic", action = "ListFeText", listId = list_id });
+
+
+#JS
+
+отмена клика #cancel #click #остановка #отстановить #отмена #клик
+
+event.stopPropagation();
+
+это не будет работать если этот блок в ссылке, но будет если внешней ссылки нет
+onclick='event.stopPropagation()'
+
+||
+ elem = document.getElementById("tbl1");
+  elem.addEventListener("click", stopEvent, false);
+
+function stopEvent(ev) {
+  // this ought to keep t-daddy from getting the click.
+  ev.stopPropagation();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#c#
+
+как определить что символы выглядят одинаково
+
+char first = 'A';//angl
+        char second = 'А';//rus
+string firstNormalized = first.ToString().Normalize(NormalizationForm.FormKD);
+        string secondNormalized = second.ToString().Normalize(NormalizationForm.FormKD);
+Console.WriteLine(first.Equals(second));                     // False
+        Console.WriteLine(firstNormalized.Equals(secondNormalized)); // True
+
+
+
+
+
+
+#SQL
+
+https://www.opennet.ru/docs/RUS/rusql/#ch3
+https://jsehelper.blogspot.com/2016/01/sql-2.html и предыдущая статья
+
+
+
+Логический порядок обработки инструкции SELECT:
+
+1 FROM
+2 ON
+3 JOIN
+4 where
+5 GROUP BY
+6 WITH CUBE или WITH ROLLUP
+7 HAVING
+8 SELECT
+9 DISTINCT
+10 ORDER BY
+11 TOP
+
+
+
+
+
+#as
+
+
+переименовываем поле в результате
+SELECT *, count(*) AS x,
+переименовываем  таблицу в запросе
+from news_cat AS nc
+
+
+получаем текущую дату
+SELECT GetDate();
+
+будем рассматривать капсом
+WHERE  UPPER(EmpName) 
+
+получаем год
+SELECT YEAR(GETDATE()) as "Год";
+
+при обращении к полю сущности можно опускать название таблицы пока используется только 1 (table_name.prop_name)
+создание бд
+CREATE DATABASE IF NOT EXISTS article;
+
+просмотреть сазданные таблицы
+SHOW TABLES; 
+
+сплитить мб в tsql
+SELECT value FROM STRING_SPLIT('Lorem ipsum dolor sit amet.', ' ');
+
+если вместо * поля вписать, то вернутся только поля и именно в том порядке в котором указали
+вывод всех строк таблицы
+SELECT * FROM table1;
+
+вернуть поля по условию
+SELECT phone_id, user_id FROM table2 WHERE phone_number=200;
+limit - 1 число  включается(будет пропущено 1 строка), и вернется 3 строки
+SELECT phone_id, user_id FROM table2 WHERE phone_number=200 LIMIT 1, 3;
+
+убирает дублирующиеся данные в результате выполнения(только если все поля совпали)
+SELECT DISTINCT snum FROM Orders;
+
+противоположность DISTINCT, используется по умолчанию
+ALL 
+
+
+
+WHERE
+
+сложные предикаты
+
+AND берет два булевых значения (в форме A AND B) как аргументы и оценивает, верны ли они оба.
+OR берет два булевых значения (в форме A OR B) как аргументы и оценивает, верен ли один из них.
+NOT берет одиночное булево значение (в форме NOT A) как аргумент и заменяет его значение с неверного на верное или с верного на неверное (инвертирует).
+
+
+
+SELECT  *
+FROM Customers
+WHERE city = " San Jose'
+AND rating > 200;
+
+OR NOT rating > 200;
+
+только к 1 
+WHERE NOT city = " San Jose'
+                      OR rating > 200;
+
+
+ко всем
+WHERE NOT(city = " San Jose'
+                      OR rating > 200);
+
+
+
+ОПЕРАТОР IN
+
+выберет все где  city соответствует 1 из значений
+SELECT *
+          FROM Salespeople
+          WHERE city IN ('Barcelona', 'London');
+
+ОПЕРАТОР BETWEEN
+
+все у чего comm находится между .10 и .12 или равно им 
+ SELECT *
+             FROM Salespeople
+             WHERE comm BETWEEN .10 AND .12;
+
+ОПЕРАТОР LIKE
+
+символ подчёркивания ( _ ) замещает любой одиночный символ.
+знак процента (%) замещает последовательность любого количества символов (включая символы нуля)
+
+Выбираем из table3 все значения поля room_id, для которых room_number начинается с цифры 3 (% означает любое количество любых символов
+SELECT room_id FROM table3 WHERE room_number LIKE '3%';
+
+определяем оператор который указывает на то что используем именно этот символ а не то что он должен делать(то что выше написано)
+ SELECT *
+             FROM Salespeople
+             WHERE sname LIKE '%/_%' ESCAPE '/';
+
+
+
+IS NULL
+находим все с null полем, просто через = сравнивать нельзя
+SELECT *
+               FROM Customers
+               WHERE city IS NULL;
+
+
+
+SELECT *
+             FROM Customers
+             WHERE city NOT NULL;
+
+
+
+
+
+
+создание таблицы
+CREATE TABLE `table1` (`user_id` INT(5) NOT NULL AUTO_INCREMENT, `username` VARCHAR(50), PRIMARY KEY(`user_id`), INDEX(`username`));
+
+
+переименовать таблицу
+RENAME TABLE table1 TO nya; 
+
+
+Переименовать поле user_id в id (таблица table1)
+ALTER TABLE table1 CHANGE user_id id INT; 
+
+
+Меняем тип и атрибут поля phone_number:
+ALTER TABLE table2 MODIFY phone_number VARCHAR(100) NOT NULL; 
+
+Просмотр описания таблицы table1:
+DESCRIBE table1;
+
+
+Добавляем поле abra типа DATE:
+ALTER TABLE table3 ADD abra  DATE; 
+
+добавление данных
+INSERT INTO table1 (username,...) VALUES ('foo',...); 
+
+удаление данных по условию
+DELETE FROM table1 WHERE user_id = 1;
+
+обновить запись с условием
+UPDATE table2 SET user_id='2', phone_number='200' WHERE phone_id='1';
+
+сортировка по возрастанию
+SELECT username FROM table1 ORDER BY username;
+несколько столбцов
+SELECT *
+               FROM Orders
+               ORDER BY cnum DESC, amt DESC;
+
+
+
+по убыванию
+SELECT username FROM table1 ORDER BY username DESC;
+
+
+
+
+
+
+
+АГРЕГАТНЫЕ ФУНКЦИИ
+
+COUNT
+выдаёт количество строк или не-NULL значений полей, которые выбрал запрос.
+
+общее количество строк в таблице
+SELECT COUNT (*)
+ FROM Customers
+
+количество записей конкретного столбца за исключением NULL записей
+COUNT(column_name)
+
+
+
+
+
+SUM
+выдаёт арифметическую сумму всех выбранных значений данного поля.
+AVG
+выдаёт усреднение всех выбранных значений данного поля.
+MAX
+выдаёт наибольшее из всех выбранных значений данного поля.
+MIN
+выдаёт наименьшее из всех выбранных значений данного поля.
+
+SELECT AVG (amt)
+       FROM Orders;
+
+
+
+
+GROUP BY
+TODO
+
+
+HAVING
+TODO
+
+
+
+DISTINCT 
+используется для указания на то, что следует работать только с уникальными значениями столбца
+SELECT DISTINCT column_name FROM table_name
+
+
+
+
+
+
+
+
+
+вывод
+
+SELECT snum, sname, city, ' % ', comm * 100
+               FROM Salespeople;
+ 1001   Peel      London       %   12.000000 
+
+
+
+
+#exist
+если вернет больше 1 строки то true
+SELECT DISTINCT maker
+FROM Product AS lap_product
+WHERE type = 'laptop' AND 
+ EXISTS (SELECT maker
+ FROM Product
+ WHERE type = 'printer' AND 
+ maker = lap_product.maker
+ );
+
+
+
+
+
+
+
+JOIN
+
+
+для 1 таблицы
+SELECT e.name, m.name FROM Employee e, Employee m 
+WHERE e.mgr_id = m.emp_id;
+
+
+без join, вроде бы
+SELECT Customers.cname, Salespeople.sname
+                FROM Customers, Salespeople
+                WHERE Salespeople.snum = Customers.snum;
+// условия могут быть и такими
+WHERE sname < cname
+                      AND rating < 200;
+
+
+
+
+несколько join
+
+SELECT table3.room_number FROM table1 
+INNER JOIN table2 ON table1.user_id = table2.user_id 
+INNER JOIN table3 ON table2.phone_id = table3.phone_id 
+WHERE table1.username = 'qux';
+
+
+
+FROM
+  Table1
+  {INNER | {LEFT | RIGHT | FULL} OUTER | CROSS } JOIN
+  Table2
+    {ON <condition> | USING (field_name [,... n])}
+
+
+
+INNER JOIN
+соединение 2х таблиц по полю все лишнее отбрасывается
+SELECT *
+FROM
+  Person
+  INNER JOIN
+  City
+    ON Person.CityId = City.Id
+
+
+LEFT OUTER JOIN
+соединеяется все что может соединяться но
+все в таблице слева остаются все
+те что слева не соединениль null становятся
+справа отбрасываются
+
+
+SELECT *
+FROM
+  Person -- Левая таблица
+  LEFT OUTER JOIN
+  City   -- Правая таблица
+    ON Person.CityId = City.Id
+
+
+RIGHT OUTER JOIN
+противоположность left
+
+
+FULL OUTER JOIN
+чсоединяет все но также все сохраняет с null
+
+
+CROSS JOIN
+соединяет каждое с каждым
+
+
+
+
+#транзакция
+
+Транзакция предполагает, что все, входящие в нее SQL-запросы будут обязательно выполнены, причем одновременно.
+
+Начать транзакцию можно при помощи команды BEGIN TRANSACTION. Завершить можно либо сохранив изменения в базе данных при помощи команды COMMIT, либо удалив все сделанные транзакцией изменения командой ROLLBACK
+При работе с транзакциями возможны 2 варианта:
+результаты выполнения всех запросов, входящих в транзакцию, будут применены к базе данных
+все внесенные изменения в базу данных будут отменены (откатаны).
+
+BEGIN TRANSACTION
+UPDATE user_account SET balance=balance-100 WHERE account_id=1 /* Снимаем деньги со счета,ID которого равен 1 */
+UPDATE user_account SET balance=balance+100 WHERE account_id=2 /* И переводим эти деньги на счет, ID которого равен 2 */
+COMMIT
+
+
+
+#блокировка #lock
+
+Существует 2 вида взаимодействий с базой данных, которые требуют блокировки 2-х разных типов:
+Разделяемая блокировка 
+Когда пользователь считывает данные, его совершенно не волнует кто эти данные считывает еще. 
+При подобных операциях на данные накладывается разделяемая блокировка, которая говорит о том, что любая транзакция может выполнять эту же операцию с данными, т.к. она не изменяет их и не сможет привести ни к каким побочным эффектам.
+Монопольная блокировка 
+В случае, если выполняемая операция изменяет данные, на них накладывается монопольная блокировка, которая позволяет изменять данные только одному пользователю. 
+СУБД не может устанавливать монопольную блокировку на данные, на которые уже установлена разделяемая блокировка. Такое ограничение имеет смысл как для пользователя, который записывает данные, так и для пользователя, который их считывает.
+
+
+
+
+#HAVING
+"В чем различие между выражениями HAVING и WHERE"
+
+WHERE - это ограничивающее выражение. Оно выполняется до того, как будет получен результат операции.
+
+HAVING - фильтрующее выражение. Оно применяется к результату операции и выполняется уже после того как этот результат будет получен, в отличии от where.
+Выражения WHERE используются вместе с операциями SELECT, UPDATE, DELETE, в то время как HAVING только с SELECT и предложением GROUP BY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#PHP
+
+
+<?php  ?>
+
+переменные в массиве создаются при обращении к ним , не обязательно при присваивании
+$b = array();
+foo($b['b']);
+array_key_exists('b', $b)//true
+
+
+
+
+включаем строгую типизацию в файле
+Строгая типизация применима только к скалярным типам и работает только в PHP 7.0.0 и выше. Равно как и сами объявления скалярных типов добавлены в этой версии.
+declare(strict_types=1);
+
+
+для доступа к объекту мы не ссылку используем как перменную, а в переменной хранится id и по нему получаем доступ
+ $a = new A;
+$b = $a; //копируется id
+$d = &$a;// ссылаемся на id
+
+
+
+оббъявление глобальной переменной
+global $color;
+
+отправить ответ в формате json
+echo json_encode("This string will encode to JSON format");
+
+var_dump Выводит информацию о переменной
+
+method_exists($obg,string method_name);
+
+$a = array(1, 2, array("a", "b", "c"));
+var_dump($a);
+ array(
+    key  => value,
+}
+
+PHP_EOL перевод строки
+
+
+// #перенаправление на скрипт index.php #redirect
+//тут надо полностью прописывать адрес, а не так как тут, в мануале написано как именно
+    header('Location: index.php');
+
+
+bool isset($perem) — Определяет, была ли установлена переменная значением, отличным от NULL
+unset($a); --уничтожаем переменную
+
+ ?? как в шарпе
+$foo ?? $bar ?? $baz ?? $qux; 
+
+
+get_class — Возвращает имя класса(string), к которому принадлежит объект 
+
+получить ключи объекта
+key(obg)
+
+
+
+
+NULL
+if($a)
+    echo "Переменная a определена и при приведении к bool стала true";
+else
+    echo "Переменная a не определена или при приведении к bool стала false";
+
+
+кавычки как в js + \ для использования как символа
+одинарные кавычки выводят текст как он есть(нельзя использовать $ для доступа к переменной)
+
+
+#Константы #const
+Если константа $name определена, то функция будет возвращать значение true
+bool defined(string $name)
+
+Функция constant() полезна, если вам необходимо получить значение константы, но неизвестно её имя. Например, если оно хранится в переменной или возвращается функцией.
+$pricePerItem = constant(__CLASS__ . "::PRICE_" .strtoupper($product));
+
+создание константы
+define("NUMBER", 22);
+echo NUMBER;
+используются такие константы , как и те что ниже просто как переменные
+
+_POST["a"] - запрос формы
+_GET["a"] - get запрос
+__FILE__: хранит полный путь и имя текущего файла
+
+__LINE__: хранит текущий номер строки, которую обрабатывает интерпретатор
+
+__DIR__: хранит каталог текущего файла
+
+__FUNCTION__: название обрабатываемой функции
+
+__CLASS__: название текущего класса
+
+__METHOD__: название обрабатываемого метода
+
+__NAMESPACE__: название текущего пространства имен
+
+
+
+тип переменной
+is_integer($a): возвращает значение TRUE, если переменная $a хранит целое число
+is_string($a): возвращает значение TRUE, если переменная $a хранит строку
+is_double($a): возвращает значение TRUE, если переменная $a хранит действительное число
+is_numeric($a): возвращает значение TRUE, если переменная $a представляет целое или действительное число или является строковым представлением числа. Например:
+is_bool($a): возвращает значение TRUE, если переменная $a хранит значение TRUE или FALSE
+is_scalar($a): возвращает значение TRUE, если переменная $a представляет один из простых типов: строку, целое число, действительное число, логическое значение.
+is_null($a): возвращает значение TRUE, если переменная $a хранит значение NULL
+is_nan()
+is_array($a): возвращает значение TRUE, если переменная $a является массивом
+is_object($a): возвращает значение TRUE, если переменная $a содержит ссылку на объект
+gettype($a): возвращает тип переменной $a, например, integer (целое число), double (действительное число), string (строка), boolean (логическое значение), NULL, array (массив), object (объект) или unknown type.
+
+
+установить тип переменной
+params 1-переменная 2-строка с типом(результат gettype())
+settype()
+$a = 10.7;
+settype($a, "integer");
+echo $a; // 10
+
+
+if(NULL) --- false
+ 
+
+#static статические переменные
+если в функции то 1 на все функции(доступ к ней из функции просто как к переменной)
+function getCounter()
+{
+    static $counter = 0;
+}
+
+
+global
+определение глобальной переменой
+можно обратиться из любой части программы
+global $gvar;
+
+
+
+array_walk()
+Применяет заданную пользователем функцию к каждому элементу массива
+Обычно функция callback принимает два параметра. В качестве первого параметра идет значение элемента массива array, а ключ - в качестве второго.
+Если требуется, чтобы функция callback изменила значения в массиве, определите первый параметр callback как ссылку
+Потенциально изменены могут быть только значения массива array; структура самого массива не может быть изменена, то есть нельзя добавить, удалить или поменять порядок элементов.
+
+$fruits = array("d" => "lemon", "a" => "orange", "b" => "banana", "c" => "apple");
+
+function test_alter(&$item1, $key, $prefix)
+{
+    $item1 = "$prefix: $item1";
+}
+
+array_walk($fruits, 'test_alter', 'fruit');
+//можно вместо 2 параметра, use-это захват переменных в функцию
+$callback =
+            function ($quantity, $product) use ($tax, &$total)
+            {
+};
+
+
+
+
+объединение массива в строку с разделителем
+$comma_separated = implode(",", $array);
+
+
+
+
+сравнение строк
+Возвращает отрицательное число, если str1 меньше str2, положительное число, если str1 больше str2, и 0, если строки равны.
+с учетом регистра
+strcmp($var1, $var2) !== 0
+первые n символы
+int strncmp ( string $str1 , string $str2 , int $len )
+strcasecmp — Бинарно-безопасное сравнение строк без учета регистра
+
+#class
+
+class A
+{
+    function foo()
+    {
+}
+
+
+// если относится к классу то класс нельзя наследовать, если к методу то метод нельзя переопределять(но он наследуется) в классе наследнике
+final function getInfo()//запрещаем наследование
+    {
+}
+}
+
+
+$a = new A();
+//вызов не статичный
+//поля также
+//статику так нельзя
+$a->foo();
+//вызов статичный, также можно и не статичный метод вызвать при вызове через parent и тд
+A::foo();
+переменная A::$foo1;
+
+//создание объекта без параметров
+$instance = new SimpleClass();
+$instance = new SimpleClass;
+
+// Это же можно сделать с помощью переменной:
+$className = 'SimpleClass';
+$instance = new $className(); // new SimpleClass()
+
+
+
+== свойства объектов просто сравниваются друг с другом, а именно: два объекта равны, если они имеют одинаковые атрибуты и значения (значения сравниваются через ==) и являются экземплярами одного и того же класса.
+=== переменные, содержащие объекты, считаются идентичными только тогда, когда они ссылаются на один и тот же экземпляр одного и того же класса
+
+
+
+
+
+
+
+#анонимный
+при создании такого объекта анонимного класса, у него нет доступа к переменным класса в которым он осздан(кроме паблик), и их надо передавать в конструкторе
+//для protected можно унаследовать анонимный от того в котором создается
+//10 сразу вызываем конструктор
+$obj=new class(10) extends SomeClass implements SomeInterface {
+    private $num;
+
+    public function __construct($num)
+    {
+        $this->num = $num;
+    }
+
+    use SomeTrait;
+};
+
+
+если есть функция(например) которая возвращает объект анонимного класса, то она будет возаращать объекты 1 и того же класса get_class()==
+
+
+#const #static
+public const BAR = 'bar';
+echo Foo::BAR
+public static $my_static = 'foo';
+return parent::$my_static;
+$foo = new Foo();
+print $foo::$my_static
+
+
+
+наследование
+class SubClass extends BaseClass {
+
+при наследовании если не переопредлить метод то остается метод класса родителя
+
+
+// также можно метод с именем класса но это устарело и юзать не надо
+конструктор
+function __construct() {
+       print "Конструктор класса BaseClass\n";
+   }
+
+при наследовании если не определяем свой конструктор то он наследуется от базового
+если определяем то надо вызвать
+
+
+function __construct() {
+       parent::__construct();
+       print "Конструктор класса SubClass\n";
+   }
+
+
+
+деструктор
+наследование как у конструктора, выброс исключений недопустим
+function __destruct() {
+       print "Уничтожается " . $this->name . "\n";
+   }
+
+
+
+
+
+
+
+#перегрузка
+
+добавляем классу магические методы которые позволяют вызывать и обращаться с свойствам или методам которые не объявлены
+
+class PropertyTest 
+{
+    /**  Место хранения перегружаемых данных.  */
+    private $data = array();
+
+    /**  public свойство, будет доступ как обычно методы прегрузки вызываться не будут */
+    public $declared = 1;
+
+    /** private  Здесь перегрузка будет использована только при доступе вне класса.  */
+    private $hidden = 2;
+
+    public function __set($name, $value) 
+    {
+        //устанавливаем в массиве
+        $this->data[$name] = $value;
+    }
+
+    public function __get($name) 
+    {
+        //получаем из массиве
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
+
+      //обработка ошибка
+    }
+
+    public function __isset($name) 
+    {
+        // "Установлено ли '$name'?\n";
+        return isset($this->data[$name]);
+    }
+
+    
+    public function __unset($name) 
+    {
+        // "Уничтожение '$name'\n";
+        unset($this->data[$name]);
+    }
+
+
+//для методов
+
+public function __call($name, $arguments) {
+}
+
+//для статического метода
+public static function __callStatic($name, $arguments) {
+
+}
+
+}
+
+
+isset($obj->properyNotContain);//нормально отработает если был установлен до этого
+$obj->mthodNotContain();
+PropertyTest::StaticMthodNotContain();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+функции
+можно указать тип параметра для строгой типизации, если указать класс то как в шарпе, наследники тоже зайдут
+можно казать тип интерфейса
+public function baz(Test $other)
+    {
+}
+
+
+//определяем тип возвращаемого значения
+function sum($a, $b): float {
+    return $a + $b;
+}
+
+
+
+// Без "use"
+$example = function () {
+    var_dump($message);
+};
+$example();
+
+// Наследуем $message
+//$arg -обычный аргумент , message- замыкание,var -замыкание по ссылке
+$example = function ($arg) use ($message,&$ var) {
+    var_dump($message);
+};
+$example(11);
+
+
+
+$func = static function() {
+ $func();
+
+
+
+
+передача по ссылке
+function add_some_extra(&$string)
+по умолчанию
+function makecoffee($type = "капучино")
+
+
+//скорее всего неверно
+//Объекты, которые имеют общий тип (наследуются от одного класса), имеют доступ к элементам с модификатором  protected друг друга, даже если не являются одним и тем же экземпляром. 
+//в функции объекта класса можно вызвать прайват функцию другого объекта этого класса или если у них общий родитель
+
+
+
+
+
+::
+позволяющая обращаться к статическим свойствам, константам и переопределенным свойствам или методам класса
+
+class MyClass {
+    const CONST_VALUE = 'Значение константы';
+}
+classname-строка с именем
+echo $classname::CONST_VALUE;
+MyClass::
+
+
+??????????????????
+с этими словами :: вызываем
+parent - вызываем родительский метод (не обязательно статичный????), self - вызываем метод именно этого класса, static - вызываем метод текущего класса. Разница между self и static хорошо видна, например, когда вы делаете new self() или new static() - в первом случае будет создан объект класса, где упомянут self (т.е. создан родитель), во втором - объект того класса, где вызывается метод (т.е. потомок)
+
+
+в классе объявлена статическая переменная и в методе класса получаем доступ
+self::$my_static
+в родителе объявлена переменная, получаем к ней доступ
+parent::CONST_VALUE
+
+
+
+
+
+
+Абстрактные классы
+
+
+
+При наследовании от абстрактного класса, все методы, помеченные абстрактными в родительском классе, должны быть определены в дочернем классе;
+ кроме того, область видимости этих методов должна совпадать (или быть менее строгой). Например, если абстрактный метод объявлен как protected,
+ то реализация этого метода должна быть protected или public, но не private. Более того, объявления методов должны совпадать, то есть контроль типов (type hint) 
+и количество обязательных аргументов должно быть одинаковым. К примеру, если в дочернем классе указан необязательный параметр, которого нет в объявлении абстрактного класса, 
+то в данном случае конфликта объявлений методов не будет. Это правило также применяется к конструкторам начиная с версии PHP 5.4, ранее объявления конструкторов могли отличаться.
+
+
+abstract class AbstractClass
+{
+   /* Данный метод должен быть определён в дочернем классе */
+    abstract protected function prefixValue($prefix);
+
+   /* Общий метод */
+    public function printOut() {
+}
+}
+
+
+
+необязательный аргументы
+public function prefixName($name, $separator = ".") {
+
+
+работа со строками
+"{$prefix}{$separator} {$name}"; =="{val1}{val2} {val3}"
+
+
+
+// Объявим интерфейс 'iTemplate'
+interface iTemplate
+{
+    public function setVariable($name, $var);
+    public function getHtml($template);
+}
+
+
+class Template implements iTemplate
+{
+
+
+}
+
+
+
+interface a
+interface b extends a
+
+
+
+interface a
+{
+    const b = 'Константа интерфейса';
+}
+// константы переопределять нельзя.
+class b implements a
+{
+    const b = 'Константа класса';//ошибка
+}
+
+
+
+
+
+
+
+
+
+#callback
+//вызов функции по названию
+call_user_func('my_callback_function');
+// Type 2: Вызов статического метода класса
+call_user_func(array('MyClass', 'myCallbackMethod'));
+// Type 3: Вызов метода класса
+$obj = new MyClass();
+call_user_func(array($obj, 'myCallbackMethod'));
+//B наследник класса A и вызовется метод A, статический
+call_user_func(array('B', 'parent::who')); // A
+
+class C {
+    public function __invoke($name) {
+        echo 'Hello ', $name, "\n";
+    }
+}
+$c = new C();
+call_user_func($c, 'PHP!');
+
+
+
+
+
+$double = function($a) {
+    return $a * 2;
+};
+
+// Диапазон чисел
+$numbers = range(1, 5);
+//будет вызвана для каждого числа и вернет массив новых чисел
+$new_numbers = array_map($double, $numbers);
+
+
+
+
+
+
+
+#array #массив
+$ar=array();
+$fruits = array("d" => "lemon", "a" => "orange", "b" => "banana", "c" => "apple");
+$phones = array('iPhone', 'Samsung Galaxy S III', 'Nokia N9', 'Sony XPeria Z3');
+
+$phones[0] = "Nokia N9";
+$phones[1] = "Samsung Galaxy ACE II";
+//ассоциативный массив, для перебора только foreach
+$phones["nokia"] = "Nokia N9";
+
+/* Пример 4: многомерные массивы */
+$a = array();
+$a[0][0] = "a";
+$a[0][1] = "b";
+$a[1][0] = "y";
+$a[1][1] = "z";
+
+#foreach ($a as $v1) {
+    foreach ($v1 as $v2) {
+        echo "$v2\n";
+    }
+}
+echo $phones["apple"][0];
+
+if (array_key_exists($key, $array))
+
+На каждой итерации значение текущего элемента присваивается переменной $value
+foreach (array_expression as $value)
+    statement
+
+
+присвоит ключ текущего элемента переменной $key на каждой итерации+ то что 1
+foreach (array_expression as $key => $value)
+    statement
+
+
+
+
+при сравнении == === сравнивается длина а потом поэлементно
+
+
+для изменения в foreach
+нужно &
+foreach ($arr as &$value) {
+    $value = $value * 2;
+}
+unset($value);//после цикла надо уничтожить, тк продолжит ссылаться
+
+
+
+можно так
+мы получим кдоступ ко всем ДОСТУПНЫМ свойствам
+можно изменить реализовав в классе интерфейс Iterator или IteratorAggregate
+$class = new MyClass();
+
+foreach($class as $key => $value) {
+    print "$key => $value\n";
+}
+
+
+
+
+
+
+альтернатива foreach
+while (list($key, $value) = each($phones))
+    echo "$key => $value <br />";
+
+
+проверяет является ли переменная массивом
+is_array($f)
+количеств элементов в массиве
+count/sizeof
+перемешать элемнты случайным образом
+shuffle($os);
+
+
+compact 
+создает из переменных массив с ключами которые соответствуют названиям переменных
+$producer = "Apple";
+$year = 1978;
+$data = compact('model', 'producer', 'year');
+
+
+сортировка массива
+void func(mass);
+сортировка по значениям
+по алфавиту без регистра и только буквы, числа в порядке возрастания
+asort($tablets);
+//явно указываем
+asort($tablets, SORT_STRING);
+SORT_REGULAR: автоматический выбор сортировки
+SORT_NUMERIC: числовая сортировка
+SORT_STRING: сортировка по алфавиту
+
+сортировка в обратном порядке
+arsort($tablets);
+
+
+сортировка по ключам
+
+ksort($tablets, SORT_STRING);
+обратный порядок
+krsort($tablets);
+
+
+сортировка смешанных данных(сортируем по строке в которой текст+ цифры)
+естественная сортировка с учетом регистра
+natsort($os);
+без учета регистра
+natcasesort($os);
+
+
+
+
+
+#each 
+проходит по всем элементам массива $phones и получает его в виде массива, в который входят ключ и значение элемента.
+each($phones)
+
+
+
+
+
+#__clone #clone
+
+$a= clone $b;
+
+function __clone()
+    {
+        //все поля копируются сами, если надо копировать ссылочный тип то делаем так,((((this указывает на новый объект, наврятли так но хз как это работает)))))
+        $this->object1 = clone $this->object1;
+    }
+
+
+
+альтернатива
+ (expr1) ? (expr2) : (expr3) 
+
+
+<?php if ($a == 5): ?>
+A равно 5
+<?php endif; ?>
+
+if ($a == 5):
+    echo "a равно 5";
+    echo "...";
+elseif ($a == 6):
+    echo "a равно 6";
+    echo "!!!";
+else:
+    echo "a не равно ни 5 ни 6";
+endif;
+
+
+while ($i <= 10):
+    echo $i;
+    $i++;
+endwhile;
+
+endfor;
+
+
+
+
+#безопасность  #защита
+#htmlentities
+js html код введенный будет просто текстом отображаться
+ $login=htmlentities($_POST['login'],ENT_QUOTES, 'UTF-8');
+
+для кирилицы
+htmlentities("Кириллица", ENT_QUOTES, 'UTF-8')
+полностью уберет html теги    <div>123</div>  -> 123
+$password = strip_tags($_POST['password']);
+
+
+#безопасность #sql
+//безопасное получание данных(фиксит html, sql,js)
+$name = htmlentities(mysqli_real_escape_string($link, $_POST['name']),ENT_QUOTES, 'UTF-8');
+
+
+
+передача данныйх   получение данных
+#$_GET #$_POST  #_GET #_POST
+
+$_GET $_POST
+$_REQUEST['username']; тоже что и _post
+
+<input type="checkbox" name="remember" checked="checked" />
+$remember = $_GET['remember'];
+Если флажок находится в неотмеченном состоянии то при отправке формы значение данного флажка не передается на сервер.
+Если флажок отмечен, то при отправке на сервер для поля remember будет передано значение on
+Если нас не устраивает значение on, то с помощью атрибута value мы можем установить нужное нам значение:
+Запомнить: <input type="checkbox" name="remember" value="1" />
+
+
+для передачи группы checkbox name=[]
+
+<input type="checkbox" name="technologies[]" value="ASP.NET" />
+<input type="checkbox" name="technologies[]" value="PHP" />
+принимается как массив того что отмечено
+$technologies = $_POST['technologies'];
+foreach($technologies as $item) echo "$item<br />";
+
+
+На сервер передается значение атрибута value у выбранного переключателя
+<input type="radio" name="course" value="ASP.NET" />ASP.NET <br>
+<input type="radio" name="course" value="PHP" />PHP <br>
+
+
+
+список
+<select name="course" size="1">
+    <option value="ASP.NET">ASP.NET</option>
+    <option value="PHP">PHP</option>
+</select>
+
+при множественном выборе на сервере получаем массив
+<select name="courses[]" size="4" multiple="multiple">
+    <option value="ASP.NET">ASP.NET</option>
+
+
+
+
+
+
+
+работа со #строками #string #строка #строки
+включаем доп функции
+ Но прежде чем начать работу со строками, откроем файл php.ini и найдем в нем следующую строку:
+Раскомментируем ее, убрав точку с запятой.// И так как у нас файл php.ini изменился, перезапустим веб-сервер Apache.
+
+;extension=mbstring
+
+
+
+#strpos
+возвращает позицию подстроки(первое #вхождение) или символа $search в строке $str или значение false, если строка $str не содержит подстроки 
+$position = strpos($str, $search);
+надо сравнивать результат через $position===false, тк может вернуть 0 а 0 == false
+
+strpos может плохо работать с кирилицей, что бы все норм работало надо юзать #mb_strpos()
+
+
+#strrpos()
+возвращает позицию подстроки(последнее #вхождение)
+#mb_strrpos() кирилица
+
+
+
+#trim()
+Функция trim($str) удаляет(возвращает новую строку) из строки начальные и конечные пробелы, а также управляющие символы '\n', '\r', '\t':
+
+
+#регистр
+#strtolower()
+в нижний регистр, возвращает строку
+#mb_strtolower кирилица
+
+верхний регистр
+#strtoupper()
+#mb_ strtoupper()
+
+
+#strlen()
+#mb_strlen()
+длина строки
+
+
+#substr 
+вроде работает без mb_
+возвращает обрезанную версию
+2- позиция первого символа
+6- длина(необязательно)
+$subinput2 = substr($input, 2, 6);
+
+
+
+
+
+
+
+
+
+
+
+#cookie
+#куки
+
+bool setcookie(string $name, string $value, int $expire, 
+    string $path, string $domain, bool $secure, bool $httponly);
+
+name: имя cookie, которое будет использоваться для доступа к его значению
+value: значение или содержимое cookie - любой алфавитно-цифровой текст не более 4 кБайт
+expire (необязательный параметр): срок действия, после которого cookie уничтожаются. Если данный параметр не установлен или равен 0, то уничтожение cookie происходит после закрытия браузера.
+path (необязательный параметр): путь к каталогу на сервере, для которого будут доступны cookie. Если задать '/', cookie будут доступны для всего сайта. Если задать, например, '/mydir/', cookie будут доступны только из каталога /mydir/' и всех его подкаталогов. По умолчанию значением является текущий каталог, в котором устанавливаются cookie.
+domain (необязательный параметр): задает домен, для которого будут доступны cookie. Если это домен второго уровня, например, localhost.com, то cookie доступны для всего сайта localhost.com, в том числе и для его поддоменов типа blog.localhost.com.
+Если задан поддомен blog.localhost.com, то cookie доступны только внутри этого поддомена.
+secure (необязательный параметр): указывает на то, что значение cookie должно передаваться по протоколу HTTPS. Если задано true, cookie от клиента будет передано на сервер, только если установлено защищенное соединение. По умолчанию равно false.
+httponly (необязательный параметр): если равно true, cookie будут доступны только через http протокол. То есть cookie в этом случае не будут доступны скриптовым языкам, например, JavaScript. По умолчанию параметр равен false
+
+
+setcookie("language", $value2, time()+3600);  // срок действия 1 час
+
+получаем
+$_COOKIE["city"]
+
+
+сохраняем массив, получаем как обычно
+setcookie("lan[1]", "PHP");
+setcookie("lan[2]", "C#");
+
+удаление(время из прошлого)
+setcookie ("city", "", time() - 3600);
+
+
+
+
+
+#сессии  #session
+
+session_start();
+$_SESSION['city'] = "Сингапур";
+isset($_SESSION['city'])//проверяем, используем как обычно
+
+при запуске сессии в куки сохраняет id,name сессии
+
+// идентификатор сессии
+session_id(); 
+//напрямую(тоже самое)
+$_COOKIE['PHPSESSID'];
+// имя - PHPSESSID
+echo session_name();  
+
+
+
+
+Уничтожение сессии
+$_SESSION = array();
+// уничтожение куки с идентификатором сессии
+if (session_id() != "" || isset($_COOKIE[session_name()]))
+    setcookie(session_name(), '', time()-2592000, '/');
+session_destroy();
+
+
+
+
+
+работа с #файлами #file #файлы
+#fopen
+
+resource      fopen(string $filename, string $mode)
+$filename представляет путь к файлу, $mode - режим открытия
+'r': файл открывается только для чтения. Если файла не существует, возвращает false
+'r+': файл открывается только для чтения с возможностью записи. Если файла не существует, возвращает false
+'w': файл открывается для записи. Если такой файл уже существует, то он перезаписывается, если нет - то он создается
+'w+': файл открывается для записи с возможностью чтения. Если такой файл уже существует, то он перезаписывается, если нет - то он создается
+'a': файл открывается для записи. Если такой файл уже существует, то данные записываются в конец файла, а старые данные остаются. Если файл не существует, то он создается
+'a+': файл открывается для чтения и записи. Если файл уже существует, то данные дозаписываются в конец файла. Если файла нет, то он создается
+
+$fd = fopen("form.php", 'r') or die("не удалось открыть файл");
+fclose($fd);
+
+считываем построчно
+
+while(!feof($fd))//вернет true в конце файла
+{
+    $str = htmlentities(fgets($fd),ENT_QUOTES, 'UTF-8');//считывает 1 строку
+//$str = htmlentities(fread($fd, 600),ENT_QUOTES, 'UTF-8');  // считываем 600 байт
+    echo $str;
+}
+
+
+полностью прочитать файл(просто 1 строка, без открытия\закрытия и тд)
+
+$str = htmlentities(file_get_contents("form.php"), ENT_QUOTES, 'UTF-8');
+
+
+
+запись в файл
+$fd = fopen("hello.txt", 'w') or die("не удалось создать файл");
+$str = "Привет мир";
+fwrite($fd, $str);
+//fputs($fd, $str);//тоже самое что и fwrite
+fclose($fd);
+
+
+
+Работа с указателем файла
+
+int fseek (resource $handle , int $offset [, int $whence = SEEK_SET ] )
+Параметр $handle представляет дескриптор файла. Параметр $offset - смещение в байтах относительно начала файла, с которого начнется считывание/запись. Третий необязательный параметр задает способ установки смещения. Он может принимать три значения:
+SEEK_SET: значение по умолчанию, устанавливает смещение в offset байт относительно начала файла
+SEEK_CUR: устанавливает смещение в offset байт относительно начала текущей позиции в файле
+SEEK_END: устанавливает смещение в offset байт от конца файла
+
+В случае удачной установки указателя функция fseek() возвращает 0, а при неудачной установке возвращает -1.
+
+$fd = fopen("hello.txt", 'w+') or die("не удалось открыть файл");
+$str = "Привет мир!"; // строка для записи
+fwrite($fd, $str); // запишем строку в начало
+fseek($fd, 0); // поместим указатель файла в начало
+fwrite($fd, "Хрю"); // запишем в начало строку
+
+
+
+
+переместить файл
+
+if (!rename("hello.txt", "subdir/hello.txt"))//перемещение в каталог
+    echo "Ошибка перемещения файла";
+
+
+копирование файла
+if (copy("hello.txt", "hello_copy.txt"))
+    echo "Копия файла создана";
+
+
+Удаление файла
+if (unlink("hello_copy.txt"))
+    echo "Файл удален";
+
+очистка файла
+ftruncate($fd, 0);
+
+
+Создание каталога
+
+if(mkdir("newdir"))//в текущем каталоге, в корневом mkdir("/newdir")
+    echo "Каталог создан";
+
+Удаление каталога
+if(rmdir("newdir"))
+    echo "Каталог удален";
+
+
+получения абсолютного пути к текущему каталогу
+$path = getcwd();// C:\localhost
+
+
+
+открывает определенный каталог для считывания из него информации о файлах и каталогах
+При успешном открытии каталога функция возвращает дескриптор открытого каталога. После окончания работы с каталогом его надо закрыть функцией closedir().
+
+Для считывания имени отдельного файла в открытом каталоге применяется функция readdir().
+
+$dir = getcwd(); // получаем текущий каталог
+ 
+if (is_dir($dir)) // является ли путь каталогом
+{
+    if ($dh = opendir($dir)) // открываем каталог
+    {
+        // считываем по одному файл или подкаталогу
+        // пока не дойдем до конца
+        while (($file = readdir($dh)) !== false) 
+        {
+            // пропускаем символы .. и .
+            if($file=='.' || $file=='..') continue;
+            // если каталог или файл
+            if(is_dir($file)) echo "каталог: $file <br>";
+            else echo "файл:    $file <br>";
+        }
+        closedir($dh); // закрываем каталог
+    }
+}
+
+
+
+формирование очереди для работы с файлом
+
+bool flock (resource $handle , int $operation [, int &$wouldblock ])
+Первый параметр - дескриптор файла, возвращаемые функцией fopen().
+
+Второй параметр указывает на тип блокировки. Он может принимать следующие значения:
+
+LOCK_SH (или число 1): разделяемая блокировка (чтение файла)
+
+LOCK_EX (или число 2): исключительная блокировка (запись файла)
+
+LOCK_UN (или число 3): для снятия блокировки
+
+LOCK_NB (или число 4): эта константа используется только вместе с одной из предыдущих в битовой маске (LOCK_EX | LOCK_NB), если не надо ждать пока flock() получит блокировку
+
+//при блокировке, даже если надо делать запись, не рекомендуется использование 'w' и 'w+'
+$fd = fopen("hello.txt", 'r+')
+flock($fd, LOCK_EX)
+...
+flock($fd, LOCK_UN);
+fclose($fd);
+
+
+
+
+
+ОТПРАВКА файлов на сервер
+
+изначальное ограничение 2 мегабайта, что бы изменить надо
+//  в файле php.ini менять upload_max_filesize = 2M
+//папка для временных файлов upload_tmp_dir = "C:/php/upload"
+
+
+
+<form method="post" enctype='multipart/form-data'>
+Выберите файл: <input type='file' name='filename' size='10' /><br /><br />
+
+//несколько файлов в 1 форме
+<input type='file' name='uploads[]' /><br />
+<input type='file' name='uploads[]' /><br />
+
+
+
+if ($_FILES && $_FILES['filename']['error']== UPLOAD_ERR_OK)//файл существует и ошибок нет
+{
+    $name = $_FILES['filename']['name'];
+//из временного места перемещатся в каталог// путь к загруженному временному фуйлу и путь куда надо поместить файл
+    move_uploaded_file($_FILES['filename']['tmp_name'], $name);
+    echo "Файл загружен";
+}
+
+$_FILES['file']['name']: имя файла
+
+$_FILES['file']['type']: тип содержимого файла, например, image/jpeg
+
+$_FILES['file']['size']: размер файла в байтах
+
+$_FILES['file']['tmp_name']: имя временного файла, сохраненного на сервере
+
+$_FILES['file']['error']: код ошибки при загрузке
+
+
+обработка нескольких файлов
+
+foreach ($_FILES["uploads"]["error"] as $key => $error) {
+        if ($error == UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES["uploads"]["tmp_name"][$key];
+            $name = $_FILES["uploads"]["name"][$key];
+            move_uploaded_file($tmp_name, "$name");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include #require #подключение
+
+
+
+
+//   ../  ищет файл в текущей директории
+require//тоже самое что и include но при внутренней ошибке завершит выполнение а не просто предупреждение
+include
+если файл включался то не включится еще раз, если включить(через обычный include) 2 +раза то будет ошибка
+require_once
+include_once
+
+подключение файла, область видимости подключаемого кода как у строки который подключает
+include 'vars.php';
+
+// Сработает.
+include 'http://www.example.com/file.php?foo=1&bar=2';
+//нужно без скобок,строка ниже правильная
+if ((include 'vars.php') == TRUE)
+
+
+
+этот кусок будет подключать файлы сам при обращении
+просто в началей файла написать и путь подредактировать
+spl_autoload_register(function ($class_name) {
+//if (file_exists($className . '.php'))
+    include $class_name . '.php';
+});
+вызовет функцию выше , она подключит класс(одноименный файл) и все будет работать
+$obj  = new MyClass1();
+
+
+
+
+
+
+return.php
+<?php
+
+$var = 'PHP';
+
+return $var;
+
+?>
+
+noreturn.php
+<?php
+
+$var = 'PHP';
+
+?>
+
+testreturns.php
+<?php
+
+$foo = include 'return.php';
+
+echo $foo; // выведет 'PHP'
+
+$bar = include 'noreturn.php';
+
+echo $bar; // выведет 1 тк подключено успешно
+
+
+
+goto
+
+goto a;
+echo 'Foo';
+ 
+a:
+echo 'Bar';
+
+
+
+
+
+
+
+#обработка #ошибки
+#try #catch
+#Exception
+throw new Exception("Невозможно загрузить $name.");
+
+try {
+    var_dump(sum(1, 2));
+    var_dump(sum(1.5, 2.5));
+} catch (TypeError $e) {
+    echo 'Ошибка: '.$e->getMessage();
+}
+
+
+
+аналог params
+для старых версий func_num_args(), func_get_arg() и func_get_args().
+DateInterval- тип данных элеметов массива ...-- массив
+function total_intervals($unit, DateInterval ...$intervals) {
+
+
+
+
+
+a = 1;
+$b =& $a;
+$c = $b;
+$c = 7; //$c не ссылка и не изменяет значений $a и $b
+arr = array(1);
+$a =& $arr[0]; //$a и $arr[0] ссылаются на одно значение
+$arr2 = $arr; //присвоение не по ссылке!
+$arr2[0]++;
+/* $a == 2, $arr == array(2) */
+/* Содержимое $arr изменилось, хотя было присвоено не по ссылке! */
+
+
+var начинает ссылаться на другое значение а bar нет
+function foo(&$var)
+{
+    $var =& $GLOBALS["baz"];
+}
+foo($bar); 
+
+
+//b все еще указывает
+$a = 1;
+$b =& $a;
+unset($a);
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Трейты  #trait #use
+
+
+Наследуемый член из базового класса переопределяется членом, находящимся в трейте. 
+Порядок приоритета следующий: члены из текущего класса переопределяют методы в трейте, 
+которые в свою очередь переопределяют унаследованные методы.
+можно use трейт в трейте
+
+class Base {
+    public function sayHello() {
+        echo 'Hello ';
+    }
+}
+
+trait SayWorld1 {
+    public function sayHello() {
+        parent::sayHello();
+        echo 'World!';
+echo 'Hello'.$this->getWorld();
+    }
+//абстрактный метод для установления требований
+abstract public function getWorld();
+
+//статический метод, вызывается как обычный статический метод
+ public static function doSomething() {
+        return 'Что-либо делаем';
+    }
+
+//обычное свойство, используется как и обычное
+Если трейт определяет свойство, то класс не может определить свойство с 
+таким же именем, кроме случаев полного совпадения (те же начальное значение и модификатор видимости)
+public $x = 1;
+
+
+}
+
+class MyHelloWorld extends Base {
+    use SayWorld1,...2,...3;
+
+//реализуем абстрактный метод тк он был задан в трейте
+public function getWorld() {
+        return $this->world;
+    }
+}
+
+$o = new MyHelloWorld();
+$o->sayHello();
+
+
+
+Для разрешения конфликтов именования между трейтами, используемыми в одном и том же классе, необходимо использовать оператор insteadof для того, чтобы точно выбрать один из конфликтующих методов.
+
+use A, B {
+        B::smallTalk insteadof A;//разрешение конфликтов
+        A::bigTalk insteadof B;//разрешение конфликтов
+        B::bigTalk as talk;//просто устанвливаем псевданим?
+}
+//меняем область видимости
+use HelloWorld { sayHello as protected; }
+//и то и то
+use HelloWorld { sayHello as private myPrivateHello; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#SQL IN #PHP
+
+
+
+//для локального сервера
+$host = 'localhost'; // адрес сервера 
+$database = 'compstore'; // имя базы данных
+$user = 'root'; // имя пользователя
+$password = '1234567'; // пароль
+
+
+$link = mysqli_connect($host, $user, $password, $database) 
+    or die("Ошибка " . mysqli_error($link));
+// выполняем операции с базой данных
+
+// закрываем подключение
+mysqli_close($link);
+
+//безопасное получание данных
+htmlentities("Кириллица", ENT_QUOTES, 'UTF-8')
+$name = htmlentities(mysqli_real_escape_string($link, $_POST['name']),ENT_QUOTES, 'UTF-8');
+
+
+//получаем id последней вставленной записи
+$obj->id=mysqli_insert_id();
+
+     
+
+
+
+
+$query ="SELECT * FROM phones";
+$result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
+//Функция mysqli_query() возвращает объект $result, который содержит результат запроса. В случае неудачи данный объект содержит значение false.
+if($result)
+    echo "Выполнение запроса прошло успешно";
+//для нормальной обраточки результата(в виде массива с столбцами ключами) ниже еще есть пример построчно
+$data=mysqli_fetch_all($result,1);
+
+
+обрабатываем результат
+ $rows = mysqli_num_rows($result); // количество полученных строк при select
+
+ for ($i = 0 ; $i < $rows ; ++$i)//идем по каждой строке результата
+    {
+//считываем одну строку, массив полей, доступ как к обычному массиву int, возвращается массив даже в случае выборки 1 поля
+        $row = mysqli_fetch_row($result);
+        echo "<tr>";
+
+//получаем по порядку ячейки строки(поля)
+            for ($j = 0 ; $j < 3 ; ++$j) echo "<td>$row[$j]</td>";
+        echo "</tr>";
+    }
+
+
+
+
+#php #sql    #sql #php
+
+
+русские буквы
+mysql_query("SET NAMES utf8 COLLATE utf8_unicode_ci");
+
+$connect=mysqli_connect("localhost","root","","bd_inter_v");
+$result=mysqli_query($connect,$sql_code_string);
+//преобразуем ответ в массив с доступом по [0] [1] 
+$data=mysqli_fetch_all($result);
+//преобразуем в массив с доступом по ["column_name"]
+$data=mysqli_fetch_all($result,1);
+
+
+
+$result = $pdo->query("SELECT id, name, salary FROM employees");
+while (list($id, $name, $salary) = $result->fetch(PDO::FETCH_NUM)) {
+    echo " <tr>\n" .
+          "  <td><a href=\"info.php?id=$id\">$name</a></td>\n" .
+
+
+
+
+function small_numbers()
+{
+    return array (0, 1, 2);
+}
+list ($zero, $one, $two) = small_numbers();
+
+
+
+
+
+
+
+
+
+
+
+#namespace
+
+// перед namespace ничего(ни <html> ни что либо другое) не может быть кроме declare
+PHP-код не может находиться вне скобок конструкции пространства имен, кроме начального выражения declare.
+<?php
+namespace MyProject;
+namespace MyProject\Sub\Level;//определяем вложенность(подуровни)
+для определения нескольких в 1 файле
+namespace MyProject{код}
+
+namespace {  //глобальное пространство имен
+
+
+
+использования из namespace
+$a = new foo();//текущее 
+$a = new subnamespace\foo(); // ищет namespace с текущем и обращается через него
+$a = new \currentnamespace\foo();   //обсолютный путь
+???
+namespace\Foo\Bar
+
+вызвать функцию из namespace
+namespace\func();
+
+//use должно быть в namespace, не может быть в функции и тд
+создание псевдонима, вызывается через mine
+use blah\blah as mine;
+
+use function My\Full\functionName,...,...,...;
+
+
+групировака и подключение
+use some\namespace\{ClassA, ClassB, ClassC as C};
+use function some\namespace\{fn_a, fn_b, fn_c};
+use const some\namespace\{ConstA, ConstB, ConstC};
+
+#__NAMESPACE__
+это строка, которая содержит имя текущего пространства имен. В глобальном пространстве, вне пространства имен, она содержит пустую строку.
+
+
+
+для понимания
+
+namespace A\B\C;
+
+/* Эта функция является A\B\C\fopen */
+function fopen() { 
+     /* ... */
+     $f = \fopen(...); // вызов глобальной функции fopen
+     return $f;
+} 
+
+
+
+
+
+#catch
+
+главный класс Exception
+trow new Exception("");
+
+обработка нескольких
+try {
+            throw new MyException();
+        } catch (MyException | MyOtherException $e) {
+            var_dump(get_class($e));
+        }
+
+
+
+
+
+
+
+
+#генераторы #yield
+
+
+
+
+
+function gen_one_to_three() {
+    for ($i = 1; $i <= 3; $i++) {
+        // Обратите внимание, что $i сохраняет свое значение между вызовами.
+//ключ значение
+// yield $id => $fields;
+        yield $i;
+//yield; возвращаем null но как результат(тип массив с элементами null который можно перебирать)
+//yield from [3, 4];  аналогично 2м , сначала 3 и следом 4
+//yield from eight();   //в функции тоже yield ы 
+    }
+}
+
+$generator = gen_one_to_three();
+foreach ($generator as $value)
+//value === 1,2,3
+
+можно возвращать ссылку также как и с функцией, изменив переменную возвращенную из такой! функции она изменится в функции
+
+
+
+
+
+#float
+функции для работы
+http://php.net/manual/ru/ref.bc.php
+
+#round
+округляет по правилам округления, оставляет указанное количество знаков после запятой
+round($num,$after);
+
+
+
+
+
+
+
+
+min\max
+находит число в массиве(можно передать просто параметрами)
+
+
+#denwer #denver
+создать папку Z:\home в ней папку www в нее файлы
+рестартнуть денвер
+
+http://localhost/denwer/
+
+
+
+
+
+//------------------------------------------------------------------------полезные куски кода-------------------------------
+
+#check_id #id #GetUserId
+
+public static string GetUserId()
+        {
+            return System.Web.HttpContext.Current.User.Identity.GetUserId();
+        }
+
+        public static ApplicationUser GetUser(string id)
+        {
+            //string check_id = ApplicationUser.GetUserId();
+            ApplicationUser res = null;
+            //if (string.IsNullOrWhiteSpace(id))
+            //    return res;
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                res = ApplicationUser.GetUser(id,db);
+            }
+                
+            return res;
+        }
+public static ApplicationUser GetUser(string id, ApplicationDbContext db)
+        {
+            //string check_id = ApplicationUser.GetUserId();
+            ApplicationUser res = null;
+            if (string.IsNullOrWhiteSpace(id))
+                return res;
+            res = db.Users.FirstOrDefault(x1 => x1.Id == id);
+
+            return res;
+        }
+
+
+
+
+
+
+#main #header #main_header #mainheader  #preloader #up
+
+<div id="Main_preloader_id" class="Main_preloader div_display_none"></div>
+<div class="Main_header_big"> </div>
+<div id="Main_header_check_small_or_big_header">
+</div>
+<div class="Main_header_small" id="Main_header_small_id">
+</div>
+
+
+layout
+@Html.Action("Main_header", "Home")
+        <div id="layout_active_panel_id" class="layout_active_panel"></div>
+        <div onclick="up()" class="Main_header_back_to_top" id="Main_header_back_to_top_id"></div>
+
+
+
+
+
+css
+div.Main_header_big {
+    position: relative;
+    background-color: white;
+    height: 500px;
+    width: 96%;
+    left: 2%;
+    background-image: url(/Content/images/main_header_back_big.jpg);
+    background-size: 100% 100%;
+     box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.Main_header_small {
+    position: fixed;
+    height: 50px;
+    width: 100%;
+    display: none;
+    top: 0px;
+    /*background-color: #cdfae0;*/
+    background-image: url(/Content/images/main_header_back_big.jpg);
+    min-width:960px;
+    z-index: 5;
+}
+
+
+div.Main_preloader{
+    position:fixed;
+    width:100px;
+    height:100px;
+    left:48%;
+    top:50px;
+    background-image: url(/Content/images/preloader_cat.gif);
+    background-size: 100% 100%;
+    z-index:5;
+}
+
+
+
+/*JS*/
+
+function up() {
+    var top = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+    if (top > 0) {
+        window.scrollBy(0, -100);
+        time_for_page_up = setTimeout('up()', 20);
+    } else clearTimeout(time_for_page_up);
+    return false;
+}
+
+function isVisible(tag) {
+    var t = $(tag);
+    var w = $(window);
+    var top_window = w.scrollTop();
+    var bot_window=top_window+document.documentElement.clientHeight;
+    var top_tag = t.offset().top;
+    var bot_tag = top_tag + t.height();
+    //alert(bot_tag);
+    //alert(top_window);
+    return ((bot_tag >= top_window && bot_tag <= bot_window) || (top_tag >= top_window && top_tag <= bot_window) || (bot_tag >= bot_window && top_tag <= top_window));
+}
+$(function () {
+    $(window).scroll(function () {
+        Change_main_header();
+        
+    });
+});
+
+
+function Change_main_header() {
+    var b = $("#Main_header_check_small_or_big_header");
+    if (!b.prop("shown") && !isVisible(b)) {
+        b.prop("shown", true);
+        var o = document.getElementById("Main_header_small_id")
+        var o1 = document.getElementById("Main_header_back_to_top_id")
+        o1.style.display = 'block';
+
+        o.style.display = 'block';
+
+    }
+    else {
+        if (b.prop("shown") && isVisible(b)) {
+            b.prop("shown", false);
+            var o = document.getElementById("Main_header_small_id")
+            var o1 = document.getElementById("Main_header_back_to_top_id")
+            o1.style.display = 'none';
+            o.style.display = 'none';
+        }
+    }
+
+}
+
+
+
+
+---------------------------------------------------------------этот блок где просто накидана найс инфа, без нормального поиска он почти бесполезен------------------------------------------------------------------------
+#sql #error
+при коннекте слева в дб  выдае ошибку
+This database file is not compatible with the current instance of SQL Server.
+
+To resolve this issue, you must upgrade the database file by creating a new data connection, or you must modify the existing connection to this database file.
+
+For more information, see http://go.microsoft.com/fwlink/?LinkId=235986
+
+
+решение 
+go to VisualStadio 2012 In Server Explorer Windows open Data Connections Right click on ASPNETDB.MDF click on Modify Connection... a new windows open for you ... you just click OK if other windows open for you click Yes FINISH ( be Happy ) :D
+
+
+#error
+При установлении соединения с SQL Server произошла ошибка, связанная с сетью или с определенным экземпляром. Сервер не найден или недоступен. Убедитесь, что имя экземпляра указано правильно и что на SQL Server разрешены удаленные соединения. (provider: SQL Network Interfaces, error: 26 - Ошибка при обнаружении указанного сервера или экземпляра)
+нужно включить именно тот к которому идет коннект
+решение по тегам #SQL #server  ->запустить службу
++ включить сам сервер в папке сервера, инфа по темже тегам
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

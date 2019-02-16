@@ -1,0 +1,65 @@
+short
+alt+ctrl+a-- форматирование кода(отступы)
+ctrl+r поиск по функци€м и тд
+alt+shift+2-- разделение экрана
+ctrl+f2 --установить закладку f2(shift+f2 перейти к след)
+// писать сразу на нескольких строчках
+выделить несколько строк
+ctrl+shift+L 
+написать текст
+//
+
+
+//--------------------------------------------------------------
+https://www.youtube.com/watch?v=uZm-Z08jPtI
+
+ctrl+` https://packagecontrol.io/installation#st3
+ 
+ctrl+shift+p
+	install
+		Bracket Highlighter
+		emmet
+		sidebarenhancements
+		syncesidebar
+		advancednewfile
+		autofilename
+//
+Java Script Next - ES6 Syntax
+CSS3
+sublime JavaScript Completions
+
+css comb Ч выделить правой кнопкой и run css comb
+
+// форматирование кода(отступы)
+(без установки)Reindent
+(справа вверху) preferences->key bindengs->в правом окне в квадратных скобках строку вписать
+{"keys": ["alt+ctrl+a"], "command": "reindent", "args": {"single_line": false}}
+
+
+NEED NODE autoprefixer-Ч ctrl+shift+p -> autoprefix css при выделенном css
+----------------------------------------------------
+//
+DocBlockr
+/**+tab-добавл€ет описание параметров перед функцией
+//
+Colorcoder
+раскрашивает переменные
+
+//
+https://github.com/timonwong/SublimeAStyleFormatter
+форматирование кода c# java
+//
+
+livereload-автоперезагрузка страницы
+
+
+
+
+
+
+
+
+
+
+
+
