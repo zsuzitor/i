@@ -266,6 +266,14 @@ console.writeline(i);//val1...
 
 
 
+#checked  #unchecked
+исключения при переполнении
+что из этого используется по умолчанию нельзя сказать тк зависит от компилятора
+существует 2 формы
+checked((byte)(int_1*int_2))
+checked{(byte)(int_1*int_2)}
+
+
 
 
 
@@ -750,6 +758,48 @@ class Library
     }
 
 
+
+
+
+
+#обработка #ошибки
+#try #catch #finaly
+#Exception
+
+
+свойства Exception
+Message - характер ошибки
+StackTrace - строка в вызовами стека из за которых случилась ошибка
+TargetSite - объект-метод сгенерировавший исключение
+InnerException - внутренее исключение
+методы
+ToString
+
+конструкторы
+public Exception()
+public Exception(string сообщение)
+public Exception(string сообщение,Exception внутреннее исключение)
+protected Exception(System.Runtime.Serialization.SerializationInfo информация,System.Runtime.Serialization.StremingContext контекст)
+
+
+создание своих исключений
+class name:Exception{
+//нужно просто реализовать все конструкторы
+public name():base(){}
+//....
+}
+
+
+#cath
+должны ловить исключения от частного к общему(сначала идет последний ребенок, потом его родитель, потом Exception)
+
+
+
+
+
+
+
+
 #Сериализация
 [Serializable]
 class Person
@@ -1162,6 +1212,7 @@ public static List<byte[]> Get_photo_post(HttpPostedFileBase[] uploadImage)
 
 
 #uploadfile #upload #file
+//получить текст файла
 FunctionName(HttpPostedFileBase file) 
 { 
 string result = new StreamReader(file.InputStream).ReadToEnd(); 
@@ -1224,6 +1275,123 @@ public static byte[] ImageToByteArray(System.Drawing.Image imageIn, ImageFormat 
 
 
 #io  #file #load #byte
+
+#потоки 
+
+#stream
+методы
+close
+flush - заставляет вывести все, если не юзнуть то данные выводятся блоками
+readByte
+Read
+seek  - установить положение в потоке
+writebyte
+write
+
+свойства
+canread
+canseek
+canwrite
+length - длина потока
+positio текущее положение доступно и для чтения и для записи
+readtimeout
+writetimeout
+
+#BufferedStream:stream - заключает в оболочку байтовый поток и добавляет буферизацию
+
+
+#UnmanagedMemoryStream:stream - байтовый поток который использует неупраляемую память для хранения
+
+символьные потоки
+#TextReader #TextWriter
+методы TextReader
+...
+close
+int peek - получает следующий символ из потока но не удаляет его, возвращает -1 если нет доступных символов
+
+методы TextWriter
+close
+flush
+
+
+
+вывод текст
+в streamWriter: TextWriter заключается filestream(или другой наследник stream)
+public streamWriter(Stream)
+public streamWriter(string путь)
+public streamWriter(string путь,bool append)//если true то в конец
+
+
+
+#BinaryReader #BinaryWriter
+
+
+void write
+--
+bool readboolean()
+...
+
+
+
+#MemoryStream:stream - байтовый поток который использует память для хранения
+конструкторы 
+MemoryStream(byte[] buf)
+можно засунуть в оболочку и использовать как обычный поток
+
+#StringReader:textReader StringWriter:textWriter - тоже что и MemoryStream но для хранения в строке
+конструкторы
+StringReader(string buf)
+StringWriter()//не указываем строку в которой будет хранить но можно ее получить методом ToString()
+
+
+
+
+#FileStream:stream - байтовый поток для ввода вывода
+конструкторы
+FileStream(string путь, FileMode режим)
+FileStream(string путь, FileMode режим, FileAccess доступ) - ограничивает доступ, только для чтения и тд
+
+
+
+#File
+некоторые методы находятся в FileInfo, если что можно поискать там
+copy(string исход,string новый)//если не существует
+copy(string исход,string новый,bool overwrite)//перезапишит
+
+exist (string путь)
+GetLastAccessTime (string путь)
+
+
+
+#io  #file #load #byte #console
+
+Console.In-экземпляр TextReader  Console.Out -TextWriter Console.Error -TextWriter
+
+методы
+static void #SetIn(TextReader поток)
+static void #SetOut(TextWriter поток)
+static void #SetError(TextWriter поток)
+//в TextReader можно обернуть вообще другой поток
+
+
+
+#readKey
+static consoleKeyInfo ReadKey()
+static consoleKeyInfo ReadKey(bool intercept) - если true то не отобразится на консоли
+
+#consoleKeyInfo
+структура
+char KeyChar  введенный символ
+ConsoleKey Key значение из перечисления ConsoleKey
+ConsoleModifiers Modifiers  значение из перечисления ConsoleModifiers , модификаторы которые бали нажаты ctrl и тд
+
+
+
+
+
+
+
+
 //открыть файл и вернуть байты
  public static byte[] FileToByteArray(string fileName)
         {
@@ -1246,6 +1414,19 @@ public static byte[] ImageToByteArray(System.Drawing.Image imageIn, ImageFormat 
 
 #относительный #relative путь к файлу на сервере
 File.ReadAllText(HostingEnvironment.MapPath($"~/tsqlscripts/{i}.txt"))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1973,11 +2154,29 @@ var dt={'Head':'sdf','parrent_sec_id':'sss'};
                 type: 'POST', dataType: 'json'//'html'
             });
 
+//TODO взять из диплома go_ajax функцию
+
+
+
+
 //проверенный post
 
+
+
+объявление объекта для отправки
 var dt = {
         'id': id
     };
+//можно так
+ var dt = {
+            'forms[0].ActionId': 10,
+            'forms[1].ActionId':20,
+'forms1.ActionId'
+        };
+
+
+
+
     $.ajax({
         url: "/SocialNetwork/SendComment",
         data: dt,
@@ -2958,7 +3157,8 @@ Data Source- ИМЯСЕРВЕРА\ИМЯИНСТАНСА
 можно просто через local задать --  (LocalDb)\MSSQLLocalDB    -- имя можно узнать в cmd -comand---- sqllocaldb i
 можно явно задать .\SQLEXPRESS01  ---  можно узнать какие доступны в  поиск->services ->найти sql server и то что в скобках можно пробовать использовать
 
-
+версии sql server 
+https://sqlserverbuilds.blogspot.com/2014/01/sql-server-internal-database-versions.html?m=1
 
 
 
@@ -4962,7 +5162,7 @@ echo 'Bar';
 
 
 #обработка #ошибки
-#try #catch
+#try #catch #finaly
 #Exception
 throw new Exception("Невозможно загрузить $name.");
 
@@ -5503,6 +5703,16 @@ go to VisualStadio 2012 In Server Explorer Windows open Data Connections Right c
 
 
 
+
+
+
+
+при #seed добавление ролей add to role UserId not found
+Это может включать в себя следующее:
+Политика паролей не соблюдается (это наиболее распространенная причина)
+Обязательные поля передаются как пустые строки / null
+Дубликат имени пользователя или электронной почты
+если нет то попробовать отладить метод create
 
 
 
