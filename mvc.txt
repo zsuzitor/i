@@ -19,8 +19,14 @@ https://metanit.com/sharp/tutorial/7.5.php
 
 
 
-TODO
+#TODO
 @Html.AntiForgeryToken()
+
+
+
+#TODO
+
+#PredicateBuilder.False<Foo>(); #where #linq #or #Predicate
 
 
 
@@ -261,7 +267,8 @@ enum apple[:int]{val1,val2,val3,val4=10}
 for(apple i=apple.val1;i<apple.val4&&(i)<20;++i)
 console.writeline(i);//val1...
 
-
+foreach (RolesProject roleName in (RolesProject[])Enum.GetValues(typeof(RolesProject)))
+                var role = new IdentityRole { Name = roleName.ToString() };
 
 
 
@@ -623,13 +630,84 @@ await Task.WhenAll(new[] { t1, t2, t3 });
 
 
 
-#рефлексия
+#рефлексия #reflection
 
+#typeof #GetType
 получить тип
 Type myType = typeof(className);
 Type myType = object.GetType();
 //1- полное название с namespace 2-генерить ли исключение если не найдено 3-учитывать ли регистр у 1 параметра
 Type myType = Type.GetType("TestConsole.User", false, true);
+
+
+myType.IsAbstract();
+myType.IsClass();
+
+
+Type:MemberInfo
+DeclaringType //тип класса или интерфейса в котором объявляется отражаемый член
+MemberType //возвращает перечисление .тип члена. является ли член полем\методом\свойством\событием\конструктором
+MetadataToken //
+Name //имя файла
+ReflectionType //тип отражаемого объекта
+
+абстрактные методы
+GetCustomAttributes // получить список спец атрибутов
+IsDefined // проверить есть ли такой атрибут
+
+ConstructorInfo[] GetConstructors() // получить список конструкторов
+GetEvents()
+GetFields()
+GetMembers() //список членов
+GetMethods()
+GetProperties //список свойств
+
+свойства только для чтения
+Attribures //получить атрибуты
+BaseType //проучить непосредственный базовый тип 
+FullName
+IsAbstract
+IsArray
+IsClass
+IsEnum
+IsGenericType //если обобщенный
+Namespace
+
+
+var mth=GetMethods([BindingFlags fl1|BindingFlags f2|...]);//fl-перечисление которое сообщает какие именно методы нужны
+foreach(var i in mth){
+//вызов метода
+i.Invoke(reflect_obj,args)//reflect_obj - объект для которого будет вызываться метод
+i.ReturnType.Name
+i.Name
+var prms=i.GetParameters();
+foreach(var p in prms){
+p.ParameterType.Name
+p.Name
+}
+}
+
+var cons=GetConstructors();
+foreach(var i in cons){
+(object)i.Invoke(args);
+}
+
+
+
+
+#Assembly
+если есть exe\dll то все тоже самое можно делать с помощью этого
+
+var a=Assembly.LoadFrom(string path)
+a.GetTypes();
+//дальше просто с помощью рефлексии можно делать что угодно
+
+
+
+
+
+
+
 
 
 
@@ -672,6 +750,99 @@ catch(OperationCanceledException ex)
     {
         Console.WriteLine("Операция была прервана");
     }
+
+
+
+
+
+
+#namespace
+//можно объявить несколько с одинаковым именем(сложатся в 1), 
+namespace name{}
+//можно вложить namespace в namespace
+namespace name{
+namespace name1{}}
+//2 способ объявить вложенность
+namespace name.name1{}
+
+#using
+using name_namespace;
+using псевдоним=имя;
+using new_name=name_namespace.classname;
+
+using(var tmp=){
+
+}//вызовется метод disposing
+
+
+если есть одноименный класс(например) в нескольких пространствах имен и мы подключаем оба то можно устранить неопределенность
+name_namespace1::class_name val=new name_namespace1::class_name ();
+//из глобального пространства имен
+global::class_name val=new global::class_name ();
+
+
+
+
+
+
+
+
+#препроцессор #предпроцессор
+
+#define
+#define name_ind//объявить
+#undef name_ind//удалить
+
+#region//просто для удобства
+#endregion
+
+#pragma
+
+#error name error//прервать компиляцию и показать ошибку
+
+
+#if name_ind
+..
+#else
+..
+#elif
+..
+#endif//относится только к if
+
+
+
+#line
+#warning name error//показать предупреждение при компиляции
+
+
+
+
+
+
+#public
+публичный
+#private
+частный
+при наследовании, наследуется но к нему есть доступ только через методы которые тоже были унаследованы(this.val не получится) и у которых был доступ к этому полю, если мы их не переопредляем
+#protected
+тоже самое что private но при наследовании мы можем использовать(this.val)
+#internal
+доступно только в пределах сборки
+
+
+
+#is 
+вернет bool если можно\нельзя привести тип
+(bool)(val is classname)
+
+#as
+//приведет тип если можно и если нет то вернет null
+(val is classname)
+
+
+
+
+
 
 
 
@@ -874,7 +1045,31 @@ public static class StringExtension
 
 
 
-#delegate #делегаты #standart #стандартные
+#delegate #делегаты
+
+
+delegate возвращаемый_тип name_del(type param1,type param2)
+
+можно закинуть любой метод(статика \функцию\метод экземпляра и что угодно)
+могут быть обобщенными
+
+name_del name_del_obj=new name_del([meth]);//объявление
+name_del name_del_obj=meth;//объявление
+
+name_del_obj=meth;//убрать все методы и добавить новый
+name_del_obj+=meth;//добавить новый метод, добавлять также можно и делегат
+name_del_obj-=meth;//удалить новый метод, удалять также можно и делегат
+
+name_del_obj();
+
+если параметр передавать через ref то он будет передаваться в каждый метод и измененный после него идти в след метод
+
+его можно объявить в классе(не создать объект а именно объявить)
+
+
+
+
+ #standart #стандартные
 //стандартные делегаты не надо объявлять они уже есть
 
 #Action
@@ -890,6 +1085,96 @@ Func<T> isPositive
 Func<T1, T2,... T16,TResult>
 Func<int> isPositive=()=>{return 1;}
  Func<int, int> retFunc =( x)=>{return x;}
+
+
+
+
+
+#ковариантность #контрвариантность #контравариантность для делегатов
+delegate X name_del(Y param)
+
+Y:X
+
+X meth1(X o);
+Y meth2(Y o);
+
+name_del delobj;
+#ковариантность
+возвращаемый тип может быть наследником
+delobj=meth2;
+
+
+#контрвариантность #контравариантность
+тип параметра может быть базовым
+delobj=meth1;
+
+
+
+#анонимные #функции  #anonimus #function #=>
+
+
+name_del delobj=delegate{/*код функции*/};
+delobj=delegate(type val){/*код функции*/};
+через лямбды
+скобки нужны если несколько параметров, параметров нет, или если явно указываем тип параметра
+delobj=(type val)=>{/*код функции*/};
+delobj=(val)=>{/*код функции*/};
+delobj=val=>{/*код функции*/};
+delobj=()=>{/*код функции*/};
+{
+delobj=(type val)=>/*код функции в 1 строку без return*/;
+delobj=val=>val+2;
+}
+
+
+в /*код функции*/
+можно использовать return
+{можно захватывать внешние переменные, которые не будут уничтожены пока не уничтожатся все методы которые захватывают+ не будет других ссылок на нее
+пример
+method(){
+int t=10;
+delobj=delegate{t++;}
+}
+delobj();//увеличит на 1 и станет 11
+delobj();//увеличит на 1 и станет 12
+}
+
+
+
+
+#event  #TODO
+могут быть объявлены в интерфейсах, 
+могут быть абстрактными(только если без аксессоров),
+могут быть virtual и sealed
+event делегат_события имя_события;
+delegate void Hand();
+event Hand EventName;
+event Hand EventName{
+add{
+//value
+}
+remove{
+//value
+}
+}
+
+
+
+EventName evt+=method;
+if(evt!=null)
+evt();
+
+
+
+рекомендованная структура событий(уже есть предопределенные делегаты)
+class MyEventsArgs:EventsArgs{}
+delegate void Delname(object source,MyEventsArgs arg)
+
+public event EventHandler<MyEventArgs> someEvent;//без обобщения если EventsArgs не переопределяем
+
+
+
+
 
 
 #перегрузка
@@ -964,8 +1249,14 @@ g1.methodname1();
 
 
 
+#IEquatable IEquatable<T> - Equals
+для сравнения(определения равенства)
 
-#IComparable
+
+
+#IComparable - CompareTo
+IComparable<T>
+для сравнения(для определения порядка следования)
 
 #Sort()
 //не обобщенная версия надо приводить к типам
@@ -1035,7 +1326,8 @@ return ref numbers[0];
 
 
 
-#обобщения  #обобщение
+#обобщения  #обобщение #<>
+могут быть обобщенные классы, интерфейсы, структуры,методы,делегаты
 
 class Transaction<T> where T: Account
 {
@@ -1049,11 +1341,17 @@ Transaction<Account> transaction1 = new Transaction<Account>
         {
 }
 
+//ограничение- должен быть тип значения
+//ограничение должно быть 1 по порядку
 class Account<T> where T : struct
 {}
+//ограничение- должен быть ссылочный тип
+//ограничение должно быть 1 по порядку
 class Transaction<T> where T : class
 {}
+
 //есть конструктор без параметров
+//должно идти последним по порядку, использовать можно только конструктор без параметров, нельзя использовать с ограничением типа значения
 class Transaction<T> where T : new()
 {}
 
@@ -1061,8 +1359,43 @@ class Transaction<U, V>
         where U : Account<int>
         where V : struct
 {}
+class Transaction<U, V>
+        where U : V{}
 public static void Transact<T>(T acc1, T acc2, int sum) where T : Account<int>{}
 
+public void nameMeth<T>(int g,T t) where T:class{}
+//оба вызова норм, тип он сам подставит
+nameMeth<string>(10,"");
+nameMeth(10,"");
+
+если одновременное ограничение типа на класс и на интерфейс то сначала указывается класс
+
+
+delegate void name<T>();
+name<int> nameObj=;
+
+
+
+при обобщенном интерфейсе
+ограничения интерфейса нужно продублировать ограничениями в класс который его реализует
+
+
+при перегрузке не должно быть так, тк n<int,int>- все сломает
+class n<T,V>{
+void nnn(V a);
+void nnn(T a);
+}
+
+
+
+
+
+
+#default
+
+obj=default(тип);
+при обобщении
+obj=default(T);
 
 
 
@@ -1517,6 +1850,7 @@ target для <a>  -- позволяет по разному открывать ссылку(фрейм окно и тд)
 <h2 id="paragraph1">Параграф 1</h2>
 
 
+#border #fieldset #legend #рамка
 выделит красиво в 1 блок(линией по краям) и legend будет заголовком(НА линии и перекрывает ее)
  <fieldset>
                 <legend>Введите данные:</legend>
@@ -1807,13 +2141,14 @@ public class User
     public string UserId { get; set; }
 }
 Теперь добавим в проект новую папку. Назовем ее Hubs. В ней будут находиться хабы нашего приложения. В эту папку добавим новый item(SignalR Hub Class (v2)) ChatHub.cs
+//[HubName("stockTickerMini")]  можно изменить имя хаба
  public class ChatHub : Hub
     {
         static List<UserForHub> Users = new List<UserForHub>();
 //объявляем методы к которым будем обращаться 
 public void Send(int id)
         {
- Clients.Group(groupName).MethodOnClient(id_dialog);
+ Clients.Group(groupName).MethodOnClient(id_dialog);//id_dialog- может быть объектом класса, в таком случае конвертится в json и отправляется, на стороне клиента в функцию зайдет сразу объектом а не json строкой
 }
  public void JoinToHub()
         {
@@ -1890,6 +2225,18 @@ Clients.All.addMessage(name, message);
 Вызов метода на всех клиентах указанной группы: Clients.Group(groupName).addMessage(name, message);
 Вызов метода на всех клиентах указанной группы, за исключением клиента, у которого id - connectionId: Clients.Group(groupName, connectionId).addMessage(name, message);
 Вызов метода на всех клиентах указанной группы, за исключением обратившегося к серверу клиента: Clients.OthersInGroup(groupName).addMessage(name, message);
+
+
+включение логов хабов на стороне клиента
+$.connection.hub.logging = true;
+
+
+
+
+
+для того что бы можно было использовать обычный класс как hub class нужно в него передать(ресурсоемкий процесс)
+IHubConnectionContext<dynamic> clients
+получить - GlobalHost.ConnectionManager.GetHubContext<StockTickerHub>().Clients
 
 
 
@@ -1977,7 +2324,8 @@ ValidateAntiforgeryToken- применять к методам авторизации регистрации
 
 Response.StatusCode = (int)HttpStatusCode.BadRequest; 
 Response.StatusCode = 404;
-                return Content(ex.Message);
+return new EmptyResult();
+return Content(ex.Message);
 
 
 
@@ -2011,6 +2359,38 @@ db.SaveChanges();
 
 Объединение Union()   Пересечение Intersect()  Разность  Except
 https://metanit.com/sharp/entityframework/4.6.php
+
+
+
+
+
+
+
+
+#TODO #linq #where #PredicateBuilder #Predicate #or
+
+var query = collection.Where( c => c.A == 1 || c.B == 2 );
+//ниже эквивалент
+есть 2 версии обе с nuget
+//using Mono.Linq.Expressions;  - не разобрался как работать
+using Binbin.Linq;   - ставить не последние версии тк они не ставятся на .net framework 4.5-6, использование как ниже
+
+var predicate = PredicateBuilder.False<Foo>();
+ predicate = predicate.Or( f => f.A == 1 );
+ if (allowB)
+ {
+    predicate = predicate.Or( f => f.B == 1 );
+ }
+
+ var query = collection.Where( predicate );
+
+
+
+
+
+
+
+
 
 
 #AJAX
@@ -2306,6 +2686,55 @@ LINQ  https://metanit.com/sharp/tutorial/15.1.php
 
 
 
+#attr #atribute #атрибуты
+
+название  с суффиксом Attribute
+
+[AttributeUsage(AttributeTargets.All)]//то к чему может применяться
+public class NameAttribute: Attribute{
+
+
+
+public NameAttribute(){}
+}
+//если в классе есть нестатическое поле или свойство доступное для записи то его можно использовать как именованный параметр не указывая в конструкторе
+[NameAttribute(позиционные параметры,именованные параметры)]
+public class test{}
+
+//получить атрибуты
+((Type)obj).GetCustomAttributes
+Attribute.GetCustomAttribute(MemberInfo a,Type b);//a-объект, b-тип атрибута
+
+
+
+#Conditional
+class n{
+[Conditional("trial")]
+void nnn(){}
+}
+nObj.nnn();//вызовется только если #define trial
+
+
+#Obsolete
+пометить элемент программы как устаревший
+[Obsolete("сообщение",bool a)]//если a-true то сообщение об ошибке если нет то предупреждение
+class n{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2335,7 +2764,7 @@ Url--Отображает строку URL
 EmailAddress-Отображает электронный адрес
 }
 
-#json атрибуты
+#json атрибуты #JsonProperty
  [JsonProperty("startX")] -- меняет имя для формата json
 
 
@@ -2568,7 +2997,8 @@ https://metanit.com/sharp/entityframework/1.3.php
 Eager Loading  жадная загрузка
  var players = db.Players.Include(p=>p.Team).ToList();
 
-Explicit Loading  Явная загрузка
+Explicit Loading  Явная загрузка 
+#Entry
 if(!db.Entry(db.Players.FirstOrDefault()).Reference("Team").IsLoad)
 db.Entry(db.Players.FirstOrDefault()).Reference("Team").Load();
 для загрузки коллекций юзать Collection вместо Reference
@@ -2581,7 +3011,7 @@ var mass=db.Entry(this).Collection(x1 => x1.ImagesLikes).Query().Where(...).Take
 
 
 
-Lazy Loading
+#Lazy Loading
 все делается само но в объявлении модели virtual
 public int? TeamId { get; set; }
     public virtual Team Team { get; set; }
@@ -3130,6 +3560,21 @@ await UserManager.AddToRoleAsync(user.Id, "user");
  ApplicationUserManager userManager = HttpContext.GetOwinContext()
                                             .GetUserManager<ApplicationUserManager>();
 IList<string> roles=userManager.GetRoles(user.Id);
+//еще вариант возвращает для зарегистрированного пользователя
+System.Web.Security.Roles.GetRolesForUser();
+//вернет id ролей(сложный объект)
+using(var db=)
+this.Roles;
+db.Roles.where(=>);
+
+//проверить принадлежит ли пользователь к роли
+ System.Web.HttpContext.Current.User.IsInRole("role");
+//если нужно закинуть контекст в метод то по такому типу данных "System.Web.HttpContextBase"
+
+
+
+
+
 
 
 
@@ -3185,7 +3630,7 @@ https://sqlserverbuilds.blogspot.com/2014/01/sql-server-internal-database-versio
 
 
 
- #block #db #ef
+ #block #db #ef //#TODO
 блокировка записи бд для редактирования и удаления  https://metanit.com/sharp/entityframework/3.10.php
 
 транзакции https://metanit.com/sharp/entityframework/3.11.php
@@ -3341,7 +3786,9 @@ var results = new List<ValidationResult>();
     @Html.ValidationMessageFor(model => model.Name)
 валидация на сервере
 public ActionResult Create([Bind(Include="Id,Name,Author,Year")] Book book){
-if (ModelState.IsValid){
+if (ModelState.IsValid){//#IsValid
+//#ModelState хранит все принятые свойства и флаг ошибки для каждого
+
 
 ModelState.AddModelError("Name", "Некорректное название книги"); ---добавить "ошибку валидации" при "Name"=="" это ошибка уровня модели
 
@@ -3949,6 +4396,46 @@ WHERE - это ограничивающее выражение. Оно выполняется до того, как будет получен
 
 HAVING - фильтрующее выражение. Оно применяется к результату операции и выполняется уже после того как этот результат будет получен, в отличии от where.
 Выражения WHERE используются вместе с операциями SELECT, UPDATE, DELETE, в то время как HAVING только с SELECT и предложением GROUP BY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5676,6 +6163,91 @@ function Change_main_header() {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+#плитка
+
+
+
+<div class="padding_10_top create_something_one_block div_inline_block">
+    <div class="create_something_one_block_inside">
+        <a class="link_standart_for_div" href="@Url.Action("ListUserAct","ListPhysics", new { })">
+
+
+            @*@Html.ActionLink("Личная страница", "PersonalRecord", "SocialNetwork", new { }, new { })*@
+            Работа с списками и пользователями
+
+            <div class="create_something_one_block_move">
+                Страница для добавления\удаления отношения список-пользователь, физ эффект-пользователь
+
+            </div>
+
+        </a>
+    </div>
+</div>
+
+
+.padding_10_top{
+    padding-top:10px;
+}
+div.create_something_one_block{
+    width:200px;
+}
+div.div_inline_block {
+    display: inline-block;
+    vertical-align: top;
+}
+div.create_something_one_block_inside{
+    height:200px;
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius:20px;
+    text-align:center;
+cursor:pointer;
+overflow:hidden;
+position:relative;
+}
+
+.link_standart_for_div {
+    display: block; /* Ссылка как блочный элемент */
+    text-align: center; /* Выравнивание по центру */
+    height: 100%; /* Высота на весь слой */
+    color: black; /* Цвет ссылки */
+    
+}
+div.create_something_one_block_inside:hover div.create_something_one_block_move{
+    top:0;
+}
+div.create_something_one_block_move{
+    /*border:solid 2px black;*/
+position:absolute;
+background-color:rgb(128, 128, 128);
+opacity:1;
+width:200px;
+height:200px;
+top:200px;
+-webkit-transition:1s;
+-o-transition:1s;
+transition:1s;
+color:white;
+
+}
+
+
+
+
+
+
 
 
 
