@@ -240,18 +240,24 @@ cl perem=new cl{val=10};
 
 
 
+#модификаторы #modificators
 
 #virtual - для возможности переопределения в наследниках
 #override - для переопределения чего либо
 
 #sealed - если перед class то запретить наследование
 если перед методом то только перед тем для которого должны были указать override - запретит переопределение через override
+#readonly
+только для чтения, можно задать в конструкторе или при объвлении
+#const
+только для чтения, константа, можно задать только при объявлении
 
+#volatile
+значение поле может быть изменено параллельно выполняющимися потоками
 
-
-
-
-
+#extern
+1-метод предоставляется внешним кодом
+2- псевдоним для внешней сборки
 
 
 
@@ -284,6 +290,500 @@ checked{(byte)(int_1*int_2)}
 
 
 
+
+#types
+
+
+#dynamic
+проверка типа откладывается до выполнения
+
+
+dynamic val;
+val="";
+
+void meth(object o);
+void meth(dynamic o);//перегрузить не получится
+
+
+Single представляет тип float
+
+
+
+#decimal
+static Add
+static Divide
+static Myltiply
+static Negate
+static MaxValue
+
+
+
+
+
+
+#array
+см также -collection
+IsFixedSize - если фиксорованного размера
+IsSynchronized - если можно использовать в многопоточной среде
+Rank - размерность массива
+SyncRoot - объект для синхронизации доступа к массиву
+
+если отсортированный и одномерный то
+BinarySearch поиск эелемента по применению как IndexOf
+IndexOf
+Clear -очищает, размер остается
+Clone - не полная копия(если внутри ссылки то будут ссылаться на теже элементы)
+Find...
+ForEach
+GetValue
+Reverse
+Exist
+
+
+#collection #array #list #interface
+
+
+инициализация
+List<char> lst = new List<char>() { 'С', 'А', 'Е', 'В', 'D', 'F' };
+lst1=new SortedList<int, string>() { {1, "один"}, {2, "два" }, {3, "три"} };
+интерпретируется как lst.Add();//=> нельзя так закидывать значения в коллекции в которых нет public Add
+
+
+
+В среде .NET Framework поддерживаются пять типов коллекций: необобщенные,
+специальные, с поразрядной организацией, обобщенные и параллельные
+необобщенные- хранят только object
+Специальные коллекции - оперируют данными конкретного типа или же делают это каким-то особым образом//--- #CollectionsUtil  #HybridDictionary  #ListDictionary #NameValueCollection #OrderedDictionary #StringCollection #StringDictionary
+с поразрядной организацией-BitArray
+Обобщенные коллекции-храниться только такие элементы данных,которые совместимы по типу с данной коллекцией. Благодаря этому исключается случайное несовпадение типов
+Параллельные коллекции-  поддерживают многопоточный доступ к коллекции
+
+должны реализовавывать IEnumerator и IEnumerable,  IEnumerator<T> и IEnumerable<T>
+
+
+
+
+перечислитель
+итератор
+
+#IEnumerable
+для #foreach,
+IEnumerator GetEnumerator()
+ IDictionaryEnumerator GetEnumerator()//если словарь
+public IEnumerator GetEnumerator() {
+return this;
+}
+public void Reset() { idx = -1; }
+
+
+
+
+#IEnumerator
+для #foreach, 
+любое изменение коллекции делает перечислитель недействительным
+
+bool MoveNext() //true- если есть след элемент
+Reset // устанавливает перечислитель в конец(элемент перед первым, для получения первого после reset -MoveNext())
+свойство
+Current
+
+
+
+
+
+
+
+#IList : ICollection , IEnumerable
+this[int index] { get; set; }
+Add
+Clear
+Contains
+IndexOf
+Insert
+Remove
+RemoveAt
+свойства
+IsFixedSize
+IsReadOnly
+
+
+
+#ICollection: IEnumerable
+
+
+int Count { get; }
+bool IsReadOnly { get; }
+
+
+
+
+
+
+
+
+#IDictionary: ICollection , IEnumerable
+пустые ключи не допускаются
+V this[T key] { get; set; }
+Add
+Clear
+Contains
+GetEnumerator
+Remove
+bool TryGetValue(TKey key, out TValue value) пытается извлечь по key и засунуть в value. если все норм то true. Если key не найден, value =значение выбираемое по умолчанию
+свойства
+IsFixedSize
+IsReadOnly
+Keys
+Values
+
+
+
+#IComparer 
+int Compare(T х, T у)
+(x>y) вернет положительное число
+
+
+
+ #IEqualityComparer
+bool Equals(T х, T у)
+int GetHashCode(T obj)
+
+
+#ISet<T>
+
+: IEnumerable, IEnumerable<T>,ICollection<T>
+
+
+
+#struct
+#DictionaryEntry
+коллекции словарей(вроде только не обобщенных) хранят в такой структуре key value
+public DictionaryEntry(T key, T value)
+
+#KeyValuePair<TKey, TValue>
+коллекции словарей(вроде только обобщенных) хранят в такой структуре key value
+
+class
+
+абстрактные классы
+ CollectionBase, ReadOnlyCollectionBase и DictionaryBase
+
+
+#ArrayList , обобщенная форма называется #List
+Определяет динамический массив, т.е. такой массив, который может при необходимости увеличивать свой размер
+
+: ICollection, IList, IEnumerable , ICloneable
+
+AddRange
+BinarySearch
+static FixedSize Заключает коллекцию list в оболочку типа ArrayList с фиксированным размером и возвращает результат 
+InsertRange
+static Readonly Заключает коллекцию list в оболочку типа ArrayList, доступную только для чтения
+SetRange Заменяет часть вызывающей коллекции  элементами коллекции переданной
+Sort
+ static Synchronized Возвращает синхронизированный вариант коллекции 
+TrimToSize Устанавливает значение свойства Capacity равным значению свойства Count(обрезает массив до количества элементов в нем)
+
+свойства
+Capacity - максимальный размер массива на данный момент, можно устанавливать но нельзя установить меньше чем количество элементов в массива сейчас
+
+
+
+
+#Hashtable Определяет хеш-таблицу для пар “ключ-значение”   обобщенная форма называется #Dictionary
+ключ хешируется=> скорость работы не зависит от количества элементов внутри
+:IDictionary, ICollection, IEnumerable, ISerializable, IDeserializationCallback ,ICloneable
+
+
+
+public Hashtable()
+public Hashtable(IDictionary d)
+public Hashtable(int capacity)
+public Hashtable(int capacity, float loadFactor=1)
+loadFactor - коэффициент заполнения(от 0,1 до 1,0)
+Он определяет степень заполнения хеш-таблицы до увеличения ее размера. В частности, таблица расширяется, Count> loadFactor*емкость_таблицы
+
+
+ContainsKey
+ContainsValue
+Synchronized
+
+
+#Dictionary см Hashtable
+:IDictionary,IDictionary<TKey, TValue>, ICollection, ICollection<KeyValuePair<TKey,TValue>>, IEnumerable, IEnumerable<KeyValuePair<TKey, TValue>>,ISerializable , IDeserializationCallback
+
+
+
+#SortedDictionary см Dictionary
+IDictionary,IDictionary<TKey, TValue>, ICollection, ICollection<KeyValuePair<TKey,TValue>>, IEnumerable , IEnumerable<KeyValuePair<TKey, TValue>>
+
+
+
+#SortedList см List
+
+
+
+#HashSet
+динамическая коллекция
+множество уникальных значений, можно использовать пересечение, объединение и разноименность
+: ICollection<T>, ISet<T>, IEnumerable,IEnumerable<T>, ISerializable, IDeserializationCallback
+
+RemoveWhere
+SymmetricExceptWith - разноименность с множеством
+UnionWith - объекдинение множеств
+ExceptWith - вычитание множеств
+
+public IEqualityComparer<T> Comparer { get; }
+
+
+
+#SortedSet
+
+
+
+
+
+
+#Queue Определяет очередь, или список, действующий по принципу “первым пришел — первым обслужен”
+ICollection, IEnumerable и ICloneable
+при увеличении для создания места под 1 элемент, увеличивается  на коэффициент роста(по умолчанию 2)
+public Queue (int capacity, float growFactor=2)//growFactor=от  1,0 до 10,0
+
+Enqueue - поместить в очередь
+Dequeue извлечь и удалить 1 объект в очереди
+Рееk извлечь но не удалять след объект в очереди
+TrimToSize
+
+
+
+#SortedList Определяет отсортированный список пар “ключ-значение”
+пары "ключзначение" хранятся в порядке, отсортированном по значению ключей. 
+IDictionary, ICollection, IEnumerable ,ICloneable
+
+GetBylndex
+GetKeyList
+GetValueList
+IndexOfKey
+SetBylndex
+Synchronized
+TrimToSize
+
+
+#Stack Определяет стек, или список, действующий по принципу "первым пришел — последним обслужен”
+ICollection, IEnumerable и ICloneable
+Peek() - вершина стека
+Pop() -  вершина стека с удалением
+Push()
+Synchronized()
+
+
+
+
+
+#LinkedList
+двунаправленный список
+:ICollection, ICollection<T>,IEnumerable, IEnumerable<T>, ISerializable , IDeserializationCallback
+
+ссылки на предыдущий и следующий элемент хранятся в LinkedListNode
+LinkedListNode-
+public LinkedListNode<T> Next { get; }//null если дальше пусто
+public LinkedListNode<T> Previous { get; }
+public LinkedList<T> List { get; }
+public T Value { get; set; }
+
+-
+public LinkedListNode<T> First { get; }
+public LinkedListNode<T> Last { get; }
+
+AddAfter
+AddBefore
+AddFirst
+AddLast
+Find
+Remove
+
+
+
+
+#BitArray
+хранит биты а не объекты
+
+
+
+#SynchronizedCollection<T>
+#SynchronizedReadOnlyCollection<T>
+#KeyedByTypeCollection<T>
+
+
+
+
+параллельные коллекции #parallel #collection
+#BlockingCollection<T> Предоставляет оболочку для блокирующей реализации интерфейса IProducerConsumerCollection<T>
+#ConcurrentBag<T> Обеспечивает неупорядоченную реализацию интерфейса IProducerConsumerCollection<T>, которая оказывается наиболее пригодной в том случае, когда информация вырабатывается и потребляется в одном потоке
+#ConcurrentDictionary<TKey, TValue> Сохраняет пары "ключ-значение”, а значит, реализует параллельный словарь
+#ConcurrentQueue<T> Реализует параллельную очередь и соответствующий вариантинтерфейса IProducerConsumerCollection<T>
+#ConcurrentStack<T> Реализует параллельный стек и соответствующий вариант интерфейса IproducerConsumerCollection<T>
+
+
+
+
+
+
+
+
+
+
+
+
+#string
+ссылочный тип но передается по значению
+не изменяемый(при попытыке изменения создает новую строку)
+
+#$ $"text{val}"
+#@ @"\text"-> "\\text"
+
+Concat
+IndexOf
+public int IndexOfAny(char[] anyOf)  индекс первого символа который равен символу из массива
+StartsWith
+contains
+Split(,StringSplitOptions)
+Trim([params char[] trimChars]) - удаляет в начале и в конце символы из массива, если ничего не передали то удалит пробелы
+Join
+public string PadLeft(int totalWidth) заполнит с начала пробелами что бы общая длина строки была==totalWidth
+public string PadLeft(int totalWidth, char paddingChar)
+public string PadRight(int totalWidth)
+public string Insert(int startIndex, string value)
+public string Remove(int startIndex, int count)
+public string Replace(string oldValue, string newValue)
+public string ToLower()
+public string ToUpper()
+public string Substring(int startIndex, int length)//вернет строку которая начинается с startIndex
+
+public static string Format(string format, params object[] args)
+ String.Format("{0:F2}", v);//0-позиция аргумента
+string str = 189.99.ToString("С");
+
+
+
+
+
+
+
+
+#StringComparer: IComparer
+CurrentCulture - с учетом регистра и культурной среды
+CurrentCultureIgnoreCase - без учета регистра и культурной среды
+InvariantCulture - с учетом регистра без культур
+InvariantCultureIgnoreCase
+OrdinalIgnoreCase - порядковое сравнение без учета регистра
+
+
+
+
+
+
+
+BitConverter
+класс для преобразования базовых типов данных в байты
+
+
+
+
+
+
+
+
+
+
+#? #?? #null #Nallable
+структура  тип Nallable<T>
+//эквивалент
+Nallable<bool> val;
+bool? val;
+val=null;
+val=false;
+
+val.HasValue//проверить установлено ли значение
+val.Value//получить значение, только для чтения, если null то исключение
+
+var test=val??true;//если val==null то вернет 2 член(true) если не null то вернет val
+var test=val??method();//если val!=null то method не вызовется
+
+можно сравнивать но если хотя бы 1== null то
+< > <= >= -всегда false
+true||null -true
+null||null -null
+!null - null
+общее правило- если необходимо сравнить null значит будет null, если можно получить результат без сравнения то он будет получен
+
+
+
+
+
+
+
+#Random
+
+
+
+
+
+
+
+
+#GC #мусор #сборка
+
+
+
+
+
+
+
+
+#Tuple #кортеж
+
+Tuple<t1,t2,t3>
+static Create
+
+
+
+
+
+
+
+
+
+
+
+#foreach
+
+foreach(T val in IEnumerable<T>){}
+нужны IEnumerable и IEnumerator
+сразу(даже перед 1 итерацией) вызывает сначала MoveNext() а потом Current
+
+можно также без интерфейсов, просто докинуть #итератор  #yield
+public IEnumerator<T> GetEnumerator() {
+foreach(T ch in chrs)
+yield return ch;
+}
+
+
+#итератор  #yield #return
+при создании итератора класс автоматически реализует IEnumerator(не нужно явно указывать)
+
+yield break; // прерывание итератора
+
+именованный итератор
+
+public IEnumerable имя_итератора(список_параметров) {
+// ...
+yield return obj;
+}
+public IEnumerable MyItr(int end) {
+for(int i=0; i < end; i++)
+yield return (char) (ch + i);
+}
 
 
 
@@ -360,69 +860,6 @@ public class SomeClass: IDisposable
 
 
 
-#синхронизация
-#Interlocked
-тоже самое что и lock но быстрее и проще, для блокировки простых типов
-CompareExchange()	Безопасно проверяет два значения на эквивалентность. Если они эквивалентны, изменяет одно из значений на третье
-Decrement()	Безопасно уменьшает значение на 1
-Exchange()	Безопасно меняет два значения местами
-Increment()	Безопасно увеличивает значение на 1
-//+возвращает это же число
-int newVal = Interlocked.Increment(ref intVal);
-Interlocked.Exchange(ref mylnt, 83);
-
-
-
-
-
-#Monitor
-у monitor есть метод TryEnter-- он заставляет ждать определенное время а не бесконечность
-lock преобразуется в monitor
-private object obj = new object();
-#lock (obj)
-{
-   // синхронизированная область для obj
-}
-//преабразуется в
-Monitor.Enter(obj);
-try
-{
-   // синхронизированная область для obj
-}
-finally
-{
-   Monitor.Exit(obj);
-}
-if (Monitor.TryEnter(lockObject, 300)) {  
-    try {  
-        // Place code protected by the Monitor here.  
-    }  
-    finally {  
-        Monitor.Exit(lockObject);  
-    }  
-}  
-else {  
-    // Code to execute if the attempt times out.  
-}
-
-
-
-
-
-#Synchronization]
-#[Synchronization]
-тоже синхронизация но такое
-
-#Mutex
-тоже синхронизация
-
-#ReaderWriterLock
-блокировка только на запись
-
-
- #ManualResetEvent
- #AutoResetEvent
-
 
 
 
@@ -433,13 +870,45 @@ c#
 #Параллельное #программирование #TPL
 #Task
 System.Threading.Tasks
+
+
+после того, как задача завершена, она не может быть перезапущена. => для повторного запуска нужно пересоздать
+
+
+public delegate void Action()
+public Task(Action действие)
+public Task(Func<TResult> функция)
+public Task(Func<Object, TResult> функция, Object состояние) //задача принимает аргумент состояние
+
+
+public Task<TResult> StartNew(Func<TResult> функция)
+public Task<TResult> StartNew(Func<Object,TResult> функция, Object состояние)
+public Task StartNew(Action<Object> action, Object состояние, CancellationToken признак_отмены)
+
+
+public int Id { get; }
+public static Nullable<int> CurrentID { get; }
+
+
+в методе который передается в task при условии передаче в метод токена отмены параметром
+cancelTok.ThrowIfCancellationRequested();//установит IsCanceled и выбросит исключение AggregateException
+IsCanceled
+
+
+Dispose().//только для завершенной задачи, если задача не завершена то InvalidOperationException
+
+исключения
+ObjectDisposedException.  если задача освобождена посредством вызова метода Dispose()
+AggregateException,  если задача сама генерирует исключение или же отменяется
+
+
 //1 способ
 
 Task task = new Task(() => Console.WriteLine("Hello Task!"));
 task.Start();
 //2 способ
 //	
-Task task = Task.Factory.StartNew(() => Console.WriteLine("Hello Task!"));
+Task task = Task.Factory.StartNew((Action action);
 //3 способ
 Task task = Task.Run(() => Console.WriteLine("Hello Task!"));
 
@@ -452,12 +921,13 @@ var f=task1.Result
 //остановит поток до выполнения задачи
  task.Wait();
 //остановит поток до выполнения всех задач в массиве  tasks
-Task.WaitAll(tasks)
+Task.WaitAll(params Task[] tasks)
 //остановит поток до выполнения хотя бы 1 задачи в массиве  tasks
-Task.WaitAny(tasks)
+Task.WaitAny(params Task[] tasks)
 
 //task2 начнет выполнение после завершения task1
-//который в качестве параметра принимает делегат Action<Task>
+
+public Task ContinueWith(Action<Task> действие_продолжения)
  Task task2 = task1.ContinueWith(Display);
 void Display(Task t)
         {}
@@ -497,37 +967,128 @@ outer.Wait(); // ожидаем выполнения внешней задачи
 
 #Параллельное #программирование #TPL
 #Parallel
+#thread
+теория
+Отличия в многозадачности на основе процессов и потоков могут быть сведены к
+следующему: многозадачность на основе процессов организуется для параллельного
+выполнения программ, а многозадачность на основе потоков — для параллельного выполнения отдельных частей одной программы.
 
-Parallel.Invoke(Display, 
-        () => {  },() => Factorial(5));
 
 
-For(int, int, Action<int>)
-первый параметр задает начальный индекс элемента в цикле, а второй параметр - конечный индекс. 
+public delegate void ThreadStart()
+public delegate void ParameterizedThreadStart(object obj)
+
+public Thread(ThreadStart запуск) //создание потока
+newThrd.Start([object param]);//запуск потока, можно передать параметр, если параметр передан то конструктор(ниже)
+public Thread(ParameterizedThreadStart запуск)
+
+Name - имя потока, можно задать
+public bool IsAlive { get; }
+public void Join() //ждет завершения потока, можно указать время
+public bool IsBackground { get; set; } //сделать поток фоновым
+
+
+установить приоритетность потока(чем выше тем чаще получает доступ к цп)
+public ThreadPriority Priority{ get; set; }//ThreadPriority-enum
+
+
+применять в особых случаях
+public void Abort() //прервать выполнение потока
+Thrd.Abort();
+Thrd.Join(); //ожидать прерывания
+Thrd.Abort (object a);
+в методе который в потоке
+try {} catch(ThreadAbortException exc) {
+Console.WriteLine("Поток прерван, код завершения " +
+(int)exc.ExceptionState);//object a
+
+//отменяем прерывание
+Thread.ResetAbort();
+}
+
+
+
+состояния потока 
+public ThreadState ThreadState{ get; }
+
+
+получить текущий поток
+public static Thread CurrentThread{ get; }
+
+
+
+
+
+
+
+
+
+#Process
+public static Process Start(string имя_файла)
+//"просит" закрыться
+public void Close()
+public bool CloseMainWindow() //Если процесс является приложением Windows с графическим пользовательским интерфейсом, true-сообщение получено,false-приложение не имеет главного окна
+//закрывает
+неконтролируемому прерыванию процесса. Любые несохраненные данные, связанные с прерываемым процессом, будут, скорее всего, потеряны.
+public void Kill()
+//ждать закрытия
+public void WaitForExit()
+public bool WaitForExit(int миллисекунд)// false, если он все еще выполняется.
+
+
+
+
+
+новое
+
+
+//попытается распараллелить методы, вызывающий поток останавливается и ждет результаты
+public static void Invoke(params Action[] actions)
+
+#for
+public delegate void Action<in T>(T obj)
+public static ParallelLoopResult For (int fromInclusive, int toExclusive, Action<int> body)
+первый параметр задает начальный индекс элемента в цикле, а второй параметр - (конечный индекс не включая , i<toExclusive). 
 Третий параметр - делегат Action - указывает на метод, который будет выполняться один раз за итерацию
 Parallel.For(1, 10, Factorial);
 void Factorial(int x)
 {}
 
+break так же как в обычном for
+public static ParallelLoopResult For(int fromInclusive, int toExclusive, Action<int, ParallelLoopState> body)
+public delegate void Action<in T1, in T2>(T argl, T2 arg2)//T1-int T2-ParallelLoopState
 
+ParallelLoopState
+public void Break()//все шаги до вызова выполнятся, несколько может выполниться и после вызова
+Stop()//если не волнует выполнение шагов
+
+ParallelLoopResult-
+public bool IsCompleted { get; }//определяет, завершилось ли полное выполнение параллельного цикла
+public Nullable<long> LowestBreakIteration { get; }//если выполнение прервется, то будет содержать переменную-итертор на которой все прервалось(возвращает индекс, на котором произошло прерывание работы цикла)
+
+
+есть также формы -
+ указывать метод, вызываемый по завершении потока каждого цикла.
+др.
+
+
+
+#ForEach
+public static ParallelLoopResult ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body)
+public static ParallelLoopResult ForEach<TSource>(IEnumerable<TSource> source, Actior<TSource, ParallelLoopState> body)
 ParallelLoopResult result = Parallel.ForEach<int>(new List<int>() { 1, 3, 5, 8 },
                 Factorial);
 
-//выход из цикла
+остальное см For
 
-//проверка вышли ли мы из цикла, это не в методе который в цикл передается
-if (!result.IsCompleted)
-        Console.WriteLine("Выполнение цикла завершено на итерации {0}", 
-                                        result.LowestBreakIteration);
-//циклы при этой не изменяются(все как выше)
-//метод который будет выполняться и в котором надо остановить цикл
-void Factorial(int x, ParallelLoopState pls)
-{
- pls.Break();
-}
-свойства ParallelLoopResult
-IsCompleted: определяет, завершилось ли полное выполнение параллельного цикла
-LowestBreakIteration: возвращает индекс, на котором произошло прерывание работы цикла
+
+
+
+
+
+
+
+
 
 
 //остановить задачу
@@ -539,7 +1100,7 @@ cancelTokenSource.Cancel();
 //в task
 if (token.IsCancellationRequested)
             {
-                return;
+                return;//отменить задачу
             }
 
 //если операция внешняя передавать ссылку на токен
@@ -627,6 +1188,266 @@ await Task.WhenAll(new[] { t1, t2, t3 });
 
 
 
+#PLINQ #Parallel #LINQ
+Основу PLINQ составляет класс ParallelEnumerable
+
+
+
+при возникновении ошибка в 1 потоке прерываются все
+
+#AsParallel выполение запроса разбивая задачу на потоки
+//будет обрабатывать коллекцию не по порядку если так будет быстрее и если не быстрее то обработает как обычно
+var factorials = numbers.AsParallel().Select(x => Factorial(x));
+
+#ForAll
+.ForAll(n => Console.WriteLine(n));
+ForAll выполняет действие в каждом потоке для той части которая находится в нем
+без ForAll происходит склейка данных в 1 потоке и потом действие для всех элементов
+
+#AsOrdered()
+public static ParallelQuery<TSource> AsOrdered<TSource>(this ParallelQuery<TSource> source)
+.AsParallel().AsOrdered()
+разделяем на потоки и потом выставляем в том порядке как было бы если бы не разделяли
+
+#AsUnordered()
+разупорядочивание , если мы упорядочили но дальше какие то операции котораые не требуют порядка, ускорит все
+
+
+обработка ошибок 
+catch (AggregateException ex)
+{
+    foreach (var e in ex.InnerExceptions)
+    {
+        Console.WriteLine(e.Message);
+    }
+}
+
+отмена параллельной операции
+CancellationTokenSource cts = new CancellationTokenSource();
+ cts.Cancel();// установить токен для отмены
+try{
+numbers.AsParallel().WithCancellation(cts.Token)
+}
+catch(OperationCanceledException ex)
+    {
+        Console.WriteLine("Операция была прервана");
+    }
+
+foreach(var v in mass.AsParallel())//цикл прервется если в другом потоке Cancel();
+
+
+#TODO
+#WithDegreeOfParallelism()//указать максимальное количество процессоров, выделяемых для обработки запроса
+#AsSequential()//запросить последовательное выполнение части параллельного запроса
+#WithExecutionMode() когда PLINQ должен по умолчанию поддерживать последовательное выполнение, передать методу в качестве параметра признак ParallelExecutionMode.ForceParallelism.
+
+
+
+
+
+
+
+
+
+
+#синхронизация
+
+
+#Interlocked
+тоже самое что и lock но быстрее и проще, для блокировки простых типов
+CompareExchange()	Безопасно проверяет два значения на эквивалентность. Если они эквивалентны, изменяет одно из значений на третье
+public static int Decrement(ref int location)	Безопасно уменьшает значение на 1
+Exchange()	Безопасно меняет два значения местами
+public static int Increment(ref int location)	Безопасно увеличивает значение на 1
+//+возвращает это же число
+int newVal = Interlocked.Increment(ref intVal);
+Interlocked.Exchange(ref mylnt, 83);
+
+
+
+
+
+
+
+
+
+
+#Monitor
+у monitor есть метод TryEnter-- он заставляет ждать определенное время а не бесконечность
+
+//эти методы могут вызываться только из заблокированного фрагмента кода(блок lock например)
+//временно блокирует поток но  освобождает заблокированный объект пока не продолжит выполнение
+поток продолжит выполнение когда другой поток войдет в аналогичное состояние блокировки,  вызывает метод Pulse() или PulseAll()
+obj-объект разблокировку которого ожидаем
+//останавливает поток и заставляет ждать пока для obj не вызовется Pulse из другого потока
+public static bool Wait(object obj) 
+public static bool Wait(object obj, int миллисекунд_простоя)
+//разрешает заблокировать уже заблокированный obj тому кто следующий в очереди
+public static void Pulse(object obj)  возобновляется выполнение первого потока ожидающего своей очереди на получение блокировки
+public static void PulseAll(object obj) сигнализирует о снятии блокировки всем ожидающим потокам
+
+#lock преобразуется в monitor
+private object obj = new object();
+#lock (obj)
+{
+   // синхронизированная область для obj
+}
+//преабразуется в
+Monitor.Enter(obj);
+try
+{
+   // синхронизированная область для obj
+}
+finally
+{
+   Monitor.Exit(obj);
+}
+if (Monitor.TryEnter(lockObject, 300)) {  
+    try {  
+        // Place code protected by the Monitor here.  
+    }  
+    finally {  
+        Monitor.Exit(lockObject);  
+    }  
+}  
+else {  
+    // Code to execute if the attempt times out.  
+}
+
+
+
+
+
+
+
+#Mutex #мьютекс
+
+public Mutex()
+public Mutex(bool initiallyOwned)//если true то им завладевает вызывающий поток
+
+public bool WaitOne(); // блокирует выполнение вызывающего потока до тех пор, пока не станет доступным указанный мьютекс
+public void ReleaseMutex() //освобождает
+
+создание именованного(виден не только в текущем процессе)
+public Mutex(bool initiallyOwned, string имя)// если true, то владение мьютексом запрашивается
+public Mutex(bool initiallyOwned, string имя, out bool createdNew) // createdNew будет иметь логическое значение true, если владение мьютексомбыло запрошено и получено, и логическое значение false, если запрос на владениебыл отклонен
+
+
+в потоке, получившем мьютекс, допускается вызывать несколько WaitOne() перед вызовом метода
+ReleaseMutex(), все эти вызовы будут произведены успешно. => дополнительные вызовы метода WaitOne() не будут блокировать
+поток, который уже владеет мьютексом. Но количество вызовов метода WaitOne()
+должно быть равно количеству вызовов метода ReleaseMutex() перед освобождением мьютекса.
+
+
+
+
+
+
+
+
+
+
+
+#семафор  #Semaphore
+
+разрешает доступ к участку ни 1 потоку а количеству которое указали в конструкторе
+при блокировке -- при икременте ++, если 0 то ждет пока станет >0
+
+public Semaphore(int initialCount, int maximumCount)
+initialCount - количество первоначально доступных разрешений
+maximumCount — максимальное значение данного счетчика, т.е. максимальное количество разрешений, которые может дать семафор.
+
+см мьютекс
+WaitOne()
+//return  подсчитанное количество разрешений, существовавших до высвобождения
+public int Release()
+public int Release(int releaseCount)
+
+
+именованный семафор
+public Semaphore(int initialCount, int maximumCount, string имя)
+public Semaphore(int initialCount, int maximumCount, string имя,
+out bool createdNew)
+
+
+
+
+
+
+
+
+
+
+#event
+1 поток ждет пока вызовется событие в другом потоке
+public #ManualResetEvent(bool initialState)//если true, то о событии первоначально уведомляется
+WaitOne()//ждем если объект "не активен"
+Set()//в другом потоке вызываем событие, "активирует" объект
+ Reset()//после вызова события объект события делаем "не активным", для разблокировки надо снова вызывать Set()
+
+
+
+public #AutoResetEvent(bool initialState)
+все как у ManualResetEvent но метод WaitOne() после того как дождался очереди вызывает Reset()
+
+
+
+
+
+
+
+#Barrier Вынуждает потоки ожидать появления всех остальных потоков в указанной точке, называемой барьерной
+#CountdownEvent Выдает сигнал, когда обратный отсчет завершается
+#ManualResetEventSlim Это упрощенный вариант класса ManualResetEvent
+#SemaphoreSlim Это упрощенный вариант класса Semaphore
+
+
+
+
+
+
+attr
+блокировка всего метода экземпляра(this). Если же метод относится к типу static, то блокируется его тип
+[MethodImplAttribute(MethodImplOptions.Synchronized)]
+применять очень аккуратно перечитать как и тд
+
+
+
+
+
+#Synchronization]
+#[Synchronization]
+тоже синхронизация но такое
+
+
+
+
+
+#ReaderWriterLock
+блокировка только на запись
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -706,50 +1527,156 @@ a.GetTypes();
 
 
 
+#LINQ
+для параллельного выполнения см PLINQ
+применяется для IEnumerable<T>
+
+формирование запроса
+var t=from n in nums where n>0 select n;
+var t=nums.where(x1=>x1>0);
+выполнение запроса
+t.Count();
+t.ToList();
+//изменить nums
+t.ToList();//другой результат
+
+
+//результат-каждый элемент mass1 с каждым элементом mass2
+from x1 in mass1
+from x2 in mass2
+select new{x1,x2};
+
+
+
+Select: определяет проекцию выбранных значений
+Where: определяет фильтр выборки
+OrderBy: упорядочивает элементы по возрастанию
+OrderByDescending: упорядочивает элементы по убыванию
+ThenBy: задает дополнительные критерии для упорядочивания элементов возрастанию
+ThenByDescending: задает дополнительные критерии для упорядочивания элементов по убыванию
+Join: соединяет две коллекции по определенному признаку
+GroupBy: группирует элементы по ключу
+ToLookup: группирует элементы по ключу, при этом все элементы добавляются в словарь
+GroupJoin: выполняет одновременно соединение коллекций и группировку элементов по ключу
+Reverse: располагает элементы в обратном порядке
+All: определяет, все ли элементы коллекции удовлятворяют определенному условию
+Any: определяет, удовлетворяет хотя бы один элемент коллекции определенному условию
+Contains: определяет, содержит ли коллекция определенный элемент
+Distinct: удаляет дублирующиеся элементы из коллекции
+Except: возвращает разность двух коллекцию, то есть те элементы, которые содератся только в одной коллекции
+Union: объединяет две однородные коллекции
+Intersect: возвращает пересечение двух коллекций, то есть те элементы, которые встречаются в обоих коллекциях
+Count: подсчитывает количество элементов коллекции, которые удовлетворяют определенному условию
+Sum: подсчитывает сумму числовых значений в коллекции
+Average: подсчитывает cреднее значение числовых значений в коллекции
+Min: находит минимальное значение
+Max: находит максимальное значение
+Take: выбирает определенное количество элементов
+Skip: пропускает определенное количество элементов
+TakeWhile: возвращает цепочку элементов последовательности, до тех пор, пока условие истинно
+SkipWhile: пропускает элементы в последовательности, пока они удовлетворяют заданному условию, и затем возвращает оставшиеся элементы
+Concat: объединяет две коллекции
+Zip: объединяет две коллекции в соответствии с определенным условием
+First: выбирает первый элемент коллекции
+FirstOrDefault: выбирает первый элемент коллекции или возвращает значение по умолчанию
+Single: выбирает единственный элемент коллекции, если коллекция содердит больше или меньше одного элемента, то генерируется исключение
+SingleOrDefault: выбирает первый элемент коллекции или возвращает значение по умолчанию
+ElementAt: выбирает элемент последовательности по определенному индексу
+ElementAtOrDefault: выбирает элемент коллекции по определенному индексу или возвращает значение по умолчанию, если индекс вне допустимого диапазона
+Last: выбирает последний элемент коллекции
+LastOrDefault: выбирает последний элемент коллекции или возвращает значение по умолчанию
 
 
 
 
 
-#Parallel #LINQ
-при возникновении ошибка в 1 потоке прерываются все
 
-#AsParallel выполение запроса разбивая задачу на потоки
-//будет обрабатывать коллекцию не по порядку если так будет быстрее и если не быстрее то обработает как обычно
-var factorials = numbers.AsParallel().Select(x => Factorial(x));
+#into
 
-#ForAll
-.ForAll(n => Console.WriteLine(n));
-ForAll выполняет действие в каждом потоке для той части которая находится в нем
-без ForAll происходит склейка данных в 1 потоке и потом действие для всех элементов
-
-#AsOrdered()
-.AsParallel().AsOrdered()
-разделяем на потоки и потом выставляем в том порядке как было бы если бы не разделяли
-
-#AsUnordered()
-разупорядочивание , если мы упорядочили но дальше какие то операции котораые не требуют порядка, ускорит все
+group val by val.column into val_ where val_.count()>2 select val_;  
 
 
-обработка ошибок 
-catch (AggregateException ex)
-{
-    foreach (var e in ex.InnerExceptions)
-    {
-        Console.WriteLine(e.Message);
-    }
-}
+#let
 
-отмена параллельной операции
-CancellationTokenSource cts = new CancellationTokenSource();
- cts.Cancel();// установить токен для отмены
-try{
-numbers.AsParallel().WithCancellation(cts.Token)
-}
-catch(OperationCanceledException ex)
-    {
-        Console.WriteLine("Операция была прервана");
-    }
+from str in strs
+let val=str.ToCharArray()
+
+
+
+
+
+#linq #join
+var phones = db.Phones.Join(db.Companies, // второй набор
+        p => p.CompanyId, // свойство-селектор объекта из первого набора
+        c => c.Id, // свойство-селектор объекта из второго набора
+        (p, c) => new // результат
+        {
+            Name=p.Name, 
+            Company = c.Name, 
+            Price=p.Price
+        });
+
+from val_a in mass_a
+join val_b in mass_b
+on val_a = val_b;// = == equals
+
+
+
+
+Объединение Union()   Пересечение Intersect()  Разность  Except
+https://metanit.com/sharp/entityframework/4.6.php
+
+
+
+
+
+
+
+#деревья   #Expressions
+используются для обращения к бд
+Expressions<Func<int,int,bool>> IsDel=(n,d)=>n==d;
+Func<int,int,bool> t=IsDel.Compile();
+t(10,20);
+
+
+
+
+
+
+
+
+#TODO #linq #where #PredicateBuilder #Predicate #or
+
+var query = collection.Where( c => c.A == 1 || c.B == 2 );
+//ниже эквивалент
+есть 2 версии обе с nuget
+//using Mono.Linq.Expressions;  - не разобрался как работать
+using Binbin.Linq;   - ставить не последние версии тк они не ставятся на .net framework 4.5-6, использование как ниже
+
+var predicate = PredicateBuilder.False<Foo>();
+ predicate = predicate.Or( f => f.A == 1 );
+ if (allowB)
+ {
+    predicate = predicate.Or( f => f.B == 1 );
+ }
+
+ var query = collection.Where( predicate );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -828,6 +1755,33 @@ global::class_name val=new global::class_name ();
 тоже самое что private но при наследовании мы можем использовать(this.val)
 #internal
 доступно только в пределах сборки
+
+
+
+
+
+
+
+
+
+#partial
+можно разбить что либо на несколько кусков
+partial class a{
+math1}
+partial class a{
+math2}
+
+
+если применили к методу
+то можно не реализовывать(при вызове такого метода(не реализованного) не произайдет вообще ничего, он будет проигнорирован)
+ограничения- обязательно возвращают void, не могут быть virtual, в них нельзя использовать out, не может быть модификатора доступа
+partial void meth();
+partial void meth(){}
+
+
+
+
+
 
 
 
@@ -935,6 +1889,17 @@ class Library
 
 #обработка #ошибки
 #try #catch #finaly
+
+
+try{}
+catch{
+throw;//пробросить исключение дальше
+throw new Exception();//выбросить новое исключение
+}
+catch(Exception e){
+throw e;//пробросить исключение дальше
+}
+
 #Exception
 
 
@@ -1099,6 +2064,7 @@ X meth1(X o);
 Y meth2(Y o);
 
 name_del delobj;
+
 #ковариантность
 возвращаемый тип может быть наследником
 delobj=meth2;
@@ -1110,7 +2076,32 @@ delobj=meth1;
 
 
 
-#анонимные #функции  #anonimus #function #=>
+#вариантность для обобщенных делегатов
+#ковариантность
+delegate T name_del<out T>()
+можно присвоить метод где параметр будет T или ребенком T
+
+
+#контрвариантность
+delegate bool name_del<in T>(T obj)
+можно присвоить метод где параметр будет T или родителем T
+
+
+
+
+
+#анонимные #anonim #anonymous
+
+//только для чтения
+var f=new{x1,x2,x3.Id};//x1 x2 Id
+var f=new{val1=x1,val2=x2};
+
+
+
+
+
+
+#анонимные #функции  #anonim #anonymous #function  #=>
 
 
 name_del delobj=delegate{/*код функции*/};
@@ -1249,6 +2240,59 @@ g1.methodname1();
 
 
 
+#ковариантность #контрвариантность
+
+
+#ковариантность
+
+interface IMyInt<out T>{
+//можно T применять только для возвращаемого типа, нельзя использовать для ограничения(where X:T)
+//может ПРИСВОИТЬ ссылку на любой класс производный от T или сам T
+T GetObj();
+}
+//при реализации интерфейса ключевое слово не указывается(ни в class ни в методах)
+class Myclass<T>:IMyInt<T>{}
+но указывается при наследовании только в ребенке интерфейса
+interface Myclass<out T>:IMyInt<T>{}
+
+class a{}
+class b:a{}
+IMyInt<a> alp=new Myclass<a>();//доступно в любом случае
+alp=new Myclass<b>();//доступно из за ковариантности
+ВЫВОД- позволяет засунуть в объект родителя объект ребенка но только эта иерархия не на сам класс а на обобщенный тип, и этот обобщенный тип применяется только к return type методов
+
+
+#контрвариантность
+
+interface IMyInt<in T>{
+
+void GetObj(T obj);
+}
+//при реализации интерфейса ключевое слово не указывается(ни в class ни в методах)
+class Myclass<T>:IMyInt<T>{}
+но указывается при наследовании только в ребенке интерфейса
+interface Myclass<in T>:IMyInt<T>{}
+
+class a{}
+class b:a{}
+IMyInt<a> alp=new Myclass<a>();//доступно в любом случае
+IMyInt<b> bet=new Myclass<b>();//доступно в любом случае
+bet=new Myclass<a>();//доступно из за контрвариантности
+bet=alp;//доступно из за контрвариантности
+ВЫВОД- позволяет засунуть в объект ребенка объект родителя но только эта иерархия не на сам класс а на обобщенный тип, и этот обобщенный тип применяется только к параметрам методов
+в метод можем передать родителя T
+
+
+
+
+
+
+
+
+
+
+
+
 #IEquatable IEquatable<T> - Equals
 для сравнения(определения равенства)
 
@@ -1257,6 +2301,7 @@ g1.methodname1();
 #IComparable - CompareTo
 IComparable<T>
 для сравнения(для определения порядка следования)
+
 
 #Sort()
 //не обобщенная версия надо приводить к типам
@@ -1299,11 +2344,33 @@ public interface ICloneable
 {
     object Clone();
 }
-//реализация через MemberwiseClone--поверхностное копирование(если есть ссылки внутри то останутся ссылками на те же объекты)
+//реализация через #MemberwiseClone--поверхностное копирование(если есть ссылки внутри то останутся ссылками на те же объекты)
 public object Clone()
     {
         return this.MemberwiseClone();
     }
+
+
+
+#IConvertible
+преобразрвания типов
+
+
+
+#IFormatProvider #IFormattable
+
+
+
+
+
+#IObservable<T> #IObserver<T>
+паттерн наблюдатель
+IObserver<T> - тот кто подписывается
+Subscribe - подписать
+OnNext отправить данные наблюдателю
+OnError отправить сообщение об ошибке
+OnCompleted - указывает на то что наблюдаемый объект прекратил отправку сообщений
+
 
 
 
@@ -1328,6 +2395,16 @@ return ref numbers[0];
 
 #обобщения  #обобщение #<>
 могут быть обобщенные классы, интерфейсы, структуры,методы,делегаты
+хранятся в обобщенной форме , а по мере необходимости когдаются конкретные экземпляры классов cl<int> cl<string> - разные классы
+
+
+ограничения:
+свойства, операторы, индексаторы и события не могут быть обобщенными, но могут использовать в обобщенном классе с параметрами обобщенного типа этого класса
+к обобщенному методу нельзя применять модификатор extern
+типы указателей нельзя использовать в аргументах типа
+если в обобщенном классе есть поле static то оно свое для каждого типа класса(cl<int> cl<string>-разные, cl<string> cl<string> -одно поле)
+
+
 
 class Transaction<T> where T: Account
 {
@@ -1657,7 +2734,7 @@ public streamWriter(string путь,bool append)//если true то в конец
 
 
 #BinaryReader #BinaryWriter
-
+для работы с байтами, лучше использовать как оболочку для дрягого байтового потока
 
 void write
 --
@@ -1757,12 +2834,100 @@ File.ReadAllText(HostingEnvironment.MapPath($"~/tsqlscripts/{i}.txt"))
 
 
 
+#* #unsafe #указатель
+
+тип * название;
+указатель может указывать на что угодно
+int * p,q ;//создание 2х указателей
+&val;//получить адрес
+*ref;//получить значение по указателю
+
+unsafe- пометить блок кода как не безопасный(можно применять указатели)
+unsafe static void Main(){}
+
+#fixed
+fixed(int*=&val){
+//val не будет удалена сборщиком мусора КАК МИНИМУМ пока не выполнится блок кода
+}
+
+fixed тип имя_буфера[размер]
+создание массива фиксированного значения, можно указать только в структуре
+
+
+арифметика с указателями
+++ -- + - 
+int* p;
+p++;//увеличит на 4 тк int-4байта
+
+если переменные связанны(допустим указатели на разные участки массива) то их можно сравнивать(и получить результат который что то будет значить)
+== < >
+
+int[] mass;
+//одно и тоже
+int*p=mass;
+int*q=mass[0];
+
+p[1], p[10] //работает тк указывает на массив
+
+
+указатель на указатель
+int** p;//**p получить значение
+
+массивы
+int*[]mass=new int*[3];
+mass[0]=;//установить значение
+*mass[0];//получить значение
+
+
+
+
+#sizeof
+sizeof(type)//узнать размер типа данных
+
+#stackalloc
+только при объявлении локальных переменных
+память выделяется из кучи
+выделенная память таким обрзом не очищается сборщиком мусора
+тип *p=stackalloc тип[размер]
 
 
 
 
 
 
+
+
+#inthernet #HttpWebRequest #parse
+#HttpWebRequest req = (HttpWebRequest) WebRequest.Create("http://www.McGraw-Hill.com");
+#HttpWebResponse resp = (HttpWebResponse) req.GetResponse();
+Stream istrm = resp.GetResponseStream();
+//получаем html страницы
+resp.Close();
+//---короче
+// Сначала создать объект запроса типа WebRequest по указанному URI.
+WebRequest req = WebRequest.Create("http://www.McGraw-Hill.com");
+// Затем отправить сформированный запрос и получить на него ответ.
+WebResponse resp = req.GetResponse();
+
+#WebClient лучше использовать вместо Request Response если нужно просто получить инфу по ссылке и все
+public byte[] DownloadData(string address) //получить результат по ссылке
+public string DownloadString(string address) //результат по ссылке
+public Stream OpenRead(Uri address) //поток четения
+public Stream OpenWrite(Uri address) 
+DownloadFile(uri, fname); //по ссылке записать все в файл, можно в ссылке указать как код на страницу так и код на файл
+
+
+Uri sample = new Uri("http://HerbSchildt.com/somefile.txt?SomeQuery");
+Uri-
+public string Host { get; } Получает имя сервера
+public string LocalPath { get; } Получает локальный путь к файлу
+public string. PathAndQuery { get; }
+public int Port { get; }
+Получает абсолютный путь и строку запроса
+Получает номер порта для указанного протокола. Так, для протокола HTTP номер порта
+равен 80
+public string Query { get; } Получает строку запроса
+public string Scheme { get; } Получает протокол
 
 
 
@@ -2312,7 +3477,7 @@ ActionName
 хэш пароля
 https://ru.stackoverflow.com/questions/545944/%D0%9A%D0%B0%D0%BA-%D0%B7%D0%B0%D1%88%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D0%B0%D1%80%D0%BE%D0%BB%D0%B8
 
-фильтры атрибуты для методов
+фильтры атрибуты для методов #attr
 RequireHttps-заставляет использовать https
 [OutputCache (Duration=360)]-кэширует данные 360 секунд для увеличение работы с бд
 ValidateAntiforgeryToken- применять к методам авторизации регистрации
@@ -2336,16 +3501,7 @@ return Content(ex.Message);
 string controller_name = ViewContext.RequestContext.RouteData.Values["controller"].ToString(); ;
 
 
-#linq #join
-var phones = db.Phones.Join(db.Companies, // второй набор
-        p => p.CompanyId, // свойство-селектор объекта из первого набора
-        c => c.Id, // свойство-селектор объекта из второго набора
-        (p, c) => new // результат
-        {
-            Name=p.Name, 
-            Company = c.Name, 
-            Price=p.Price
-        });
+
 
 
 Когда следует использовать AsNoTracking? Если нам надо просто вывести данные для отображения без необходимости их дальнейшего обновления, тогда как раз тот случай, когда мы можем использовать AsNoTracking.
@@ -2357,32 +3513,6 @@ db.SaveChanges();
 
 
 
-Объединение Union()   Пересечение Intersect()  Разность  Except
-https://metanit.com/sharp/entityframework/4.6.php
-
-
-
-
-
-
-
-
-#TODO #linq #where #PredicateBuilder #Predicate #or
-
-var query = collection.Where( c => c.A == 1 || c.B == 2 );
-//ниже эквивалент
-есть 2 версии обе с nuget
-//using Mono.Linq.Expressions;  - не разобрался как работать
-using Binbin.Linq;   - ставить не последние версии тк они не ставятся на .net framework 4.5-6, использование как ниже
-
-var predicate = PredicateBuilder.False<Foo>();
- predicate = predicate.Or( f => f.A == 1 );
- if (allowB)
- {
-    predicate = predicate.Or( f => f.B == 1 );
- }
-
- var query = collection.Where( predicate );
 
 
 
@@ -4373,6 +5503,11 @@ BEGIN TRANSACTION
 UPDATE user_account SET balance=balance-100 WHERE account_id=1 /* Снимаем деньги со счета,ID которого равен 1 */
 UPDATE user_account SET balance=balance+100 WHERE account_id=2 /* И переводим эти деньги на счет, ID которого равен 2 */
 COMMIT
+
+
+
+
+
 
 
 

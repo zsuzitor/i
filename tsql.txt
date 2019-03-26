@@ -297,7 +297,7 @@ FROM Products
 
 
 #DISTINCT
-убирает #дубликаты
+убирает #дубликаты #повтор
 SELECT DISTINCT Manufacturer FROM Products
 
 
@@ -835,6 +835,11 @@ SELECT ISDATE('SQL')            -- 0
 
 
 
+#comand
+
+
+sp_help table_name
+получить полную информацию по таблице, индексы столбцы ограничения и тд/не для временных таблиц
 
 
 
