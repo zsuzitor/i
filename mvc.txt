@@ -228,6 +228,7 @@ b perem;perem.val=10;//не вызывая конструктор
 
 
 #class  
+полностью хранится в куче(то что объявлено в классе тоже)
 
 если класс наследуется , при вызове конструктора вызывается сначала конструктор родителя(даже если не применили слово #base)
 public class cl{
@@ -263,6 +264,51 @@ cl perem=new cl{val=10};
 
 
 
+
+
+
+#checked  #unchecked
+исключения при переполнении
+что из этого используется по умолчанию нельзя сказать тк зависит от компилятора
+существует 2 формы
+checked((byte)(int_1*int_2))
+checked{(byte)(int_1*int_2)}
+
+
+
+
+#get #set
+нельзя просто объявить в методе
+можно в классе, интерфейсе
+public int Response { get; }//при таком объявлении обязательно раскрывать
+public int Response { get;private set; }//но то что в скобках может быть только более ограничивающим
+public int Response { get{
+return val;
+}
+set{
+val=value;
+} }
+
+
+#types
+
+
+
+#object
+главный тип, от него наследуется все остальные
+
+#упаковка #распаковка
+в объект типа object можем упаковать объект любого другого типа, и распаковать обратно в тот же тип или в тип родителя того класса который упаковывали
+object tt=new object();
+a tta=new a();
+a ttb=new b();
+tt=ttb;
+tta=(a)tt;
+
+
+
+
+
 #enum
 
 [:int]- тип перечисления
@@ -279,19 +325,10 @@ foreach (RolesProject roleName in (RolesProject[])Enum.GetValues(typeof(RolesPro
 
 
 
-#checked  #unchecked
-исключения при переполнении
-что из этого используется по умолчанию нельзя сказать тк зависит от компилятора
-существует 2 формы
-checked((byte)(int_1*int_2))
-checked{(byte)(int_1*int_2)}
 
 
 
 
-
-
-#types
 
 
 #dynamic
@@ -322,6 +359,25 @@ static MaxValue
 
 
 #array
+Char[]off=new Char[]{a,s}
+Char[]off={a,s}
+Int[,]cf={{0,3},{}}
+char [] vowels = {'а', 'е', 'i', 'о', 'u'};
+int[][] matrix = 
+{ 
+new int [] {О, 1, 2}, 
+new int [] { 3, 4, 5} }
+new []{1,2 }
+
+длина массива #Length 
+размерность массива #Rank
+#Createinstance динамическое создание массива
+#GetValue #SetValue извлечение и установка элементов независимо от типа массива
+#GetLength
+matrix.GetLength(0); //Метод GetLength массива возвращает длину для заданного измерения (начиная с 0):
+
+
+
 см также -collection
 IsFixedSize - если фиксорованного размера
 IsSynchronized - если можно использовать в многопоточной среде
@@ -606,7 +662,7 @@ Remove
 
 
 #BitArray
-хранит биты а не объекты
+хранит биты а не объекты, для хранения bool как 1 бит а не 1 байт
 
 
 
@@ -629,9 +685,43 @@ Remove
 
 
 
+#bool
+хранится как 1 байт
+для хранения битом #BitArray
 
 
 
+#int
+
+
+
+
+#double
+#float
+
+const -
+Epsilon
+
+
+double.Negativeinfinity
+double.NaN
+#NaN
+Not а Number - не число
++оо, -оо и -0
+
+
+
+Console.WriteLine ( 1.0 /О.О);// Бесконечность 
+Console.WriteLine (-1.0 /О.О);// Минус бесконечность 
+Console.WriteLine ( 1.0 / -0.0); // Минус бесконечность 
+Console.WriteLine (- 1.0 / -0.0); // Бесконечность
+Console.Write (О.О/ О.О); //NaN
+Console.Write ( (1.0 / О.О) - (1.0 /О.О)); //NaN
+
+NaN==NaN;//false
+object.Equals (0.0/0.0, double.NaN);//true
+для проверки на NaN
+(fload|double).IsNaN();
 
 
 
@@ -640,7 +730,15 @@ Remove
 не изменяемый(при попытыке изменения создает новую строку)
 
 #$ $"text{val}"
+#интерполяция строки($"")
+
 #@ @"\text"-> "\\text"
+если применять вместе то в порядке
+$@"ffg"
+скобки дублировать
+$@"she{{x1}}"
+
+
 
 Concat
 IndexOf
@@ -737,6 +835,18 @@ null||null -null
 
 
 
+#params #param #method
+void func(params int[] ints){}
+func();
+func(1);
+func(1,2);
+func(new int[]{1,2,3});
+
+
+#необязательные #параметры
+void func(int gg,int asd=10){}
+необязательные параметры(asd) должны быть указаны в виде константного выражения или конструктора без параметров для типа значения.  не могут быть помечены посредством ref или out.
+
 
 
 
@@ -745,7 +855,7 @@ null||null -null
 
 Tuple<t1,t2,t3>
 static Create
-
+Tuple<string, string, string, string> t= Tuple.Create("", "", "", "");
 
 
 
@@ -1273,6 +1383,7 @@ Interlocked.Exchange(ref mylnt, 83);
 
 
 #Monitor
+Monitor.Enter(obj);
 у monitor есть метод TryEnter-- он заставляет ждать определенное время а не бесконечность
 
 //эти методы могут вызываться только из заблокированного фрагмента кода(блок lock например)
@@ -1438,8 +1549,10 @@ attr
 
 
 
+#Lazy
 
-
+Lazy<Library> library = new Lazy<Library>();
+library.Value;//создаст объект только тут!
 
 
 
@@ -1452,6 +1565,9 @@ attr
 
 
 #рефлексия #reflection
+
+#Nameof - строковое представление метода
+WriteLine(nameof(person.Address.ZipCode)); // prints "ZipCode"
 
 #typeof #GetType
 получить тип
@@ -1499,6 +1615,7 @@ var mth=GetMethods([BindingFlags fl1|BindingFlags f2|...]);//fl-перечисление кот
 foreach(var i in mth){
 //вызов метода
 i.Invoke(reflect_obj,args)//reflect_obj - объект для которого будет вызываться метод
+i.Invoke(null,args)//reflect_obj - static метод
 i.ReturnType.Name
 i.Name
 var prms=i.GetParameters();
@@ -1702,9 +1819,11 @@ using(var tmp=){
 }//вызовется метод disposing
 
 
+#::
 если есть одноименный класс(например) в нескольких пространствах имен и мы подключаем оба то можно устранить неопределенность
 name_namespace1::class_name val=new name_namespace1::class_name ();
 //из глобального пространства имен
+#global
 global::class_name val=new global::class_name ();
 
 
@@ -2210,7 +2329,7 @@ return new Тип_в_который_надо_преобразовать(param);
 
 
 #интерфесы #interface 
-все без уровня доступа
+все внутри без уровня доступа
 interface IName{
 //свойство не будет самореализуемым, get\set тоже без уровня доступа
 int nm{
@@ -2237,7 +2356,9 @@ g_.methodname1();//нельзя, надо сначала упаковать
 g1.methodname1();
 
 
-
+class g: IName{
+void virtual methodname1(){}//разрешаем переопределение для наследников
+}
 
 
 #ковариантность #контрвариантность
@@ -2376,6 +2497,7 @@ OnCompleted - указывает на то что наблюдаемый объект прекратил отправку сообщени
 
 
 #ref #out
+таким модификатором нельзя пометить необязательные параметры
 
 ref local
 
@@ -2566,6 +2688,14 @@ https://metanit.com/sharp/tutorial/2.19.php
 <div id="main_tag_one_img_id_@a.Id" class="class_image_standart" style="background:url( data:image/jpeg;base64,@Convert.ToBase64String(a.Data)) no-repeat;background-size: 100% 100%;"> 
 </div>
 
+растянет не криво, но только по 1 краю(пропорции остаются)
+<div id="main_tag_one_img_id_@a.Id" class="class_image_standart" style="background:url( data:image/jpeg;base64,@Convert.ToBase64String(a.Data)) no-repeat"> 
+</div>
+.class_image_standart{
+    background-position: center;
+    background-size: contain;
+}
+
 
 загрузка картинок на сервер сюда код формы метод для преобразования картинок в байты и тд
 @using (Html.BeginForm("Add_new_image", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -2576,6 +2706,45 @@ https://metanit.com/sharp/tutorial/2.19.php
                         <input type="file" name="uploadImage[0]" />
                             <input type="submit" class="submit" value="Поделиться" />
                     }
+
+
+
+#ajax
+
+var files;
+    $('input[type=file]').change(function () {
+        files = this.files;
+    });
+var data = new FormData();
+        $.each(files, function (key, value) {
+            data.append('uploadImage', value);
+        });
+
+        data.append('obj.Text','this is test text');
+
+        $.ajax({
+            url: '/Physic/Create',
+            type: 'POST',
+            data: data,
+            cache: false,
+            dataType: 'json',
+            processData: false, // Не обрабатываем файлы (Don't process the files)
+            contentType: false, // Так jQuery скажет серверу что это строковой запрос
+            success: function (respond, textStatus, jqXHR) {
+
+                var ttt = 10;
+            }
+        });
+
+
+
+
+
+
+
+
+
+
 
  public ActionResult AddMemePerson(string id_user, HttpPostedFileBase[] uploadImage,string text)
 {  
@@ -2619,6 +2788,12 @@ public static List<byte[]> Get_photo_post(HttpPostedFileBase[] uploadImage)
 
             return res;
         }
+
+
+
+
+
+
 
 
 #uploadfile #upload #file
@@ -2760,7 +2935,7 @@ StringWriter()//не указываем строку в которой будет хранить но можно ее получить
 конструкторы
 FileStream(string путь, FileMode режим)
 FileStream(string путь, FileMode режим, FileAccess доступ) - ограничивает доступ, только для чтения и тд
-
+new FileStream(FilePathOld, FileMode.Open, FileAccess.Read, FileShare.Read)//если нужно читать в нескольких потоках
 
 
 #File
@@ -4148,7 +4323,8 @@ public int? TeamId { get; set; }
 
 
 
-настройка связей с Fluent API
+настройка связей с #Fluent #API
+#one #to #many #многие #многим #один
 TODO
 
 
@@ -4194,7 +4370,7 @@ public class StudentAddress
 
 
 
-1 ко многим 
+#1 ко многим 
 
 https://metanit.com/sharp/entityframework/3.3.php
 если не указать внешний ключ как ?(nullable) то создается cascade(удалении записей связанных)
@@ -4262,7 +4438,57 @@ public class Player
                 .MapRightKey("TeamId")//id 2
                 .ToTable("PlayerTeam"));//название таблицы
             base.OnModelCreating(modelBuilder);//инициализация что бы роли и все остальное добавилось нормально
+
+
+//многие ко многим без лишнего
+modelBuilder.Entity<Phone>()
+    .HasMany(p => p.Companies)
+    .WithMany(c => c.Phones);
+
+
+//один-к нулю или к одному
+//Phone -имеет,  Company- может не иметь
+modelBuilder.Entity<Phone>()
+        .HasRequired(c => c.Company)
+        .WithOptional(c => c.BestSeller);
+
+//один к одному
+modelBuilder.Entity<Phone>()
+    .HasRequired(c => c.Company)
+    .WithRequiredPrincipal(c => c.BestSeller);//устанавливает Phone в качестве основной
+
+
+//один ко многим
+modelBuilder.Entity<Company>()
+    .HasMany(p => p.Phones)
+    .WithRequired(p=>p.Company);
+
+
+
+modelBuilder.Entity<Company>()
+    .HasMany(p => p.Phones)
+    .WithRequired(p=>p.Company)
+    .HasForeignKey(s=>s.Manufacturer)//явно указываем внешний ключ для связи с Company
+.WillCascadeOnDelete(false);//отключаем каскадное удаление
+
+//отключение каскадного удаления при отдельных видах отношений
+modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+
+#HasRequired()//обязательно должно быть указано
+#WithOptional()//не обязательная связь
+#WithRequiredPrincipal()//обязательная связь,устанавливает одну из сущностей в качестве основной
+#HasMany()//множественную связь
+#WithMany()//обратная множественная связь
+#HasForeignKey() //явно указываем внешний ключ для связи 
+#WillCascadeOnDelete(false) //отключаем каскадное удаление
         }
+
+
+
+
+
+
 
 
 закрытие protected override void Dispose(bool disposing)
@@ -4763,7 +4989,34 @@ https://sqlserverbuilds.blogspot.com/2014/01/sql-server-internal-database-versio
  #block #db #ef //#TODO
 блокировка записи бд для редактирования и удаления  https://metanit.com/sharp/entityframework/3.10.php
 
-транзакции https://metanit.com/sharp/entityframework/3.11.php
+#транзакции #tranzaction #transaction
+
+using(UserContext db = new UserContext())
+{
+using (var transaction = db.Database.BeginTransaction())
+    {
+try
+        {
+            
+            db.SaveChanges();
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+        }
+
+}
+}
+
+
+
+
+
+
+
+
+
 
 миграция https://metanit.com/sharp/entityframework/3.12.php
 

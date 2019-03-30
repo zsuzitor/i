@@ -44,6 +44,89 @@ GROUP BY Customers.Id, Customers.FirstName;
 
 
 
+#create #table
+#создание обычной #таблицы  #таблица
+
+CREATE TABLE Accounts (FirstName NVARCHAR NOT NULL, Age INT NOT NULL)
+
+
+#создание #временной таблицы ## 
+
+существуют на протяжении сессии базы данных
+хранятся в таблице tempdb
+CREATE TABLE #Accounts ( CreatedAt DATE, Balance MONEY)
+--работа как с обычной
+INSERT INTO #Accounts VALUES(@date, @sum)
+
+
+
+можно удалить через DROP TABLE
+
+
+#создание #глобальной #временной таблицы  ###
+
+
+
+
+#WITH #Производные таблицы
+хранятся в оперативной памяти и существуют только во время первого выполнения запроса, который представляет эту таблицу.
+WITH OrdersInfo AS
+(
+    SELECT ProductId, ...
+)
+SELECT * FROM OrdersInfo -- здесь нормально
+SELECT * FROM OrdersInfo -- здесь ошибка
+
+
+
+
+
+#create #view
+Представления могут иметь не более 1024 столбцов и могут обращать не более чем к 256 таблицам.
+CREATE VIEW название_представления [(столбец_1, столбец_2, ....)]
+AS выражение_SELECT
+
+CREATE VIEW OrdersProductsCustomers AS SELECT Orders.CreatedAt AS OrderDate, ...
+CREATE VIEW OrdersProductsCustomers2 (OrderDate, Customer,Product) AS SELECT ...
+
+SELECT * FROM OrdersProductsCustomers
+
+Команда SELECT, используемая в представлении, не может включать выражения INTO или ORDER BY (за исключением тех случаев, когда также применяется выражение TOP или OFFSET). Если же необходима сортировка данных в представлении, то выражение ORDER BY применяется в команде SELECT, которая извлекает данные из представления.
+
+#ALTER VIEW
+изменение представления
+ALTER VIEW название_представления [(столбец_1, столбец_2, ....)] AS выражение_SELECT
+#DROP
+удаление представления
+при удалении таблиц нужно удалить и представления для удаляемых таблиц
+DROP VIEW OrdersProductsCustomers
+
+
+
+
+
+можно создать локальную таблицу с помощью declare
+
+
+
+
+
+
+представления могут быть #обновляемыми  #updatable
+В таких представлениях мы можем изменить или удалить строки или добавить в них новые строки
+команда SELECT в updatable представлении не может содержать:
+TOP
+DISTINCT
+UNION
+JOIN
+агрегатные функции типа COUNT или MAX
+GROUP BY и HAVING
+подзапросы
+производные столбцы или столбцы, которые вычисляются на основании нескольких значений
+обращения одновременно к нескольким таблицам
+добавляем данные(при добавлении фактически будет добавлен объект в таблицу на которую ссылается представление)
+INSERT INTO ProductView (Product, Manufacturer, Price) VALUES('Nokia 8', 'HDC Global', 18000)
+
 
 
 
@@ -262,7 +345,17 @@ INSERT Products VALUES ('iPhone 7', 'Apple', DEFAULT, 52000)
 --указываем столбцы и порядок
 INSERT INTO Products (ProductName, Price, Manufacturer) VALUES ('iPhone 6S', 41000, 'Apple')
 
+#global
+@@IDENTITY - глобальная переменная, после вставки записи в таблице в ней находится id новой записи
 
+#inserted
+возможно доступна только в триггерах(пока хз)
+при добавлении или изменении данные(все столбцы вставленных данных) сохраняются в промежуточную таблицу inserted. Она создается автоматически. 
+SELECT Id FROM inserted
+
+#DELETED #TODO
+возможно доступна только в триггерах(пока хз)
+"хранит те же строки, но до обновления(inserted)"
 
 
 
@@ -290,6 +383,7 @@ FROM Products
 #SELECT #INTO #SELECTINTO
  в базе данных будет создана еще одна таблица ProductSummary
 ProductSummary не должна существовать в базе данных.  потом ее можно использовать как обычную таблицу
+можно выгружать в временную таблицу через #
 SELECT *
 INTO ProductSummary
 FROM Products
@@ -822,6 +916,72 @@ SELECT ISDATE('SQL')            -- 0
 
 
 
+#CONVERT 
+тоже что и cast но с дополнительным форматированием
+	
+CONVERT(тип_данных, выражение [, стиль]) --необязательный числовой параметр для форматирования
+CONVERT(nvarchar, CreatedAt, 3)
+
+
+#CAST
+
+преобразует выражение одного типа к другому
+CAST(выражение AS тип_данных)
+SELECT Id, CAST(CreatedAtDate AS nvarchar)
+
+
+#TRY_CONVERT
+CAST и CONVERT выбрасывают исключения если тип привести нельзя, эта штука возвращает null
+SELECT TRY_CONVERT(int, 'sql')      -- NULL
+
+
+#STR(float [, length [,decimal]]): преобразует число в строку. Второй параметр указывает на длину строки, а третий - сколько знаков в дробной части числа надо оставлять
+
+#CHAR(int): преобразует числовой код ASCII в символ. Нередко используется для тех ситуаций, когда необходим символ, который нельзя ввести с клавиатуры
+
+#ASCII(char): преобразует символ в числовой код ASCII
+
+#NCHAR(int): преобразует числовой код UNICODE в символ
+
+#UNICODE(char): преобразует символ в числовой код UNICODE
+
+
+
+#CASE #else #WHEN #THEN #switch
+CASE выражение
+    WHEN значение_1 THEN результат_1
+END
+
+
+SELECT ProductName, Manufacturer,
+    CASE ProductCount
+        WHEN 1 THEN 'Товар заканчивается'
+        WHEN 2 THEN 'Мало товара'
+ ELSE 'Много товара'
+    END AS EvaluateCount
+FROM Products
+
+другая форма
+CASE
+    WHEN выражение_1 THEN результат_1
+
+CASE
+        WHEN Price > 50000 THEN 'Категория A'
+
+
+
+#if #else
+IF условие
+    {инструкция|BEGIN...END}
+[ELSE
+    {инструкция|BEGIN...END}]
+
+IF DATEDIFF(day, @lastDate, GETDATE()) > 10
+--если тут должно быть несколько строк, то открываем блок ключевым словом - BEGIN
+    PRINT 'За последние десять дней не было заказов'
+--если тут должно быть несколько строк, то закрываем блок ключевым словом -  END;
+ELSE
+    PRINT 'За последние десять дней были заказы'
 
 
 
@@ -829,9 +989,202 @@ SELECT ISDATE('SQL')            -- 0
 
 
 
+#IIF
+
+если ProductCount>3 то str1 иначе str2
+IIF(ProductCount>3, 'str1', 'str2')
 
 
 
+#while  #циклы
+
+
+WHILE условие
+    {инструкция|BEGIN...END}
+
+WHILE @number > 0
+    BEGIN
+        SET @factorial = @factorial * @number
+        SET @number = @number - 1
+    END;
+
+
+
+#BREAK  #CONTINUE
+работают так же как и везде
+BREAK;
+CONTINUE;
+
+
+
+
+#NEWID
+Для генерации объекта UNIQUEIDENTIFIER, то есть некоторого уникального значения(рандом а не инкримент), используется функция NEWID()
+CREATE TABLE Clients
+(
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+)
+при insert into также пропускаем Id
+
+
+#ISNULL
+ISNULL(выражение, значение)
+--если Phone==null то вернет 2 параметр
+SELECT ISNULL(Phone, 'не определено') AS Phone,
+
+
+
+#COALESCE
+вернет первое которое не null
+COALESCE(выражение_1, выражение_2, выражение_N)
+
+
+
+#переменная #DECLARE #SET
+
+DECLARE @название_переменной тип_данных
+DECLARE @name NVARCHAR(20), @age INT
+SET @name='Tom';
+
+
+можно инициализировать результатом запроса
+SELECT @переменная_1 = спецификация_столбца_1,
+SELECT @minPrice=MIN(Price), @maxPrice = MAX(Price) FROM Products
+
+
+
+таблица
+DECLARE @табличная_переменная TABLE
+(столбец_1 тип_данных [атрибуты_столбца], 
+ столбец_2 тип_данных [атрибуты_столбца] ....)
+ [атрибуты_таблицы]
+
+DECLARE @ABrends TABLE (ProductId INT,  ProductName NVARCHAR(20))
+--далее можно работать как с обычной таблицей
+Они живут в пределах одного пакета, после завершения работы которого они удаляются. То есть они носят временный характер, и физически их данные нигде не хранятся на жестком диске.
+
+
+
+
+
+#PRINT  #вывод
+вывод сообщения пользователю
+PRINT 'Name: ' + @name;
+тоже отобразит но в виде таблицы
+SELECT @name, @age;
+
+
+
+
+
+
+
+#TRY #CATCH #BEGIN
+
+BEGIN TRY
+    инструкции
+END TRY
+BEGIN CATCH
+    инструкции
+END CATCH
+
+В блоке CATCH для обаботки ошибки мы можем использовать ряд функций:
+#ERROR_NUMBER(): возвращает номер ошибки
+#ERROR_MESSAGE(): возвращает сообщение об ошибке
+#ERROR_SEVERITY(): возвращает степень серьезности ошибки. Степень серьезности представляет числовое значение. И если оно равно 10 и меньше, то такая ошибка рассматривается как предупреждение и не обрабатывается конструкцией TRY...CATCH. Если же это значение равно 20 и выше, то такая ошибка приводит к закрытию подключения к базе данных, если она не обрабатывается конструкцией TRY...CATCH.
+#ERROR_STATE(): возвращает состояние ошибки
+
+
+
+
+
+
+
+#Хранимые #процедуры #PROCEDURE  #PROC
+ выполняются быстрее, чем обычные SQL-инструкции. Все потому что код процедур компилируется один раз при первом ее запуске, а затем сохраняется в скомпилированной форме.
+CREATE PROCEDURE или CREATE PROC.
+create должна вызываться в отдельном пакете(между GO)
+
+CREATE PROCEDURE ProductSummary AS
+--для отделения можно указать - BEGIN
+SELECT ProductName AS Product, Manufacturer, Price
+FROM Products
+--если указали BEGIN указываем -END;
+
+Для выполнения хранимой процедуры вызывается команда EXEC или EXECUTE:
+EXEC ProductSummary
+удаление
+DROP PROCEDURE ProductSummary
+
+
+--процедура будет заносить данные в таблицу
+CREATE PROCEDURE AddProduct
+    @name NVARCHAR(20),
+    @manufacturer NVARCHAR(20),
+    @count INT,-- @count INT=1, -- необязательный параметр, помещать после обязательных
+    @price MONEY
+AS
+INSERT INTO Products(ProductName, Manufacturer, ProductCount, Price) 
+VALUES(@name, @manufacturer, @count, @price)
+--выполняем процедуру для занесения данных,значения передаются параметрам процедуры по позиции.
+EXEC AddProduct @prodName, @company, @prodCount, @price
+EXEC AddProduct 'Galaxy C7', 'Samsung', 5, 22000
+--можно по имени
+EXEC AddProduct @name = @prodName,....
+
+
+#OUTPUT
+для выходных параметров
+CREATE PROCEDURE GetPriceStats
+    @minPrice MONEY OUTPUT,
+    @maxPrice MONEY OUTPUT
+AS
+SELECT @minPrice = MIN(Price),  @maxPrice = MAX(Price)
+FROM Products
+--вызов с возвратом
+EXEC GetPriceStats @minPrice OUTPUT, @maxPrice OUTPUT
+
+
+
+#RETURN
+CREATE PROCEDURE GetAvgPrice AS
+DECLARE @avgPrice MONEY
+SELECT @avgPrice = AVG(Price)
+FROM Products
+RETURN @avgPrice;
+
+
+
+
+
+
+
+#trigger #Триггеры
+аналог события
+
+CREATE TRIGGER имя_триггера
+ON {имя_таблицы | имя_представления}
+{AFTER | INSTEAD OF} [INSERT | UPDATE | DELETE]
+AS выражения_sql
+
+ тип триггера
+AFTER: выполняется после выполнения действия. Определяется только для таблиц., для этого типа можно вешать сразу на несколько операций(через запятую insert,update)
+INSTEAD OF: выполняется вместо действия (то есть по сути действие - добавление, изменение или удаление - вообще не выполняется). Определяется для таблиц и представлений
+
+
+CREATE TRIGGER Products_INSERT_UPDATE
+ON Products
+AFTER INSERT, UPDATE
+AS
+UPDATE Products
+SET Price = Price + Price * 0.38
+WHERE Id = (SELECT Id FROM inserted)--#inserted
+
+
+
+DROP TRIGGER Products_INSERT_UPDATE
+#DISABLE TRIGGER Products_INSERT_UPDATE ON Products--отключаем триггер
+ENABLE TRIGGER Products_INSERT_UPDATE ON Products--включаем триггер
 
 
 
