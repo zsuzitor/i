@@ -64,7 +64,7 @@ INSERT INTO #Accounts VALUES(@date, @sum)
 
 
 #создание #глобальной #временной таблицы  ###
-
+CREATE TABLE ##Accounts ( CreatedAt DATE, Balance MONEY)
 
 
 
@@ -206,7 +206,7 @@ CREATE TABLE Customers
     Id INT PRIMARY KEY IDENTITY,
     Age INT DEFAULT 18 CHECK(Age >0 AND Age < 100),
     Email VARCHAR(30) UNIQUE CHECK(Email !='')
---аналог для таблицы
+--аналог для таблицы, пишется не у поля а после всех столбцов
 CHECK((Age >0 AND Age<100) AND (Email !='') AND (Phone !=''))
 
 );
@@ -331,7 +331,7 @@ ALTER TABLE Customers WITH NOCHECK ADD CHECK (Age > 21);
 выполнение нескольких команд в 1 скрипте
 
 команда1
-GO
+#GO
 команда2
 
 
