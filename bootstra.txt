@@ -40,7 +40,7 @@ float-left выравниваем по краю и вроде бы становится обтекаемой
 
 
 {
-#button #кнопки
+#button #кнопки #btn
 
 
 <!-- Standard button -->

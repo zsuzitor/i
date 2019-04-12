@@ -23,6 +23,9 @@ https://metanit.com/sharp/tutorial/7.5.php
 @Html.AntiForgeryToken()
 
 
+ToFrequency -?
+FrornFrequency -?
+
 
 #TODO
 
@@ -143,11 +146,20 @@ constructor() {
 
 
 
+#int #приведение #parseInt
+
+var num = parseInt("a4r t 4r43 43a b345b 123 cc gaeg4".replace(/\D+/g,"")); 
+parseInt- парсит строку слева направо преобразуя по символу, если находит не цифру то заканчивает
 
 
 
 
 
+
+#exist #существует #элемент
+
+проверить существует ли элемент jquery $("div").is(".lBlock")
+проверить существует ли элемент jquery $(".class").is("#id")
 
 
 
@@ -217,7 +229,7 @@ div1-width 70%
 в структуре нельзя создать конструктор по умолчанию(он генерируется системой В ЛЮБОМ СЛУЧАЕ даже если мы определим другие, в отличии от класса)
 если в конструкторе не инициализировать поля то комплятор НЕ сгенерирует им значения, а в классе сгенерирует
 в структуре нельзя инициализировать перменные в месте их объявления
-в структ можно засунуть индексатор и статик конструктор
+в структуре можно засунуть индексатор и статик конструктор
 не ссылочный тип данных
 не наследуется от класса и от структур и не может быть родителем для них, но может от интерфейса
 нельзя определять деструкторы
@@ -249,6 +261,23 @@ public x():this(){//передаем в другой конструктор x
 
 
 
+???подкласс может иметь меньшую доступность, чем базовый класс, но не большую
+public class TopLevel 
+{ 
+puЬlic class Nested { / / Вложенный класс 
+puЫic enum Color { Red, Blue, Tan } / / Вложенное  перечисление 
+Вложенный тип
+}
+Он может получать доступ к закрытым членам включающего типа и ко всему остальному, к чему имеет доступ включающий тип.
+• Он может быть объявлен с полным диапазоном модификаторов доступа, а не только public и internal.
+• Стандартной доступностью вложенного типа является private, а не internal.
+• Доступ к вложенному типу извне требует указания имени включающего типа (как при обращении к статическим членам).
+Например, для доступа к члену Color. Red извне класса 
+TopLevel необходимо записать так: 
+TopLevel.Color color = TopLevel.Color.Red; 
+Все типы могут быть вложенными, однако содержать вложен 
+ные типы могут только классы и структуры.
+
 
 
 
@@ -276,7 +305,7 @@ class Subclass2 : Subclass1 {
 только для чтения, константа, можно задать только при объявлении
 
 #volatile
-значение поле может быть изменено параллельно выполняющимися потоками
+значение поля может быть изменено параллельно выполняющимися потоками
 
 #extern
 1-метод предоставляется внешним кодом
@@ -295,6 +324,30 @@ class Subclass2 : Subclass1 {
 существует 2 формы
 checked((byte)(int_1*int_2))
 checked{(byte)(int_1*int_2)}
+
+
+
+
+
+
+
+#case #switch
+
+goto case х (переход на другую конструкцию case); 
+ goto defaul t
+switch 
+{ 
+case 13: 
+//если тут нет кода то можно пропустить break; и 2 case объединятся
+case 12: 
+case
+}
+
+
+#if #else
+
+
+
 
 
 
@@ -328,7 +381,7 @@ a tta=new a();
 a ttb=new b();
 tt=ttb;
 tta=(a)tt;
-при упаковке ссылка object == той ссылке которую упаковали
+при упаковке ссылка object == той ссылке которую упаковали(если упаковывали ссылочный тип)
 
 
 
@@ -337,6 +390,7 @@ tta=(a)tt;
 
 [:int]- тип перечисления
 enum apple[:int]{val1,val2,val3,val4=10}
+enum apple:int{val1,val2,val3,val4=10}
 (int)apple.val1;//0
 (int)apple.val4;//10
 
@@ -346,11 +400,33 @@ console.writeline(i);//val1...
 foreach (RolesProject roleName in (RolesProject[])Enum.GetValues(typeof(RolesProject)))
                 var role = new IdentityRole { Name = roleName.ToString() };
 
+BorderSide Ь = (BorderSide) 12345; //даже если в BorderSide нет такого числа
+Console.WriteLine (Ь)//12345
 
 
 
 
+[Flags] 
+public enum BorderSides 
+{ 
+None= O, 
+Left=l, Right=2, Тор=4, Bottom=8, 
+LeftRiqht = Left | Riqht, 
+TopBottom = Тор | Bottom, 
+All = LeftRiqht | TopBottom
+}
+BorderSides leftRight = BorderSides.Left | BorderSides.Right; 
+if ((leftRight & BorderSides.Left) ! = О) 
+Console.WriteLine ("Includes Left"); //Includes Left 
+string formatted = leftRight.ToString() ;//"Left, Right" 
+BorderSides s = BorderSides.Left; 
+s |= BorderSides.Right; 
+Console.WriteLine (s == leftRight); / / True
 
+то что применяется к enum
++= -
+! = < > <= >= + 
+++ sizeof
 
 
 
@@ -366,7 +442,7 @@ void meth(object o);
 void meth(dynamic o);//перегрузить не получится, тк  dynamic считается object
 
 
-#Single представляет тип float
+#Single представляет тип #float
 
 
 
@@ -426,6 +502,13 @@ Exist
 #collection #array #list #interface
 
 
+#Необобщенное в #обобщенное var classicList = new System.Collections.ArrayList(); 
+classicList.AddRange ( new int[] { 3, 4, 5} ) ; 
+IEnumeraЫe<int> sequencel = classicList. #Cast<int>()
+
+
+
+
 инициализация
 List<char> lst = new List<char>() { 'С', 'А', 'Е', 'В', 'D', 'F' };
 lst1=new SortedList<int, string>() { {1, "один"}, {2, "два" }, {3, "три"} };
@@ -473,7 +556,7 @@ Current
 
 
 
-#IQueryable
+#IQueryable : IEnumerable
 удаленные бд принимает expression при запросе происходит оптимизация
 
 
@@ -598,6 +681,16 @@ Synchronized
 #Dictionary см Hashtable
 :IDictionary,IDictionary<TKey, TValue>, ICollection, ICollection<KeyValuePair<TKey,TValue>>, IEnumerable, IEnumerable<KeyValuePair<TKey, TValue>>,ISerializable , IDeserializationCallback
 
+var dict = new Dictionary<int, string>()
+{
+{ 5 , " f i ve" } ,
+{ 10, "ten" }
+}; 
+Или в случае версии С# 6: 
+var dict = new Dictionary<int, string>()
+{
+[3] = "three",
+}; 
 
 теория--
 Инициализация происходит либо при создании (если передана начальный размер коллекции), либо при добавлении первого элемента, причем в качестве размера будет выбрано ближайшее простое число (3). При этом создаются 2 внутренние коллекции — int[] buckets и Entry[] entries. Первая будет содержать индексы элементов во второй коллекции, а она, в свою очередь, — сами элементы
@@ -830,6 +923,63 @@ string str = 189.99.ToString("С");//тоже форматирование
 
 
 
+#TODO потереть дубликаты
+
+#string 
+#Конкатенация 
+String.Concat(s3, "!!!");
+"123"+"332"
+
+Сравнение строк
+Если первая строка по алфавиту стоит выше второй, то возвращается число меньше нуля. В противном случае возвращается число больше нуля. И третий случай - если строки равны, то возвращается число 0.
+#Compare
+int result = String.Compare(s1, s2);
+поиск
+s1.IndexOf(ch);
+LastIndexOf   EndsWith  StartWith
+разделение
+#Split
+Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+string[] words = text.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+
+Обрезка строки
+text.Trim();--убирает пробелы вначале и в конце
+text.Trim(new char[] { 'd', 'h' });
+функция TrimStart обрезает начальные символы, а функция TrimEnd обрезает конечные символы
+
+// обрезаем начиная с третьего символа
+text = text.Substring(2);
+// обрезаем сначала до последних двух символов
+text = text.Substring(0, text.Length - 2);
+
+Вставка
+text = text.Insert(8, text2);
+Удаление строк
+// вырезаем  символ
+text = text.Remove(8);
+// вырезаем первые два символа
+text = text.Remove(0, 2);
+
+Replace
+text = text.Replace("хороший", "плохой");
+
+hello.ToLower()
+hello.ToUpper()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #StringComparer: IComparer
 CurrentCulture - с учетом регистра и культурной среды
@@ -866,6 +1016,7 @@ val=false;
 
 val.HasValue//проверить установлено ли значение
 val.Value//получить значение, только для чтения, если null то исключение
+#GetValueOrDefault()возвращает значение Value, если HasValue равно true, и результат new Т () или заданное стандартное значение в противном случае
 
 var test=val??true;//если val==null то вернет 2 член(true) если не null то вернет val
 var test=val??method();//если val!=null то method не вызовется
@@ -878,7 +1029,7 @@ null||null -null
 общее правило- если необходимо сравнить null значит будет null, если можно получить результат без сравнения то он будет получен
 
 
-
+Когда Т? упаковывается, упакованное значение в куче содержит Т, а не Т?, тк object-ссылочный тип
 
 
 
@@ -913,7 +1064,9 @@ int Foo (int х) => х * 2;
 void func(int gg,int asd=10){}
 необязательные параметры(asd) должны быть указаны в виде константного выражения или конструктора без параметров для типа значения.  не могут быть помечены посредством ref или out.
 
-
+#позиционные
+#именованные параметры
+Foo (х:1, у:2);
 
 
 
@@ -964,8 +1117,11 @@ private static (string name, int age) GetTuple((string n, int a) tuple, int x)
 foreach(T val in IEnumerable<T>){}
 нужны IEnumerable и IEnumerator
 сразу(даже перед 1 итерацией) вызывает сначала MoveNext() а потом Current
+если есть dispose у Enumerator то вызывает
 
-можно также без интерфейсов, просто докинуть #итератор  #yield
+
+
+можно также без интерфейсов, просто докинуть #итератор  #yield #iterator
 public IEnumerator<T> GetEnumerator() {
 foreach(T ch in chrs)
 yield return ch;
@@ -977,6 +1133,7 @@ yield return ch;
 
 yield break; // прерывание итератора #TODO
 
+
 именованный итератор
 
 public IEnumerable имя_итератора(список_параметров) {
@@ -986,9 +1143,15 @@ yield return obj;
 public IEnumerable MyItr(int end) {
 for(int i=0; i < end; i++)
 yield return (char) (ch + i);
+if (i==5) 
+yield break;//заканчивает вызов, далее вызываться не будет(преждевременное завершение )
 }
 
-
+Итератор должен возвращать один из следующих четырех интерфейсов (иначе компилятор сгенерирует сообщение об ошибке):
+System.Collections.IEnumerable
+System.Collections.IEnumerator
+System.Collections.Generic.IEnumerable<T>-наиболее часто
+System.Collections.Generic.IEnumerator<T>
 
 
 
@@ -1094,7 +1257,7 @@ public int Id { get; }
 public static Nullable<int> CurrentID { get; }
 
 
-в методе который передается в task при условии передаче в метод токена отмены параметром
+в методе который передается в task при условии передачи в метод токена отмены параметром
 cancelTok.ThrowIfCancellationRequested();//установит IsCanceled и выбросит исключение AggregateException
 IsCanceled
 
@@ -1202,7 +1365,11 @@ Thrd.Abort();
 Thrd.Join(); //ожидать прерывания или выполнения
 Thrd.Abort (object a);
 в методе который в потоке
-try {} catch(ThreadAbortException exc) {
+try {
+//первая строка метода
+
+//последняя строка метода
+} catch(ThreadAbortException exc) {
 Console.WriteLine("Поток прерван, код завершения " +
 (int)exc.ExceptionState);//object a
 
@@ -1294,8 +1461,8 @@ ParallelLoopResult result = Parallel.ForEach<int>(new List<int>() { 1, 3, 5, 8 }
 
 
 
-
-//остановить задачу
+ 
+//остановить задачу #cancel #CancellationTokenSource #CancellationToken
 //вне задачи объявить
  CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
     CancellationToken token = cancelTokenSource.Token;
@@ -1414,7 +1581,7 @@ public static ParallelQuery<TSource> AsOrdered<TSource>(this ParallelQuery<TSour
 разделяем на потоки и потом выставляем в том порядке как было бы если бы не разделяли
 
 #AsUnordered()
-разупорядочивание , если мы упорядочили но дальше какие то операции котораые не требуют порядка, ускорит все
+разупорядочивание , если мы упорядочили но дальше какие то операции которые не требуют порядка, ускорит все
 
 
 обработка ошибок 
@@ -1670,12 +1837,17 @@ Type myType = object.GetType();
 //1- полное название с namespace 2-генерить ли исключение если не найдено 3-учитывать ли регистр у 1 параметра
 Type myType = Type.GetType("TestConsole.User", false, true);
 
+Туре а1 = typeof (А<>)
+Console.Write (a1.GetGenericArguments().Count())
+
+
+
 
 myType.IsAbstract();
 myType.IsClass();
 
 
-Type:MemberInfo
+Type: #MemberInfo
 DeclaringType //тип класса или интерфейса в котором объявляется отражаемый член
 MemberType //возвращает перечисление .тип члена. является ли член полем\методом\свойством\событием\конструктором
 MetadataToken //
@@ -1706,6 +1878,15 @@ Namespace
 
 
 var mth=GetMethods([BindingFlags fl1|BindingFlags f2|...]);//fl-перечисление которое сообщает какие именно методы нужны
+
+BindingFlags.  //если указан 1 значение перечисление и метод не возвращается, указать еще через | но те которые не противоречат
+DeclaredOnly: получает только методы непосредственно данного класса, унаследованные методы не извлекаются
+Instance: получает только методы экземпляра
+NonPublic: извлекает не публичные методы
+Public: получает только публичные методы
+Static: получает только статические методы
+
+
 foreach(var i in mth){
 //вызов метода
 i.Invoke(reflect_obj,args)//reflect_obj - объект для которого будет вызываться метод
@@ -1740,7 +1921,7 @@ a.GetTypes();
 
 #LINQ
 для параллельного выполнения см PLINQ
-применяется для IEnumerable<T>
+применяется для IEnumerable<T>  (реализованы как методы расширения в System.Linq.EnumeraЫe)
 
 формирование запроса
 var t=from n in nums where n>0 select n;
@@ -1759,43 +1940,58 @@ select new{x1,x2};
 
 
 
-Select: определяет проекцию выбранных значений
-Where: определяет фильтр выборки
-OrderBy: упорядочивает элементы по возрастанию
-OrderByDescending: упорядочивает элементы по убыванию
-ThenBy: задает дополнительные критерии для упорядочивания элементов возрастанию
-ThenByDescending: задает дополнительные критерии для упорядочивания элементов по убыванию
-Join: соединяет две коллекции по определенному признаку
-GroupBy: группирует элементы по ключу
-ToLookup: группирует элементы по ключу, при этом все элементы добавляются в словарь
-GroupJoin: выполняет одновременно соединение коллекций и группировку элементов по ключу
-Reverse: располагает элементы в обратном порядке
-All: определяет, все ли элементы коллекции удовлятворяют определенному условию
-Any: определяет, удовлетворяет хотя бы один элемент коллекции определенному условию
-Contains: определяет, содержит ли коллекция определенный элемент
-Distinct: удаляет дублирующиеся элементы из коллекции
-Except: возвращает разность двух коллекцию, то есть те элементы, которые содератся только в одной коллекции
-Union: объединяет две однородные коллекции
-Intersect: возвращает пересечение двух коллекций, то есть те элементы, которые встречаются в обоих коллекциях
-Count: подсчитывает количество элементов коллекции, которые удовлетворяют определенному условию
-Sum: подсчитывает сумму числовых значений в коллекции
-Average: подсчитывает cреднее значение числовых значений в коллекции
-Min: находит минимальное значение
-Max: находит максимальное значение
-Take: выбирает определенное количество элементов
-Skip: пропускает определенное количество элементов
-TakeWhile: возвращает цепочку элементов последовательности, до тех пор, пока условие истинно
-SkipWhile: пропускает элементы в последовательности, пока они удовлетворяют заданному условию, и затем возвращает оставшиеся элементы
-Concat: объединяет две коллекции
-Zip: объединяет две коллекции в соответствии с определенным условием
-First: выбирает первый элемент коллекции
-FirstOrDefault: выбирает первый элемент коллекции или возвращает значение по умолчанию
-Single: выбирает единственный элемент коллекции, если коллекция содердит больше или меньше одного элемента, то генерируется исключение
-SingleOrDefault: выбирает первый элемент коллекции или возвращает значение по умолчанию
-ElementAt: выбирает элемент последовательности по определенному индексу
-ElementAtOrDefault: выбирает элемент коллекции по определенному индексу или возвращает значение по умолчанию, если индекс вне допустимого диапазона
-Last: выбирает последний элемент коллекции
-LastOrDefault: выбирает последний элемент коллекции или возвращает значение по умолчанию
+если команда применяется к data типу, то она не вернет null (int[]).FirstOrDefault(x1=>)==null//не правильно тк null не вернется
+что бы не 0 возвращалось 
+int? nullableId = GetNonNullableInts().Cast<int?>().FirstOrDefault();
+
+
+
+#Select: определяет проекцию выбранных значений
+#Where: определяет фильтр выборки
+#OrderBy: упорядочивает элементы по возрастанию
+#OrderByDescending: упорядочивает элементы по убыванию
+#ThenBy: задает дополнительные критерии для упорядочивания элементов возрастанию
+#ThenByDescending: задает дополнительные критерии для упорядочивания элементов по убыванию
+#Join: соединяет две коллекции по определенному признаку
+#GroupBy: группирует элементы по ключу
+#ToLookup: группирует элементы по ключу, при этом все элементы добавляются в словарь
+#GroupJoin: выполняет одновременно соединение коллекций и группировку элементов по ключу
+#Reverse: располагает элементы в обратном порядке
+#All: определяет, все ли элементы коллекции удовлятворяют определенному условию
+#Any: определяет, удовлетворяет хотя бы один элемент коллекции определенному условию
+#Contains: определяет, содержит ли коллекция определенный элемент
+#Distinct: удаляет дублирующиеся элементы из коллекции
+#Except: возвращает разность двух коллекцию, то есть те элементы, которые содератся только в одной коллекции
+#Union: объединяет две однородные коллекции
+#Intersect: возвращает пересечение двух коллекций, то есть те элементы, которые встречаются в обоих коллекциях
+#Count: подсчитывает количество элементов коллекции, которые удовлетворяют определенному условию
+#Sum: подсчитывает сумму числовых значений в коллекции
+#Average: подсчитывает cреднее значение числовых значений в коллекции
+#Min: находит минимальное значение
+#Max: находит максимальное значение
+#Take: выбирает определенное количество элементов
+#Skip: пропускает определенное количество элементов
+#TakeWhile: возвращает цепочку элементов последовательности, до тех пор, пока условие истинно
+#SkipWhile: пропускает элементы в последовательности, пока они удовлетворяют заданному условию, и затем возвращает оставшиеся элементы
+#Concat: объединяет две коллекции
+#Zip: объединяет две коллекции в соответствии с определенным условием
+Избыточные элементы в любой из входных последовательностей игнорируются. Операция Zip не поддерживается в запросах к базам данных.
+int[] numbers = { 3, 5, 7 }; string[] words = { "three", "five", "seven", "ignored" }; 
+nurnbers.Zip (words, (n, w) => n + "=" + w); 
+приводит к получению последовательности со следующими элементами: 
+З=three 
+S=five 
+7=seven
+
+
+#First: выбирает первый элемент коллекции
+#FirstOrDefault: выбирает первый элемент коллекции или возвращает значение по умолчанию
+#Single: выбирает единственный элемент коллекции, если коллекция содердит больше или меньше одного элемента, то генерируется исключение-- генерируют исключение при наличии более одного совпадения
+#SingleOrDefault: выбирает первый элемент коллекции или возвращает значение по умолчанию--генерируют исключение при наличии более одного совпадения
+#ElementAt: выбирает элемент последовательности по определенному индексу
+#ElementAtOrDefault: выбирает элемент коллекции по определенному индексу или возвращает значение по умолчанию, если индекс вне допустимого диапазона
+#Last: выбирает последний элемент коллекции
+#LastOrDefault: выбирает последний элемент коллекции или возвращает значение по умолчанию
 
 
 
@@ -1805,6 +2001,13 @@ LastOrDefault: выбирает последний элемент коллекции или возвращает значение по у
 #into
 
 group val by val.column into val_ where val_.count()>2 select val_;  
+select с. ToUpper () into upper //и дальше с upper что хотим делаем
+from name in names 
+group name.ToUpper() bу name.Length into grouping 
+where grouping.Coun t () == 2 
+select grouping
+
+
 
 
 #let
@@ -1903,6 +2106,8 @@ namespace name1{}}
 //2 способ объявить вложенность
 namespace name.name1{}
 
+
+
 #using #примитивы 
 using name_namespace;
 using псевдоним=имя;
@@ -1911,7 +2116,7 @@ using static System.Console;//будут доступны все статическое класса
 
 
 using(var tmp=){
-
+//раскладывается как блок try с .Dispose() в finally части
 }//вызовется метод disposing, если его нет- ошибка
 
 
@@ -2029,47 +2234,11 @@ partial void meth(){}
 
 
 
-#string 
-#Конкатенация 
-String.Concat(s3, "!!!");
-"123"+"332"
-
-Сравнение строк
-Если первая строка по алфавиту стоит выше второй, то возвращается число меньше нуля. В противном случае возвращается число больше нуля. И третий случай - если строки равны, то возвращается число 0.
-#Compare
-int result = String.Compare(s1, s2);
-поиск
-s1.IndexOf(ch);
-LastIndexOf   EndsWith  StartWith
-разделение
-#Split
-Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-string[] words = text.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
 
-Обрезка строки
-text.Trim();--убирает пробелы вначале и в конце
-text.Trim(new char[] { 'd', 'h' });
-функция TrimStart обрезает начальные символы, а функция TrimEnd обрезает конечные символы
 
-// обрезаем начиная с третьего символа
-text = text.Substring(2);
-// обрезаем сначала до последних двух символов
-text = text.Substring(0, text.Length - 2);
 
-Вставка
-text = text.Insert(8, text2);
-Удаление строк
-// вырезаем  символ
-text = text.Remove(8);
-// вырезаем первые два символа
-text = text.Remove(0, 2);
 
-Replace
-text = text.Replace("хороший", "плохой");
-
-hello.ToLower()
-hello.ToUpper()
 
 
 #деконструкторы #Deconstruct
@@ -2106,16 +2275,17 @@ class Library
 
 
 #обработка #ошибки
-#try #catch #finaly
+#try #catch #finaly #throw
 
 
 try{}
 catch{
-throw;//пробросить исключение дальше
+
 throw new Exception();//выбросить новое исключение
 }
 catch(Exception e){
-throw e;//пробросить исключение дальше
+throw e;//пробросить исключение дальше, но  свойство StackTrace исключения больше не будет отражать исходную ошибку
+throw;//пробросить исключение дальше
 }
 
 #Exception
@@ -2219,6 +2389,10 @@ return Json(data, JsonRequestBehavior.AllowGet);
 
 
 #расширение #расширения #extension #extends
+
+Любой совместимый метод экземпляра всегда будет иметь преимущество над расширяющим методом - даже когда параметры расширяющего метода дают более точное соответствие по типам. 
+если 2 метода с одинаковой сигнатурой то вызывать как обычный static метод
+ если один расширяющий метод имеет более специфичные аргументы, то ему будет отдаваться предпочтение
 //создать static class 
 //подключить это namespase к месту где будет использовать этот метод
 
@@ -2235,9 +2409,13 @@ public static class StringExtension
 #delegate #делегаты
 -объект инкапсулирующий методы
 
-1. Событие нельзя запустить вне класса, в котором оно было объявлено 
+1. Событие нельзя запустить вне класса, в котором оно было объявлено=> больше защищенность 
 2. События могут быть помещены в интерфейс.(делегаты только как свойства могут быть помещены, вроде)
 3. И событие и делегат можно объявить полем класса, но в отличие от делегата, событие не может быть локальной переменной метода 
+
+Делегаты являются неизменяемыми, так что при использовании операции+= или -= фактически создается новый экземпляр делегата, который присваивается существующей переменной.
+Если делегат имеет возвращаемый тип  вернется значение из последнего вызванного метода. возвращаемые значения Предшествующих методов  отбрасываются.
+Все типы делегатов : System.MulticastDelegate: System.Delegate. Операции+, -, += и -=, транслируются в статические методы Combine и Remove класса System.Delegate.
 
 
 delegate возвращаемый_тип name_del(type param1,type param2)
@@ -2246,17 +2424,27 @@ delegate возвращаемый_тип name_del(type param1,type param2)
 могут быть обобщенными
 
 name_del name_del_obj=new name_del([meth]);//объявление
-name_del name_del_obj=meth;//объявление
+name_del name_del_obj=meth;//объявление, сокращение для new a(meth)
 
 name_del_obj=meth;//убрать все методы и добавить новый
 name_del_obj+=meth;//добавить новый метод, добавлять также можно и делегат
 name_del_obj-=meth;//удалить новый метод, удалять также можно и делегат
 
-name_del_obj();
+name_del_obj();//сокращение для name_del_obj.Invoke();
 
 если параметр передавать через ref то он будет передаваться в каждый метод и измененный после него идти в след метод
 
 его можно объявить в классе(не создать объект а именно объявить)
+delegate void Dl(); 
+delegate void D2(); 
+Dl dl = Methodl; 
+D2 d2 = dl; / / Ошибка на этапе компиляции 
+Тем не менее, следующее разрешено: 
+D2 d2 = new D2 (dl); 
+Экземпляры делегатов считаются равными, если они имеют один и тот же целевой метод (методы). Для групповых делегатов важен порядок следования целевых методов.
+
+
+
 
 
 
@@ -2311,11 +2499,13 @@ delobj(Y);//Y:X
 
 #вариантность для обобщенных делегатов
 #ковариантность
+out-- выходное значение
 delegate T name_del<out T>()
 можно присвоить метод где параметр будет T или ребенком T
 
 
 #контрвариантность
+in-- входные параметры
 delegate bool name_del<in T>(T obj)
 можно присвоить метод где параметр будет T или родителем T
 и объект T не может возвращаться
@@ -2339,6 +2529,9 @@ var f=new{val1=x1,val2=x2};
 
 name_del delobj=delegate{/*код функции*/};
 delobj=delegate(type val){/*код функции*/};
+особенность такой штуки в том что можно присвоить объекту делегата который принимает параметры такой анонимный метод без параметров
+
+
 через лямбды
 скобки нужны если несколько параметров, параметров нет, или если явно указываем тип параметра
 если есть =>{} то невозможно создать expression и называется лямбда оператор если нет то лямбда выражение
@@ -2358,7 +2551,8 @@ del myDelegate = x => x * x;
 
 в /*код функции*/
 можно использовать return
-{можно захватывать внешние переменные, которые не будут уничтожены пока не уничтожатся все методы которые захватывают+ не будет других ссылок на нее
+{#замыкание
+можно захватывать внешние переменные, которые не будут уничтожены пока не уничтожатся все методы которые захватывают+ не будет других ссылок на нее
 пример
 method(){
 int t=10;
@@ -2380,12 +2574,17 @@ delobj();//увеличит на 1 и станет 12
 event делегат_события имя_события;
 delegate void Hand();
 event Hand EventName;
+
+
+События могут быть виртуальными, переопределенными, абстрактными или запечатанными. Они также могут быть статическими.
+
+С# обеспечивает безопасность в отношении потоков во время обновления делегата, если это переопределить то будет не потокобезопасно
 event Hand EventName{
 add{
-//value
+priceChanqed += value; 
 }
 remove{
-//value
+priceChanqed -= value; 
 }
 }
 
@@ -2397,8 +2596,10 @@ evt();
 
 
 
-рекомендованная структура событий(уже есть предопределенные делегаты)
+рекомендованная структура событий(уже есть предопределенные делегаты) #EventHandler #EventsArgs
 class MyEventsArgs:EventsArgs{}
+EventsArgs.Empty
+
 delegate void Delname(object source,MyEventsArgs arg)
 
 public event EventHandler<MyEventArgs> someEvent;//без обобщения если EventsArgs не переопределяем
@@ -2479,14 +2680,25 @@ g1.methodname1();
 
 class g: IName{
 void virtual methodname1(){}//разрешаем переопределение для наследников
+void virtual IName.methodname1(){}//так нельзя
 }
 
+
+puЫic interface IUndoaЫe { void Undo();
+puЫic class TextBox : IUndoaЫe
+{
+void IUndoaЫe.Undo()=> Console. Wri teLine ( "TextBox. Undo") ; 
+}
+puЫic class RichTextBox TextBox, IUndoaЫe
+{
+puЫic new void Undo ()=> Console.WriteLine ("RichTextBox.Undo"); //при вызове из класса вызовется этот метод, при вызове из интерфейса тоже
+}
 
 #ковариантность #контрвариантность
 
 
 #ковариантность
-
+out-- выходное значение
 interface IMyInt<out T>{
 //можно T применять только для возвращаемого типа, нельзя использовать для ограничения(where X:T)
 //может ПРИСВОИТЬ ссылку на любой класс производный от T или сам T
@@ -2505,7 +2717,7 @@ alp=new Myclass<b>();//доступно из за ковариантности
 
 
 #контрвариантность
-
+in-- входные параметры
 interface IMyInt<in T>{
 
 void GetObj(T obj);
@@ -2790,6 +3002,9 @@ WindowHeight и WindowWidth: высота и ширина консоли соответственно
 
 
 #exeption #try #catch #finally
+после try обязательно catch или finally или оба
+более "узкие\специфичные" обработчики должны идти сначала
+перехватить можно не все исключение вроде, #TODO какие если true
 try{
 throw new Exception("Длина строки больше 6 символов");
 }
@@ -2800,9 +3015,11 @@ catch(Exeption ex) when (y==0){
 ex.Message
 }
 catch{
-
+throw;//пробрасываем исключение дальше
 }
-finally{}
+finally{
+//выполняется всегда
+}
 
 
 -----------------------------
@@ -3023,6 +3240,8 @@ readtimeout
 writetimeout
 
 #BufferedStream:stream - заключает в оболочку байтовый поток и добавляет буферизацию
+
+#StreamReader #StreamWriter #TODO
 
 
 #UnmanagedMemoryStream:stream - байтовый поток который использует неупраляемую память для хранения
@@ -4444,7 +4663,7 @@ if(!db.Entry(db.Players.FirstOrDefault()).Reference("Team").IsLoad)
 db.Entry(db.Players.FirstOrDefault()).Reference("Team").Load();
 для загрузки коллекций юзать Collection вместо Reference
 
-можно добавлять условия, но нужно менять load на tolist (тк при load не загрузит(не точно))
+можно добавлять условия, но нужно менять load на tolist (тк при load не загрузит(не точно)) #TODO
 var mass=db.Entry(this).Collection(x1 => x1.ImagesLikes).Query().Where(...).Take(...).Select(...).....ToList();
 
 
@@ -5068,6 +5287,18 @@ db.Roles.where(=>);
 
 
 
+#check_id  #UserName #Current #FindById
+
+
+string userName = Membership.GetUser(userId).UserName;
+
+HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(ID).UserName;
+
+
+
+
+
+
 
 
 
@@ -5226,7 +5457,7 @@ public ActionResult Edit()
 #ActionResult
 наследники
 System.Web.Mvc.#ContentResult
-System.Web.Mvc.#EmptyResult
+System.Web.Mvc.#EmptyResult  #пустой #ответ
 System.Web.Mvc.#FileResult
 System.Web.Mvc.#HttpStatusCodeResult
 System.Web.Mvc.#JavaScriptResult
@@ -5235,7 +5466,7 @@ System.Web.Mvc.#RedirectResult
 System.Web.Mvc.#RedirectToRouteResult
 System.Web.Mvc.#ViewResultBase
 
-
+return new EmptyResult();
 
 
 
