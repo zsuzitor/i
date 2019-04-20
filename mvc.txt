@@ -33,6 +33,30 @@ FrornFrequency -?
 
 
 
+AppDomain.CurrentDomain.BaseDirectory
+
+ar a=(RolesProject)Enum.Parse(typeof(RolesProject), "", true);
+
+#for #html
+<label><input type="checkbox">Some text</label>
+
+
+
+
+
+скорее всего треугольники с закругленными концами
+div - before-font-size: 225px; content: "\E90E";
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -163,6 +187,20 @@ parseInt- парсит строку слева направо преобразуя по символу, если находит не циф
 
 
 
+#select #выбрать #first #1 #первый
+сделать первый элемент в select выбранным $("#actionI").val($("#actionI option:first").val());
+$("#actionI option[value='idOption']").prop("selected", true); // установить выбранным idOption
+
+
+#ready #document #start #старт
+$(document).ready(function () 
+{
+
+
+#checkbox #radiobutton #each #for #foreach
+$('#' + ch.value + type + ' input:checkbox:checked').each(function () {//[type=checkbox] 
+$(this).removeAttr("checked") 
+});
 
 
 
@@ -241,7 +279,7 @@ b perem;perem.val=10;//не вызывая конструктор
 
 #class  
 полностью хранится в куче(то что объявлено в классе тоже)
-
+#constructor
 если класс наследуется , при вызове конструктора вызывается сначала конструктор родителя(даже если не применили слово #base)
 public class cl{
 }
@@ -275,8 +313,17 @@ puЫic enum Color { Red, Blue, Tan } / / Вложенное  перечисление
 Например, для доступа к члену Color. Red извне класса 
 TopLevel необходимо записать так: 
 TopLevel.Color color = TopLevel.Color.Red; 
-Все типы могут быть вложенными, однако содержать вложен 
-ные типы могут только классы и структуры.
+Все типы могут быть вложенными, однако содержать вложенные типы могут только классы и структуры.
+
+
+
+Любой совместимый метод экземпляра всегда будет иметь преимущество над расширяющим методом - даже когда параметры 
+расширяющего метода дают более точное соответствие по типам.
+
+
+
+
+
 
 
 
@@ -343,6 +390,7 @@ case 12:
 case
 }
 
+#goto
 
 #if #else
 
@@ -544,6 +592,15 @@ public void Reset() { idx = -1; }
 
 
 
+
+
+
+
+
+
+
+
+
 #IEnumerator
 для #foreach, 
 любое изменение коллекции делает перечислитель недействительным
@@ -711,6 +768,15 @@ var dict = new Dictionary<int, string>()
 При удалении элементов мы затираем его содержимое значениями по умолчанию, меняем указатели next других элементов при неоходимости и сохраняем индекс этого элемента во внутреннее поле freeList, 
 а старое значение — в поле next. Таким образом, при добавлении нового элемента мы можем повторно использовать такие свободные ячейки:
 Сложность снова O(1) или O(n) в случае коллизии.
+
+
+-----
+Внутренне устройство простейшего hash map со списком коллизий чрезвычайно примитивно: имеется массив T[N], каждый элемент которого — это список. Входом в таблицу (индексом) является хеш-значение ключа. Все ключи с одним и тем же хешем (по модулю N) попадают в один и тот же список, называемый списком коллизий.
+=>
+есть массив массивов ms[i][i2]
+i- хэш элементов, если у некоторых элементов одинаковый хэш, они записываются в массив ms[i]->[i2_0],[i2_1],[i2_2]
+
+
 
 
 
@@ -1688,6 +1754,7 @@ else {
 
 
 
+#spinlock #SpinWait, #SemaphoreSlim и #CountdownEvent, #TODO
 
 
 
@@ -1891,6 +1958,7 @@ foreach(var i in mth){
 //вызов метода
 i.Invoke(reflect_obj,args)//reflect_obj - объект для которого будет вызываться метод
 i.Invoke(null,args)//reflect_obj - static метод
+i.Invoke(null,null)//reflect_obj - static метод, не передаем параметры
 i.ReturnType.Name
 i.Name
 var prms=i.GetParameters();
@@ -1904,6 +1972,14 @@ var cons=GetConstructors();
 foreach(var i in cons){
 (object)i.Invoke(args);
 }
+
+
+var instance = FormatterServices.GetUninitializedObject(Type a);//создать объект сам достанет конструктор и вызовет, даже если у него есть параметры
+
+
+
+
+
 
 
 
@@ -1945,6 +2021,12 @@ select new{x1,x2};
 int? nullableId = GetNonNullableInts().Cast<int?>().FirstOrDefault();
 
 
+//#TODO хз можно ли так
+var people = db.People.Where("it.Name LIKE @searchTerm", new ObjectParameter("searchTerm", searchTerm));
+//не получилось вызвать like
+from c in dc.Organization where #SqlMethods.Like(c.Hierarchy, "%/12/%") select *;
+
+
 
 #Select: определяет проекцию выбранных значений
 #Where: определяет фильтр выборки
@@ -1961,7 +2043,7 @@ int? nullableId = GetNonNullableInts().Cast<int?>().FirstOrDefault();
 #Any: определяет, удовлетворяет хотя бы один элемент коллекции определенному условию
 #Contains: определяет, содержит ли коллекция определенный элемент
 #Distinct: удаляет дублирующиеся элементы из коллекции
-#Except: возвращает разность двух коллекцию, то есть те элементы, которые содератся только в одной коллекции
+#Except: возвращает разность двух коллекций, то есть те элементы, которые содератся только в одной коллекции
 #Union: объединяет две однородные коллекции
 #Intersect: возвращает пересечение двух коллекций, то есть те элементы, которые встречаются в обоих коллекциях
 #Count: подсчитывает количество элементов коллекции, которые удовлетворяют определенному условию
@@ -2513,11 +2595,26 @@ delegate bool name_del<in T>(T obj)
 
 
 
+
+
 #анонимные #anonim #anonymous
 
 //только для чтения
 var f=new{x1,x2,x3.Id};//x1 x2 Id
 var f=new{val1=x1,val2=x2};
+
+
+коллекция анонимных типов(можно через dynamic)
+// create the first list by using a specific "template" type.
+var list = new [] { new { Name="", Phones=new[] { "" } } }.ToList();
+// clear the list.  The first element was just an example.
+list.Clear();
+// start adding "actual" values.
+list.Add(new { Name = "Krishna", Phones = new[] { "555-555-5555", "666-666-6666" } });
+
+
+
+
 
 
 
@@ -2652,6 +2749,7 @@ return new Тип_в_который_надо_преобразовать(param);
 
 #интерфесы #interface 
 все внутри без уровня доступа
+при реализации, методы от интефейса не должны быть override
 interface IName{
 //свойство не будет самореализуемым, get\set тоже без уровня доступа
 int nm{
@@ -2981,22 +3079,6 @@ obj=default(T);
 
 
 
-#Console
-
-Beep: подача звукового сигнала
-Clear: очистка консоли
-WriteLine: вывод строки текста, включая символ возврата каретки (то есть с переводом на новую строку)
-Write: вывод строки текста, но без символа возврата каретки
-ReadLine: считывание строки текста со входного потока
-Read: считывание введенного символа в виде числового кода данного символа. С помощью преобразования к типу char мы можем получить введенный символ
-ReadKey: считывание нажатой клавиши клавиатуры (ConsoleKeyInfo key= Console.ReadKey();)
-Кроме того, класс Console обладает свойствами, которые позволяют управлять консолью. Некоторые из них:
-BackgroundColor: цвет фона консоли
-ForegroundColor: цвет шрифта консоли
-BufferHeight: высота буфера консоли
-BufferWidth: ширина буфера консоли
-Title: заголовок консоли
-WindowHeight и WindowWidth: высота и ширина консоли соответственно
 
 
 
@@ -3351,12 +3433,37 @@ ConsoleModifiers Modifiers  значение из перечисления ConsoleModifiers , модифика
 
 
 
+#Console
+
+Beep: подача звукового сигнала
+Clear: очистка консоли
+WriteLine: вывод строки текста, включая символ возврата каретки (то есть с переводом на новую строку)
+Write: вывод строки текста, но без символа возврата каретки
+ReadLine: считывание строки текста со входного потока
+Read: считывание введенного символа в виде числового кода данного символа. С помощью преобразования к типу char мы можем получить введенный символ
+ReadKey: считывание нажатой клавиши клавиатуры (ConsoleKeyInfo key= Console.ReadKey();)
+Кроме того, класс Console обладает свойствами, которые позволяют управлять консолью. Некоторые из них:
+BackgroundColor: цвет фона консоли
+ForegroundColor: цвет шрифта консоли
+BufferHeight: высота буфера консоли
+BufferWidth: ширина буфера консоли
+Title: заголовок консоли
+WindowHeight и WindowWidth: высота и ширина консоли соответственно
 
 
 
 
 
-#относительный #relative путь к файлу на сервере
+
+
+
+
+
+
+
+
+
+#относительный #relative путь к файлу на сервере #HostingEnvironment
 File.ReadAllText(HostingEnvironment.MapPath($"~/tsqlscripts/{i}.txt"))
 
 
@@ -3670,7 +3777,7 @@ animation-direction: alternate;    /*анимация идет 0%->100%  100->0  0->100*/
 
 
 
-#псевдоклассы
+#псевдоклассы #css
  a:not(.blueLink) { color: red; }
 все а кроме . сделает красными
 
@@ -3741,10 +3848,31 @@ a {font-size: 18px; color: red !important;}
 
 
 
+
+#inline #inline-block #display #div_inline_block #divinlineblock
+display: inline-block; 50% каждый див что бы уместились в строку —-»»> просто между блоками удалить все пробелы и переносы строк. т.е. закончился предыдущий div, и сразу же после закрывающего тега нужно вставлять следующий открывающий.
+div.div_inline_block {
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+
+
+
+
 #Спецсимволы #html #img #image
 #стандарт #css #символ #картинка
 https://html5book.ru/specsimvoly-html/
 css content:'\2718';
+
+#github
+content: "\f09b";
+content: "\f003"; // почтовый конвернт
+content: "\f16c";// #stack #overflow
+content: "\f019";//значек загрузки
+
+
 
 
 #shadow
@@ -4664,6 +4792,7 @@ db.Entry(db.Players.FirstOrDefault()).Reference("Team").Load();
 для загрузки коллекций юзать Collection вместо Reference
 
 можно добавлять условия, но нужно менять load на tolist (тк при load не загрузит(не точно)) #TODO
+#Query
 var mass=db.Entry(this).Collection(x1 => x1.ImagesLikes).Query().Where(...).Take(...).Select(...).....ToList();
 
 
@@ -5002,7 +5131,7 @@ https://metanit.com/sharp/entityframework/6.1.php
 https://metanit.com/sharp/entityframework/6.2.php
 
 
-#выполнение #sql скрипта 
+#выполнение #sql скрипта  #ExecuteSqlCommand #SqlQuery
 db.Database.ExecuteSqlCommand("");
 var comps = db.Database.SqlQuery<Company>("SELECT * FROM Companies");
 возвращает количество затронутых строк
@@ -5014,7 +5143,7 @@ db.Database.Connection.ConnectionString
 
 
 выполнение любого( создание каталога, индекса и тд ) #tsql скрипта из файла
-#full #text #search   #fulltextsearch
+#full #text #search   #fulltextsearch #SqlConnection #ExecuteNonQuery ExecuteQuery #Query
  var connection = new SqlConnection();
             connection.ConnectionString = "connection string";
             connection.Open();
