@@ -49,13 +49,42 @@ div - before-font-size: 225px; content: "\E90E";
 
 
 
+System.Numerics. #Complex.
+
+
+
+
+#iis #https #ssl
+
+C:\Users\zsuz\Documents\IISExpress\
+включение iis manager  https://www.youtube.com/watch?v=kLhhvCE2IZg
+панель управления-> удаление программ->слева "включение или отключение компонентов windows"-> найти "internet information services (Службы IIS)" и включить то что нужно
+Убедитесь, что вы выбрали поддержку ASP.NET. Для этого раскройте узел Службы Интернета --> Компоненты разработки приложений --> ASP.NET (Internet Information Services --> World Wide Web Services --> Application Development Features --> ASP.NET):
+Если вы хотите использовать поддержку IIS в Visual Studio, которая позволяет вам создавать виртуальные каталоги IIS непосредственно в диалоговом окне New Web Site, вам нужно выбрать пункт «Совместимость управления IIS 6» в разделе «Средства управления веб-сайтом» (Web Management Tools --> IIS 6 Management Compatibility).
+
+
+Нажмите клавишу Windows и введите "Свойства Windows", выберите первую запись. Включите или выключите функции Windows.
+IIS #manager #диспетчер #служб должен вернуться в Панель управления >\Все элементы панели управления\> Администрирование
+
+https://docs.microsoft.com/en-us/iis/manage/configuring-security/how-to-set-up-ssl-on-iis
+
+иконка в центре сертификаты сервера
+создать самоподписанный,  
+сайт слева выбрал дефолтный
+для этого сайта справа bindings
+добавить, имя не указывать , выбрать сертификат, указать https
+
+
+в проекте visual
+нажать на название проекта в solution explorer? снизу появятся настройки\свойства(properties) там включить ssl
+проект(сверху)->свойства там базовую страницу поменять на ту которая отрисовалась в предыдущем пункте в строке https 
 
 
 
 
 
-
-
+#professorweb #диспетчер #служб #iis #certificate #sertificate
+http://professorweb.ru/my/ASP_NET/sites/level3/3_1.php
 
 
 
@@ -205,6 +234,14 @@ $(this).removeAttr("checked")
 
 
 
+#scroll #scrollTop
+
+$("html, body").animate({ scrollTop: $("#ScrollChangeActionId").offset().top }, "slow");
+
+#запретить #скролл body.modal-open { 
+overflow: hidden; 
+}
+
 
 
 
@@ -266,7 +303,7 @@ div1-width 70%
 
 в структуре нельзя создать конструктор по умолчанию(он генерируется системой В ЛЮБОМ СЛУЧАЕ даже если мы определим другие, в отличии от класса)
 если в конструкторе не инициализировать поля то комплятор НЕ сгенерирует им значения, а в классе сгенерирует
-в структуре нельзя инициализировать перменные в месте их объявления
+в структуре нельзя инициализировать переменные в месте их объявления
 в структуре можно засунуть индексатор и статик конструктор
 не ссылочный тип данных
 не наследуется от класса и от структур и не может быть родителем для них, но может от интерфейса
@@ -303,14 +340,14 @@ public x():this(){//передаем в другой конструктор x
 public class TopLevel 
 { 
 puЬlic class Nested { / / Вложенный класс 
-puЫic enum Color { Red, Blue, Tan } / / Вложенное  перечисление 
+public enum Color { Red, Blue, Tan } / / Вложенное  перечисление 
 Вложенный тип
 }
 Он может получать доступ к закрытым членам включающего типа и ко всему остальному, к чему имеет доступ включающий тип.
 • Он может быть объявлен с полным диапазоном модификаторов доступа, а не только public и internal.
 • Стандартной доступностью вложенного типа является private, а не internal.
 • Доступ к вложенному типу извне требует указания имени включающего типа (как при обращении к статическим членам).
-Например, для доступа к члену Color. Red извне класса 
+Например, для доступа к члену Color.Red извне класса 
 TopLevel необходимо записать так: 
 TopLevel.Color color = TopLevel.Color.Red; 
 Все типы могут быть вложенными, однако содержать вложенные типы могут только классы и структуры.
@@ -320,7 +357,7 @@ TopLevel.Color color = TopLevel.Color.Red;
 Любой совместимый метод экземпляра всегда будет иметь преимущество над расширяющим методом - даже когда параметры 
 расширяющего метода дают более точное соответствие по типам.
 
-
+правило более специфичных параметров TODO
 
 
 
@@ -352,7 +389,7 @@ class Subclass2 : Subclass1 {
 только для чтения, константа, можно задать только при объявлении
 
 #volatile
-значение поля может быть изменено параллельно выполняющимися потоками
+значение поля может быть изменено параллельно выполняющимися потоками, значение не кешируется в потоках=> всегда будет актуальным
 
 #extern
 1-метод предоставляется внешним кодом
@@ -448,8 +485,11 @@ console.writeline(i);//val1...
 foreach (RolesProject roleName in (RolesProject[])Enum.GetValues(typeof(RolesProject)))
                 var role = new IdentityRole { Name = roleName.ToString() };
 
-BorderSide Ь = (BorderSide) 12345; //даже если в BorderSide нет такого числа
-Console.WriteLine (Ь)//12345
+парсим из строки
+RolesProject role = (RolesProject)Enum.Parse(typeof(RolesProject), roleNameString, true);
+
+BorderSide b = (BorderSide) 12345; //даже если в BorderSide нет такого числа
+Console.WriteLine (b)//12345
 
 
 
@@ -480,6 +520,7 @@ Console.WriteLine (s == leftRight); / / True
 
 
 #dynamic
+#Динамическое #связывание противоположность #статического #связывания #статическое
 проверка типа откладывается до выполнения
 
 
@@ -488,6 +529,54 @@ val="";
 
 void meth(object o);
 void meth(dynamic o);//перегрузить не получится, тк  dynamic считается object
+
+typeof (dynamic) == typeof (object) //true
+
+dynamic х = 2;
+var у= х * 3; // Статическим типом у является dynamic 
+
+
+
+#IDynamicMetaObjectProvider #IDMOP #TODO
+#Специальное связывание
+
+
+Класс Duck в действительности не имеет метода Quack.
+Вместо этого он использует специальное связывание для перехвата и интерпретации всех обращений к методам. 
+puЬlic class Duck: DynamicObject
+{
+puЬlic override bool TryinvokeMember( InvokeMemЬerBinder binder, object[] args, out object result)
+Console.WriteLine (binder.Name + "was called");
+result = null;
+return true; 
+}
+}
+d.Quack(); // Выводит Quack was called
+d.Waddle(); // Выводит Waddle was called
+
+
+
+при вызове например метода которого нет(для обычного dynamic) выбросится исключение #RuntimeBinderException
+
+
+
+
+статическое- #TODO
+В простейшем случае компилятор осуществляет связывание за счет поиска в типе метода который необходимо вызвать с указанными параметрами.
+Если не найдено то компилятор распространяет поиск на методы, принимающие необязательные параметры,
+методы базовых классов  и расширяющие методы, которые принимают этот тип в своем первом параметре. Если ничего из этого
+не найдено, возникает ошибка компиляции. Независимо от того,
+к какому методу произведено связывание, суть в том, что связывание делается компилятором, и оно полностью зависит от статических сведений о типах операндов (в данном случае d). Именно
+поэтому такой процесс называется статическим связыванием.
+
+
+
+
+
+
+
+
+
 
 
 #Single представляет тип #float
@@ -550,9 +639,11 @@ Exist
 #collection #array #list #interface
 
 
-#Необобщенное в #обобщенное var classicList = new System.Collections.ArrayList(); 
+#приведение #типов #Необобщенное в #обобщенное var classicList = new System.Collections.ArrayList(); 
 classicList.AddRange ( new int[] { 3, 4, 5} ) ; 
-IEnumeraЫe<int> sequencel = classicList. #Cast<int>()
+IEnumeraЫe<int> sequencel = classicList. #Cast<int>()//когда встретит не int элемент(не сможет привести через is) то сгенерит исключение
+IEnumeraЫe<int> sequencel = db.users.Cast<int>()
+IEnumeraЫe<int> sequencel = classicList. #OfType<int>()//когда встретит не int элемент(не сможет привести через is) то пропустит элемент
 
 
 
@@ -1072,10 +1163,10 @@ OrdinalIgnoreCase - порядковое сравнение без учета регистра
 
 
 
-#? #?? #null #Nallable
-структура  тип Nallable<T>
+#? #?? #null #Nullable
+структура  тип Nullable<T>
 //эквивалент
-Nallable<bool> val;
+Nullable<bool> val;
 bool? val;
 val=null;
 val=false;
@@ -1659,7 +1750,7 @@ catch (AggregateException ex)
     }
 }
 
-отмена параллельной операции
+отмена параллельной операции #cancel #CancellationTokenSource
 CancellationTokenSource cts = new CancellationTokenSource();
  cts.Cancel();// установить токен для отмены
 try{
@@ -1789,7 +1880,7 @@ ReleaseMutex(), все эти вызовы будут произведены успешно. => дополнительные вызо
 
 #семафор  #Semaphore
 
-разрешает доступ к участку ни 1 потоку а количеству которое указали в конструкторе
+разрешает доступ к участку не 1 потоку а количеству которое указали в конструкторе
 при блокировке -- при икременте ++, если 0 то ждет пока станет >0
 
 public Semaphore(int initialCount, int maximumCount)
@@ -2149,7 +2240,7 @@ var query = collection.Where( c => c.A == 1 || c.B == 2 );
 //using Mono.Linq.Expressions;  - не разобрался как работать
 using Binbin.Linq;   - ставить не последние версии тк они не ставятся на .net framework 4.5-6, использование как ниже
 
-var predicate = PredicateBuilder.False<Foo>();
+var predicate = PredicateBuilder.False<Foo>();//False- в данном случае уже идет как первое условие=> если для такого предиката добавлять только через AND то он не вернет ничего=>если нужно OR то юзать false если AND то юзать true
  predicate = predicate.Or( f => f.A == 1 );
  if (allowB)
  {
@@ -2278,7 +2369,7 @@ math2}
 
 
 если применили к методу
-то можно не реализовывать(при вызове такого метода(не реализованного) не произайдет вообще ничего, он будет проигнорирован)
+то можно не реализовывать(при вызове такого метода(не реализованного) не произойдет вообще ничего, он будет проигнорирован)
 ограничения- обязательно возвращают void, не могут быть virtual, в них нельзя использовать out, не может быть модификатора доступа
 partial void meth();
 partial void meth(){}
@@ -2643,7 +2734,7 @@ delobj=val=>val+2;
 }
 del myDelegate = x => x * x;  
 
-//древо выражений
+// #древо выражений #деревья #дерево
  #Expression<del> myET = x => x * x; 
 
 в /*код функции*/
@@ -2782,14 +2873,14 @@ void virtual IName.methodname1(){}//так нельзя
 }
 
 
-puЫic interface IUndoaЫe { void Undo();
-puЫic class TextBox : IUndoaЫe
+public interface IUndoaЫe { void Undo();
+public class TextBox : IUndoaЫe
 {
 void IUndoaЫe.Undo()=> Console. Wri teLine ( "TextBox. Undo") ; 
 }
-puЫic class RichTextBox TextBox, IUndoaЫe
+public class RichTextBox TextBox, IUndoaЫe
 {
-puЫic new void Undo ()=> Console.WriteLine ("RichTextBox.Undo"); //при вызове из класса вызовется этот метод, при вызове из интерфейса тоже
+public new void Undo ()=> Console.WriteLine ("RichTextBox.Undo"); //при вызове из класса вызовется этот метод, при вызове из интерфейса тоже
 }
 
 #ковариантность #контрвариантность
@@ -3328,7 +3419,7 @@ writetimeout
 
 #UnmanagedMemoryStream:stream - байтовый поток который использует неупраляемую память для хранения
 
-символьные потоки
+!!!символьные потоки
 #TextReader #TextWriter
 методы TextReader
 ...
@@ -3371,7 +3462,7 @@ StringWriter()//не указываем строку в которой будет хранить но можно ее получить
 
 
 
-
+!!!!
 #FileStream:stream - байтовый поток для ввода вывода
 конструкторы
 FileStream(string путь, FileMode режим)
@@ -3788,25 +3879,25 @@ span:only-of-type{
         }
 
 
-:enabled {   если не установлен атрибут  disabled
-:checked  если установлен атрибут checked          // :checked + span {
- :valid и :invalid стилизуют элементы формы в зависимости от того, проходят они валидацию или нет
+: #enabled {   если не установлен атрибут  disabled
+: #checked  если установлен атрибут checked          // :checked + span {
+ : #valid и : #invalid стилизуют элементы формы в зависимости от того, проходят они валидацию или нет
 input:invalid 
             input:valid {
 стилизуют элементы формы в зависимости от того, попадает ли их значение в определенный диапазон
-:in-range 
-            :out-of-range {
+: #in-range 
+            : #out-of-range {
 <input type="number" min="1" max="100" value="10" id="age" name="age"/>
 
 
-:optional                Не установлен required
-            :required {  установлен атрибут required
+: #optional                Не установлен required
+            : #required {  установлен атрибут required
 
 
 
 
 
-nth-child позволяет стилизовать каждый второй, третий элемент, только четные или только нечетные элементы и т.д.
+#nth-child позволяет стилизовать каждый второй, третий элемент, только четные или только нечетные элементы и т.д.
 tr:nth-child(odd){} для нечетных элементов, 
 tr:nth-child(even){} четных элементов в
 tr:nth-child(3)  под номером 3
@@ -3818,21 +3909,21 @@ tr:nth-last-child(2) {    тоже самое,с конца
 
 
 first-child: представляет элемент, который является первым дочерним элементом
-:last-child: представляет элемент, который является последним дочерним элементом
-:only-child: представляет элемент, который является единственным дочерним элементом в каком-нибудь контейнере
-:only-of-type: выбирает элемент, который является единственным элементом определенного типа (тега) в каком-нибудь контейнере
-:nth-child(n): представляет дочерний элемент, который имеет определенный номер n, например, второй дочерний элемент
-:nth-last-child(n): представляет дочерний элемент, который имеет определенный номер n, начиная с конца
-:nth-of-type(n): выбирает дочерний элемент определенного типа, который имеет определенный номер
-:nth-last-of-type(n): выбирает дочерний элемент определенного типа, который имеет определенный номер, начиная с конца
+:#last-child: представляет элемент, который является последним дочерним элементом
+:#only-child: представляет элемент, который является единственным дочерним элементом в каком-нибудь контейнере
+:#only-of-type: выбирает элемент, который является единственным элементом определенного типа (тега) в каком-нибудь контейнере
+:#nth-child(n): представляет дочерний элемент, который имеет определенный номер n, например, второй дочерний элемент
+:#nth-last-child(n): представляет дочерний элемент, который имеет определенный номер n, начиная с конца
+:#nth-of-type(n): выбирает дочерний элемент определенного типа, который имеет определенный номер
+:#nth-last-of-type(n): выбирает дочерний элемент определенного типа, который имеет определенный номер, начиная с конца
 
 
 
-::first-letter: позволяет выбрать первую букву из текста
-::first-line: стилизует первую строку текста
-::before: добавляет сообщение до определенного элемента
-::after: добавляет сообщение после определенного элемента
-::selection: выбирает выбранные пользователем элементы     работает например для выделенного текста
+::#first-letter: позволяет выбрать первую букву из текста
+::#first-line: стилизует первую строку текста
+::#before: добавляет сообщение до определенного элемента
+::#after: добавляет сообщение после определенного элемента
+::#selection: выбирает выбранные пользователем элементы     работает например для выделенного текста
 
 
 input[type="text"]{
@@ -3845,6 +3936,39 @@ a[href*="microsoft"]{           есть вхождения
 В этом случае вне зависимости от наличия других селекторов с большим количеством баллов к ссылкам будет применяться красный цвет, определяемый первым стилем.
 a {font-size: 18px; color: red !important;}
 
+
+
+
+#hover #visible #visibility #display
+если bl2 находится в bl1
+div.bl1:hover div.bl2{
+    top:0;
+}
+
+для соседних
+.block1:hover + .block2 h1 { color: red;}
+
+
+для как бы не соседних
+<div class="one">Name</div>
+<div class="two">Surname</div>
+<div class="three">Opps</div>
+.three {
+    color: orange;
+}
+
+.one:hover + .two + .three {
+    color: green;
+}
+
+
+для не соседних но при условии что они в 1 блоке
+ .block1:hover ~ .block2 h1 { color: red;}
+<div>
+  <div class=block2><h1>нет</h1></div>
+  <div class=block1>Проведите надо мной</div>
+  <div class=block2><h1>да</h1></div>
+</div>
 
 
 
@@ -5454,7 +5578,7 @@ Data Source- ИМЯСЕРВЕРА\ИМЯИНСТАНСА
 можно просто через local задать --  (LocalDb)\MSSQLLocalDB    -- имя можно узнать в cmd -comand---- sqllocaldb i
 можно явно задать .\SQLEXPRESS01  ---  можно узнать какие доступны в  поиск->services ->найти sql server и то что в скобках можно пробовать использовать
 
-версии sql server 
+#версии #версия #version sql server 
 https://sqlserverbuilds.blogspot.com/2014/01/sql-server-internal-database-versions.html?m=1
 
 
