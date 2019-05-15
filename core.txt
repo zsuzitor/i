@@ -1,0 +1,884 @@
+
+
+#TODO
+
+
+
+context.Response.ContentType = "text/html; charset=utf-8";
+await context.Response.WriteAsync("Текст: context.Itemstext");
+
+
+
+
+//Создание своих сервисов
+//https://metanit.com/sharp/aspnet5/2.19.php
+
+
+
+
+#core
+
+
+#program
+
+public static void Main(string[] args)
+    {
+        BuildWebHost(args).Run();
+    }
+ 
+    public static IWebHost BuildWebHost(string[] args) =>
+        WebHost.CreateDefaultBuilder(args)
+            .UseStartup<Startup>()          // установка класса Startup как стартового
+            .UseWebRoot("static")   // установка папки static, стандартно тут wwwroot
+            .Build();
+
+
+
+
+
+#startup
+
+#IServiceCollection представляет коллекцию сервисов в приложении
+services-список уже подключенных сервисов
+public void #ConfigureServices(IServiceCollection services)
+{
+    //регистрируем сервис, если этого не сделать его нельзя будет использовать в методе Configure()/(при условии что проект не подключает его сам)
+services.#AddMvc();//указываем что будем использовать mvc архитектуру
+}
+
+
+
+#IHostingEnvironment: позволяет взаимодействовать со средой, в которой запускается приложение
+
+
+
+#middleware - компоненты приложения, которые могут быть внедрены в конвейер обработки HTTP-запроса, подключаются в Configure
+
+По умолчанию ASP.NET Core предоставляет следующие встроенные компоненты middleware:
+Authentication: предоставляет поддержку аутентификации
+CORS: обеспечивает поддержку кроссдоменных запросов
+Responce Caching: позволяет кэшировать результаты запросов
+Responce Compression: обеспечивает сжатие ответа клиенту
+URL Rewriting Middleware: предоставляет функциональность URL Rewriting
+Routing: определяет маршруты, используемые в приложении
+Session: предоставляет поддержку сессий
+Static Files: предоставляет поддержку обработки статических файлов
+
+
+
+#ILoggerFactory: предоставляет механизм логгирования в приложении
+//параметрами могут быть только добавленные сервисы, можно создать свой подключить его в ConfigureServices и тогда можно будет докинуть его в параметры
+public void #Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+//метод будет вызываться при каждом запросе, но объект класса создается 1 раз
+
+
+app.#UseStaticFiles();//разрешаем отдавать static файлы
+
+#map
+//метод является конечным(дальше вызываться ничего не будет)
+//Теперь обращения к приложению типа http://localhost:xxxx/about будут обрабатываться с помощью метода About
+app.Map("/index", Index);//Index-делегат который будет возвращать html
+    app.Map("/about", About);
+
+//сложенность, Теперь метод About будет обарабатывать запрос не http://localhost:xxxx/about, а http://localhost:xxxx/home/about
+app.Map("/home", home =>
+    {
+        home.Map("/index", Index);
+        home.Map("/about", About);
+    });
+
+
+#MapWhen
+//метод является конечным(дальше вызываться ничего не будет)
+//принимает в качестве параметра делегат Func<HttpContext, bool> и обрабатывает запрос, если функция, передаваемая в качестве параметра возвращает true.
+app.MapWhen(context => {
+               
+        return context.Request.Query.ContainsKey("id") && 
+                context.Request.Query["id"] == "5";
+    }, Index);
+
+
+
+
+#use
+//метод является НЕ конечным(дальше вызываться будет по очереди)
+//что то сделает и затем передает обработку запроса следующим компонентам middleware в конвейере, например app.Run
+app.Use(async (context, next) =>
+    {
+        z = x * y;
+
+//рекомендуется вызывать метод next.Invoke после метода Response.WriteAsync()
+        await next.Invoke();//если это убрать то на дальше не будет ничего обрабатываться
+
+
+//так можно
+	x = x * 2;
+        await next.Invoke();    // вызов app.Run
+        x = x * 2;      // 8 * 2 = 16
+        await context.Response.WriteAsync($"Result: {x}");
+
+    });
+
+
+метод расширения для вызова app.UseToken(); в методе Configure, может быть упразднен, тогда вместо app.UseToken();   => app.UseMiddleware<TokenMiddleware>();
+public static class TokenExtensions
+{
+    public static IApplicationBuilder UseToken(this IApplicationBuilder builder)
+    {
+        return builder. #UseMiddleware<TokenMiddleware>();//так вызываются самописные Middleware
+    }
+}
+
+//сам класс который будет обрабатывать запрос 
+
+public class TokenMiddleware
+{
+    private readonly RequestDelegate _next;//#RequestDelegate делегат который будет выполняться следующим
+ 
+    public TokenMiddleware(RequestDelegate next)
+    {
+        this._next = next;
+    }
+ //метод должен называться InvokeAsync или Invoke
+    public async Task InvokeAsync(HttpContext context)
+    {
+await _next.Invoke(context);//моно вызвать следующий по очереди метод, если его не вызвать то он не вызовется сам вообще??? TODO
+        var token = context.Request.Query["token"];
+        if (token!="12345678")
+        {
+            context.Response.StatusCode = 403;
+            await context.Response.WriteAsync("Token is invalid");
+        }
+        else
+        {
+            await _next.Invoke(context);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+#run
+//метод является конечным(дальше вызываться ничего не будет)
+//данный метод не передает обработку запроса далее по конвейеру, то его следует помещать в самом конце
+//В качестве параметра метод Run принимает делегат RequestDelegate. Этот делегат имеет следующее определение:
+//public delegate Task RequestDelegate(HttpContext context);
+
+app.Run(async (context) =>
+        {
+            await context.Response.WriteAsync($"Result: {1}");
+        });
+}
+
+
+
+
+
+
+
+
+
+
+
+#IHostingEnvironment
+следует помещать ближе к началу  Configure
+#ApplicationName: возвращает имя приложения
+#EnvironmentName: возвращает описание среды, в которой хостируется приложение
+{
+может иметь 1 из 3х значений: #Development, #Staging и #Production
+В проекте это свойство задается через установку переменной среды ASPNETCORE_ENVIRONMENT. Ее текущее значение можно посмотреть в свойствах проекта на вкладке Debug
+Для определения значения этой переменной для интерфейса IHostingEnvironment определены специальные методы расширения:
+#IsDevelopment(): возвращает true, если имя среды - Development
+#IsStaging(): возвращает true, если имя среды - Staging
+#IsProduction(): возвращает true, если имя среды - Production
+Configure() класса Startup-> env.EnvironmentName = EnvironmentName.Production;
+
+
+Configure() класса Startup-> if (env.IsDevelopment()){app.#UseDeveloperExceptionPage();}  -> если не размещено на хостинге то подробное описание ошибки, если на хостинге то нет
+
+}
+
+
+
+#UseExceptionHandler #error
+Он перенаправляет при возникновении исключения на некоторый адрес и позволяет обработать исключение
+следует помещать ближе к началу  Configure
+
+if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    else
+    {
+        app.UseExceptionHandler("/error");//перенаправляет при возникновении ошибки на адрес "/error"
+    }
+
+//обрабатываем ошибку
+app.Map("/error", ap => ap.Run(async context =>
+    {
+        await context.Response.WriteAsync("DivideByZeroException occured!");
+    }));
+
+
+
+Обработка #ошибок #ошибка HTTP
+стандартно статус ошибки можно увидеть только в консоле, сама страница просто будет белой
+if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    // обработка ошибок HTTP, благодаря этой строке будет написан код ошибки на странице
+  app.UseStatusCodePages();
+//{0} - статус ошибки
+//app.UseStatusCodePages("text/plain", "Error. Status code : {0}");
+
+//Но теперь при обращении к несуществующему ресурсу клиент получит статусный код 302 / Found. То есть формально несуществующий ресурс будет существовать, просто статусный код 302 будет указывать, что ресурс перемещен на другое место - по пути "/error/404".
+//app.#UseStatusCodePagesWithRedirects("/error/{0}");//Здесь будет идти перенаправление по адресу "/error" ErrorStatus.
+
+//app.#UseStatusCodePagesWithReExecute("/error/{0}");//тоже что и UseStatusCodePagesWithRedirects но браузер получит правильный статус
+
+Настройка обработки ошибок в web.config - также можно но значительные ограничения https://metanit.com/sharp/aspnet5/17.1.php
+
+
+
+
+
+
+
+
+
+
+
+#Создание своих #сервисов #сервис #внедрение #зависимостей
+
+Добавим в проект новую папку Services
+public interface IMessageSender
+{
+    string Send();
+}
+создать несколько классов реализующих интерфейс
+EmailMessageSender, SmsMessageSender
+
+в классах можно определить метод расширения
+public static void AddTimeService(this IServiceCollection services)
+    {
+        services.AddTransient<TimeService>();
+    }
+
+
+
+
+
+//подключаем тот класс который будет использоваться(подразумеваться) с интерфейсом
+//устанавливаем зависимость
+ConfigureServices->
+//если метод расширения не был определен
+services.AddTransient<IMessageSender, EmailMessageSender>();
+services.AddTransient<TimeService>();//если зависимость устанавливать не нужно, а нужно просто добавить сервис
+//если метод расширения был определен
+ services.AddTimeService();
+
+
+// теперь можем указать IMessageSender как подключенный сервис
+Configure(IApplicationBuilder app, IHostingEnvironment env, IMessageSender messageSender)
+messageSender.Send();//высовется метод того класс зависимость которого установили
+
+теперь данную зависимость можно использовать:
+Через конструктор класса (за исключением конструктора класса Startup) - класс может иметь только 1 конструктор который поддерживает параметр зависимости
+{
+для такого класса нужно подключить сервис services.AddTransient<MessageService>(); тогда его можно будет также использовать в configure в качестве параметра
+и нужно внедрить зависимость которую он получает в качестве параметра
+}
+Через параметр метода Configure класса Startup
+Через параметр метода Invoke компонента middleware
+Через свойство RequestServices контекста запроса HttpContext в компонентах middleware
+Через свойство ApplicationServices объекта IApplicationBuilder в классе Startup
+
+
+
+создание объекта зависимости
+
+#HttpContext. #RequestServices
+предоставляет доступ к всем внедренным зависимостям с помощью своих методов
+
+#GetService<service>(): использует провайдер сервисов для создания объекта, который представляет тип service. В случае если в провайдере сервисов для данного сервиса не установлена зависимость, то возвращает значение null
+#GetRequiredService<service>(): использует провайдер сервисов для создания объекта, который представляет тип service. В случае если в провайдере сервисов для данного сервиса не установлена зависимость, то генерирует исключение
+
+при внедрении такой зависимости services.AddTransient<IMessageSender, EmailMessageSender>();
+можно получить объект IMessageSender messageSender = context.RequestServices.GetService<IMessageSender>();
+
+
+
+#ApplicationServices
+
+Configure(IApplicationBuilder app)
+IMessageSender messageSender = app.ApplicationServices.GetService<IMessageSender>();
+
+
+Метод #Invoke компонентов #middleware
+
+когда создаем свой класс для использования с app.Use можем также добавить параметр в метод Invoke
+ public async Task Invoke(HttpContext context, IMessageSender messageSender)
+
+
+
+
+#ContentRootPath: возвращает путь к корневой папке приложения
+#WebRootPath: возвращает путь к папке, в которой хранится статический контент приложения, как правило, это папка wwwroot
+#ContentRootFileProvider: возвращает реализацию интерфейса Microsoft.AspNetCore.FileProviders.IFileProvider, которая может использоваться для чтения файлов из папки ContentRootPath
+#WebRootFileProvider: возвращает реализацию интерфейса Microsoft.AspNetCore.FileProviders.IFileProvider, которая может использоваться для чтения файлов из папки WebRootPath
+
+
+
+
+
+
+#static #files
+
+необходимо в sturtup->config докинуть
+app.#UseStaticFiles();//разрешаем отдавать static файлы
+
+по ссылке http://localhost:55234/index.html можно получить статический файл который расположен
+wwwroot->index.html
+если находится в wwwroot/html/ то http://localhost:55234/html/index.html
+если нужно изменить папку с статик файлами то в program.cs внести изменения
+public static void Main(string[] args)
+    {
+        BuildWebHost(args).Run();
+    }
+ 
+    public static IWebHost BuildWebHost(string[] args) =>
+        WebHost.CreateDefaultBuilder(args)
+            .UseStartup<Startup>()          // установка класса Startup как стартового
+            .UseWebRoot("static")   // установка папки static, стандартно тут wwwroot
+            .Build();
+
+
+
+сопоставление каталогов с путями
+ app.UseStaticFiles(); // обрабатывает все запросы к wwwroot
+
+//такая перегрузка позволит по запросу http://localhost:56431/pages/index.html обратиться к файлу wwwroot/html/index.html
+    app.UseStaticFiles(new StaticFileOptions() // обрабатывает запросы к каталогу wwwroot/html
+    {
+        FileProvider = new PhysicalFileProvider(
+            Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\html")),
+        RequestPath = new PathString("/pages")
+    });
+
+
+
+
+
+
+// дописав  app.UseDefaultFiles(); перед app.UseStaticFiles(); , можно определить стандартный статический файл который будет отправляться по запросу http://localhost/
+названия у файла должно быть: default.htm default.html index.htm index.html
+Если файл будет найден, то он будет отправлен в ответ клиенту. Если же файл не будет найден, то продолжается обычная обработка запроса с помощью следующих компонентов middleware
+если надо указать стандатный файл с другим именем то 
+в configure докинуть в начало
+	DefaultFilesOptions options = new DefaultFilesOptions();
+        options.DefaultFileNames.Clear(); // удаляем имена файлов по умолчанию
+        options.DefaultFileNames.Add("hello.html"); // добавляем новое имя файла
+        app.UseDefaultFiles(options); // установка параметров
+app.UseStaticFiles();
+
+
+
+
+app.#UseDirectoryBrowser();
+докинув в config и докинув  services.AddDirectoryBrowser(); в ConfigureServices
+можно позволить пользователям просмотривать файлы на сервере
+
+
+ using Microsoft.Extensions.FileProviders.
+если использовать такую перегрузку то в таком случае путь типа http://localhost:56431/pages/ будет сопоставляться с каталогом "wwwroot\html".
+app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\html")),
+         
+        RequestPath = new PathString("/pages")
+    });
+
+
+
+
+
+
+
+
+app.#UseFileServer();
+Метод UseFileServer() объединяет(остальные указывать не надо) функциональность сразу всех трех вышеописанных методов UseStaticFiles, UseDefaultFiles и UseDirectoryBrowser
+
+Если нам надо еще включить просмотр каталогов, то
+app.UseFileServer(enableDirectoryBrowsing: true);
+
+В этом случае будет разрешен обзор каталога по пути http://localhost:56431/pages/, но при этом путь http://localhost:56431/html/ работать не будет.
+app.UseFileServer(new FileServerOptions
+{
+    EnableDirectoryBrowsing=true,
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\html")),
+    RequestPath = new PathString("/pages"), 
+    EnableDefaultFiles=false
+});
+
+
+
+
+
+#owin
+
+
+в configure
+//если #UseOwin что то выводит в поток(результат) то все последующее не будет выведено 
+- context.Response.WriteAsync("Hello Work!"); ничего не выведет, повторный запуск owin тоже ничего не выведет
+app.UseOwin(pipeline =>
+            {
+                pipeline(next => SendResponseAsync);
+            });
+
+
+public Task SendResponseAsync(IDictionary<string, object> environment)
+        {
+//из environment мы можем получать объекты запроса и ответа
+            // определяем ответ
+            string responseText = "Hello ASP.NET Core";
+            // кодируем его в массив байтов
+            byte[] responseBytes = Encoding.UTF8.GetBytes(responseText);
+ 
+            // получаем поток ответа
+            var responseStream = (Stream)environment["owin.ResponseBody"];
+            // отправка ответа
+            return responseStream.WriteAsync(responseBytes, 0, responseBytes.Length);
+        }
+
+
+
+Ключи запроса
+owin.#RequestBody : объект Stream, представляющий тело запроса
+owin.#RequestHeaders : объект IDictionary<string, string[]>, представляющий заголовки запроса
+owin.#RequestMethod : объект string, представляющий метод запроса ("GET", "POST")
+owin.#RequestPath : объект string, представляет запрошенный путь относительно корня приложения
+owin.#RequestPathBase : объект string, содержащий часть запрошенного пути относительно корня приложения
+owin.#RequestProtocol : объект string, хранящий название протокола ("HTTP/1.0", "HTTP/1.1")
+owin.#RequestQueryString : объект string, хранящий строку запроса, то есть ту часть URI, которая идет после "?" (например, "foo=bar&mes=hello")
+owin.#RequestScheme : объект string, хранящий схему URI запроса ("http", "https")
+owin.#RequestId : объект string, представляющий уникальный идентификатор запроса (необязательный параметр)
+
+Ключи ответа
+owin.#ResponseBody : объект Stream, представляющий поток ответа
+owin.#ResponseHeaders : объект IDictionary<string, string[]>, представляющий заголовки ответа
+owin.#ResponseStatusCode : объект int, хранящий статусный код HTTP, который посылается в ответе (необязательный параметр)
+owin.#ResponseReasonPhrase : объект string, содержащий словесное пояснение к статусному коду (необязательный параметр)
+owin.#ResponseProtocol : объект string, хранящий название протокола ("HTTP/1.0", "HTTP/1.1")
+
+
+
+
+
+
+
+#log #логирование #логгирование
+
+в Configure
+loggerFactory.AddConsole(); //указываем что логи будут выводиться на консоль
+loggerFactory.AddConsole(LogLevel.Warning);//устанавливаем детализацию
+
+там где нужно что то вывести (например app.Run(async (context))
+// создаем объект логгера
+                var logger = loggerFactory.CreateLogger("RequestInfoLogger");
+                // пишем на консоль информацию
+                logger.LogInformation("Processing request {0}", context.Request.Path);
+
+вывод сообщений уровня Debug и Trace по умолчанию отключен
+
+
+#LogLevel
+
+Trace: используется для вывода наиболее детализированных сообщений. Подобные сообщения могут нести важную информацию о приложении и его строении, поэтому данный уровень лучше использовать при разработке, но никак не при публикации
+Debug: для вывода информации, которая может быть полезной в процессе разработки и отладки приложения
+Information: уровень сообщений, позволяющий просто отследить поток выполнения приложения
+Warning: используется для вывода сообщений о неожиданных событиях, например, ошибках, которые не влияют не останавливают выполнение приложения, но в то же время должны быть иследованы
+Error: информация об ошибках, вследствие которых приложение должно быть остановлено
+Critical: уровень критических ошибок, которые могут быть связаны с какими-то ситуациями извне - ошибками операционной системы, потерей данных в бд, переполнение памяти диска и т.д.
+None: вывод информации в лог не применяется
+
+
+
+у #LogInformation есть методы 
+
+#LogDebug()
+#LogTrace()
+#LogInformation()
+#LogWarning()
+#LogError()
+#LogCritical()
+
+
+иногда не все логи можно увидеть, и это можно исправить в program.cs
+
+public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .ConfigureLogging(logging => logging.SetMinimumLevel(LogLevel.Trace))//устанавливаем минимальный уровень который надо видеть в логах
+            .Build();
+
+
+
+для использования логов в контроллере
+public class HomeController : Controller
+{
+private readonly ILogger _logger;
+
+public HomeController(ILogger<homecontroller> logger)
+{
+_logger = logger;
+}
+
+public IActionResult Index()
+{
+_logger.LogInformation("Test Message");
+
+return View();
+}
+}
+
+
+
+------------
+еще вариант в контроллере #TODO сравнить оценить мб оставить только один варик
+
+есть инструкция по проще
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+loggerFactory.AddFile(Configuration["Logging:LogFileName"]);
+...
+в контроллерах:
+[ApiController]
+public class BaseController : Controller
+{
+protected readonly ILogger _logger;
+
+public BaseController(
+ILogger<basecontroller> logger
+)
+{
+_logger = logger;
+}
+}
+Использование:
+_logger.LogInformation("User logged in.");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------
+если не в контроллере а где то еще то
+
+Создаём класс:
+using Microsoft.Extensions.Logging;
+...
+
+internal static class Log
+{
+internal static ILoggerFactory LoggerFactory { get; set; }
+internal static ILogger CreateLogger<t>() => LoggerFactory.CreateLogger<t>();
+internal static ILogger CreateLogger(string categoryName) => LoggerFactory.CreateLogger(categoryName);
+}
+
+Затем в Startup.cs добавляем сохранение фабрики:
+
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+...
+Log.LoggerFactory = loggerFactory;
+....
+}
+
+И в нужном классе, в котором надо вести логгирование:
+public class CustomClass
+{
+private readonly ILogger _logger = Log.CreateLogger<customclass>();
+
+public CustomClass()
+{
+_logger.LogInformation("test message");
+}
+}
+
+
+
+
+
+#TODO сздание провайдера логгирования(вывод логов не на консоль а например в файл)
+https://metanit.com/sharp/aspnet5/2.10.php
+
+
+
+
+
+
+
+что то типо глабальной переменной для всех middleware
+
+ (IDictionary<object, object>)HttpContext.Items
+
+После завершения запроса все данные из HttpContext.Items удаляются
+
+app.Use(async (context, next) =>
+    {
+        context.Items["text"] = "Text from HttpContext.Items";}
+//и в другом можем получить
+
+
+
+
+#Куки
+посылаются на сервер с каждым запросом, размер ограничен 4096 байтами
+И также по умолчанию куки имеют настройку CookieHttpOnly=true, поэтому они не доступны для клиентских скриптов из браузера
+//так можно только получить
+if (context.Request.Cookies.ContainsKey("name"))
+    string name = context.Request.Cookies["name"];
+
+//для добавления
+context.Response.Cookies.Append("name", "Tom");
+//удаление
+context.Response.Cookies.Delete("name");
+
+
+
+
+
+
+#Сессии #Session  #Memory
+
+
+Для хранения состояния сессии на сервере создается словарь или хеш-таблица, которая хранится в кэше и которая существует для всех запросов из одного браузера в течение некоторого времени. На клиенте хранится идентификатор сессии в куках. Этот идентификатор посылается на сервер с каждым запросом. Сервер использует этот идентификатор для извлечения нужных данных из сессии. Эти куки удаляются только при завершении сессии. Но если сервер получает куки, которые установлены уже для истекшей сессии, то для этих кук создается новая сессия.
+название куки в которой хранится ключ сессии по умолчанию - ".AspNet.Session"
+
+в ConfigureServices
+
+services.AddDistributedMemoryCache();
+    services.AddSession();
+
+
+в Configure
+вверху app.UseSession();//если не вызвать метод то при обращении будет исключение InvalidOperationException
+
+//читаем 
+if(context.Session.Keys.Contains("name"))
+//устанавливаем
+context.Session.SetString("name", "Tom");
+
+
+Объект Session определяет ряд свойств и методов, которые мы можем использовать:
+Keys: свойство, представляющее список строк, который хранит все доступные ключи
+Clear(): очищает сессию
+Get(string key): получает по ключу key значение, которое представляет массив байтов
+GetInt32(string key): получает по ключу key значение, которое представляет целочисленное значение
+GetString(string key): получает по ключу key значение, которое представляет строку
+Set(string key, byte[] value): устанавливает по ключу key значение, которое представляет массив байтов
+SetInt32(string key, int value): устанавливает по ключу key значение, которое представляет целочисленное значение value
+SetString(string key, string value): устанавливает по ключу key значение, которое представляет строку value
+Remove(string key): удаляет значение по ключу
+
+
+
+переопределение настроик сессии через объект
+SessionOptions:
+CookieName: имя куки
+IdleTimeout: время действия куки в виде объекта TimeSpan
+CookieDomain: домен, для которого устаналиваются куки
+CookieHttpOnly: доступны ли куки только при передаче через HTTP-запрос
+CookiePath: путь, который используется куками
+
+
+для изменения надо в ConfigureServices(IServiceCollection services)
+services.AddDistributedMemoryCache();
+    services.AddSession(options =>
+    {
+        options.CookieName = ".MyApp.Session";
+        options.IdleTimeout = TimeSpan.FromSeconds(3600);
+    });
+
+
+
+хранить в сессии можно только строку, поэтому надо конвертить(можно так)
+#json
+
+//context.Session.Get<Person>("person");
+//context.Session.Set<Person>("person", person);
+
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+ 
+public static class SessionExtensions
+{
+    public static void Set<T>(this ISession session, string key, T value)
+    {
+        session.SetString(key, JsonConvert.SerializeObject(value));
+    }
+ 
+    public static T Get<T>(this ISession session, string key)
+    {
+        var value = session.GetString(key);
+        return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#https #UseHttpsRedirection
+при попытке доступа по http будет редиректить на https
+
+Configure-> app.UseHttpsRedirection();
+можно задать параметры переадресации
+ConfigureServices просто докинуть->
+services.AddHttpsRedirection(options =>
+    {
+        options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+        options.HttpsPort = 44369;
+    });
+
+
+#UseHsts #Hsts 
+из за того что при первом обращении пользователь всегда обращается по http надо не просто редиректить а делать еще и так
+Configure-> 
+if (env.IsDevelopment()){}else//кидать в такое условие тк могут быть проблемы при разработке тк все кешируется
+app.UseHsts();//до UseHttpsRedirection
+
+
+монжно настроить параметры ( Strict-Transport-Security )
+ConfigureServices ->
+services.AddHsts(options =>
+    {
+        options.Preload = true;//устанавливает параметр preload
+        options.IncludeSubDomains = true;//устанавливает параметр includeSubDomains
+        options.MaxAge = TimeSpan.FromDays(60);//устанавливает параметр max-age
+        options.ExcludedHosts.Add("us.example.com");//добавляет сисок доменов, которые надо исключить из действия заголовка
+        options.ExcludedHosts.Add("www.example.com");
+    });
+
+
+
+
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+Заголовок имеет три параметра:
+
+max-age: задает максимальное действие заголовка (обязательный параметр)
+includeSubDomains: если этот параметр установлен, то действие применяется ко всем поддоменам
+preload: если этот параметр установлен, то будет использоваться специальный preload-список доменов, обращение к которым безопасно.
+
+
+
+
+
+
+
+
+
+#Dependency #Injection
+#внедрение #зависимостей #IServiceProvider аналог #Ninject
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
