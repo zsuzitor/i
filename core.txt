@@ -3,11 +3,11 @@
 #TODO
 
 
-
+HttpContext context
 context.Response.ContentType = "text/html; charset=utf-8";
 await context.Response.WriteAsync("Текст: context.Itemstext");
 
-
+context.Request.Path.Value.ToLower()
 
 
 //Создание своих сервисов
@@ -53,6 +53,7 @@ services.#AddMvc();//указываем что будем использовать mvc архитектуру
 
 
 #middleware - компоненты приложения, которые могут быть внедрены в конвейер обработки HTTP-запроса, подключаются в Configure
+строятся согласно паттерну Singleton - создаются только 1 раз при старте приложения
 
 По умолчанию ASP.NET Core предоставляет следующие встроенные компоненты middleware:
 Authentication: предоставляет поддержку аутентификации
@@ -255,7 +256,10 @@ if (env.IsDevelopment())
 
 
 
-#Создание своих #сервисов #сервис #внедрение #зависимостей
+#Создание своих #сервисов #сервис #внедрение #зависимостей #service
+
+сервис можно передать параметром или получить так TimeService timeService = context.RequestServices.GetService<TimeService>();
+
 
 Добавим в проект новую папку Services
 public interface IMessageSender
@@ -274,14 +278,31 @@ public static void AddTimeService(this IServiceCollection services)
 
 
 
+#AddTransient #Transient
+Такие объекты создаются при каждом обращении к ним(к классу, объекту класса).
+
+#AddScoped #Scoped
+Метод AddScoped создает один экземпляр объекта для всего запроса. применяется также как и AddTransient
+
+#AddSingleton #Singleton
+AddSingleton создает один объект для всех последующих запросов, при этом объект создается только тогда, когда он непосредственно необходим. применяется также как и AddTransient
 
 //подключаем тот класс который будет использоваться(подразумеваться) с интерфейсом
 //устанавливаем зависимость
 ConfigureServices->
-//если метод расширения не был определен
+//если метод расширения(static this) не был определен
 services.AddTransient<IMessageSender, EmailMessageSender>();
 services.AddTransient<TimeService>();//если зависимость устанавливать не нужно, а нужно просто добавить сервис
-//если метод расширения был определен
+//services.AddSingleton<ICounter>(new RandomCounter());//объект можно создать самому
+
+//можно передать делегат который будет отвечать за создание
+services.AddTransient<IMessageSender>(provider=> {
+    if (DateTime.Now.Hour >= 12) return new EmailMessageSender();
+    else return new SmsMessageSender();
+});
+
+
+//если метод расширения(static this) был определен
  services.AddTimeService();
 
 
@@ -297,12 +318,31 @@ messageSender.Send();//высовется метод того класс зависимость которого установил
 }
 Через параметр метода Configure класса Startup
 Через параметр метода Invoke компонента middleware
-Через свойство RequestServices контекста запроса HttpContext в компонентах middleware
+Через свойство RequestServices контекста запроса HttpContext в компонентах middleware // HttpContext.RequestServices
 Через свойство ApplicationServices объекта IApplicationBuilder в классе Startup
 
 
 
-создание объекта зависимости
+
+#console внедрение зависимостей в консольном приложении
+using Microsoft.Extensions.DependencyInjection;
+
+public class Program 
+{
+public static void Main(string[] args)
+{
+//установка зависимостей DI
+var serviceProvider = new ServiceCollection()
+.AddSingleton<IFooService, FooService>()
+.AddSingleton<IBarService, BarService>()
+.BuildServiceProvider();
+
+
+
+
+
+
+создание объекта  для зависимости (по например интерфесу создать объект)
 
 #HttpContext. #RequestServices
 предоставляет доступ к всем внедренным зависимостям с помощью своих методов
@@ -325,6 +365,23 @@ IMessageSender messageSender = app.ApplicationServices.GetService<IMessageSender
 
 когда создаем свой класс для использования с app.Use можем также добавить параметр в метод Invoke
  public async Task Invoke(HttpContext context, IMessageSender messageSender)
+
+
+
+
+
+
+#error
+#InvalidOperationException: Cannot resolve scoped service 'DIApp.TimeService' from root provider. в ConfigureServices
+возможно не правильно указаны способы подключения, допустим зависимость - AddScoped а сервис AddTransient, может получиться что они взаимосвязаны но 1 объект создается позже другого
+#InvalidOperationException: Cannot consume scoped service 'DIApp.ITimer' from singleton 'DIApp.TimeService
+Но суть будет та же самая - мы не можем по умолчанию передавать в конструктор singleton-объекта scoped-сервис.
+
+
+
+
+
+
 
 
 
@@ -818,38 +875,149 @@ preload: если этот параметр установлен, то будет использоваться специальный prel
 
 
 
+#IConfiguration #IConfigurationRoot #конфигурация
+
+в версии 2.0++ не обязательно все явно подключать все может подключиться само:
+создать файл appsettings.json - обязательно такое имя // #appsettings.json
+в контруктор Startup добавить параметр и хранить его
+public Startup(IConfiguration config)
+        {
+            AppConfiguration = config;
+        }
+        public IConfiguration AppConfiguration { get; set; }
+ var color = AppConfiguration["color"];
+
+если делать таким образом то можно докинуть в #Middleware, и дальше уже юзать в нем
+public ConfigMiddleware(RequestDelegate next, IConfiguration config)
+        {
+            _next = next;
+            AppConfiguration = config;
+        }
+        public IConfiguration AppConfiguration { get; set; }
+
+то что выше(передача параметром через фабрику) можно сделать и без файла appsettings.json, если докинуть
+ConfigureServices-> services.AddTransient<IConfiguration>(provider => AppConfiguration);//AppConfiguration - название свойства, описано ниже
+
+
+
+Microsoft.Extensions.Configuration
+Кроме того настройки конфигурации также могут храниться во внешнем файле - json, ini, xml, и в этом случае нам может потребоваться добавить один из пакетов, который позволяет работать с определенным источников конфигурации. В частности, нам доступно несколько источников конфигурации, которые представлены следующими пакетами:
+Microsoft.Extensions.Configuration (предоставляет базовую функциональность для конфигурации, а также позволяет задавать параметры конфигурации в памяти)
+Microsoft.Extensions.Configuration.Json (позволяет использовать в качестве источников конфигурации файлы json)
+Microsoft.Extensions.Configuration.CommandLine (позволяет считывать параметры конфигурации из командной строки с помощью метода AddCommandLine())
+Microsoft.Extensions.Configuration.EnvironmentVariables (позволяет получать параметры конфигурации из переменных окружения)
+Microsoft.Extensions.Configuration.Ini (использует в качестве источника конфигурации файлы ini)
+Microsoft.Extensions.Configuration.Xml (использует в качестве источника конфигурации файлы xml)
+
+#ConfigurationBuilder #IConfiguration
+
+
+
+
+IConfiguration определяет следующие методы:
+#GetSection(name): возвращает объект IConfiguration, который представляет только определенную секцию name
+#GetChildren(): возвращает все подсекции текущего объекта конфигурации в виде набора объектов IConfiguration
+#GetReloadToken(): возвращает токен - объект IChangeToken, который используется для уведомления при изменении конфигурации
+#GetConnectionString(name): эквивалентен вызову GetSection("ConnectionStrings")[name] и предназначается непосредственно для работы со строками подключения к различным базам даных
+string con = AppConfiguration.GetConnectionString("DefaultConnection");
+
+[key]: индексатор, который позволяет получить по определенному ключу key хранящееся значение
 
 
 
 
 
 
+public Startup()
+        {
+            // строитель конфигурации, необходимо указать место хранения(можно скопировать ниже) 
+var builder =...
+            
+            // создаем конфигурацию./ этот элемент попадает в конфигурацию приложения
+            AppConfiguration = builder.Build();
+ 
+        }
+        // свойство, которое будет хранить конфигурацию
+        public IConfiguration AppConfiguration { get; set; }
+
+//получаем - await context.Response.WriteAsync(AppConfiguration["firstname"]);
+//устанавливаем - AppConfiguration["firstname"] = "alice";
+
+
+#AddInMemoryCollection -хранение в памяти
+
+var builder = new ConfigurationBuilder()
+                .AddInMemoryCollection(//указываем место хранения
+new Dictionary<string, string>
+                {
+                    {"firstname", //ключ настройки 
+			"Tom"},   // значение
+                    {"age", "31"}
+                });
+
+#AddJsonFile (class JsonConfigurationExtensions) #json
+создать объект json и закинуть туда данные ( {"color": "red"} ), в файле должны быть уникальные ключи
+И если во втором файле есть настройки, которые имеют тот же ключ, что и настройки первого файла, то происходит переопределение настроек: настройки из второго файла заменяют настройки первого.
+
+
+var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("conf.json").AddJsonFile("myconfig.json");//можно указать несколько файлов, можно только 1
+
+можно хранить сложные объекты
+{
+  "color": "red",
+  "namespace": { "class": { "method": "AddJson" } }
+}
+string text = AppConfiguration["namespace:class:method"];
+string text = AppConfiguration. #GetSection("namespace").GetSection("class")... .Value;
+string text = AppConfiguration. #GetSection("namespace:class:method")... .Value;
+
+#AddXmlFile #xml
+
+добавить новый xml файл
+<configuration>
+  <color>blue</color>
+  <text>Hello ASP.NET</text>
+</configuration>
+
+var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath);
+            builder.AddXmlFile("config.xml");
 
 
 
+#AddIniFile #ini
+ добавим в проект текстовый файл и переименуем его в conf.ini
+color="blue"
+text="Hello ASP.NET Core 2.0"
+var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddIniFile("conf.ini");
 
 
 
+#AddEnvironmentVariables
+ можно добавить все переменные среды окружения, которые имеются на рабочей машине
+AppConfiguration = new ConfigurationBuilder()
+        .AddEnvironmentVariables()
+        .Build();
+
+string java_dir = AppConfiguration["JAVA_HOME"] ?? "not set";
 
 
 
+Объединение источников конфигурации
+
+var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath);
+        builder.AddJsonFile("conf.json");
+        builder.AddEnvironmentVariables();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+создание собственного провайдера источника конфигурации #TODO
+https://metanit.com/sharp/aspnet5/2.15.php
 
 
 
