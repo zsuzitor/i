@@ -432,17 +432,30 @@ checked{(byte)(int_1*int_2)}
 
 #case #switch
 
-goto case х (переход на другую конструкцию case); 
+#goto case х (переход на другую конструкцию case); 
  goto defaul t
 switch 
 { 
 case 13: 
 //если тут нет кода то можно пропустить break; и 2 case объедин€тс€
 case 12: 
-case
+break;
+
+case 12 when(y<10): 
+break;
+
+case int val: 
+break;
+
+default:
+break;
+
+case null:
+break;
+
 }
 
-#goto
+
 
 #if #else
 
@@ -1227,7 +1240,7 @@ func(1);
 func(1,2);
 func(new int[]{1,2,3});
 
-если метод в 1 строку можем сделать так
+если метод в 1 строку можем сделать так, с 17 студии кажетс€
 int Foo (int х) => х * 2;
 
 
@@ -2400,6 +2413,11 @@ partial void meth(){}
 вернет bool если можно\нельз€ привести тип
 (bool)(val is classname)
 
+
+#TODO не совсем пон€л/ доступно с 17 студии
+if(x is int i)
+
+
 #as
 //приведет тип если можно и если нет то вернет null
 (val is classname)
@@ -2475,6 +2493,10 @@ catch(Exception e){
 throw e;//пробросить исключение дальше, но  свойство StackTrace исключени€ больше не будет отражать исходную ошибку
 throw;//пробросить исключение дальше
 }
+catch(Exception e)if(e.Source==""){
+}
+
+
 
 #Exception
 
@@ -3080,7 +3102,7 @@ OnCompleted - указывает на то что наблюдаемый объект прекратил отправку сообщени
 
 
 
-#ref #out
+#ref 
 таким модификатором нельз€ пометить необ€зательные параметры
 
 ref local
@@ -3092,9 +3114,14 @@ ref int xRef = ref x;
 ref int numberRef = ref Find(4, numbers);
 static ref int Find(int[] numbers)
 {
-return ref numbers[0];
+return ref numbers[0];//будет ссылатьс€ на элемент
 }
 
+
+#out
+об€зательно должна быть установлена, в целом примен€етс€ как ref
+в новой версии можно объ€вить так(при вызове метода)
+meth(out var x,(int)10);
 
 
 

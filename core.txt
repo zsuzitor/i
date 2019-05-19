@@ -14,6 +14,8 @@ context.Request.Path.Value.ToLower()
 //https://metanit.com/sharp/aspnet5/2.19.php
 
 
+#kestrel вместо #iis
+
 
 
 #core
@@ -248,9 +250,12 @@ if (env.IsDevelopment())
 
 
 
-
-
-
+#[]
+если не хотим передавать в конструктор контроллера то можно так, сам все создаст и закинет
+public IActionResult Index([FromServices] IHostingEnviroment env)
+#TODO кажется дубликат
+#create #зависимость
+var env=HttpContext.RequestServices.GetService<IHostingEnvironment>();
 
 
 
@@ -863,6 +868,19 @@ preload: если этот параметр установлен, то будет использоваться специальный prel
 
 
 
+#bower.json
+файл который управляет клиентскими зависимостями(библиотеки js css), которые подключаются через менеджер пакетов bower
+
+
+
+
+#bundleconfig.json
+файл который содержит задачи по минификации используемых скриптов и стилей, которые выполняются при построении проекта
+
+
+
+
+
 
 
 #Dependency #Injection
@@ -876,7 +894,7 @@ preload: если этот параметр установлен, то будет использоваться специальный prel
 
 
 #IConfiguration #IConfigurationRoot #конфигурация
-
+хранение конфигурации приложения
 в версии 2.0++ не обязательно все явно подключать все может подключиться само:
 создать файл appsettings.json - обязательно такое имя // #appsettings.json
 в контруктор Startup добавить параметр и хранить его
@@ -1025,11 +1043,126 @@ https://metanit.com/sharp/aspnet5/2.15.php
 
 
 
+#db 
+#DefaultConnection #Configuration #GetConnectionString #connection #AddDbContext #context
+в ConfigureServices (services)->{
+string connection=Configuration.GetConnectionString("DefaultConnection");
+//добавление #контекста
+services.AddDbContext<MobileContext>(option=>option.UseSqlServer(connection))
+}
+
+controller->
+MobileContext db;
+в контроллер конструктор
+public HomeController(MobileContext context){
+db=context;
+}
 
 
 
 
 
+
+
+
+
+#route #HttpGet
+[HttpGet("api/index")]
+Index()
+[HttpGet("api/index/{id}")]
+Index(string id)
+
+[Route("Home")]
+HomeController{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#tag #razor #html #helper
+
+
+#AnchorTagHelper
+actionlink->
+<a asp-controller="Home" asp-action="Contacts" asp-route-id="5" asp-route-data='new Dictionary<string,string>(){{"id","5"}}'>контакты</a>
+
+asp-host - указывает на домен сайта
+asp-protocol - определяет http or https
+asp-all-route-data - устанавливает набор значений для параметров
+asp-fragment - определяет ту часть хэш ссылки которая идет после символа #
+
+
+#labelTagHelper #InputTagHelper #TextAreaTagHelper
+<form asp-action="Create" asp-anti-forgery="true">
+<label asp-for="Name"></label>
+<input type="text" asp-for="Name"></input>
+
+<select asp-for"vl" asp-items="ViewBag.Companies">
+<option selected="selected"> базовое значение</option>
+</select>
+
+<form>
+
+
+asp-
+controller
+action
+area - указывает название области в которой будет вызываться контроллер для обработки формы
+anti-forgery - если имеет значение true то для этой формы будет генерироваться  antiforgery token
+route - название маршрута
+all-route-data устанавливает набор значений для параметров
+route-[название параметра] определяет значение для определенного параметра
+for указывает для какого свойства модели создается элемент
+format устанавивает формат ввода для элемента например для input label ="{0:dd-MM-yyy}"
+
+
+
+#validate
+#data-#valmsg #TODO хз что это
+<span data-valmsg-for="Name" data-valmsg-replace="true">...
+
+asp-#validation-#summary
+
+<div asp-validation-summary="ModelOnly">...
+{
+None - ошибки валидации не отображаются
+ModelOnly - отображается только шибка валидации уровня модели, ошибки для отдельных свойств не отображаются
+All - отображает все ошибки
+}
+
+
+
+
+#ScriptTagHelper #js #script
+<script asp-src-include="~/js/**/*.js" asp-scr-exclude="~/js/util/**/*.js"></script>
+
+
+#LinkTagHelper  #css #link
+
+<link asp-href-include="~/css/**/*.css"/>
+
+? - любой символ кроме слеша
+* - любое количество сомволов кроме слеша
+** - любое количество символов включая слеш
+
+для таких подключаемых блоков
+
+asp-append-version если имеет значение true то к пути к файлу скрипта добавляется номер версии
+asp-fallback-(scr|href) - указывает вспомогательный путь к скрипту, который используется если загрузка скрипта указанного в утрибудет src пройдет неудачно
+asp-fallback-text - определяет выражение, которое тестирует загрузку основного скрипта из атрибута src (для link доступны -class -property -value)
+asp-(src|href)-include - определяет шаблон подключаемых файлов через запятую можно задать несколько шаблонов
+
+asp-(src|href)-exclude - определяет через запятую набор шаблонов для тех файлов которые следует исключить из загрузки
+asp-fallback-(src|href)-include - определяет через запятую набо шаблонов файлов которые подключаются в том случае если загрузка основного скрипта из атрибута src прошла неудачно
+asp-fallback-(src|href)-exclude - определяет через запятую набо шаблонов файлов которые следует исключить из загрузки в том случае если загрузка основного скрипта из атрибута scr прошла неудачно
 
 
 
