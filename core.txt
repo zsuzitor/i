@@ -1043,6 +1043,56 @@ https://metanit.com/sharp/aspnet5/2.15.php
 
 
 
+#IOptions #TOptions
+#TODO вообще не понял суть https://metanit.com/sharp/aspnet5/6.3.php
+
+
+
+допустим в файле конфигурации appsettings.json сохранен объект класса Person
+
+создаем обычный PersonMiddleware
+в конструктор добавляем (, IOptions<Person> options){
+Person = options.Value;
+}
+ public Person Person { get; }
+в таком случае в Invoke можем обращаться к объекту person который сохранен в json а в конструктор будет передан автоматически, но надо докинуть то что ниже
+
+public IConfiguration AppConfiguration { get; set; }
+ConfigureServices->{
+// Настройка параметров и DI, добавляем возможность внедрения зависимостей
+            services.AddOptions();
+ 
+            // создание объекта Person по ключам из конфигурации
+            services.Configure<Person>(AppConfiguration);
+
+//необязательная часть ConfigureServices
+
+// переопределяем настройки(свойства класса person), имзенятся ли они в файле не понятно #TODO
+services.Configure<Person>(opt =>
+    {
+        opt.Age = 22;
+    });
+
+//передача отдельных секций конфигураций(определена в файле appsettings.json)
+services.Configure<Company>(AppConfiguration.GetSection("company"));
+
+}
+Configure->{
+app.UseMiddleware<PersonMiddleware>();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 #db 
 #DefaultConnection #Configuration #GetConnectionString #connection #AddDbContext #context
 в ConfigureServices (services)->{
@@ -1057,6 +1107,11 @@ MobileContext db;
 public HomeController(MobileContext context){
 db=context;
 }
+
+
+
+
+
 
 
 
