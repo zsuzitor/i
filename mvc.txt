@@ -53,6 +53,21 @@ System.Numerics. #Complex.
 
 
 
+#TypeDescriptor
+val- eventArgs - мб только для событий
+foreach(var i in TypeDescriptor.GetProperties(val)){
+
+i.DisplayName();
+i.GetValue();
+
+}
+
+
+
+
+
+
+
 #full text search
 если не обновляется индекс
 //пытаемся достроить недостающие записи
@@ -329,6 +344,11 @@ struct b{}
 b perem;perem.val=10;//не вызывая конструктор
 
 
+
+
+
+
+
 #class  
 полностью хранится в куче(то что объявлено в классе тоже)
 #constructor
@@ -336,8 +356,9 @@ b perem;perem.val=10;//не вызывая конструктор
 public class cl{
 }
 cl perem=new cl();
-cl perem=new cl(){val=10};
-cl perem=new cl{val=10};
+cl perem=new cl(){val=10};//#инициализация
+//такая инициализация может быть более сложной и вложенной new cl(){val=new cl2(){valt=10;};}
+cl perem=new cl{val=10};//вызывается конструктор без параметров это скомпилируется в тот же код если бы мы создали объект и дальше через точку проставляли бы свойства
 
 x:y{
 public x():base(){//передаем в конструктор y
@@ -394,6 +415,15 @@ class Subclass2 : Subclass1 {
    public override void Test() { ... } // Does not compile!
    // If `Subclass1.Test` was not sealed, it would've compiled correctly.
 }
+
+
+
+#static
+если для класса то нельзя создавать экземпляры 
+все что в классе должно быть помечено как static
+для получения доступа к чему либо в нем className.Meth();
+
+
 
 
 
@@ -468,7 +498,8 @@ break;
 #get #set
 нельзя просто объявить свойство в методе
 можно в классе, интерфейсе
-public int Response { get; }//при таком объявлении обязательно раскрывать
+public int Response { get; }//при таком объявлении обязательно раскрывать А МОЖЕТ И НЕТ
+указать для каждого ключевого слова отдельно уровень доступа нельзя
 public int Response { get;private set; }//но то что в скобках может быть только более ограничивающим
 public int Maximum { get; } = 999;
 Свойство только для чтения public decimal Worth => currentPrice * sharesOwned;
@@ -495,6 +526,13 @@ a ttb=new b();
 tt=ttb;
 tta=(a)tt;
 при упаковке ссылка object == той ссылке которую упаковали(если упаковывали ссылочный тип)
+
+если упаковываем не ссылочный тип
+создается объект
+значение в объекте это копия!! исходного значения
+
+при распаковке
+значение по ссылке копируется, после распаковки нет связи ссылки с распакованным значением
 
 
 
@@ -704,7 +742,7 @@ lst1=new SortedList<int, string>() { {1, "один"}, {2, "два" }, {3, "три"} };
 IEnumerator GetEnumerator()
  IDictionaryEnumerator GetEnumerator()//если словарь
 public IEnumerator GetEnumerator() {
-return this;
+return this;//так можно но лучше на надо смотри  IEnumerator
 }
 public void Reset() { idx = -1; }
 
@@ -721,6 +759,7 @@ public void Reset() { idx = -1; }
 
 
 #IEnumerator
+
 для #foreach, 
 любое изменение коллекции делает перечислитель недействительным
 
@@ -728,6 +767,70 @@ bool MoveNext() //true- если есть след элемент
 Reset // устанавливает перечислитель в конец(не на последний элемент)(элемент перед первым, для получения первого после reset -MoveNext())
 свойство
 Current
+
+очень нежелательно реализовывать сразу и IEnumerator и IEnumerable в 1 классе (через GetEnumerator(){return this;})тк тогда нельзя будет 
+запустить сразу несколько foreach
+
+
+
+тк желательно реализовать и обобщенную версию и нет, но просто так это не сделать нужно
+
+class CountingEnumerable: IEnumerable<int>
+{
+public IEnumerator<int> GetEnumerator()
+{
+
+return new CountingEnumerator();
+}
+IEnumerator IEnumerable.GetEnumerator()
+{
+
+return GetEnumerator();
+}
+}
+class CountingEnumerator : IEnumerator<int>
+{
+int current = -1;
+Глава 3. Параметризованная типизация с использованием обобщений 118
+public bool MoveNext()
+{
+current++;
+return current < 10;
+}
+public int Current { get { return current; } }
+
+object IEnumerator.Current { get { return Current; } }
+public void Reset()
+{
+
+current = -1;
+}
+public void Dispose() {}
+}
+
+
+
+...
+CountingEnumerable counter = new CountingEnumerable();
+foreach (int x in counter)
+{
+Console.WriteLine(x);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -857,6 +960,7 @@ Synchronized
 #Dictionary см Hashtable
 :IDictionary,IDictionary<TKey, TValue>, ICollection, ICollection<KeyValuePair<TKey,TValue>>, IEnumerable, IEnumerable<KeyValuePair<TKey, TValue>>,ISerializable , IDeserializationCallback
 
+//вызов метода #Add 2 раза
 var dict = new Dictionary<int, string>()
 {
 { 5 , " f i ve" } ,
@@ -867,6 +971,9 @@ var dict = new Dictionary<int, string>()
 {
 [3] = "three",
 }; 
+
+
+
 
 теория--
 Инициализация происходит либо при создании (если передана начальный размер коллекции), либо при добавлении первого элемента, причем в качестве размера будет выбрано ближайшее простое число (3). При этом создаются 2 внутренние коллекции — int[] buckets и Entry[] entries. Первая будет содержать индексы элементов во второй коллекции, а она, в свою очередь, — сами элементы
@@ -894,6 +1001,18 @@ var dict = new Dictionary<int, string>()
 =>
 есть массив массивов ms[i][i2]
 i- хэш элементов, если у некоторых элементов одинаковый хэш, они записываются в массив ms[i]->[i2_0],[i2_1],[i2_2]
+
+
+
+
+
+#KeyValuePair
+Определяет пару "ключ-значение", которая может быть задана или получена
+обычный словарь можно переписать под список-, аналог для словаря с dict[1] = "one"; , но ключи для обращения это индексы в списке а не значения key
+List<KeyValuePair<int, string>> listKVP = new List<KeyValuePair<int, string>>();
+listKVP.Add(new KeyValuePair<int, string>(1, "one"));
+
+Console.Write( "key:" + listKVP[0].Key + "value:" + listKVP[0].Value );
 
 
 
@@ -1017,6 +1136,22 @@ Remove
 
 
 
+#var 
+неявная типизация
+
+Объявляемая переменная является локальной, но не статическим полем или полем экземпляра.
+• Переменная инициализируется в виде части объявления.
+• Выражение инициализации не является группой методов или анонимной функцией (без приведения).
+• Выражение инициализации не дает в результате null.
+• В операторе объявлена только одна переменная.
+• Тип, который нужно назначить переменной, является типом выражения инициализации на этапе компиляции.
+• В выражении инициализации не задействована объявляемая переменная
+
+
+
+
+
+
 
 #bool
 хранится как 1 байт
@@ -1111,6 +1246,9 @@ string str = 189.99.ToString("С");//тоже форматирование
 #TODO потереть дубликаты
 
 #string 
+ссылочный тип данных
+нет конструктора без параметров
+
 #Конкатенация 
 String.Concat(s3, "!!!");
 "123"+"332"
@@ -1297,8 +1435,20 @@ private static (string name, int age) GetTuple((string n, int a) tuple, int x)
 
 
 
-#foreach
+
 есть утиная тапизация
+
+когда делаем так
+List<int> val=new List<int>(){10,20};
+будет вызван метод Add 2 раза, но
+Тот факт, что тип должен реализовывать интерфейс IEnumerable, никогда не используется
+компилятором.
+• Метод Add() находится только по имени — в интерфейсе нет требований о его указании.
+
+
+
+
+#foreach
 foreach(T val in IEnumerable<T>){}
 нужны IEnumerable и IEnumerator
 сразу(даже перед 1 итерацией) вызывает сначала MoveNext() а потом Current
@@ -1307,6 +1457,16 @@ foreach(T val in IEnumerable<T>){}
 
 
 можно также без интерфейсов, просто докинуть #итератор  #yield #iterator
+код останавливает выполнение метода, возвращает значение и при вызове метода еще раз(MoveNext) продолжает с того же места
+Оператор yield return не разрешено использовать внутри блока try при наличии любых блоков catch
+не допускается применять оператор yield return или yield break в блоке finally.
+если используется в try то при преждевременной остановке итерационного цикла(foreach) при вызове Dispose выполнение итерации продолжится
+и то что транслируется в try - (using) -- Скит стр 206
+
+метод который принимает ref out не может содержать yield
+
+
+
 public IEnumerator<T> GetEnumerator() {
 foreach(T ch in chrs)
 yield return ch;
@@ -1317,6 +1477,40 @@ yield return ch;
 при создании итератора класс автоматически реализует IEnumerator(не нужно явно указывать)
 
 yield break; // прерывание итератора #TODO
+
+
+
+
+
+
+//такая конструкция необходимо потому что метод  с итератором не будет вызван пока не будет вызван метод MoveNext, 
+но в таком случае сразу будет обработка ошибки а потом уже ждет вызов метода MoveNext
+
+public static IEnumerable<T> Where<T>(IEnumerable<T> source, Predicate<T> predicate)
+{
+//проверяем данные и передаем в след метод
+return WhereImpl(source, predicate);
+}
+private static IEnumerable<T> WhereImpl<T>(IEnumerable<T> source, Predicate<T> predicate)
+{
+foreach (T item in source)
+{
+if (predicate(item))
+{
+yield return item;
+}
+}
+}
+
+
+
+
+
+
+
+
+
+
 
 
 именованный итератор
@@ -2099,6 +2293,41 @@ var instance = FormatterServices.GetUninitializedObject(Type a);//создать объект
 
 
 
+ОБОБЩЕНИЯ
+typeof(List<>)//вернет List'1[Т] , где 1 -количество параметров
+typeof(Dictionary<,>)//Dictionary'2[ТКеу,TValue]
+typeof(List<X>)//List'1[System.Int32]
+typeof(Dictionary<string,X>
+
+//такое, все вернет true
+string listTypeName = "System.Collections.Generic.List'1";
+Type defByName = Type.GetType(listTypeName);
+Type closedByName = Type.GetType(listTypeName + "[System.String]");
+Type closedByMethod = defByName.MakeGenericType(typeof(string));
+Type closedByTypeof = typeof(List<string>);
+Console.WriteLine(closedByMethod == closedByName);
+Console.WriteLine(closedByName == closedByTypeof);
+Type defByTypeof = typeof(List<>);
+Type defByMethod = closedByName.GetGenericTypeDefinition();
+Console.WriteLine(defByMethod == defByName);
+Console.WriteLine(defByName == defByTypeof);
+
+
+обобщенные методы
+public static void PrintTypeParameter<T>()
+{
+Console.WriteLine(typeof(T));
+}
+...
+Type type = typeof(Snippet);
+MethodInfo definition = type.GetMethod("PrintTypeParameter");
+MethodInfo constructed = definition.MakeGenericMethod(typeof(string));
+constructed.Invoke(null, null);
+
+
+
+
+
 
 
 
@@ -2193,7 +2422,7 @@ S=five
 #ElementAtOrDefault: выбирает элемент коллекции по определенному индексу или возвращает значение по умолчанию, если индекс вне допустимого диапазона
 #Last: выбирает последний элемент коллекции
 #LastOrDefault: выбирает последний элемент коллекции или возвращает значение по умолчанию
-
+#FindAll - вернет все элементы которые удовлетворяют условию(делегату pridicate который передаем)
 
 
 
@@ -2249,9 +2478,23 @@ on val_a = val_b;// = == equals
 #деревья   #Expressions
 используются для обращения к бд
 см delegate
+
+для деревьев есть встроенный визуализатор в студии
+
+
 Expressions<Func<int,int,bool>> IsDel=(n,d)=>n==d;
 Func<int,int,bool> t=IsDel.Compile();
 t(10,20);
+
+
+
+получение числа 5 с помощью построения дерева
+
+Expression firstArg = Expression.Constant(2);
+Expression secondArg = Expression.Constant(3);
+Expression add = Expression.Add(firstArg, secondArg);
+Func<int> compiled = Expression.Lambda<Func<int>>(add).Compile();
+Console.WriteLine(compiled());
 
 
 
@@ -2326,9 +2569,12 @@ using(var tmp=){
 name_namespace1::class_name val=new name_namespace1::class_name ();
 //из глобального пространства имен
 #global
+для global нельзя определить псевдоним
 global::class_name val=new global::class_name ();
 
 
+если определено пространство имен Win и класс Win
+и необходимо сослаться на пространство имен то Win::val
 
 
 
@@ -2390,6 +2636,13 @@ private protected: такой член класса доступен из любого места в текущем классе и
 
 #partial
 можно разбить что либо на несколько кусков
+оба должны быть с 1 модификатором доступа
+если спользуются обобщения то ограничения для параметров должны быть во всех версиях
+но можно в 1 версии указать интерфейс а в 2 класс-родителя
+
+
+
+
 partial class a{
 math1}
 partial class a{
@@ -2432,8 +2685,22 @@ if(x is int i)
 
 
 
+#вспомогательный класс
+// c# 1
+Все члены являются статическими (кроме закрытого конструктора).
+• Класс унаследован напрямую от object(неявно), явных родителей нет
+• Обычно состояние не поддерживается, если только не задействовано кеширование или шаблон с единственным экземпляром.
+• Видимые конструкторы отсутствуют.
+• Класс является запечатанным, если разработчик не забыл сделать это.
 
-
+//c# 2++
+объявлен как static
+• Он не может быть объявлен как абстрактный (abstract) или запечатанный (sealed), хотя неявно является тем и другим.
+• Невозможно указывать любые интерфейсы для реализации.
+• Нельзя указывать базовый тип.
+• Невозможно включать любые нестатические члены, в том числе конструкторы.
+• Нельзя определять любые операции.
+• Невозможно включать любые члены protected или protected internal.
 
 
 
@@ -2637,8 +2904,8 @@ name_del name_del_obj=new name_del([meth]);//объявление
 name_del name_del_obj=meth;//объявление, сокращение для new a(meth)
 
 name_del_obj=meth;//убрать все методы и добавить новый
-name_del_obj+=meth;//добавить новый метод, добавлять также можно и делегат
-name_del_obj-=meth;//удалить новый метод, удалять также можно и делегат
+name_del_obj+=meth;//добавить новый метод, добавлять также можно и делегат, сахар для метода Combine
+name_del_obj-=meth;//удалить новый метод, удалять также можно и делегат, сахар для метода Remove
 
 name_del_obj();//сокращение для name_del_obj.Invoke();
 
@@ -2655,8 +2922,11 @@ D2 d2 = new D2 (dl);
 
 
 
-
-
+#combine
+при null трактуется как пустой делегат
+вернет новый делегат-результат, старые не могут изменяться
+Delegate.Combine(del1,del2);//лучше использовать +=
+Delegate.Remove(delSource,delValue);//лучше использовать -=
 
 
  #standart #стандартные
@@ -2698,9 +2968,9 @@ delobj=meth2;
 #контрвариантность #контравариантность
 тип параметра может быть базовым
 delobj=meth1;
-delobj(X);
+//чет вроде не правильно delobj(X);
 delobj(Y);//Y:X
-тк тк мы потом будем передавать в метод который будет в делегате происзодное от базового(X) и он приведется к базовому
+тк тк мы потом будем передавать в метод который будет в делегате происзодное от базового(X) и он приведется к базовому(к X)
 
 
 #Инвариантность
@@ -2751,10 +3021,13 @@ list.Add(new { Name = "Krishna", Phones = new[] { "555-555-5555", "666-666-6666"
 
 #анонимные #функции  #anonim #anonymous #function  #=> #лямбда
 
+если пишется в типе значения то нельзя использовать this
+доступ к базовому члену внутри анонимного метода можно получить через base
 
 name_del delobj=delegate{/*код функции*/};
 delobj=delegate(type val){/*код функции*/};
-особенность такой штуки в том что можно присвоить объекту делегата который принимает параметры такой анонимный метод без параметров
+особенность такой штуки в том что можно присвоить объекту делегата который 
+принимает параметры такой анонимный метод без параметров(можно использовать когда параметры не нужны или например нужна просто заглушка)
 
 
 через лямбды
@@ -2776,8 +3049,12 @@ del myDelegate = x => x * x;
 
 в /*код функции*/
 можно использовать return
-{#замыкание
-можно захватывать внешние переменные, которые не будут уничтожены пока не уничтожатся все методы которые захватывают+ не будет других ссылок на нее
+{#замыкание #захват
+можно захватывать внешние переменные по ссылке, которые не будут уничтожены пока не уничтожатся все методы которые захватывают+ не будет других ссылок на нее
+захватывают значения по ссылки, если захватить итерационную переменную в foreach то с версии 5 все будет хорошо, в ранних версиях все делегаты будут ссылаться на 1 и туже переменную
+если переменная создается в цикле и захватывается - то это как бы 1 переменная но захватываются РАЗНЫЕ экземпляры
+
+
 пример
 method(){
 int t=10;
@@ -3016,6 +3293,56 @@ interface IComparer
 
 
 
+//правильная реализация отдельного класса для сравнения #Comparer
+
+
+public static class PartialComparer
+{
+public static int? Compare<T>(T first, T second)
+{
+return Compare(Comparer<T>.Default, first, second);
+}
+public static int? Compare<T>(IComparer<T> comparer,
+T first, T second)
+{
+int ret = comparer.Compare(first, second);
+return ret == 0 ? new int?() : ret;//почему тут при ==0 возвращается null не понимаю
+}
+public static int? ReferenceCompare<T>(T first, T second)
+where T : class
+{
+return first == second ? 0
+: first == null ? -1
+: second == null ? 1
+: new int?();
+}
+}
+
+
+
+
+
+
+
+
+
+
+#TODO
+#IEqualityComparer 
+что то типа IComparer
+
+
+
+#IEquatable
+что то типа IComparable
+
+
+
+
+
+
+
+
 
 
 #ICloneable #clone()
@@ -3137,6 +3464,14 @@ meth(out var x,(int)10);
 типы указателей нельзя использовать в аргументах типа
 если в обобщенном классе есть поле static то оно свое для каждого типа класса(cl<int> cl<string>-разные, cl<string> cl<string> -одно поле)
 
+параметр обобщенного типа можно сравнивать(== и =!) только с null, но если есть ограничения(например class) то можно и друг с другом
+
+
+при перегрузке типов
+Обобщенные типы могут быть перегружены на основе количества параметров типов, так что
+допустимо определять МуТуре, МуТуре<Т>, MyType<T,U>, МуТуре<Т, U, V> и так далее, причем в рамках одного и того же пространства имен. При перегрузке имена параметров типов во
+внимание не принимаются — важно только их количество. Эти типы не связаны друг с другом
+за исключением имени — например, стандартное преобразование одного типа в другой не существует. 
 
 
 class Transaction<T> where T: Account
@@ -3162,6 +3497,7 @@ class Transaction<T> where T : class
 
 //есть конструктор без параметров
 //должно идти последним по порядку, использовать можно только конструктор без параметров, нельзя использовать с ограничением типа значения
+//нельзя указать конструктор с параметрами
 class Transaction<T> where T : new()
 {}
 
@@ -3201,6 +3537,14 @@ void nnn(T a);
 
 
 
+where T:VAL__
+VAL__ - не может быть типом значения, запечатанным классом(sealed)(string), или : Object, Enum,ValueType,Delegate
+
+
+
+
+
+
 #default
 
 obj=default(тип);
@@ -3216,7 +3560,7 @@ obj=default(T);
 
 
 
-#exeption #try #catch #finally
+#exception #exeption #try #catch #finally
 после try обязательно catch или finally или оба
 более "узкие\специфичные" обработчики должны идти сначала
 перехватить можно не все исключение вроде, #TODO какие если true
@@ -3467,6 +3811,7 @@ writetimeout
 ...
 close
 int peek - получает следующий символ из потока но не удаляет его, возвращает -1 если нет доступных символов
+#OpenText(filename); создает объект TextReader
 
 методы TextWriter
 close
@@ -3519,6 +3864,12 @@ copy(string исход,string новый,bool overwrite)//перезапишит
 
 exist (string путь)
 GetLastAccessTime (string путь)
+
+
+#GetFiles #DirectoryInfo
+new DirectoryInfo(@"C:\").GetFiles();//получить файлы
+
+
 
 
 
@@ -3608,6 +3959,58 @@ File.ReadAllText(HostingEnvironment.MapPath($"~/tsqlscripts/{i}.txt"))
 
 
 
+
+
+#com 
+
+#exel
+
+var арр = new Application { Visible = false };
+Workbook workbook = app.Workbooks.Add();
+Worksheet worksheet = app.ActiveSheet;
+int row = 1;
+foreach (var product in Products)
+{
+worksheet.Cells[row, 1].Value = product.Name;
+worksheet.Cells[row, 2].Value = product.Price;
+row++;
+}
+workbook.SaveAs(Filename: "demo.xls",
+FileFormat: XlFileFormat.xlWorkbookNormal);
+app.Application.Quit();
+
+
+
+
+
+
+
+#doc #word
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #* #unsafe #указатель
 
 тип * название;
@@ -3671,15 +4074,15 @@ sizeof(type)//узнать размер типа данных
 
 
 
-#inthernet #HttpWebRequest #parse #uri #url
-#HttpWebRequest req = (HttpWebRequest) WebRequest.Create("http://www.McGraw-Hill.com");
-#HttpWebResponse resp = (HttpWebResponse) req.GetResponse();
-Stream istrm = resp.GetResponseStream();
+#inthernet #HttpWebRequest #parse #uri #url #интернет #парсинг 
+#HttpWebRequest req = (HttpWebRequest) #WebRequest.Create("http://www.McGraw-Hill.com");
+#HttpWebResponse resp = (HttpWebResponse) req. #GetResponse();
+Stream istrm = resp. #GetResponseStream();
 //получаем html страницы
 resp.Close();
 //---короче
 // Сначала создать объект запроса типа WebRequest по указанному URI.
-WebRequest req = WebRequest.Create("http://www.McGraw-Hill.com");
+#WebRequest req = WebRequest.Create("http://www.McGraw-Hill.com");
 // Затем отправить сформированный запрос и получить на него ответ.
 WebResponse resp = req.GetResponse();
 
@@ -4307,6 +4710,21 @@ https://ru.stackoverflow.com/questions/545944/%D0%9A%D0%B0%D0%BA-%D0%B7%D0%B0%D1
 RequireHttps-заставляет использовать https
 [OutputCache (Duration=360)]-кэширует данные 360 секунд для увеличение работы с бд
 ValidateAntiforgeryToken- применять к методам авторизации регистрации
+
+
+
+
+#InternalsVisibleTo
+#TODO
+[assembly:InternalsVisibleTo("Friend_")]//Friend_ - название дружественной сборки
+public class
+
+
+
+
+
+
+
 
 
 отправка #статуса #кода #StatusCode 
