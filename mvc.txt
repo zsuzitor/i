@@ -20,6 +20,7 @@ https://metanit.com/sharp/tutorial/7.5.php
 
 
 #TODO
+при отрисовке формы генерится токен и при отправки формы он проверяется на серве уже, так можно исключить отправку запроса пользователя без отрисовки страницы
 @Html.AntiForgeryToken()
 
 
@@ -639,6 +640,10 @@ d.Waddle(); // Выводит Waddle was called
 
 
 
+#DLR
+dynamic language runtime
+
+
 
 
 
@@ -702,14 +707,33 @@ Reverse
 Exist
 
 
+
+
+
+#Range
+#Enumerable
+//не создает  коллекцию но выдает в подходящие моменты времени от 0 до 9 включительно -- 0 1 2...9
+//отложенное выполнения
+//к такой штуке можно применить например Reverse
+foreach(var i in Enumerable.Range(0,10)){}
+
+
+
+
+
+
+
+
+
 #collection #array #list #interface
 
 
-#приведение #типов #Необобщенное в #обобщенное var classicList = new System.Collections.ArrayList(); 
+#приведение #типов #Необобщенное в #обобщенное 
+var classicList = new System.Collections.ArrayList(); 
 classicList.AddRange ( new int[] { 3, 4, 5} ) ; 
-IEnumeraЫe<int> sequencel = classicList. #Cast<int>()//когда встретит не int элемент(не сможет привести через is) то сгенерит исключение
-IEnumeraЫe<int> sequencel = db.users.Cast<int>()
-IEnumeraЫe<int> sequencel = classicList. #OfType<int>()//когда встретит не int элемент(не сможет привести через is) то пропустит элемент
+IEnumerable<int> sequencel = classicList. #Cast<int>()//когда встретит не int элемент(не сможет привести через is) то сгенерит исключение
+IEnumerable<int> sequencel = db.users.Cast<int>()
+IEnumerable<int> sequencel = classicList. #OfType<int>()//когда встретит не int элемент(не сможет привести через is) то пропустит элемент
 
 
 
@@ -1193,7 +1217,7 @@ object.Equals (0.0/0.0, double.NaN);//true
 
 
 
-#string
+#string 
 ссылочный тип но передается по значению
 не изменяемый(при попытыке изменения создает новую строку)
 
@@ -1297,6 +1321,22 @@ hello.ToUpper()
 
 
 
+#datetime
+структура
+
+#DateTimeRange
+создания коллекции
+ DateTime startDate = new DateTime(2008, 05, 1, 10, 2, 3, 4, DateTimeKind.Utc);
+var dates = new DateTimeRange(startDate, endDate);
+var dates = new DateTimeRange(SampleData.Start, SampleData.End);
+var query = from date in dates
+join defect in SampleData.AllDefects
+on date equals defect.Created.Date
+into joined
+select new { Date = date, Count = joined.Count() };
+
+
+
 
 
 
@@ -1385,11 +1425,54 @@ int Foo (int х) => х * 2;
 
 #необязательные #параметры
 void func(int gg,int asd=10){}
+Foo<T>(T value = default(T))
 необязательные параметры(asd) должны быть указаны в виде константного выражения или конструктора без параметров для типа значения.  не могут быть помечены посредством ref или out.
 
+Все необязательные параметры должны располагаться после обязательных параметров. Исключением является массив
+параметров (объявленный с помощью модификатора params), который по-прежнему следует помещать в конец списка параметров, но он может находиться после необязательных параметров.
+Массив параметров нельзя объявлять как необязательный параметр — если в вызывающем коде
+значения для него не указаны, будет применяться пустой массив. Необязательные параметры не
+могут иметь модификаторы ref или out
+
+
+ Всегда можно использовать константы: числовые и строковые
+литералы, null, члены const, члены перечислений и операцию default(Т). Кроме того, для
+типов значений можно вызывать конструктор без параметров, хотя в любом случае это эквивалентно применению операции default(...). Должно быть доступным неявное преобразование типа
+указанного значения в тип параметра, но оно не может быть преобразованием, определяемым
+пользователем.
+
+
+
+
+
+
 #позиционные
+
+
+
+//порядок вызова
+//сначала выполняется func1()
+func(a,b){};
+func(func1(),func2());
+func(a:func1(),b:func2());
+func(b:func1(),a:func2());
+
+
+
 #именованные параметры
+порядок вызова смотре для "позиционные
 Foo (х:1, у:2);
+bool success = int.TryParse("10", result: out number);
+
+
+void func(int x){}
+
+func(10);
+x-параметр
+10-аргумент
+
+
+
 
 
 
@@ -1958,9 +2041,28 @@ ForAll выполняет действие в каждом потоке для той части которая находится в нем
 public static ParallelQuery<TSource> AsOrdered<TSource>(this ParallelQuery<TSource> source)
 .AsParallel().AsOrdered()
 разделяем на потоки и потом выставляем в том порядке как было бы если бы не разделяли
+#TODO
 
 #AsUnordered()
 разупорядочивание , если мы упорядочили но дальше какие то операции которые не требуют порядка, ускорит все
+
+
+AsUnordered(). Делает упорядоченный запрос неупорядоченным; если упорядоченные результаты нужны только в первой части запроса, то этот метод позволит последующим этапам
+запроса выполняться более эффективно.
+#WithCancellation(). Указывает маркер отмены для использования с этим запросом. Маркеры отмены применяются в Parallel Extensions, позволяя отменять задачи в безопасной и
+контролируемой манере.
+#WithDegreeOfParallelism(). Позволяет указывать максимальное количество параллельных задач, используемых для выполнения запроса. Этот метод можно применять для ограничения количества используемых потоков во избежание перегрузки машины работой или
+наоборот — увеличения числа потоков в случае, если запрос не задействует интенсивно... указать максимальное количество процессоров, выделяемых для обработки запроса
+центральный процессор.
+#WithExecutionMode(). Может применяться для принудительного выполнения запроса в
+параллельном режиме, даже если Parallel LINQ считает, что запрос будет выполняться быстрее в однопоточном режиме.
+когда PLINQ должен по умолчанию поддерживать последовательное выполнение, передать методу в качестве параметра признак ParallelExecutionMode.ForceParallelism.
+
+#AsSequential()//запросить последовательное выполнение части параллельного запроса
+#WithMergeOptions(). Позволяет подстраивать буферизацию результатов. Отключение буферизации сокращает промежуток времени перед возвращением первого результата, но также
+уменьшает пропускную способность; полная буферизация обеспечивает наивысшую пропускную способность, но результаты не будут возвращаться до тех пор, пока запрос не выполнится полностью. Стандартная настройка является компромиссом между этими двумя случаями.
+
+
 
 
 обработка ошибок 
@@ -1986,14 +2088,15 @@ catch(OperationCanceledException ex)
 foreach(var v in mass.AsParallel())//цикл прервется если в другом потоке Cancel();
 
 
-#TODO
-#WithDegreeOfParallelism()//указать максимальное количество процессоров, выделяемых для обработки запроса
-#AsSequential()//запросить последовательное выполнение части параллельного запроса
-#WithExecutionMode() когда PLINQ должен по умолчанию поддерживать последовательное выполнение, передать методу в качестве параметра признак ParallelExecutionMode.ForceParallelism.
+
+#TODO  #IOrderedEnumerable<T> #ParallelQuery
 
 
 
+#Range #ParallelEnumerable
 
+ParallelEnumerable.Range() лучше чем -
+Enumerable.Range().AsParallel();// но работают оба
 
 
 
@@ -2376,11 +2479,21 @@ from c in dc.Organization where #SqlMethods.Like(c.Hierarchy, "%/12/%") select *
 
 
 
-#Select: определяет проекцию выбранных значений
-#Where: определяет фильтр выборки
+#Select: определяет проекцию выбранных значений, если написать Select(x1=>x1); то это будет удалено компилятором но только если запрос не состоит только из него
+#Where: определяет фильтр выборки, если использовать несколько то результатом будет последовательность элементов в который ВСЕ удовлетворяют ВСЕМ предикатам
+
+
+
 #OrderBy: упорядочивает элементы по возрастанию
 #OrderByDescending: упорядочивает элементы по убыванию
 #ThenBy: задает дополнительные критерии для упорядочивания элементов возрастанию
+метод OrderBy() принимает на себя ответственность за первичный контроль над упорядочением, тогда как метод ThenBy() служит средством для выполнения одного или более последующих упорядочений. В LINQ to Objects метод
+ThenBy() определен только как расширяющий для интерфейса IOrderedEnumerable<T>, который представляет собой тип, возвращаемый методом OrderBy() (и самим методом ThenBy(),
+чтобы позволить дальнейшее выстраивание в цепочку).
+
+
+
+
 #ThenByDescending: задает дополнительные критерии для упорядочивания элементов по убыванию
 #Join: соединяет две коллекции по определенному признаку
 #GroupBy: группирует элементы по ключу
@@ -2434,8 +2547,8 @@ group val by val.column into val_ where val_.count()>2 select val_;
 select с. ToUpper () into upper //и дальше с upper что хотим делаем
 from name in names 
 group name.ToUpper() bу name.Length into grouping 
-where grouping.Coun t () == 2 
-select grouping
+where grouping.Count() == 2 
+select new { Assignee = grouping.Key, Count = grouping.Count() };
 
 
 
@@ -2445,11 +2558,24 @@ select grouping
 from str in strs
 let val=str.ToCharArray()
 
+var query = from user in SampleData.AllUsers
+let length = user.Name.Length
+orderby length
+select new { Name = user.Name, Length = length };
+
+//такая конструкция транслируется в select
+SampleData.AllUsers
+.Select(user => new { user, length = user.Name.Length })
+.OrderBy(z => z.length)
+.Select(z => new { Name = z.user.Name, Length = z.length })
 
 
 
 
 #linq #join
+
+тк коллекция указанная справа буферизируется, а для левой организуется поток => справа желательно должна быть наименьшая коллекция
+
 var phones = db.Phones.Join(db.Companies, // второй набор
         p => p.CompanyId, // свойство-селектор объекта из первого набора
         c => c.Id, // свойство-селектор объекта из второго набора
@@ -2524,6 +2650,94 @@ var predicate = PredicateBuilder.False<Foo>();//False- в данном случае уже идет 
 
 
 
+
+
+
+
+
+#xml #linq
+#XAttribute
+
+var users = new XElement("users",
+SampleData.AllUsers.Select(user => new XElement("user",
+new XAttribute("name", user.Name),
+new XAttribute("type", user.UserType)))
+);
+Console.WriteLine(users);
+// Вывод
+<users>
+<user name="Tim Trotter" type="Tester" />
+</users>
+
+
+
+#XElement #XmlSampleData
+XElement root = XmlSampleData.GetElement();
+var query = root.Element("users").Elements().Select(user => new   // первую часть можно переписать так root.Descendants("user")
+{
+Name = (string) user.Attribute("name"),
+UserType = (string) user.Attribute("type")
+});
+
+
+
+from project in root.Element("projects").Elements()
+from subscription in project.Elements("subscription")
+select subscription
+
+
+root.Element("projects").Elements().Elements("subscription")
+
+Ниже перечислены осевые методы, используемые непосредственно для запрашивания одиночного узла, каждый из которых возвращает подходящую реализацию IEnumerable<T>:
+• Ancestors
+• AncestorsAndSelf
+• Annotations
+• Attributes
+• Descendants
+• DescendantsAndSelf
+• DescendantNodes
+• DescendantNodesAndSelf
+• Elements
+• ElementsAfterSelf
+• ElementsBeforeSelf
+• Nodes
+
+
+
+
+
+
+
+
+
+
+
+#linq #rx
+#Range #IObservable
+#Observable.Range() создание наблюдаемого диапазона
+. Каждый раз, когда какой-то наблюдатель подписывается па
+диапазон, этому наблюдателю будут выдаваться числа при вызове им метода OnNext(), за которым следует OnCompleted().
+
+“холодный” наблюдаемый объект: он остается бездействующим до тех пор, пока какой-либо наблюдатель не подпишется на него, после чего будет выдавать значения этому отдельному наблюдателю. Если вдобавок
+подпишется еще один наблюдатель, он будет видеть другую копию диапазона. Это совсем не похоже на обычное событие вроде щелчка на кнопке, когда множество наблюдателей может быть
+подписано на одну и ту же действительную последовательность значений, и значения могут выдаваться независимо от того, существуют какие-то наблюдатели или нет. (В конце концов, щелкать
+на кнопке можно даже при отсутствии присоединенных к ней обработчиков событий.) Последовательности подобного рода носят название “горячих” наблюдаемых объектов
+
+
+не существует методов
+Reverse() и OrderBy()
+
+var observable = Observable.Range(0, 10);
+observable.Subscribe(x => Console.WriteLine("Received {0}", x),
+e => Console.WriteLine("Error: {0}", e),
+() => Console.WriteLine("Finished"));
+
+
+var numbers = Observable.Range(0, 10);
+var query = from number in numbers
+where number % 2 == 0
+select number * number;
+query.Subscribe(Console.WriteLine);
 
 
 
@@ -2873,12 +3087,27 @@ return Json(data, JsonRequestBehavior.AllowGet);
 //создать static class 
 //подключить это namespase к месту где будет использовать этот метод
 
+при методе расширения можно вызвать расширяющий метод на ссылке которая == null!!! тк она передает параметром
+если это ломает логику то нужно генерить NullReferenceException
+
+
 public static class StringExtension
 {
 //this перед тем параметром к которому это будет применяться
     public static int WordCount(this string str, char c)
     {}
 ((string)str).WordCount((char)c);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3187,17 +3416,22 @@ void virtual IName.methodname1(){}//так нельзя
 }
 
 
-public interface IUndoaЫe { void Undo();
-public class TextBox : IUndoaЫe
+public interface IUndoabe { void Undo();
+public class TextBox : IUndoabe
 {
-void IUndoaЫe.Undo()=> Console. Wri teLine ( "TextBox. Undo") ; 
+void IUndoabe.Undo()=> Console. WriteLine ( "TextBox. Undo") ; 
 }
-public class RichTextBox TextBox, IUndoaЫe
+public class RichTextBox TextBox, IUndoabe
 {
-public new void Undo ()=> Console.WriteLine ("RichTextBox.Undo"); //при вызове из класса вызовется этот метод, при вызове из интерфейса тоже
+public new void Undo()=> Console.WriteLine ("RichTextBox.Undo"); //при вызове из класса вызовется этот метод, при вызове из интерфейса тоже
 }
 
+
+
+
 #ковариантность #контрвариантность
+
+любое преобразование которое ЭТО использует - это ссылочное преобразование, те после преобразования возвращается таже самая ссылка, преобрзование не создает новй объект
 
 
 #ковариантность
@@ -3988,7 +4222,15 @@ app.Application.Quit();
 #doc #word
 
 
-
+Application арр = new Application { Visible = true };
+app.Documents.Add();
+Document doc = app.ActiveDocument;
+Paragraph para = doc.Paragraphs.Add();
+para.Range.Text = "Thank goodness for C# 4";
+doc.SaveAs(FileName: "test.doc",
+FileFormat: WdSaveFormat.wdFormatDocument97);
+doc.Close();
+app.Application.Quit();
 
 
 
@@ -5342,6 +5584,13 @@ public ApplicationDbContext(): base("DefaultConnection", throwIfV1Schema: false)
     { }
     public DbSet<Team> Teams { get; set; }
 }
+
+
+using(var db=new SoccerContext()){
+db.Log=Console.Out;//вывод логов на консоль
+}
+
+
 
 
 
