@@ -54,6 +54,16 @@ System.Numerics. #Complex.
 
 
 
+
+
+
+
+#Layout = null;
+
+
+
+
+
 #TypeDescriptor
 val- eventArgs - мб только для событий
 foreach(var i in TypeDescriptor.GetProperties(val)){
@@ -4990,14 +5000,6 @@ string controller_name = ViewContext.RequestContext.RouteData.Values["controller
 
 
 
-Когда следует использовать AsNoTracking? Если нам надо просто вывести данные для отображения без необходимости их дальнейшего обновления, тогда как раз тот случай, когда мы можем использовать AsNoTracking.
-не сохранит изменения и ускорит работу, не получится дозагрузить какие либо данные из бд (load,reference и тд)
-Phone firstPhone = db.Phones.AsNoTracking().FirstOrDefault();
-firstPhone.Name = "Samsung Galaxy Ace 2";
-db.SaveChanges();
-возможно стоит присоеденять запись и тогда можно будет ее обновить db.Set<ApplicationUser>().Attach(this);
-
-
 
 
 
@@ -5813,6 +5815,24 @@ modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
     db.Dispose();
     base.Dispose(disposing);
 }
+
+
+
+
+
+
+Когда следует использовать #AsNoTracking? Если нам надо просто вывести данные для отображения без необходимости их дальнейшего обновления, тогда как раз тот случай, когда мы можем использовать AsNoTracking.
+не сохранит изменения и ускорит работу, не получится дозагрузить какие либо данные из бд (load,reference и тд)
+Phone firstPhone = db.Phones.AsNoTracking().FirstOrDefault();
+firstPhone.Name = "Samsung Galaxy Ace 2";
+db.SaveChanges();
+возможно стоит присоеденять запись и тогда можно будет ее обновить db.Set<ApplicationUser>().Attach(this);
+
+
+
+
+
+
 
 
 

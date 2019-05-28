@@ -3,6 +3,9 @@
 #TODO
 
 
+#FromBody
+
+
 HttpContext context
 context.Response.ContentType = "text/html; charset=utf-8";
 await context.Response.WriteAsync("Текст: context.Itemstext");
@@ -15,6 +18,14 @@ context.Request.Path.Value.ToLower()
 
 
 #kestrel вместо #iis
+
+
+
+
+
+Создание движка представлений
+https://metanit.com/sharp/aspnet5/7.10.php
+
 
 
 
@@ -250,12 +261,58 @@ if (env.IsDevelopment())
 
 
 
-#[]
-если не хотим передавать в конструктор контроллера то можно так, сам все создаст и закинет
+
+
+
+
+
+#получение #объекта #зависимости #injection
+
+#[] #attr #FromServices
+если не хотим передавать в конструктор контроллера 
+
+///
+при services.AddTransient<ITimeService, SimpleTimeService>();
+public class HomeController : Controller
+{
+    private readonly ITimeService _timeService;
+ 
+    public HomeController(ITimeService timeServ)
+    {
+        _timeService = timeServ;
+    }
+}
+
+
+///ТЕОРИЯ что происходит при передаче через конструктор контроллера
+Приложение получает запрос к методу контроллера HomeController
+Фреймворк MVC обращается к провайдеру сервисов для создания объекта контроллера HomeController
+Провайдер сервисов смотрит на конструктор класса HomeController и видит, что там имеется зависимость от интерфейса ITimeService
+Провайдер сервисов среди зарегистрированных зависимостей ищет класс, который представляет реализацию интерфейса ITimeService
+Если нужная зависимость найдена, то провайдер сервисов создает объект класса, который реализует интерфейс ITimeService
+Затем провайдер сервисов создает объект HomeController, передавая в его конструктор ранее созданную реализацию ITimeService
+В конце провайдер сервисов возвращает созданный объект HomeController инфраструктуре MVC, которая использует контроллер для обработки запроса
+
+///
+
+то можно так, сам все создаст и закинет
 public IActionResult Index([FromServices] IHostingEnviroment env)
 #TODO кажется дубликат
 #create #зависимость
 var env=HttpContext.RequestServices.GetService<IHostingEnvironment>();
+
+
+
+для внедрения в вью
+@inject MvcViewsApp.Services.IMessageSender MessageSender
+@MessageSender.SendMessage()
+
+
+
+
+
+
+
 
 
 
@@ -390,14 +447,17 @@ IMessageSender messageSender = app.ApplicationServices.GetService<IMessageSender
 
 
 
-
+#path #путь #root #корень
 #ContentRootPath: возвращает путь к корневой папке приложения
 #WebRootPath: возвращает путь к папке, в которой хранится статический контент приложения, как правило, это папка wwwroot
 #ContentRootFileProvider: возвращает реализацию интерфейса Microsoft.AspNetCore.FileProviders.IFileProvider, которая может использоваться для чтения файлов из папки ContentRootPath
 #WebRootFileProvider: возвращает реализацию интерфейса Microsoft.AspNetCore.FileProviders.IFileProvider, которая может использоваться для чтения файлов из папки WebRootPath
 
+IHostingEnvironment appEnvironment
+_appEnvironment.ContentRootPath
 
-
+#Combine #TODO
+Path.Combine(str1,str2);
 
 
 
@@ -710,7 +770,10 @@ app.Use(async (context, next) =>
 
 
 
-#Куки
+#Куки #cookie 
+
+
+
 посылаются на сервер с каждым запросом, размер ограничен 4096 байтами
 И также по умолчанию куки имеют настройку CookieHttpOnly=true, поэтому они не доступны для клиентских скриптов из браузера
 //так можно только получить
@@ -722,9 +785,11 @@ context.Response.Cookies.Append("name", "Tom");
 //удаление
 context.Response.Cookies.Delete("name");
 
+коллекция context.Request.Cookies представляет объект #IRequestCookieCollection
 
 
 
+using Microsoft.AspNetCore.Http;
 
 
 #Сессии #Session  #Memory
@@ -732,6 +797,8 @@ context.Response.Cookies.Delete("name");
 
 Для хранения состояния сессии на сервере создается словарь или хеш-таблица, которая хранится в кэше и которая существует для всех запросов из одного браузера в течение некоторого времени. На клиенте хранится идентификатор сессии в куках. Этот идентификатор посылается на сервер с каждым запросом. Сервер использует этот идентификатор для извлечения нужных данных из сессии. Эти куки удаляются только при завершении сессии. Но если сервер получает куки, которые установлены уже для истекшей сессии, то для этих кук создается новая сессия.
 название куки в которой хранится ключ сессии по умолчанию - ".AspNet.Session"
+все сессии работают поверх объекта #IDistributedCache
+
 
 в ConfigureServices
 
@@ -762,12 +829,12 @@ Remove(string key): удаляет значение по ключу
 
 
 переопределение настроик сессии через объект
-SessionOptions:
-CookieName: имя куки
-IdleTimeout: время действия куки в виде объекта TimeSpan
-CookieDomain: домен, для которого устаналиваются куки
-CookieHttpOnly: доступны ли куки только при передаче через HTTP-запрос
-CookiePath: путь, который используется куками
+#SessionOptions:
+#CookieName: имя куки
+#IdleTimeout: время действия куки в виде объекта TimeSpan
+#CookieDomain: домен, для которого устаналиваются куки
+#CookieHttpOnly: доступны ли куки только при передаче через HTTP-запрос
+#CookiePath: путь, который используется куками
 
 
 для изменения надо в ConfigureServices(IServiceCollection services)
@@ -818,11 +885,8 @@ public static class SessionExtensions
 
 
 
-
-
-
 #https #UseHttpsRedirection
-при попытке доступа по http будет редиректить на https
+при попытке доступа по http будет редиректить на #https
 
 Configure-> app.UseHttpsRedirection();
 можно задать параметры переадресации
@@ -1117,18 +1181,63 @@ db=context;
 
 
 
+#Request #Query
+получение переданных параметров get
+string altitudeString = Request.Query.FirstOrDefault(p => p.Key == "altitude").Value;
+
+
+#Form #IFormsCollection
+получение переданных параметров post
+ string altitudeString = Request.Form.FirstOrDefault(p => p.Key == "altitude").Value;
 
 
 
 
-#route #HttpGet
+
+#attr
+
+#route #HttpGet #get #post
 [HttpGet("api/index")]
 Index()
 [HttpGet("api/index/{id}")]
 Index(string id)
 
+[HttpGet]
+Index(string id)
+
+#HttpPost #HttpPut #HttpDelete #HttpHead , если не указать явно то будет HttpGet
+
+
+
+get
+http://localhost:57086/Home/Sum?nums=1&nums=2&nums=3 // передать массив из 3х элементов
+Home/Square?a=10&h=3// 2 параметра с разными именами
+http://localhost:57086/Home/Square?altitude=10&height=3// передача сложных объектов (указываются атрибуты объекта)
+
 [Route("Home")]
 HomeController{}
+
+
+#ActionName
+//localhost:xxxx/Home/Welcome вместо localhost:xxxx/Home/Hellow
+[ActionName("Welcome")]
+public string Hello()
+
+
+#NonController
+//не сможет обрабатывать запрос и использоваться как контроллер
+[NonController]
+public class HomeController : Controller
+
+#NonAction
+метод пересанет быть доступным как действие контроллера
+[NonAction]
+public string Hello()
+
+
+
+
+
 
 
 
@@ -1193,6 +1302,13 @@ routeBuilder.MapRoute("{controller}/{action}",
                     context.Response.ContentType = "text/html; charset=utf-8";
                     await context.Response.WriteAsync("двухсегментный запрос");
                 });
+
+
+
+
+
+
+
 
 
 
@@ -1553,6 +1669,36 @@ var routeBuilder = new RouteBuilder(app);
 
 #tag #razor #html #helper
 
+Если необходимо вывести значение переменной без каких-либо html-элементов, то мы можем использовать специальный снипет <text>:
+<text>@i</text>
+//вывод строки в конструкции
+@if (isEnabled)
+{
+    @: Добро пожаловать
+}
+
+
+#functions
+создание функции в представлении
+@functions
+{
+    public int GetFactorial(int n)
+    {
+        int result = 1;
+        for (int i = 1; i <= n; i++)
+            result *= i;
+        return result;
+    }
+}
+<div>Факториал числа 6 равен: @GetFactorial(6)</div>
+
+
+
+
+
+
+
+
 
 #AnchorTagHelper
 actionlink->
@@ -1708,6 +1854,541 @@ public void ConfigureServices(IServiceCollection services)
             services.AddDbContext<MobileContext>(options => options.UseSqlServer(connection));
             services.AddMvc();
         }
+
+
+
+
+#initial #инициализация #seed #Initialize
+
+//просто класс
+public static class SampleData
+    {
+        public static void Initialize(MobileContext context)
+        {
+//db.entr.Add();
+            context.entr.Add();
+        }
+    }
+
+
+
+Program->Main
+
+//CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+ 
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<MobileContext>();
+                    SampleData.Initialize(context);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while seeding the database.");
+                }
+            }
+ 
+            host.Run();
+
+
+
+
+
+
+
+#пути
+#css
+из папки wwwroot/lib/bootstrap/dist/css/
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+#a <a href="~/Home/Index" class="navbar-brand">Главная</a>
+
+
+
+
+
+
+#_Layout #Layout
+#_ViewStart #ViewStart
+_ViewStart.cshtml - установка мастер страницы по умолчанию/ устанавливает общую мастер-страницу
+
+_Layout.cshtml - мастер страница по умолчанию
+если мастер страницу не нужно использовать в представлении то вверху страницы
+@{
+    Layout = null;
+}
+//явно указваем
+@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+
+для создания файла мастре страницы надо создать файл с типом "MVC View Layout Page"
+
+#RenderBody
+рендерит тело представления
+
+
+#RenderSection
+
+<footer>@RenderSection("Footer")</footer>
+//если не определено то не отрисует
+<footer>@RenderSection("Footer", false)</footer> 
+
+
+в представление которой будет использовать мастер страницу добавить секцию 
+
+@section Footer {
+    Все права защищены. Site Corp. 2016.
+}
+
+#IsSectionDefined
+@if (IsSectionDefined("Footer"))
+    {
+        @RenderSection("Footer")
+    }
+    else
+    {
+        <span>Содержание элемента footer по умолчанию.</span>
+    }
+
+
+
+
+
+
+
+
+#_ValidationScripsPartial #ValidationScripsPartial
+частичное представление, которое подключает скрипты валидации формы
+
+#Error
+использутся для отображения ошибок
+
+
+
+#_ViewImports #ViewImports
+тип файла "MVC View Imports Page"
+устанавливает некоторые общие для всех представлений пространства имен
+
+если добавить такую строку, то юзинг будет применен для всех представлений
+@using MvcViewsApp.Models
+
+
+если необходимо добавить using только для определенных представлений то
+создать папку в папке Views например Other , добавить туда _ViewImports.cshtml
+теперь все директивы и выражения из файла Views/Other/_ViewImports.cshtml будут применяться к представлениям только из папки Views/Other. Кроме того, ко всем представлениям во всех папках продолжит применяться глобальный файл Views/_ViewImports.cshtml
+
+
+
+
+
+
+
+
+#ActionResult #IActionResult #result
+
+
+
+создание
+добавим в проект папку Util
+
+public class HtmlResult : IActionResult
+    {
+        string htmlCode;
+        public HtmlResult(string html)
+        {
+            htmlCode = html;
+        }
+        public async Task ExecuteResultAsync(ActionContext context)
+        {
+            string fullHtmlCode = "<!DOCTYPE html><html><head>";
+            fullHtmlCode += "<title>Главная страница</title>";
+            fullHtmlCode += "<meta charset=utf-8 />";
+            fullHtmlCode += "</head> <body>";
+            fullHtmlCode += htmlCode;
+            fullHtmlCode += "</body></html>";
+            await context.HttpContext.Response.WriteAsync(fullHtmlCode);
+        }
+    }
+
+
+
+
+
+public HtmlResult GetHtml()
+    {
+        return new HtmlResult("<h2>Привет ASP.NET Core</h2>");
+    }
+
+
+
+
+
+#ContentResult: пишет указанный контент напрямую в ответ в виде строки
+return Content($"Площадь треугольника с основанием {altitude} и высотой {height} равна {square}");
+
+#EmptyResult: отправляет пустой ответ в виде статусного кода 200
+public IActionResult GetVoid()
+{
+    return new EmptyResult();
+}
+Аналогичен следующему методу:
+public void GetVoid()
+{
+}
+#NoContentResult: во многом похож на EmptyResult, также отправляет пустой ответ, только в виде статусного кода 204
+public IActionResult GetVoid()
+{
+    return new NoContentResult();
+}
+#FileResult: является базовым классом для всех объектов, которые пишут набор байтов в выходной поток. Предназначен для отправки файлов
+#FileContentResult: класс, производный от FileResult, пишет в ответ массив байтов
+#VirtualFileResult: также производный от FileResult класс, пишет в ответ файл, находящийся по заданному пути
+#PhysicalFileResult: также производный от FileResult класс, пишет в ответ файл, находящийся по заданному пути. Только в отличие от предыдущего класса использует физический путь, а не виртуальный.
+#FileStreamResult: класс, производный от FileResult, пишет бинарный поток в выходной ответ
+#StatusCodeResult: результат действия, который возвращает клиенту определенный статусный код HTTP
+#UnauthorizedResult: класс, производный от StatusCodeResult. Возвращает клиенту ответ в виде статусного кода HTTP 401, указывая, что пользователь не прошел авторизацию и не имеет прав доступа к запрошенному ресурсу.
+#NotFoundResult: производный от StatusCodeResult. Возвращает клиенту ответ в виде статусного кода HTTP 404, указывая, что запрошенный ресурс не найден
+#NotFoundObjectResult: производный от ObjectResult. Также возвращает клиенту ответ в виде статусного кода HTTP 404 с дополнительной информацией
+#BadRequestResult: производный от StatusCodeResult. Возвращает статусный код 400, тем самым указывая, что запрос некорректен
+#BadRequestObjectResult: производный от ObjectResult. Возвращает статусный код 400 с некоторой дополнительной информацией
+#OkResult: производный от StatusCodeResult. Возвращает статусный код 200, который уведомляет об успешном выполнении запроса
+#OkObjectResult: производный от ObjectResult. Возвращает статусный код 200 с некоторой дополнительной информацией
+#CreatedResult: возвращает статусный код 201, который уведомляет о создании нового ресурса. В качестве параметра принимает адрес нового ресурса
+#CreatedAtActionResult: возвращает статусный код 201, который уведомляет о создании нового ресурса. В качестве параметра принимает название метода и контроллера, а также параметров запроса, которые вместе создают адрес нового ресурса
+#CreatedAtRouteResult: возвращает статусный код 201, который уведомляет о создании нового ресурса. В качестве параметра принимает название маршрута, который используется для создания адреса нового ресурса
+#ChallengeResult: используется для проверки аутентификации пользователя
+#JsonResult: возвращает в качестве ответа объект или набор объектов в формате JSON
+return Json(user);
+
+#PartialViewResult: производит рендеринг частичного представления в выходной поток
+#RedirectResult: перенаправляет пользователя по другому адресу URL, возвращая статусный код 302 для временной переадресации или код 301 для постоянной переадресации зависимости от того, установлен ли флаг Permanent.
+#RedirectToRouteResult: класс работает подобно RedirectResult, но перенаправляет пользователя по определенному адресу URL, указанному через параметры маршрута
+#RedirectToActionResult: выполняет переадресацию на определенный метод контроллера
+#LocalRedirectResult: перенаправляет пользователя по определенному адресу URL в рамках веб-приложения
+#ViewComponentResult: возвращает в ответ сущность ViewComponent
+#ViewResult: производит рендеринг представления и отправляет результаты рендеринга в виде html-страницы клиенту
+
+
+
+
+
+
+
+
+
+
+
+#RedirectResult, #LocalRedirectResult, #RedirectToActionResult 
+
+//временная
+return Redirect("~/Home/About");
+return Redirect("http://microsoft.com")
+
+#RedirectPermanent
+//постоянная
+
+Для обращения к локальным адресам в нашей системе мы можем использовать класс #LocalRedirectResult. Для создания временной переадресации применяется метод #LocalRedirect(), а для создания постоянной переадресации - метод #LocalRedirectPermanent
+return LocalRedirect("http://microsoft.com");// исключение
+
+
+
+
+#RedirectToRouteResult. Для переадресации он использует маршруты. Для создания объекта этого класса имеются два метода: #RedirectToRoute и #RedirectToRoutePermanent (соответственно для временной и постоянной переадресации).
+
+return RedirectToRoute("default", new { controller = "Home", action = "Square", height = 2, altitude = 20});
+при routes.MapRoute(
+        name: "default",
+
+
+
+
+
+
+отправка #статуса #кода #StatusCode 
+#404 #200 #500
+#StatusCodeResult
+
+ return StatusCode(401);
+ Response.StatusCode = 404;
+
+#HttpNotFoundResult #HttpNotFoundObjectResult #NotFound
+посылает код 404, уведомляя браузер о том, что ресурс не найден. Второй класс в дополнении к статусному коду позволяет отправить доплнительную информацию, которая потом отобразится в браузере.
+return NotFound("Ресурс в приложении не найден");
+
+
+
+#UnauthorizedResult
+//вернет 401-не авторизован
+return Unauthorized();
+
+
+#BadResult и #BadObjectResult
+//400 - запросс не корректный
+return BadRequest("Не указаны параметры запроса");
+
+
+#OkResult и #OkObjectResult
+// 200, уведомляя об успешном выполнении запроса
+return Ok("Запрос успешно выполнен");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#FileResult #PhysicalFileResult #PhysicalFile
+
+#FileContentResult: отправляет клиенту массив байтов, считанный из файла
+
+#VirtualFileResult: представляет простую отправку файла напрямую с сервера по виртуальному пути
+
+#FileStreamResult: создает поток - объект System.IO.Stream, с помощью которого считывает и отправляет файл клиенту
+
+#PhysicalFileResult: также отправляет файл с сервера, но для отправки используется реальный физический путь
+
+
+"application/octet-stream" -- универсальный тип файлов, если не можем определить правильный
+"application/mp4";
+
+#file 
+public IActionResult GetFile()
+        {
+            // Путь к файлу
+            string file_path = Path.Combine(_appEnvironment.ContentRootPath, "Files/book.pdf");//см path
+            // Тип файла - content-type
+            string file_type = "application/pdf";
+            // Имя файла - необязательно
+            string file_name = "book.pdf";
+            return PhysicalFile(file_path, file_type, file_name);
+        }
+
+#byte
+
+
+// Отправка массива байтов
+string path = Path.Combine(_appEnvironment.ContentRootPath, "Files/book.pdf");
+    byte[] mas = System.IO.File.ReadAllBytes(path);
+    string file_type = "application/pdf";
+    string file_name = "book2.pdf";
+    return File(mas, file_type, file_name);
+
+
+
+// Отправка потока
+public FileResult GetStream()
+{
+    string path = Path.Combine(_appEnvironment.ContentRootPath, "Files/book.pdf");
+    FileStream fs = new FileStream(path, FileMode.Open);
+    string file_type = "application/pdf";
+    string file_name = "book3.pdf";
+    return File(fs, file_type, file_name);
+}
+
+
+
+
+VirtualFileResult работает похожим образом, только возвращает файл по виртуальному пути. Здесь надо учитывать, что по умолчанию все пути к файлам в данном случае будут сопоставляться с папкой wwwroot. То есть нам надо помещать папки с файлами или отдельные файлы в каталог wwwroot:
+В данном случае предполагается, что файл "hello.txt" располагается в папке "wwwroot/Files/".
+public VirtualFileResult GetVirtualFile()
+{
+    var filepath = Path.Combine("~/Files", "hello.txt");
+    return File(filepath, "text/plain", "hello.txt");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#controller
+
+public class HelloBaseController : Controller{}
+
+
+
+все метод с атрибутом [NonAction] и являются альтернативой фильтрам действий
+Метод #OnActionExecuting() выполняется при вызове метода контроллера до его непосредственного выполнения.
+
+Метод #OnActionExecuted() выполняется после выполнения метода контроллера.
+
+Метод #OnActionExecutionAsync() представляет асинхронную версию метода OnActionExecuting().
+
+
+создаем класс(но можно и не создавать, а переопределить сразу в нужном контроллере)
+Также мы бы могли переопределить какие-либо другие действия или определить новые общие для всех действия
+public abstract class HelloBaseController : Controller
+{
+    public override void OnActionExecuting(ActionExecutingContext context)
+    {
+        if (context.HttpContext.Request.Headers.ContainsKey("User-Agent") &&//проверяем, установлен ли заголовок "User-Agent":
+//содержит ли этот User-Agent MSIE 8.0 (то есть юзерагент для IE 8)
+            Regex.IsMatch(context.HttpContext.Request.Headers["User-Agent"].FirstOrDefault(), "MSIE 8.0"))
+        {
+//переопределяется результат метода в виде переадресации:
+            context.Result = Content("Internet Explorer 8.0 не поддерживается");
+        }
+        base.OnActionExecuting(context);
+    }
+}
+
+
+теперь делаем так и теперь до начала работы метода Index будет срабатывать метод OnActionExecuting(), определенный в базовом классе HelloBaseController
+public class HomeController : HelloBaseController
+{
+    public IActionResult Index()
+    {
+        return Content("Запрос успешно выполнен");
+    }
+    // остальные методы контроллера
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#ControllerContext #context
+
+свойства класса ControllerContext
+#HttpContext: содержит информацию о контексте запроса
+
+#ActionDescriptor: возвращает дескриптор действия - объект ActionDescriptor, который описывает вызываемое действие контроллера
+
+#ModelState: возвращает словарь ModelStateDictionary, который используется для валидации данных, отправленных пользователем
+
+#RouteData: возвращает данные маршрута
+
+обращение к 1 и тому же свойству
+var ctx1 = ControllerContext.HttpContext;
+var ctx2 = HttpContext;
+
+Объект HttpContext инкапсулирует всю информацию о запросе. В частности, он определяет следующие свойства:
+#Request: содержит собственно информацию о текущем запросе. #HttpRequest , можно получить через свойство Request класса Conroller
+#Response: управляет ответом #HttpResponse , можно получить через свойство Response класса Conroller
+#User: представляет текущего пользователя, который обращается к приложению
+#Session: объект для работы с сессиями
+
+
+Request---
+
+#Body: объект Stream, который используетя для чтения данных запроса
+#Cookies: куки, полученные в запросе
+#Form: коллекция значений отправленных форм
+#Headers: коллекция заголовков запроса
+#Path: возвращает запрошенный путь - строка запроса без домена и порта
+#Query: возвращает коллекцию переданных через строку запроса параметров
+#QueryString: возвращает ту часть запроса, которая содержит параметры. Например, в запросе http://localhost:52682/Home/Index?alt=4 это будет ?alt=4
+
+Получим значения определенных заголовков:
+string userAgent = Request.Headers["User-Agent"].ToString();
+string referer = Request.Headers["Referer"].ToString();
+
+
+
+Response---
+
+#Body: объект Stream, который применяется для отправки данных в ответ пользователю
+#Cookies: куки, отправляемые в ответе
+#ContentType: MIME-тип ответа
+#Headers: коллекция заголовков ответа
+#StatusCode: статусный код ответа
+
+с его помощью можем отправить ответ
+ Response.StatusCode = 404;
+            Response.WriteAsync("Ресурс не найден");
+
+
+
+
+#PartialView #Partial #RenderPartialAsync
+частичное представление
+@Html.Partial("_GetMessage")
+@Html.Partial("_GetMessage", new List<string> { "Lumia 950", "iPhone 6S", "Samsung Galaxy s 6", "LG G 4" })
+
+тоже самое что и @{await Html.RenderPartialAsync("_GetMessage");}
+
+ public ActionResult GetMessage()
+    {
+        return PartialView("_GetMessage");
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
