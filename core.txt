@@ -1185,12 +1185,22 @@ db=context;
 получение переданных параметров get
 string altitudeString = Request.Query.FirstOrDefault(p => p.Key == "altitude").Value;
 
+см также #RouteData RouteData.Values["name"]
+
+отличие
+при routes.MapRoute("api", "api/get/{id?}", new { controller = "Home", action = "About" });
+отправляем такой запрос http://localhost:55407/api/get/45?id=56&name=volga
+
+данные маршрута--  controller = Home   action = About   id = 45
+
+строка запроса //идет после знака ? --  id = 56  name = volga
+
 
 #Form #IFormsCollection
 получение переданных параметров post
  string altitudeString = Request.Form.FirstOrDefault(p => p.Key == "altitude").Value;
 
-
+см также RouteData RouteData.Values["name"]
 
 
 
@@ -1209,13 +1219,88 @@ Index(string id)
 
 
 
-get
-http://localhost:57086/Home/Sum?nums=1&nums=2&nums=3 // передать массив из 3х элементов
+get  #param #параметры
+
+// передать массив из 3х элементов
+http://localhost:57086/Home/Sum?nums=1&nums=2&nums=3 
+http://localhost:54274/Home/GetData?items[0]=volga&items[2]=dnepr&items[1]=don
+//если передаем только 1 массив
+http://localhost:54274/Home/GetData?[0]=volga&[2]=dnepr&[1]=don
+//массив сложных объектов
+http://localhost:54274/Home/GetPhones?phones[0].Name=Lumia950&
+
+
+//передать словарь
+http://localhost:54274/Home/GetData?items[germany]=berlin&items[france]=paris&items[spain]=madrid
+
+//сложный объект
+http://localhost:54274/Home/GetPhone?myPhone.Price=24000&myPhone.Name=Nexus5X&myPhone.Manufacturer.Name=LG
+
+
 Home/Square?a=10&h=3// 2 параметра с разными именами
 http://localhost:57086/Home/Square?altitude=10&height=3// передача сложных объектов (указываются атрибуты объекта)
 
+
+применение такого атрибута считается "сильнее" чем определение пути в  Startup
 [Route("Home")]
 HomeController{}
+
+
+
+[Route("{id:int}/{name:maxlength(10)}")]//http://localhost:xxxx/10/lumia
+    public IActionResult Test(int id, string name)
+
+
+//метод Index контроллера Home будет обрабатывать только запросы http://localhost:xxxx/homepage
+[Route("homepage")]
+    public IActionResult Index()
+[Route("{id:int}/{name:maxlength(10)}")]
+    public IActionResult Test(int id, string name)
+
+
+вот такое:
+[Route("main")]
+public class HomeController : Controller
+[Route("store/{name}")]
+    public IActionResult Index(string name)
+
+
+эквивалент вот такому
+public class HomeController : Controller
+[Route("main/store/{name}")]
+    public IActionResult Index(string name)
+
+
+controller и action надо указывать в [] скобках
+[Route("[controller]/[action]")]
+    public IActionResult Index()
+
+[Route("[controller]")]
+[Route("[action]")]
+[Route("[controller]/[action]/{id?}")]
+
+
+С помощью атрибутов можно задать несколько маршрутов для одного метода. Например:
+[Route("[controller]")]
+public class HomeController : Controller
+{
+   [Route("")]     // сопоставляется с Home
+   [Route("Index")] // сопоставляется с Home/Index
+   public IActionResult Index()
+
+
+[Route("Store")]
+[Route("[controller]")]
+public class HomeController : Controller
+{
+   [Route("Main")]     // сопоставляется с Home/Main, либо с Store/Main
+   [Route("Index")] // сопоставляется с Home/Index, либо с Store/Index
+   public IActionResult Index()
+
+
+
+
+
 
 
 #ActionName
@@ -1306,9 +1391,38 @@ routeBuilder.MapRoute("{controller}/{action}",
 
 
 
+//если мы подключили MVC добавление компонентов mvc и определение маршрута
+//Метод app.UseMvc() в качестве параметра принимает объект Action<IRouteBuilder> #IRouteBuilder
+//Для обработки маршрутов фреймворк предоставляет встроенный класс #MvcRouteHandler
+        app.UseMvc(routes =>
+        {
+//внутри этого делегата писать все пути для MVC
+
+routes.MapRoute("api", "api/get", new { controller = "Home", action = "About" });// для запроса http://localhost:xxxx/api/get
+
+//обрабатываем и сразу пишем
+routes.MapRoute("api/get", async context=>
+                {
+                    await context.Response.WriteAsync("для обработки использован маршрут api/get");
+                });
+
+
+            routes.MapRoute(
+                name: "default",
+                template: "{controller=Home}/{action=Index}/{id?}");
+        });
 
 
 
+
+#UseMvcWithDefaultRoute
+метод app.UseMvcWithDefaultRoute(); равносилен конструкции
+app.UseMvc(routes =>
+{
+    routes.MapRoute(
+        name: "default",
+        template: "{controller=Home}/{action=Index}/{id?}");
+});
 
 
 
@@ -1338,7 +1452,7 @@ MapVerb(string verb, string template, Action<ApplicationBuilder> action)
 
 
 
-#GetRouteData #GetRouteData #RouteData
+#GetRouteData #GetRouteData  #RouteData
 рядом с configure можно так
 
 private async Task Handle(HttpContext context)
@@ -1780,6 +1894,20 @@ asp-fallback-(src|href)-exclude - определяет через запятую набо шаблонов файлов 
 
 
 
+
+#url #uri
+
+используют систему маршрутизации
+#Action
+вернет url до страницы
+@Url.Action("Index", "Book", new { author = "Толстой", id = 10 }, null)
+
+#Content
+преобразует относительные пути в абсолютные
+<script src='@Url.Content("~/lib/jquery/dist/jquery.js")'></script>
+
+#RouteUrl
+@Url.RouteUrl(new { controller = "Book", action = "Index", author = "Толстой", id = 10 })
 
 
 
@@ -2287,6 +2415,7 @@ public class HomeController : HelloBaseController
 
 
 #ControllerContext #context
+#param #параметры #запрос #ответ
 
 свойства класса ControllerContext
 #HttpContext: содержит информацию о контексте запроса
@@ -2296,6 +2425,10 @@ public class HomeController : HelloBaseController
 #ModelState: возвращает словарь ModelStateDictionary, который используется для валидации данных, отправленных пользователем
 
 #RouteData: возвращает данные маршрута
+получить в контроллере все параметры маршрута, используя объект RouteData
+var controller = RouteData.Values["controller"].ToString();
+
+
 
 обращение к 1 и тому же свойству
 var ctx1 = ControllerContext.HttpContext;
@@ -2339,6 +2472,18 @@ Response---
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 #PartialView #Partial #RenderPartialAsync
 частичное представление
 @Html.Partial("_GetMessage")
@@ -2357,6 +2502,75 @@ Response---
 
 
 
+#Области #area
+каждая область представляет какой-то свой сегмент приложения. Например, одна область может отвечать за функции администрирования, другая - за управление учетными записями и т.д. И каждая область представляет собой мини-проект, имеет свою собственную структуру каталогов. Это позволяет разрабатывать и тестировать код для каждой области отдельно независимо от других областей.
+Как правило, области помещаются в отдельную папку.
+
+создать иерархию Areas/Store и добавить - Controllers и Views
+
+
+создаем контроллер
+[Area("Store")]//название области
+    public class HomeController : Controller
+
+
+
+
+app.UseMvc(routes =>
+            {
+//Для сопоставления с областью определен сегмент area. Ограничение exists используется для того, 
+//чтобы маршрут сопоставлялся только с теми областями, которые определены в приложении
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}");
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+
+или можно через атрибуты
+
+[Area("Store")]
+public class HomeController : Controller
+{
+    [Route("[area]/[controller]/[action]")]
+    public IActionResult Index()
+
+
+теперь можно обратиться вот так, где Store - это название области которое указано в атрибуте контроллера
+http://localhost:xxxx/Store/Home/Index
+
+для генерации ссылки на контроллер в области, если представление само находится в области
+@Html.ActionLink("Онлайн-магазин", "Index", "Home")
+// или
+<a asp-action="Index" asp-controller="Home">Онлайн-магазин</a>
+<a href="Store/Home/Index/">Онлайн-магазин</a>
+
+если не находится в области то надо указать явно
+@Html.ActionLink("Все книги", "List", new { area = "Store", controller = "Book" })
+// или
+<a asp-action="List" asp-controller="Book" asp-route-area="Store">Все книги</a>
+
+
+если находится в области, а нужно сослаться на основной проект то
+@Html.ActionLink("Главная", "Index", new { area = "", controller = "Home" })
+// или так
+<a asp-action="Index" asp-controller="Home" asp-route-area="">Главная</a>
+
+
+
+
+Если в контроллеры области используют представления, то система будет искать эти представления по следующим путям:
+
+/Areas/Название_области/Views/Название_контроллера/Имя_представления.cshtml
+/Areas/Название_области/Views/Shared/Имя_представления.cshtml
+/Views/Shared/Имя_представления.cshtml
+
+в главном проекте функциональность tag-хелперов добавляется с помощью файла _ViewImports.cshtml. 
+В области он будет недоступен. И чтобы задействовать tag-хелперы в представлениях в области, 
+нам надо добавить аналогичный файл в каталог Views, который находится в области. 
+Либо же добавлять в представления области эту строку, где надо использовать tag-хелперы
 
 
 
@@ -2366,6 +2580,214 @@ Response---
 
 
 
+View Component #ViewComponent #компонент
+чем то похоже на частичное представление
+
+Есть три способа определения компонента:
+
+определение компонента как обычного класса (класс POCO)
+наследование от базового класса ViewComponent
+применение к классу атрибута ViewComponent
+
+можно также как в контроллер в конструктор внедрять зависимости
+
+
+1 способ - Компонент как обычный класс
+Согласно условностям классы компонентов помещаются в папку Components
+При определении компонента в виде обычного класса C# название этого класса должно оканчиваться на суффикс ViewComponent, 
+плюс в самом классе должен быть определен метод Invoke() или InvokeAsync НО!!! только 1, метод может быть с параметрами в таком случае передавать через анонимный объект.
+
+public class BestPhoneViewComponent
+    {
+        int phones=10;
+        public BestPhoneViewComponent()
+        {
+         phones=11;  
+        }
+        public string Invoke()
+        { 
+          return $"число {phones}";
+        }
+//можно создать асинхронный, он встроится в страницу только после выполнения
+public async Task<IViewComponentResult> InvokeAsync()
+        {
+                   var htmlContent = await reader.ReadToEndAsync();
+            return new HtmlContentViewComponentResult(new HtmlString(htmlContent));
+        }
+
+
+
+    }
+
+
+//в  view(представлении) пишем так, где BestPhone-название компонента без суффикса ViewComponent
+//в результате на страницу отрисуется результат выполнения метода Invoke
+@await Component.InvokeAsync("BestPhone")
+<p>@await Component.InvokeAsync("PhonesList", new { maxprice = 60000, minprice=20000 })</p>
+
+
+
+2 способ создания - Наследование класса ViewComponent
+//класс полностью такой же , меняется только название и указывается родитель
+public class BestPhone : ViewComponent
+    {
+
+#ViewComponentContext
+в таком случае  нам становится доступным контекст компонента через ряд свойств:
+
+HttpContext: представляет контекст, который описывает полученный запрос, а также отправляемый ответ
+ModelState: представляет состояние модели в виде объекта ModelStateDictionary
+Request: возвращает контекст запроса в виде объекта HttpRequest
+RouteData: возвращает данные маршрута
+Url: представляет объект IUrlHelper, который используется для генерации адресов URL
+User: представляет текущего пользователя в виде объкта IPrincipal
+ViewBag: представляет динамический объект, который может использоваться для передачи данных в представление
+ViewContext: описывает контекст главного представления, в котором вызывается компонент
+ViewComponentContext: представляет объект ViewComponentContext, который инкапсулирует контекст компонента
+ViewData: возвращает объект ViewDataDictionary, который применяется для передачи данных в представление
+
+public IViewComponentResult Invoke()
+        {
+            // если передан параметр id. берем параметр "id", который определен в маршруте по умолчанию
+            if(RouteData.Values.ContainsKey("id"))
+                Int32.TryParse(RouteData.Values["id"]?.ToString(), out maxPrice);
+            ViewBag.Phones = phones.Where(p => p.Value <= maxPrice).ToList();
+
+
+
+
+
+3 способ создания - Применение атрибута ViewComponent
+//добавляем атрибут, меняем название, остальное точно так же
+[ViewComponent]
+public class BestPhone
+{
+
+
+
+
+компоненты могут возвращать не только строку но и #IViewComponentResult
+имеется 3 реализации
+#ViewViewComponentResult: используется для генерации представления Razor с возможностью передачи модели. Для создания этого объекта может применяться метод View() класса ViewComponent
+ViewComponentResult позволяет использовать для рендеринга контента частичное представление. Если мы наследуем класс компонента от базового класса ViewComponent, то для генерации объекта ViewComponentResult мы можем вызвать унаследованный метод View
+перегруженные версии
+View(): для рендеринга контента выбирает представление по умолчанию
+View(model): для рендеринга контента выбирает представление по умолчанию, в которое передает некоторую модель
+View(viewName): для рендеринга контента выбирает представление с именем viewName
+View(viewName, model): для рендеринга контента выбирает представление с именем viewName, в которое передает некоторую модель
+
+Если при вызове метода View в компоненте имя представления явным образом не указано, то в качестве представления используется файл Default.cshtml. Для поиска файла представления Razor будет просматривать следующие пути в порядке приоритета:
+Views/Название_Контроллера/Components/Название_Компонента/Название_Представления.cshtml
+Views/Shared/Components/Название_Компонента/Название_Представления.cshtml
+
+public class PhonesList : ViewComponent
+    {
+public IViewComponentResult Invoke(int maxPrice)
+        {
+            var items = phones.Where(p => p.Value <= maxPrice).ToList();
+ return View("Phones", items);
+            return View(items);
+        }
+
+
+
+
+#ContentViewComponentResult: применяется для отправки текстового контента. Для создания объекта используется метод Content() , который в качестве параметра принимает строку.
+public IViewComponentResult Invoke()
+        {
+//в данном случае ВСЕ(и html) будет интерпретироваться как строки
+            return Content($"Самый дорогой телефон: {item.Key} - {item.Value.ToString("c")}");
+        }
+
+
+#HtmlContentViewComponentResult: представляет фрагмент кода HTML, который инкорпорируется в веб-станицу
+ public IViewComponentResult Invoke()
+        {
+//html будет интерпретироваться как html а не как строка
+            return new HtmlContentViewComponentResult(
+                new HtmlString($"<h3>Самый дорогой телефон: {item.Key} - {item.Value.ToString("c")}</h3>"));
+        }
+
+
+
+
+
+
+
+
+
+
+
+#привязка #IModelBinder #ModelBinder
+
+
+Для поиска значений привязчик модели используется следующие источники в порядке приоритета:
+Данные форм. Хранятся в объекте Request.Form
+Данные маршрута, то есть те данные, которые формируются в процессе сопоставления строки запроса маршруту. Хранятся в объекте RouteData.Values
+Данные строки запроса. Хранятся в объекте Request.Query
+
+свойства, к которым осуществляется привязка, должны быть объявлены с модификатором public и быть доступными для записи
+класс должен иметь общедоступный конструктор по умолчанию
+И когда будет осуществляться механизм привязки для создания объекта будет использоваться этот стандартный конструктор, и затем у созданного объекта будут устанавливаться свойства.
+
+
+
+#BindRequired и #BindNever #attr
+зменение алгоритма привязки
+
+Атрибут BindRequired требует обязательного наличия значения для свойства модели.
+
+Атрибут BindNever указывает, что свойство модели надо исключить из механизма привязки.
+
+public class User
+{
+    [BindRequired]
+    public string Name { get; set; }
+    [BindNever]
+    public bool HasRight { get; set; }
+}
+//вот так можно проверить  // #ModelState #IsValid
+if(ModelState.IsValid)
+
+
+
+#BindingBehavior 
+перечисление
+#Required: аналогично примению атрибута BindRequired
+#Never: аналогично примению атрибута BindNever
+#Optional: действие по умолчанию, мы можем передавать значение, а можем и не передавать, тогда будут применяться значения по умолчанию
+
+
+ [BindingBehavior(BindingBehavior.Required)]
+    public string Name { get; set; }
+
+
+
+Атрибут #Bind позволяет установить выборочную привязку отдельных значений. Так, применим атрибут в методе AddUser:
+public IActionResult AddUser([Bind("Name", "Age", "HasRight")] User user)
+
+переобпределяем для всей сущности
+[Bind("Name")]
+public class User
+{
+
+
+
+можем указать где необходимо искать данные для привязки
+
+#FromHeader]: данные берутся из заголовоков запроса
+#FromQuery]: данные берутся из строки запроса
+#FromRoute]: данные берутся из значений маршрута
+#FromForm]: данные берутся из полученных форм
+#FromBody]: данные берутся из тела запроса. Этот атриут может применяться, когда в качестве источника данных выступает не форма и не строка запроса, а, скажем, данные отправляются через код javascript
+Атрибут FromBody может применяться, если метод имеет только один параметр, иначе будет сгенерировано исключение.
+
+public IActionResult GetUserAgent([FromHeader(Name="User-Agent")] string userAgent)
+public IActionResult AddUser([FromQuery] User user)
+
+
+создание привязчика модели #TODO
+https://metanit.com/sharp/aspnet5/8.6.php
 
 
 
