@@ -1157,20 +1157,6 @@ app.UseMiddleware<PersonMiddleware>();
 
 
 
-#db 
-#DefaultConnection #Configuration #GetConnectionString #connection #AddDbContext #context
-в ConfigureServices (services)->{
-string connection=Configuration.GetConnectionString("DefaultConnection");
-//добавление #контекста
-services.AddDbContext<MobileContext>(option=>option.UseSqlServer(connection))
-}
-
-controller->
-MobileContext db;
-в контроллер конструктор
-public HomeController(MobileContext context){
-db=context;
-}
 
 
 
@@ -1781,7 +1767,15 @@ var routeBuilder = new RouteBuilder(app);
 
 
 
-#tag #razor #html #helper
+#tag #razor #html #helper #taghelper
+
+
+#addTagHelper для включения в _ViewImports.cshtml (находится в папке Views) нужно докинуть(должно докидываться само)
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+Первый параметр директивы указывает на tag-хелперы, которые будут доступны во всех представлениях из папки Views, а второй параметр определяет библиотеку хелперов. В данном случае директива использует синтаксис подстановок - знак звездочки ("*") означает, что все хелперы из библиотеки Microsoft.AspNetCore.Mvc.TagHelpers.
+#removeTagHelper удалить подключенные хелперы
+@removeTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+
 
 Если необходимо вывести значение переменной без каких-либо html-элементов, то мы можем использовать специальный снипет <text>:
 <text>@i</text>
@@ -1814,46 +1808,105 @@ var routeBuilder = new RouteBuilder(app);
 
 
 
-#AnchorTagHelper
-actionlink->
-<a asp-controller="Home" asp-action="Contacts" asp-route-id="5" asp-route-data='new Dictionary<string,string>(){{"id","5"}}'>контакты</a>
+#AnchorTagHelper #a #link
+#actionlink->
 
-asp-host - указывает на домен сайта
+<a asp-controller="Home" asp-action="Contacts" asp-route-id="5" asp-route-data='new Dictionary<string,string>(){{"id","5"}}'>контакты</a>
+<a asp-controller="Home" asp-action="About" asp-host="localhost.com" asp-protocol="https">О сайте</a>
+<a asp-route="default">Книги</a>
+
+asp-host - указывает на домен сайта, если нам надо сделать ссылку на другой сайт
 asp-protocol - определяет http or https
 asp-all-route-data - устанавливает набор значений для параметров
-asp-fragment - определяет ту часть хэш ссылки которая идет после символа #
+asp-fragment - определяет ту часть хэш ссылки которая идет после символа # Например, "paragraph2" в ссылке "http://mysite.com/#paragraph2"
+asp-controller: указывает на контроллер, которому предназначен запрос
+asp-action: указывает на действие контроллера
+asp-route: указывает на название маршрута
+asp-route-[название параметра]: определяет значение для определенного параметра
+
+	
+
+
+
 
 
 #labelTagHelper #InputTagHelper #TextAreaTagHelper
 <form asp-action="Create" asp-anti-forgery="true">
+
+такая конструкция
 <label asp-for="Name"></label>
 <input type="text" asp-for="Name"></input>
+эквивалент такой
+@Html.LabelFor(m => m.Price)
+        @Html.EditorFor(m => m.Price)
 
+
+#inputTagHelper
+может иметь атрибуты asp-for , asp-format
+
+
+#TextAreaTagHelper
+<textarea asp-for="Name"></textarea>
+
+
+
+#SelectTagHelper
+asp-items---IEnumerable<SelectListItem>
+//добавляем базовое значение, остальные закинутся из коллекции
 <select asp-for"vl" asp-items="ViewBag.Companies">
 <option selected="selected"> базовое значение</option>
 </select>
 
-<form>
 
 
-asp-
-controller
-action
-area - указывает название области в которой будет вызываться контроллер для обработки формы
-anti-forgery - если имеет значение true то для этой формы будет генерироваться  antiforgery token
-route - название маршрута
-all-route-data устанавливает набор значений для параметров
-route-[название параметра] определяет значение для определенного параметра
-for указывает для какого свойства модели создается элемент
-format устанавивает формат ввода для элемента например для input label ="{0:dd-MM-yyy}"
+#enum #GetEnumSelectList
+public enum DayTime
+{
+    [Display(Name ="Утро")]
+    Morning
+}
+ <select asp-for="Period" asp-items="Html.GetEnumSelectList<DayTime>()"></select>
+или так
+<select asp-for="Period" asp-items="@new SelectList(Enum.GetNames(typeof(DayTime)))"></select>
 
 
 
-#validate
+
+
+
+#form #FormTagHelper
+
+#asp-controller: указывает на контроллер, которому предназначен запрос
+#asp-action: указывает на действие контроллера
+#asp-area: указывает на название области, в которой будет вызываться контроллер для обработки формы
+#asp-antiforgery: если имеет значение true, то для этой формы будет генерироваться antiforgery token
+#asp-route: указывает на название маршрута
+#asp-all-route-data: устанавливает набор значений для параметров
+#asp-route-[название параметра]: определяет значение для определенного параметра
+
+Все остальные теги, которые используются на формах, имеют два общих атрибута:
+#asp-for: указывает, для какого свойства модели создается элемент
+#asp-format: устанавливает формат ввода для элемента. например для input label ="{0:dd-MM-yyy}"
+
+
+
+
+
+
+#validate 
+подключить, после jquery
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+Views/Shared по умолчанию добавляется частичное представление _ValidationScriptsPartial.cshtml, которое уже содержит подключение вышеопределенных скриптов. Поэтому вместо прямого подключения скриптов можно подключать данное частичное представление
+#TODO взял из комментов так что ХЗ. ---->>>что бы форма не отправлялась на сервер Необходимо подключить в Layout ValidationScriptsPartial при помощи <partial name="_ValidationScriptsPartial"/>
+
+
 #data-#valmsg #TODO хз что это
 <span data-valmsg-for="Name" data-valmsg-replace="true">...
 
-asp-#validation-#summary
+asp-#validation-#summary #ValidationSummaryTagHelper
+
 
 <div asp-validation-summary="ModelOnly">...
 {
@@ -1863,36 +1916,815 @@ All - отображает все ошибки
 }
 
 
+<div class="validation" asp-validation-summary="ModelOnly"/>
+сгенерирует
+<div class="validation validation-summary-valid" data-valmsg-summary="true">
+    <ul>
+        <li style="display:none"></li>
+    </ul>
+</div>
+в список будут добавляться ошибки
 
 
-#ScriptTagHelper #js #script
-<script asp-src-include="~/js/**/*.js" asp-scr-exclude="~/js/util/**/*.js"></script>
+
+#ValidationMessageTagHelper
+#asp-validation-for
+<input type="text" asp-for="Name" />
+<span asp-validation-for="Name" />
+
+span с таким атрибутом сгенерит код и будет содержать ошибки
+<span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true" />
+
+
+
+
+
+#TODO если одну форму заменили на другую то ВОЗМОЖНО ее валидацию можно пофиксить так -- $.validator.unobtrusive.parse('form');, где form идентификатор формы.
+
+
+
+
+#attr
+#Required #ErrorMessage 
+Применение этого атрибута к свойству модели означает, что данное свойство должно быть обязательно установлено.
+ [Required (ErrorMessage = "Не указано имя")]
+        public string Name { get; set; }
+
+
+
+#RegularExpression
+Использование данного атрибута предполагает, что вводимое значение должно соответствовать указанному в этом атрибуте регулярному выражению.
+
+[RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")]
+public string Email { get; set; }
+
+
+#StringLength
+[StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]
+
+
+#Range
+[Range(1, 110, ErrorMessage = "Недопустимый возраст")]
+
+#Compare
+[Required]
+public string Password { get; set; }
+[Compare("Password", ErrorMessage = "Пароли не совпадают")]
+public string PasswordConfirm { get; set; }
+
+
+[#CreditCard]
+
+[#EmailAddress]
+[EmailAddress (ErrorMessage = "Некорректный адрес")]
+[#Phone]
+
+[Url]
+
+
+#Remote
+Атрибут Remote из пространства имен Microsoft.AspNetCore.Mvc; для валидации свойства выполняет запрос на сервер к определенному методу контроллера. И если требуемый метод контроллера вернет значение false, то валидация не пройдена.
+[Remote(action: "CheckEmail", controller: "Home", ErrorMessage ="Email уже используется")]
+
+public class HomeController : Controller
+{
+    [AcceptVerbs("Get", "Post")]
+    public IActionResult CheckEmail(string email)
+    {
+        if (email == "admin@mail.ru" || email == "aaa@gmail.com")
+            return Json(false);
+        return Json(true);
+    }
+
+
+
+
+
+
+
+создание собственных атрибутов валидации
+#ValidationAttribute 
+public class PersonNameAttribute : ValidationAttribute
+{
+    public PersonNameAttribute()
+    {
+    }
+    public override bool IsValid(object value)
+    {
+        приведение типов для value и проверка, если все норм то return true; иначе return false;
+    }
+}
+
+такого рода собственный атрибут валидации можно применить как к свойству так и к классу
+ [PersonName(new Entry(), ErrorMessage ="Недопустимое имя")]
+    public string Name { get; set; }
+
+
+
+
+#IValidatableObject
+#Самовалидация представляет собой процесс, при котором модель запускает механизм валидации из себя самой. И сама инкапсулирует всю логику валидации.
+// Если в конструктор ValidationResult передается только сообщение об ошибке, тогда данная ошибка будет относиться ко всей модели в целом. Однако с помощью второго параметра можно указать конкретный список свойств модели, к которым относится ошибка
+public class Person : IValidatableObject
+{
+public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        List<ValidationResult> errors = new List<ValidationResult>();
+            errors.Add(new ValidationResult("Введите имя!", new List<string>() { "Name" }));
+            errors.Add(new ValidationResult("Введите электронный адрес!"));
+       
+        return errors;
+    }
+
+
+
+
+#css для валидации
+.field-validation-error {color: #b94a48;}
+.field-validation-valid {    display: none;}
+input.input-validation-error {    border: 1px solid #b94a48;}
+input[type="checkbox"].input-validation-error {    border: 0 none;}
+.validation-summary-errors {    color: #b94a48;}
+.validation-summary-valid {    display: none;}
+
+
+
+
+валидация на стороне сервера
+
+если свойство не может принимать null и его не установить то оно не будет default, модель не пройдет валидацию  =>> является по умолчанию Required
+на сервере проверяется так if (ModelState.IsValid) //#ModelState #IsValid
+
+Фреймворк MVC валидирует свойства объекта, пока количество ошибок не достигнет предельного максимального количества (по умолчанию это 200 ошибок). Но мы можем настроить это поведение, определив нужное количество ошибок в методе ConfigureServices() класса Startup:
+services.AddMvc(options => options.MaxModelValidationErrors = 50);
+
+//добавляем ошибку для конкретного свойства
+if (string.IsNullOrEmpty(person.Name))
+    {
+        ModelState.AddModelError("Name", "Некорректное имя");
+    }
+//добавляем ошибку уровня модели
+ModelState.AddModelError("", "Имя и пароль не должны совпадать");
+
+
+
+
+
+
+
+
+#attr
+#аннотация #отображение
+System.ComponentModel. #DataAnnotations
+
+#Display
+изменит подпись для свойства при @Html.DisplayForModel() или <label asp-for="Name"></label>
+ [Display(Name="Имя и фамилия")]
+        public string Name { get; set; }
+
+
+
+
+#ScaffoldColumn
+Атрибут ScaffoldColumn позволяет скрыть отображение свойства при использовании хелперов Html.DisplayForModel() и Html.EditorForModel()
+
+#DataType
+Атрибут DataType позволяет предоставлять среде выполнения информацию об использовании свойства
+[DataType(DataType.Password)]
+public string Password { get; set; }
+
+DataType----
+#CreditCard: отображает номер кредитной карты
+#Currency: отображает текст в виде валюты
+#Date: отображает только дату, без времени
+#DateTime: отображает дату и время
+#Time: отображает только время
+#Duration: отображает число - некоторую продолжительность
+#EmailAddress: отображает электронный адрес
+#Password: отображает символы с использованием маски
+#PhoneNumber: отображает номер телефона
+#PostalCode: отображает почтовый индекс
+#ImageUrl: представляет путь к изображению
+#Url: отображает строку Url
+#MultilineText: отображает многострочный текст (элемент textarea)
+#Text: отображает однострочный текст
+
+
+
+#UIHint
+Данный атрибут указывает, какой будет использоваться шаблон отображения при создании разметки html для данного свойства. Шаблон управляет, как свойство будет рендерится на странице
+
+#Boolean
+Хелперы редактирования создают флажок (checkbox) для булевых значений. Для значений типа bool? (nullable) создается элемент select с параметрами True, False и Not Set
+Хелперы отображения генерируют те же элементы html, что и хелперы редактирования, только с атрибутом disabled
+
+#Collection
+Используется соответствующий шаблон для рендеринга каждого элемента коллекции. Причем элементы могут быть разных типов.
+
+#Decimal
+Хелперы редактирования создают однострочное текстовое поле - элемент input
+
+#EmailAddress
+Хелперы редактирования создают однострочное текстовое поле.
+Хелперы отображения генерируют элемент ссылка, где атрибут href имеет значение mailto:url
+
+HiddenInput
+Создается скрытое поле - элемент hidden input
+
+#Html
+Хелперы редактирования создают однострочное текстовое поле.
+Хелперы отображения просто показывают текст
+
+#MultilineText
+Хелперы редактирования создают многострочное текстовое поле (элемент textarea)
+
+#Object
+Хелперы изучают свойства объекта и выбирают наиболее подходящие для него шаблоны.
+
+#Password
+Хелперы редактирования создают текстовое поле для ввода символов с использованием маски
+Хелперы отображения показывают пароль как есть, без использования маски
+
+#String
+Хелперы редактирования создают однострочное текстовое поле
+
+#Url
+Хелперы редактирования создают текстовое поле
+Хелперы отображения создают элемент ссылки для данного Url
+
+[UIHint("Url")] // отрисует содержимое ссылкой
+        public string HomePage { get; set; }
+
+
+
+#DisplayFormat #DataFormatString
+
+[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+public DateTime DateOfBirth { get; set; }
+свойство DataFormatString указывает на сам формат
+Свойство #ApplyFormatInEditMode позволяет применять форматирование к свойству даже в режиме редактирования
+
+
+
+
+
+
+
 
 
 #LinkTagHelper  #css #link
+см также ScriptTagHelper
+используется для подключения файлов стилей
 
+
+asp-append-version: если имеет значение true, то к пути к названию файла стиля добавляется номер версии
+asp-fallback-href: указывает вспомогательный путь к файлу стиля, который используется, если загрузка файла, указанного в атрибуте href пройдет неудачно
+asp-fallback-test-class: определяет класс, который используется для теста загрузки стиля из атрибута href
+asp-fallback-test-property: определяет свойство, которое используется для тестирования загрузки стиля из атрибута href
+asp-fallback-test-value: определяет значение свойства из атрибута asp-fallback-test-property, которое используется для теста загрузки стиля из атрибута href
+asp-href-include: определяет через запятую набор шаблонов подключаемых файлов стилей
+asp-href-exclude: определяет через запятую набор шаблонов для тех файлов, которые следует исключить из загрузки
+asp-fallback-href-include: определяет через запятую набор шаблонов файлов, которые подключаются в том случае, если загрузка основного файла стиля из атрибута href прошла неудачно
+asp-fallback-href-exclude: определяет через запятую набор шаблонов файлов, которые следует исключить из загрузки в том случае, если загрузка основного файла стиля из атрибута href прошла неудачно
+
+
+
+пример с объяснением
+<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.0.0/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="hidden" asp-fallback-test-property="visibility" asp-fallback-test-value="hidden" />
+
+Здесь атрибут href указывает на файл стилей фреймворка bootstrap, который располагается в CDN. Если веб-браузер не сможет загрузить данный файл, то загружается локальный файл стилей, путь к которому указан в атрибуте asp-fallback-href. Чтобы протестировать, что файл стилей из атрибута href нормально загрузился, используются атрибуты asp-fallback-test-class, asp-fallback-test-property и asp-fallback-test-value.
+
+
+
+
+#ScriptTagHelper #js #script #css
+<script asp-src-include="~/js/**/*.js" asp-scr-exclude="~/js/util/**/*.js"></script>
+
+
+
+
+подключение всех файлов из папки и подпапок
 <link asp-href-include="~/css/**/*.css"/>
+подключение всех файлов из папки БЕЗ подпапок
+"~/js/*.js"
+
 
 ? - любой символ кроме слеша
+Например выражение js/script?.js будет соответствовать таким файлам как js/script1.js или js/scriptX.js, но не js/script35.js
 * - любое количество сомволов кроме слеша
+Например выражение js/*.js будет соответствовать таким файлам как js/script.js или js/scriptX25.js, но не js/bootstrap/script.js
 ** - любое количество символов включая слеш
+Например выражение js/**/script.js будет соответствовать таким файлам как js/script.js или js/bootstrap/script.js, но не js/script35.js
+
 
 для таких подключаемых блоков
-
+href-css ..  src-js
 asp-append-version если имеет значение true то к пути к файлу скрипта добавляется номер версии
 asp-fallback-(scr|href) - указывает вспомогательный путь к скрипту, который используется если загрузка скрипта указанного в утрибудет src пройдет неудачно
-asp-fallback-text - определяет выражение, которое тестирует загрузку основного скрипта из атрибута src (для link доступны -class -property -value)
+asp-fallback-test - определяет выражение, которое тестирует загрузку основного скрипта из атрибута src (для link доступны -class -property -value)
 asp-(src|href)-include - определяет шаблон подключаемых файлов через запятую можно задать несколько шаблонов
 
 asp-(src|href)-exclude - определяет через запятую набор шаблонов для тех файлов которые следует исключить из загрузки
 asp-fallback-(src|href)-include - определяет через запятую набо шаблонов файлов которые подключаются в том случае если загрузка основного скрипта из атрибута src прошла неудачно
 asp-fallback-(src|href)-exclude - определяет через запятую набо шаблонов файлов которые следует исключить из загрузки в том случае если загрузка основного скрипта из атрибута scr прошла неудачно
+asp-route-[название параметра]: определяет значение для определенного параметра
+
+<script asp-src-include="~/js/**/*.js" asp-src-exclude="~/js/util/**/*.js"></script>
+<ink rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+
+пример с объяснением
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+        asp-fallback-test="window.jQuery"
+        crossorigin="anonymous"
+        integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+</script>
+Данный элемент представляет не просто стандартный тег script, но и класс тег-хэлпера ScriptTagHelper. Атрибут src указывает на скрипт, который мы хотим подключить. Логично подключать скрипты из CDN, чтобы сократить нагрузку на собственный сайт. Но CDN может не работать, например, произойдет какой-то временный сбой, и чтобы определить, что скрипт загружен, применяется атрибут asp-fallback-test. Он тестирует загрузку с помощью выражения window.jQuery. Если объект window.jQuery определен, то загрузка скрипта прошла успешно. Если же нет, то загружается скрипт, который указан в атрибуте asp-fallback-src.
 
 
 
 
 
 
+#EnvironmentTagHelper
+
+определение группы скриптов которые будут загружаться
+При обработке данного тега фреймворк использует значение переменной окружения ASPNETCORE:ENVIRONMENT. При разработке по умолчанию эта переменная имеет значение "Development". В частности, мы можем увидеть ее значение, открыв свойства проекта и далее вкладку Debug:
+
+например в _Layout.cshtml
+<environment names="Development">
+    <link 111111/>
+</environment>
+<environment names="Staging,Production">
+<link 22222222/>
+</environment>
+
+
+
+
+
+
+
+#CacheTagHelper #cache #кеш #кэш
+CacheTagHelper обертывает контент представления и позволяет кэшировать его в памяти сервера. Он использует тег <cache>, и весь контент, определенный внутри этого тега, кэшируется в памяти. Перед кэшированием тег-хелпер проверяет, сохранен ли уже данный контент в MemoryCache. Если контент имеется в кэше, тогда движку Razor посылается контент из кэша. Если же данного контента не оказывается в кэше, тогда Razor обрабатывает контент, а тег-хелпер сохраняет контент в memory cache для последующего использования
+<cache expires-after="@TimeSpan.FromMinutes(5)">  
+    @Html.Partial("BookInfo")
+</cache> 
+
+атрибуты
+<cache expires-after="@TimeSpan.FromMinutes(10)"> 
+#expires-after указывает, на какое время контент будет кэшироваться. В качестве значения атрибут принимает объект TimeSpan:
+
+<cache expires-on="@DateTime.Now.AddDays(1)"> 
+#expires-on указывает, когда именно истечет срок хранения контента в кэше. В качестве значения атрибут принимает объект DateTime
+
+<cache expires-sliding="@TimeSpan.FromMinutes(10)">  
+#expires-sliding определяет, через какое время с момента последнего посещения контент будет удаляться из кэша. В качестве значения атрибут принимает объект TimeSpan
+
+<cache expires-after="@TimeSpan.FromMinutes(15)" vary-by-user="true">  
+#vary-by-user позволяет кэшировать контент отдельно для каждого залогиненного пользователя. При кэшировании к ключу контента в кэше добавляется логин пользователя. В качестве значения атрибут принимает логическое значение true (надо кэшировать по пользователю) или false
+
+<cache expires-after="@TimeSpan.FromMinutes(15)" vary-by-route="id"> 
+#vary-by-route позволяет кэшировать различные версии одного и того же контента в зависимости от параметров маршрута. В качестве значения атрибут принимает названия параметров через запятую, которые будут учитываться при кэшировании. И затем в кэше для контента к ключу будет добавляться значение параметров. В данном случае будут создаваться разные версии одного и того же контента для разных значений параметра id
+
+<cache vary-by-query="name"> 
+#vary-by-query позволяет кэшировать различные версии контента в зависимости от значений параметров, переданных в запросе. В качестве значения атрибуту передается список параметров через запятую. При кэшировании к ключу контента в кэше добавляется значение этих параметров
+
+<cache vary-by-cookie="pubid"> 
+#vary-by-cookie позволяет кэшировать различные версии одного и того же контент в зависимости от значений, которые хранятся в куках. В качестве значения атрибут принимает названия куков через запятую, которые будут учитываться при кэшировании. В ходе кэширования значения этих кук будут добавляться к ключам контента в кэше
+
+<cache vary-by-header="User-Agent"> 
+#vary-by-header позволяет кэшировать различные версии контента в зависимости от значений заголовков запроса. В качестве значения атрибуту передается название заголовка запроса. Например, для кэширования разных версий контента для разных браузеров может использоваться заголовок User-Agent
+
+<cache vary-by="@ViewBag.Id"> 
+#vary-by позволяет кэшировать различные версии контента в зависимости от произвольного строкового значения. Например, кэшируем в зависимости от значения ViewBag.Id
+
+<cache vary-by-user="true" priority="@Microsoft.Extensions.Caching.Memory.CacheItemPriority.Normal">
+Определяет приоритет кэшируемого контента. Приоритет может иметь значение, если для размещения кэша не хватает памяти. В этом случае из кэша могут удаляться некоторые объекты. И чем ниже приоритет, тем больше вероятность что данные объекты будут удалены при нехватке памяти.
+Атрибут priority принимает одно из значений перечисления Microsoft.Extensions.Caching.Memory.CacheItemPriority
+Low: низкий приоритет
+High: высокий приоритет
+NeverRemove: контент никогда не удаляется из кэша
+Normal: средний приоритет
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+создание своего #тэг #хэлпера #TagHelper
+см также TagBuilder
+
+для того что бы этим можно было пользоваться нужно в
+Views/_ViewImports.cshtml добавить  ... где TagHelpersApp - название проекта приложения
+@addTagHelper "*, TagHelpersApp"
+//если надо указать явно что подключать то 
+@addTagHelper "TagHelpersApp.TagHelpers.VkTagHelper, TagHelpersApp"
+
+
+!!!!!!!стиль названий -lower kebab
+Например, атрибуту go-to будет соответствовать свойство GoTo. Или тегу <book-info> будет соответствовать класс хелпера BookInfoTagHelper
+
+
+применять вот так 
+<vk  group="str"></vk>
+//можно передавать сложные объекты но нужно  указать @using на namespace объекта. (в самом классе все будет точно также как и при передаче простого типа)
+<vk info='new LinkInfo{Color="red", FontFamily="Verdana", FontSize=18}'>Група в вк</vk>
+//в cshtml - var g_1=new List<Entry>();
+<vk info='g_1'>Група в вк</vk>
+
+
+//Если tag-хелпер содержит оба метода: и Process(), и ProcessAsync(), то вызываться будет именно метод ProcessAsync().
+
+using Microsoft.AspNetCore.Razor.TagHelpers;
+
+//класс должен оканчиваться на суффикс TagHelper
+public class VkTagHelper : TagHelper
+{
+private const string address = "https://vk.com";
+//теперь это свойство можно установить из атрибута group(по названию свойства)
+public string Group { get; set; }
+
+
+//
+dependency injection в тэг хелпер
+//с помощью таких атрибутов автоматически получаем контекст, доступно только для свойств
+[ #ViewContext]
+        [ #HtmlAttributeNotBound] //отменяет заполнение свойства из атрибутов 
+        public ViewContext ViewContext { get; set; }
+ 
+IHostingEnvironment environment;
+        // получаем сервис IHostingEnvironment
+        public VkTagHelper(IHostingEnvironment env)
+        {
+            environment = env;
+        }
+
+
+//переопределяем метод 
+   public override void Process(TagHelperContext context, TagHelperOutput output)
+    {
+output.TagName = "a";    // заменяет тег <vk> тегом <a>
+        // присваивает атрибуту href значение из address
+        output.Attributes.SetAttribute("href", address);
+        output.Content.SetContent("Группа в ВК");
+    }
+
+//Если в tag-хелпер должен выполнять какие-то асинхронные операции, например, обращатьс к базе данных или к файлу в асинхронном режиме, то вместо метода Process() мы можем переопределить другой метод класса TagHelper - метод ProcessAsync()
+public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+        {
+            output.TagName = "div";
+            // получаем вложенный контекст из дочерних tag-хелперов
+            var target = await output.GetChildContentAsync();
+            var content = "<h3>Социальные сети</h3>" + target.GetContent();
+            output.Content.SetHtmlContent(content);
+        }
+
+}
+
+
+
+
+#TagHelperOutput
+
+Для управления выводом хелпера используется объект TagHelperOutput, который передается в качестве параметра в метод Process tag-хелпера. Его свойства позволяют управлять генерацией элемента html:
+#TagName: указывает, какой элемент html будет создаваться вместо тега хелпера
+#TagMode: устанавливает формат создаваемого элемента (с одним или с двумя тегами)
+принимает объект перечисления с 1м из значений
+#StartTagAndEndTag: элемент имеет оба тега
+#SelfClosing: элемент содержит самозакрывающийся тег
+#StartTagOnly: элемент имеет только открывающий тег
+
+если создаем тэг так(закрытие при создании) <vk /> то и создастся тэгточно также <a href="https://vk.com"> , что не всегда правильно
+
+меняем
+public override void Process(TagHelperContext context, TagHelperOutput output)
+        {
+            output.TagName = "a";
+            output.Attributes.SetAttribute("href", address);
+            output.Content.SetContent("Группа в ВК");
+            output.TagMode = TagMode.StartTagAndEndTag;
+
+
+
+
+#Attributes: представляет коллекцию атрибутов, устанавливаемых у создаваемого элемента html
+#Content: представляет содержимое генерируемого элемента html в виде объекта TagHelperContent
+#PreContent: представляет содержимое, которое устанавливается перед создаваемым элементом html
+#PostContent: представляет содержимое, которое устанавливается после создаваемого элемента html
+#PreElement: представляет html-элемент, который добавляется перед создаваемым элементом html
+#PostElement: представляет html-элемент, который добавляется после создаваемого элемента html
+
+
+
+#TagHelperContent
+методы-
+#SetContent(text): устанавливает текстовое содержимое элемента
+#SetHtmlContent(html): устанавливает вложенный html-код элемента
+#Append(text): добавляет к текстовому содержимому элемента некоторый текст
+#AppendHtml(html): добавляет к внутреннему коду элемента некоторый код html
+#Clear(): очищает элемент
+
+output.TagName = "a";
+             
+        output.Attributes.SetAttribute("href", address);
+        output.Content.SetContent("Группа в ВК");
+        output.TagMode = TagMode.StartTagAndEndTag;
+        output.PreElement.SetHtmlContent("<h3>Социальные сети</h3>");
+        output.PostElement.SetHtmlContent("<p>Элемент после ссылки</p>");
+
+
+
+
+#SuppressOutput
+позволяет не обрабатывать тег
+То есть при применении этого метода тег не будет обрабатываться, и для него не будет создаваться никакой html-разметки на веб-странице
+
+public override void Process(TagHelperContext context, TagHelperOutput output)
+    {
+        if (!Condition)
+            output.SuppressOutput();
+        else
+            output.TagName = "a";
+    }
+
+
+
+
+
+
+
+#attr
+для тегов
+
+
+[ #ViewContext] #TODO
+        [ #HtmlAttributeNotBound] //отменяет заполнение свойства из атрибутов 
+public ViewContext ViewContext { get; set; }
+
+#HtmlTargetElement #HtmlTargetElementAttribute 
+
+
+определяет следующие свойства:
+#Attributes: указывает, что tag-хелпер применяется только к тем элементам, которые имеют определенные атрибуты.
+#ParentTag: указывает, что tag-хелпер применяется только к тем элементам, которые определены внутри определенного элемента
+#TagStructure: указывает, что tag-хелпер применяется только к тем элементам, которые соответствуют определенному значению из перечисления TagStructure: Unspecified, NormalOrSelfClosing (стандартный или самозакрывающийся элемент) и WithoutEndTag (элемент без закрывающего тега)
+
+
+
+
+//Атрибут HtmlTargetElement указывает, что класс будет применяться к элементам, у которых установлен атрибут header. Важно, что название хелпера опять же соответствует целевому объекту - атрибуту header.
+using Microsoft.AspNetCore.Razor.TagHelpers;
+ 
+[HtmlTargetElement(Attributes = "header")]
+//можно несколько, В этом случае элемент должен иметь сразу два атрибута: header и divtitle. 
+//[HtmlTargetElement(Attributes = "header, divtitle")] //
+//можно указать к какому элементу будет применяться
+//[HtmlTargetElement("article-header")] //-- <article-header>Заголовок!</article-header>
+//будет применяться только к элементам в элементах form
+//[HtmlTargetElement(ParentTag ="form")]
+//указываем несколько
+//[HtmlTargetElement("form-header", ParentTag ="form", Attributes ="form-title")]
+public class HeaderTagHelper : TagHelper
+{
+    public override void Process(TagHelperContext context, TagHelperOutput output)
+    {
+        output.TagName = "h2";
+        output.Attributes.RemoveAll("header");
+    }
+}
+<div header>Первый параграф</div> заменит на <h2>Первый параграф</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+#helper #хелпер 
+Microsoft.AspNetCore.Mvc.Rendering. #IHtmlHelper #HtmlString
+создать папку #App_Code. Затем в эту папку добавим новый класс ListHelper
+
+public static class ListHelper
+    {
+        public static HtmlString CreateList(this IHtmlHelper html, string[] items)
+        {
+            return new HtmlString("HTML");
+        }
+    }
+
+
+вызвать в представлении так
+
+@Html.CreateList(cities)
+@ListHelper.CreateList(Html, countries)
+
+
+
+
+#TagBuilder
+см также TagHelper
+Microsoft.AspNetCore.Mvc.Rendering.TagBuilder
+
+#Append #AppendHtml #InnerHtml #WriteTo #HtmlEncoder
+public static HtmlString CreateList(this IHtmlHelper html, string[] items)
+        {
+            TagBuilder ul = new TagBuilder("ul");
+            
+                TagBuilder li = new TagBuilder("li");
+                // добавляем текст в li
+                li.InnerHtml.Append(item);
+                // добавляем li в ul
+                ul.InnerHtml.AppendHtml(li);
+            
+            ul.Attributes.Add("class", "itemsList");
+            var writer = new System.IO.StringWriter();
+            ul.WriteTo(writer, HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
+        }
+
+
+Свойство #InnerHtml позволяет установить или получить содержимое тега в виде строки. Чтобы манипулировать этим свойством, можно вызвать один из методов:
+#Append(string text): добавление строки теста внутрь элемента
+#AppendHtml(IHtmlContent html): добавление в элемент кода html в виде объекта IHtmlContent - это может быть другой объект TagBuilder
+#Clear(): очистка элемента
+#SetContent(string text): установка текста элемента
+#SetHtmlContent(IHtmlContent html): установка внутреннего кода html в виде объекта IHtmlContent
+
+Свойство #Attributes позволяет управлять атрибутами элемента
+Метод #MergeAttribute() позволяет добавить к элементу один атрибут
+Метод #AddCssClass() позволяет добавить к элементу класс css
+Метод #WriteTo() позволяет создать из элемента и его внутреннего содержимого строку при помощью объектов TextWriter и HtmlEncoder.
+
+
+
+#razor
+Html. #BeginForm 
+
+@using(Html.BeginForm("Create", "Home", FormMethod.Post))
+если вызов страницы с формой и отправка формы осуществляется одним и тем же действием (например разделены атрибутами get post). В этом случае можно не указывать в хелпере Html.BeginForm параметры
+@using(Html.BeginForm())
+
+
+
+Html. #TextBox 
+@Html.TextBox("Price","", new { type="number" })
+ <input type="number" name="Price" />
+
+
+
+Html. #Label 
+Html.Label("Name", "Модель")
+<label for="Name">Модель</label>
+
+
+Html. #TextArea 
+@Html.TextArea("text", "привет мир")
+<textarea cols="20" id="text" name="text" rows="2">привет мир</textarea>
+@Html.TextArea("text", "привет мир", 5, 50, null)
+<textarea cols="50" id="text" name="text" rows="5">привет мир</textarea>
+
+
+
+
+Html. #Hidden 
+@Html.Hidden("PhoneId", "2")
+<input id="PhoneId" name="PhoneId" type="hidden" value="2" />
+
+
+Html. #Password
+@Html.Password("UserPassword", "val")
+<input id="UserPassword" name="UserPassword" type="password" value="val" />
+
+
+
+Html. #RadioButton #Radio
+@Html.RadioButton("color", "red")
+<span>красный</span> <br />
+@Html.RadioButton("color", "blue")
+<input id="color" name="color" type="radio" value="red" />
+<span>красный</span> <br />
+<input id="color" name="color" type="radio" value="blue" /> 
+
+
+
+Html. #CheckBox 
+@Html.CheckBox("Enable", false)
+сгенерит 2 элемента
+<input id="Enable" name="Enable" type="checkbox" value="true">
+<input name="Enable" type="hidden" value="false">
+
+
+
+
+Html. #DropDownList #SelectListItem #select  #SelectList 
+Объект SelectListItem имеет свойства Text (отображаемый текст), Value (само значение, которое может не совпадать с текстом) и Selected. 
+@Html.DropDownList("phone", new SelectList(new string[] { "iPhone 7 Pro", "Galaxy 7 Edge", "HTC 10", "Honor 5X" }), "Выберите модель")
+<select id="phone" name="phone"><option value="">Выберите модель</option></select>
+
+List<Phone> phones
+ViewBag.Phones = new SelectList(phones, "Id", "Name");
+@Html.DropDownList("phoneid", ViewBag.Phones as SelectList)
+
+
+
+
+Html. #ListBox #MultiSelectList
+<select />, но при этом делает возможным множественное выделение элементов (то есть для атрибута multiple устанавливается значение multiple)
+
+@Html.ListBox("phones", new MultiSelectList(new string[] { "iPhone 7 Pro", "Galaxy 7 Edge", "HTC 10", "Honor 5X" }))
+<select id="phones" multiple="multiple" name="phones">
+
+
+
+Html. #GetEnumSelectList
+выпадающего списка по перечислению
+
+
+ public enum TimeOfDay
+    {
+        [Display(Name ="Утро")]
+        Morning,
+
+ @Html.DropDownList("daytime", Html.GetEnumSelectList(typeof(TimeOfDay)))
+
+
+
+@Html.TextBoxFor(m=>m.Price, "", new { type = "number" })
+
+#Display
+Создает элемент разметки для отображения значения указанного свойства модели: Html.Display("Name")
+
+#DisplayFor
+Строго типизированный аналог хелпера Display: Html.DisplayFor(m => m.Name)
+
+#Editor
+Создает элемент разметки для редактирования указанного свойства модели: Html.Editor("Name")
+
+#EditorFor
+Строго типизированный аналог хелпера Editor: Html.EditorFor(m => m.Name)
+
+#DisplayText
+Создает выражение для указанного свойства модели в виде простой строки: Html.DisplayText("Name")
+
+#DisplayTextFor
+
+
+#DisplayForModel
+Создает поля для чтения для всех свойств модели: Html.DisplayForModel()
+
+#DisplayTextForModel
+Создает поля для чтения для всех свойств модели в виде строки
+
+#EditorForModel
+Создает поля для редактирования для всех свойств модели: Html.EditorForModel()
+
+
+
+
+
+
+
+
+
+
+#a #href #link
+
+<a href="~/Home/Index/3" />
+
+Html. #ActionLink  
+
+ссылаем на тот же контроллер в котором текущее представление
+@Html.ActionLink("О сайте", "About")
+
+//другой контроллер +параметры
+@Html.ActionLink("Все книги", "Index", "Book", new { id=10}, null)
+
+
+Html. #RouteLink
+@Html.RouteLink("Все книги", new { controller = "Book", action = "Index", author = "Толстой", id = 10 }, new { id = "Tolstoi", @class = "link" })
+
+// если есть MapRoute с именем Default
+@Html.RouteLink("Все книги","Default",new { action = "Show" })
 
 
 #url #uri
@@ -1949,7 +2781,25 @@ public class HomeController : Controller
 
 
 
-#db  #context #ef #entity #framework
+
+
+
+#db  #ef #efc  #context #entity #framework 
+#DefaultConnection #Configuration #GetConnectionString #connection #AddDbContext #context
+
+#TODO https://metanit.com/sharp/entityframeworkcore/
+
+Microsoft.EntityFrameworkCore. #DbContext
+
+controller->
+MobileContext db;
+в контроллер конструктор
+public HomeController(MobileContext context){
+db=context;
+}
+
+
+
 
 
 public class MobileContext : DbContext
@@ -1960,6 +2810,7 @@ public class MobileContext : DbContext
         public MobileContext(DbContextOptions<MobileContext> options)
             : base(options)
         {
+//по определению моделей будет создаваться база данных (если она отсутствует)
             Database.EnsureCreated();//создаст БД если ее нет
         }
     }
@@ -1978,10 +2829,43 @@ public class MobileContext : DbContext
 Startup.cs. В нем нам надо изменить метод ConfigureServices()
 public void ConfigureServices(IServiceCollection services)
         {
+// получаем строку подключения из файла конфигурации
             string connection = Configuration.GetConnectionString("DefaultConnection");
+ // добавляем контекст MobileContext в качестве сервиса в приложение
             services.AddDbContext<MobileContext>(options => options.UseSqlServer(connection));
             services.AddMvc();
         }
+
+
+await db.Phones.ToListAsync()
+db.Phones.Add(phone);
+    await db.SaveChangesAsync();
+
+
+#удаление #delete
+удалить можно так//сгенерирует 1 запрос
+Phone phone = new Phone { Id = id.Value };
+        db.Entry(phone).State = EntityState.Deleted;
+        await db.SaveChangesAsync();
+
+или так//сгенерирует 2 запроса
+Phone phone = await db.Phones.FirstOrDefaultAsync(p => p.Id == id);
+db.Phones.Remove(phone);
+            await db.SaveChangesAsync();
+
+
+#каскадное удаление
+
+свойство внешнего ключа должно иметь тип int - этого достаточно
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2060,7 +2944,7 @@ _Layout.cshtml - мастер страница по умолчанию
 рендерит тело представления
 
 
-#RenderSection
+#RenderSection #Section
 
 <footer>@RenderSection("Footer")</footer>
 //если не определено то не отрисует
@@ -2788,6 +3672,69 @@ public IActionResult AddUser([FromQuery] User user)
 
 создание привязчика модели #TODO
 https://metanit.com/sharp/aspnet5/8.6.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
