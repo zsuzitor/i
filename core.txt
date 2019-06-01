@@ -3683,6 +3683,321 @@ https://metanit.com/sharp/aspnet5/8.6.php
 
 
 
+#filer #pipeline #фильтры
+Фильтры позволяют выполнять некоторые действия до или после определенной стадии обработки запроса. В ASP.NET Core имеются следующие типы фильтров:
+например можно что то записать в куки, применить фильтр глобально и это заменит вызов записи в куки для каждого метода всех контроллеров
+
+есть разные версии(синхронные и асинхронные) и для каждой версии свой интерфейс, 
+но одновременно можно реализовать только 1 интерфейс. Если же класс будет реализовать оба варианта, то система будет вызывать только метод асинхронного интерфейса, а реализация синхронного интерфейса будет игнорироваться.
+
+I[Stage]Filter, где [Stage] - это этап обработки запроса, на котором вызывается фильтр
+Синхронные фильтры определяют два метода: On[Stage]Executing и On[Stage]Executed. Метод On[Stage]Executing вызывается непосредственно перед этапом Stage, а метод On[Stage]Executed сразу после завершения этапа [Stage].
+Асинхронные интерфейсы фильтров называются IAsync[Stage]Filter, и они определяют только один метод - On[Stage]ExecutionAsync
+
+подробнее все фильтры описаны ниже
+Фильтры авторизации: определяют, авторизован ли пользователь для выполнения текущего запроса
+#IAuthorizationFilter  #IAsyncAuthorizationFilter
+
+Фильтры ресурсов: выполняются после фильтров авторизации, а также после всех остальных фильтров
+#IResourceFilter #IAsyncResourceFilter
+
+Фильтры действий: применяется к действиям контроллера, запускается после фильтра ресурсов как до, так и после выполнения метода контроллера
+#IActionFilter #IAsyncActionFilter
+
+Фильтры исключений: определяют действия в отношении необработанных исключений
+#IExceptionFilter #IAsyncExceptionFilter
+
+Фильтры результатов действий: фильтр применяется к результатам действий, выполняется как до, так и после получения результата
+#IResultFilter #IAsyncResultFilter
+
+//желательно также наследовать от Attribute тк фильтры используются в основном как атрибуты
+public class SimpleActionFilter : Attribute, IActionFilter
+    {
+public SimpleActionFilter(int age, string message){}
+
+        public void OnActionExecuting(ActionExecutingContext context)
+        {}
+        public void OnActionExecuted(ActionExecutedContext context)
+        { 
+		ontext.HttpContext.Response.Cookies.Append("LastVisit","--");
+		//вот так можно остановить конвейер выполнения (предотвратить выполнение последующих фильтров)
+// Значение этого свойства фактически будет использоваться в качестве результата выполнения запроса.
+		context.Result =  new ContentResult { Content = "Ресурс не найден" };
+
+}}
+public class SimpleAsynActionFilter : Attribute, IAsyncActionFilter
+    {
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, 
+                                    ActionExecutionDelegate next)
+        {await next();}
+    }
+
+
+применение фильтров
+//применяем для метода + передаем параметры в конструктор
+[SimpleActionFilter(30,"")]
+    public IActionResult Index()
+
+
+//применяем для контроллера
+[SimpleActionFilter]
+public class HomeController : Controller
+
+
+
+//Глобальная область действия, при которой фильтр применяется ко всем методам всех контроллеров.
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc(options =>
+    {
+        options.Filters.Add(typeof(SimpleActionFilter)); // подключение по типу
+         
+        // альтернативный вариант подключения
+        //options.Filters.Add(new SimpleActionFilter()); // подключение по объекту
+    });
+}
+
+
+
+
+для применения внедрения зависимостей \иньекции
+нужно переписать параметры
+
+//#ResourceExecutedContext
+public class SimpleResourceFilter : Attribute, IResourceFilter
+{
+    ILogger _logger;
+    public SimpleResourceFilter(ILoggerFactory loggerFactory)
+    {
+        _logger = loggerFactory.CreateLogger("SimpleResourceFilter");
+    }
+    public void OnResourceExecuted(ResourceExecutedContext context)
+    {}
+ 
+    public void OnResourceExecuting(ResourceExecutingContext context)
+    {}
+}
+
+
+//применение с зависимостями #ServiceFilterAttribute
+//нужно зарегистрировать в ConfigureServices
+[ServiceFilter(typeof(SimpleResourceFilter))]
+public class HomeController : Controller
+
+
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc();
+    services.AddScoped<SimpleResourceFilter>();
+}
+
+
+
+////применение с зависимостями #TypeFilterAttribute
+В этом случае класс фильтра больше не надо регистрировать в ConfigureServices()
+[TypeFilter(typeof(SimpleResourceFilter))]
+public class HomeController : Controller
+
+
+
+
+
+//возможно расписывать каждый тип фильтр смысла нет ХЗ
+
+
+#Фильтры #filter #ресурсов
+
+#IResourceFilter #IAsyncResourceFilter.
+
+
+//#ie #MSIE #ResourceExecutedContext
+public class IEFilterAttribute : Attribute, IResourceFilter
+    {
+//срабатывает после выполнения метода и фильтров действий, исключений и результатов
+        public void OnResourceExecuted(ResourceExecutedContext context){}
+ 
+//срабатывает после фильтров авторизации, но до выполнения метода и работы фильтров действий, исключений и результатов
+        public void OnResourceExecuting(ResourceExecutingContext context)
+        {
+            // получаем информацию о браузере пользователя
+            string userAgent = context.HttpContext.Request.Headers["User-Agent"].ToString();
+            if(Regex.IsMatch(userAgent, "MSIE [6-9]"))
+            {
+//на этом обработка запроса завершается, и метод и последующие фильтры не выполняются
+                context.Result = new ContentResult { Content = "Ваш браузер устарел" };
+            }
+        }
+    }
+
+
+
+
+
+#IActionFilter #IAsyncActionFilter
+Фильтры действий выполняются после фильтров авторизации и ресурсов и уже после того, как произошла привязка модели. 
+----Поэтому данные фильтры являются прекрасным местом для исследования результатов привязки модели, а также модификации входных данных в метод контроллера или его результата.
+
+public class WhitespaceAttribute : Attribute, IActionFilter
+    {
+        public void OnActionExecuting(ActionExecutingContext context){}
+ 
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            var response = context.HttpContext.Response;
+            // Если sitemap, то ничего не делаем
+            if (context.HttpContext.Request.Path.ToString() == "/sitemap.xml") return;
+            if (response.Body == null) return;
+            response.Body = new SpaceCleaner(response.Body);
+        }
+//если async интерфейс
+public async Task OnActionExecutionAsync(ActionExecutingContext context, 
+                                                        ActionExecutionDelegate next)
+        {
+            if (context.ModelState.IsValid == false)
+                context.ActionArguments["id"] = 34;
+            await next();
+        }
+
+
+
+
+#IResultFilter #IAsyncResultFilter #ResultExecutingContext
+Фильтры результатов выполняются только тогда, когда выполнение метода завершилось успешно.
+Фильтры результатов не вызываются, если фильтры исключений обрабатывают исключение, но не устанавливают свойство Exception = null.
+Как правило, фильтры результатов применяются, когда надо выполнить какую-то постобработку результата метода, отформатировать его.
+
+Если при выполнении результата действия будет выброшено исключение, то свойство ResultExecutedContext.Exception будет иметь значение, отличное от null. Установка свойства ResultExecutedContext.Exception в null позволит некоторым образом обработать исключение и предотвратить выброс исключение на последующих этапах обработки запроса
+При добавлении каких-нибудь заголовков в ответ в фильтре результатов это следует делать до выполнения результата, то есть в методе OnResultExecuting(), а не в OnResultExecuted()
+
+public class TimeExecutionFilterAttribute : Attribute, IResultFilter
+    {
+        DateTime start;
+//вызывается перед выполнением результата метода
+        public void OnResultExecuting(ResultExecutingContext context)
+        {
+            start = DateTime.Now;
+//можно предотвратить дальнейшее выполнение фильтров и обработку запроса, установив свойство ResultExecutingContext.Cancel равным true.
+        }
+//вызывается после выполнения результата действия
+        public async void OnResultExecuted(ResultExecutedContext context)
+        {
+            DateTime end = DateTime.Now;
+            double processTime = end.Subtract(start).TotalMilliseconds;
+            await context.HttpContext.Response.WriteAsync($"Время выполнения результата: {processTime} миллисекунд");
+//можно предтвратить дальнейшую обработку запроса на других фильтрах, присвоив свойству ResultExecutedContext.Canceled значение true
+        }
+
+//async
+public async Task OnResultExecutionAsync(ResultExecutingContext context, 
+                                                    ResultExecutionDelegate next)
+    {
+        context.HttpContext.Response.Headers.Add("DateTime", DateTime.Now.ToString());
+        await next();
+    }
+
+    }
+
+
+
+
+
+Фильтры исключений
+
+Фильтры исключений обрабатывают необработанные исключения, в том числе те, которые возникли при создании контроллера и привязки модели. При этом надо сразу отметить, что они обрабатывают только исключения, которые возникают при вызове действия контроллера в MVC, а не абсолютно все исключения в приложении. В этом плане они менее гибки, чем, скажем, компоненты middleware, которые также предназначены для обработки исключений
+
+#IExceptionFilter #IAsyncExceptionFilter #ExceptionContext
+
+При установке свойства context.ExceptionHandled равным true мы можем получить эффект, как будто мы обработали исключение. И в этому случае обработка запроса продолжится, как будто никакого исключения и не было, а браузеру будет отправлен статусный код 200 OK.
+
+public class CustomExceptionFilterAttribute : Attribute, IExceptionFilter
+    {
+        public void OnException(ExceptionContext context)
+        {
+            string actionName = context.ActionDescriptor.DisplayName;
+            string exceptionStack = context.Exception.StackTrace;
+            string exceptionMessage = context.Exception.Message;
+            context.Result = new ContentResult
+            {
+                Content = $"В методе {actionName} возникло исключение: \n {exceptionMessage} \n {exceptionStack}"
+            };
+//исключение будет считаться обработанным
+            context.ExceptionHandled = true;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+#page #PageModel
+создание страниц #razor
+папки Pages
+
+Например, обратимся к About.cshtml и для этого введем адрес /About:
+Путь к странице
+
+URL
+
+/Pages/Index.cshtml ----   / или /Index
+/Pages/Contact.cshtml  ---- /Contact
+/Pages/Store/Contact.cshtml ---  /Store/Contact
+/Pages/Store/Index.cshtml     --- /Store или /Store/Index
+
+
+
+
+
+
+
+В начале идет директива @page, которая по сути и делает обычное представление страницей Razor. Эта директива позволяет страницам обрабатывать запросы напрямую без контроллеров.
+//код страницы
+
+@page
+@model AboutModel
+@{
+    ViewData["Title"] = "About";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@Model.Message</h3>
+
+
+
+//этот класс одновременно будет и обрабатывать запрос и будет моделью
+файл About.cshtml.cs
+public class AboutModel : PageModel
+    {
+        public string Message { get; set; }
+ 
+//метод #OnGet обрабатывает GET-запросы
+        public void OnGet()
+        {
+            Message = "Your application description page.";
+        }
+    }
+
+
+
+#AddRazorPagesOptions #RootDirectory 
+//Для настройки конфигурации Razor Pages 
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc().AddRazorPagesOptions(options =>
+    {
+//настраивается путь к папке со страницами Razor. По умолчанию этот папка Pages, но мы можем указать любую другую с помощью этого свойства.
+        options.RootDirectory = "RazorPages";
+    });
+}
+
+
 
 
 
