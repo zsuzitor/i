@@ -2864,6 +2864,14 @@ db.Phones.Remove(phone);
 
 
 
+#create
+создание бд
+можно создавать через ->seed и можно через консоль
+И в конце создадим миграции и базу данных. Для этого построим проект, откроем окно Package Manager Console и последовательно введем в него команду на создание миграции:
+"Add-Migration Initial
+И также введем команду для создания базы данных:
+"Update-Database
+После этого подключение должным образом настроено, база данных будет создана, и мы сможем с ней работать.
 
 
 
@@ -3941,6 +3949,7 @@ public class CustomExceptionFilterAttribute : Attribute, IExceptionFilter
 #page #PageModel
 создание страниц #razor
 папки Pages
+нужно подключить в ConfigureServices
 
 Например, обратимся к About.cshtml и для этого введем адрес /About:
 Путь к странице
@@ -3971,18 +3980,126 @@ URL
 
 
 
-//этот класс одновременно будет и обрабатывать запрос и будет моделью
+//этот класс одновременно будет и обрабатывать запрос и будет моделью, он должен создаваться для файла cshtml и будет по архитектуре как бы в него вложен
 файл About.cshtml.cs
 public class AboutModel : PageModel
     {
+//#BindProperty, если применить такой атрибут то параметры не обязательно передавать через методы, достаточно просто определить свойство
+//Type: тип привязчика модели
+//Name: имя данных в запросе, если оно отличается
+//SupportGet: поддерживает ли запросы get, изначально имеет значение false
+//[BindProperty(Name="id", SupportsGet=true)]
+[BindProperty]
         public string Message { get; set; }
+
+//при таком применении все будет нормально работать, свойства правильно свяжутся по именам, как если бы мы определили их без класс
+[BindProperty]
+        public Entry CLP { get; set; }
  
 //метод #OnGet обрабатывает GET-запросы
-        public void OnGet()
+        public void OnGet(int? param)
         {
             Message = "Your application description page.";
         }
+//On[Тип_запроса] - запросы которые может обрабатывать модель
+//#OnGetAsync(), а запросы Post - методами #OnPost() и #OnPostAsync()
+
+
+
+//если хотим определить еще методы для обработки запросов то On[Тип_запроса][доп название]
+//для передаче чего либо этому методу нужно в строке запроса ( http://localhost:56288/Person?handler=ByName&name=Tom ) указать handler= название метода
+//иногда так сделать не получится и тогда нужно модифицировать представление см ниже
+public void OnGetByName(string name)
+        {}
+
+
+//если надо возвращать не void
+//но данный класс так и остается моделью представления=> его не надо передавать как в обычном методе
+public IActionResult OnGet(string name)
+        {
+#Content() возвращает объект ContentResult, то есть фактически некоторое текстовое содержимое
+#File() возвращает с помощью различных перегруженных версий объекты FileContentResult/FileStreamResult/VirtualFileResult, то есть отправляет клиенту файл
+#Forbid() возвращает статусный код 403
+#LocalRedirect()/LocalRedirectPermanent() выполняет переадресацию по определенному локальному адресу
+#NotFound() возвращает статусный код 404
+#PhysicalFile() возвращает файл по физическому пути
+#Page() возвращает объект PageResult или фактически текущую страницу Razor
+#Redirect()/RedirectPermanent() выполняет переадресацию по определенному адресу
+
+string url = Url.Page("About", new {name="Tom", age=34});
+    return Redirect(url);
+
+#RedirectToAction()/RedirectToActionPermanent() выполняет переадресацию на определенное действие контроллера
+#RedirectToPage()/RedirectToPagePermanent() выполняет переадресацию на определенную страницу Razor
+
+Например, текущая страница расположена по пути Pages/Products/Create.cshtml, и из нее вызывается метод RedirectToPage.
+RedirectToPage("/Index")  --- Pages/Index
+RedirectToPage("./Index") --- Pages/Products/Index
+RedirectToPage("../Index") ---Pages/Index
+RedirectToPage("Index") ---Pages/Products/Index
+return RedirectToPage("Index");
+
+#RedirectToRoute()/RedirectToRoutePermanent() выполняет переадресацию по определенному маршруту
+#StatusCode() возвращает объект StatusCodeResult, то есть посылает статусный код
+#Unauthorized() возвращает объект UnauthorizedResult, то есть статусный код ошибки 401
+
+            return Page();
+        }
+
     }
+
+
+
+Для обработки запроса можно использовать класс, производный от PageModel. 
+Однако страница Razor уже сама по себе представляет модель. И мы можем всю логику обработки и свойства модели определить напрямую в странице.
+но так лучше не делать
+
+
+@page
+//если указать так то можно будет получить параметры запроса сразу в представлении через var userid = RouteData.Values["id"]; и использовать потом так: <h1>@userid</h1>
+//если указана @model Entry и в ней  [BindProperty(SupportsGet = true)] то они будут записываться туда
+//@page "{id}"
+//@page "{id}/{name}/{age}"
+//@page "{id:int}/{name:alpha:minlength(3)}/{age:int}"
+
+//позволит указать метод для обрабоки запроса, нужно что бы была указана model
+//http://localhost:56288/Person/ByName?name=Tom
+//@page "{handler?}"
+
+//передавать можно просто параметром <input type="submit" asp-page-handler="GreaterThan" value="Старше" />
+//если закинуть в пост форму то тоже будет работать
+
+
+
+@{
+    ViewData["Title"] = "Factorial";
+}
+@functions {
+    public string Message { get; set; }
+    public void OnGet()
+    {
+        Message = "Введите число";
+    }
+    public void OnPost(int? number)
+    {}
+}
+ 
+<h2>@Model.Message</h2>
+<form method="post">
+    <input type="number" name="number" />
+    <input type="submit" value="Send" />
+</form>
+
+
+
+
+Создание адреса на страницу в представлении:
+<a href='@Url.Page("/About", new {name="Bob", age=32 })'>About</a>
+<a asp-page="About" asp-route-name="Bob" asp-route-age="32" asp-page-handler="GreaterThan">About</a>
+
+
+
+
 
 
 
