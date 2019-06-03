@@ -20,11 +20,21 @@ context.Request.Path.Value.ToLower()
 #kestrel вместо #iis
 
 
-
+тут такое, про возврат xml и тд про заголовки и контент принимаемый браузером
+https://metanit.com/sharp/aspnet5/23.6.php
 
 
 Создание движка представлений
 https://metanit.com/sharp/aspnet5/7.10.php
+
+
+
+
+аутентификация через claims
+https://metanit.com/sharp/aspnet5/15.6.php
+https://metanit.com/sharp/aspnet5/15.7.php
+https://metanit.com/sharp/aspnet5/15.8.php
+jwt -https://metanit.com/sharp/aspnet5/23.7.php
 
 
 
@@ -498,7 +508,7 @@ public static void Main(string[] args)
 
 
 
-
+#UseDefaultFiles
 // дописав  app.UseDefaultFiles(); перед app.UseStaticFiles(); , можно определить стандартный статический файл который будет отправляться по запросу http://localhost/
 названия у файла должно быть: default.htm default.html index.htm index.html
 Если файл будет найден, то он будет отправлен в ответ клиенту. Если же файл не будет найден, то продолжается обычная обработка запроса с помощью следующих компонентов middleware
@@ -1944,6 +1954,70 @@ span с таким атрибутом сгенерит код и будет содержать ошибки
 
 
 
+
+
+
+
+#js #ajax #jquery #error #valid
+обработка ошибок js которые устанавливаются через ModelState.AddModelError
+if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+$.ajax({
+                url: "api/users",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    name: userName,
+                    age: userAge
+                }),
+                success: function (user) {
+                    reset();
+                    $("table tbody").append(row(user));
+                },
+                error: function (jxqr, error, status) {
+                    // парсинг json-объекта
+                    console.log(jxqr);
+                    if(jxqr.responseText===""){
+                        $('#errors').append("<h3>" + jxqr.statusText + "</h3>");
+                    }
+                    else{
+                        var response = JSON.parse(jxqr.responseText);
+                        // добавляем общие ошибки модели
+                        if (response['']) {
+ 
+                            $.each(response[''], function (index, item) {
+                                $('#errors').append("<p>" + item + "</p>");
+                            });
+                        }
+                        // добавляем ошибки свойства Name
+                        if (response['Name']) {
+ 
+                            $.each(response['Name'], function (index, item) {
+                                $('#errors').append("<p>" + item + "</p>");
+                            });
+                        }
+                    }
+                     
+                    $('#errors').show();
+                }
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #attr
 #Required #ErrorMessage 
 Применение этого атрибута к свойству модели означает, что данное свойство должно быть обязательно установлено.
@@ -2046,6 +2120,9 @@ input.input-validation-error {    border: 1px solid #b94a48;}
 input[type="checkbox"].input-validation-error {    border: 0 none;}
 .validation-summary-errors {    color: #b94a48;}
 .validation-summary-valid {    display: none;}
+
+
+
 
 
 
@@ -2919,9 +2996,435 @@ Program->Main
 
 
 
+вроде бы другой способ #OnModelCreating
 
-#пути
-#css
+public class ApplicationContext : DbContext
+    {
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
+        {
+            Database.EnsureCreated();
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+// добавляем роли
+            Role adminRole = new Role { Id = 1, Name = adminRoleName };
+            modelBuilder.Entity<Role>().HasData(new Role[] { adminRole});
+            base.OnModelCreating(modelBuilder);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#AddAuthentication #Authentication #user #авторизация #CookieAuthenticationDefaults #AuthenticationScheme #AddCookie #CookieAuthenticationOptions #LoginPath 
+#Identity 
+
+
+
+public void ConfigureServices(IServiceCollection services)
+        {
+//подключение бд и потом вот это
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+//свойство CookieAuthenticationOptions - LoginPath устанавливает относительный путь, по которому будет перенаправляться анонимный пользователь при доступе к ресурсам, для которых нужна аутентификация.
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+
+ options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+
+                });
+ 
+            services.AddMvc();
+
+
+
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+
+app.UseAuthentication();
+
+
+
+
+если реализовывать самому то обычные контроллеры + вьюхи
+
+в методе логина
+if (user != null)
+    await Authenticate(model.Email); // аутентификация
+
+
+//#Claim #ClaimsIdentity #SignInAsync #CookieAuthenticationDefaults #AuthenticationScheme #ClaimsPrincipal #ClaimsIdentity                   
+private async Task Authenticate(string userName)
+        {
+            // создаем один claim
+//набор данных, которые шифруются и добавляются в аутентификационные куки            
+var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+		new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
+            };
+            // создаем объект ClaimsIdentity
+
+//В ClaimsIdentity передается:
+//Ранее созданный список claims
+//Тип аутентификации, в данном случае "ApplicationCookie"
+//Тип данных в списке claims, который преставляет логин пользователя. То есть при добавлении claimа мы использовали в качестве типа ClaimsIdentity.DefaultNameClaimType, поэтому и тут нам надо указать то же самое значение. Мы, конечно, можем указать и разные значения, но тогда система не сможет связать различные claim с логином пользователя.
+//Тип данных в списке claims, который представляет роль пользователя. Хотя у нас такого claim нет, который бы представлял роль пользователя, но но опционально мы можем указать константу ClaimsIdentity.DefaultRoleClaimType. В данном случае она ни на что не влияет.
+
+
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
+//В качестве параметра он принимает схему аутентификации, которая была использована при установки middleware app.UseCookieAuthentication в классе Startup 
+           await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+ 
+        public async Task<IActionResult> Logout()
+        {
+//передается название схемы аутентификации, использованное в классе Startup
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
+        }
+
+
+#Authorize #AuthorizeAttribute  #авторизация #login #логин
+применение через  [Authorize] [Authorize(Roles = "admin, user")]
+
+если такой атрибут применен к контроллеру и к методу контроллера применить вот такой - #AllowAnonymous то к этому методу сможет получить доступ анон
+
+//#TODO получить роль пользователя
+string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+
+
+
+
+можно получить логин пользователя текущего
+HttpContext.User.Idenity.Name
+// в методе контроллера
+User.Identity.IsAuthenticated
+
+Свойство HttpContext.User представляет объект интерфейса IPrincipal, который определен в пространстве имен System.Security.Principal. Этот интерфейс определяет метод IsInRole() и свойство Identity. ????? фактически представляет объект #ClaimsPrincipal
+Свойство #Identity возвращает объект интерфейса #IIdentity, который связан с текущим запросом.
+Метод #IsInRole() в качестве параметра принимает роль и возвращает true, если текущий пользователь принадлежит данной роли.
+#Объект IIdentity, в свою очередь, предоставляет информацию о текущем пользователе через следующие свойства:
+#AuthenticationType: тип аутентификации в строковом виде
+#IsAuthenticated: возвращает true, если пользователь аутентифицирован
+#Name: возвращает имя пользователя. Как правило, в качестве подобного имени используется логин, по которому пользователь входит в приложение
+
+
+
+
+
+
+#claim 
+более глубокая аторизация(может учитывать не только логин и пароль но и еще поля)
+Каждый объект claim представляет класс Claim, который определяет следующие свойства:
+
+
+Issuer: "издатель" или название системы, которая выдала данный claim
+Subject: возвращает информацию о пользователе в виде объекта ClaimsIdentity
+Type: возвращает тип объекта claim
+Value: возвращает значение объекта claim
+
+
+
+Для работы с объектами Claim в классе ClaimsPrincipal есть следующие свойства и методы:
+
+#Identity: возвращает объект ClaimsIdentity, который реализует интерфейс IIdentity и представляет текущего пользователя
+#FindAll(type) / FindAll(predicate): возвращает все объекты claim, которые соответствуют определенному типу или условию
+#FindFirst(type) / FindFirst(predicate): возвращает первый объект claim, который соответствуют определенному типу или условию
+#HasClaim(type, value) / HasClaim(predicate): возвращает значение true, если пользователь имеет claim определенного типа с определенным значением
+#IsInRole(name): возвращает значение true, если пользователь принадлежит роли с названием name
+С помощью объекта #ClaimsIdentity, который возвращается свойством User.Identity, мы можем управлять объектами claim у текущего пользователя. В частности, класс ClaimsIdentity определяет следующие свойства и методы:
+#Claims: свойство, которое возвращает набор ассоциированных с пользователем объектов claim
+#AddClaim(claim): добавляет для пользователя объект claim
+#AddClaims(claims): добавляет набор объектов claim
+#FindAll(predicate): возвращает все объекты claim, которые соответствуют определенному условию
+#HasClaim(predicate): возвращает значение true, если пользователь имеет claim, соответствующий определенному условию
+#RemoveClaim(claim): удаляет объект claim
+
+
+создание можно посмотреть выше по --claim 
+Для создания объекта ClaimsIdentity в его конструктор передается набор claim, тип аутентификации (ApplicationCookie), тип для claima, представляющего логин, и тип для claima, представляющего роль.
+Созданный объект ClaimsIdentity передается в конструктор ClaimsPrincipal. И фактически этот объект ClaimsPrincipal и будет представлять то, что мы потом в любом контроллере сможем получить через HttpContext.User.
+
+
+
+
+
+
+
+
+
+#Identity 
+для добавления функционала нажмем на название проекта правой кнопкой мыши и в контекстном меню выберем пункт Add -> New Scaffolded Item-> identity
+
+
+public void ConfigureServices(IServiceCollection services){
+ // добавление ApplicationDbContext для взаимодействия с базой данных учетных записей
+    services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+ 
+    // добавление сервисов Idenity
+    services.AddDefaultIdentity<IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>();
+ 
+
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    app.UseAuthentication();
+     
+
+
+
+
+//для того что бы можно было работать с бд
+Для этого откроем окно Package Manager Console и введем в командную строку следующую команду: "Update-Database
+
+
+
+
+#IdentityDbContext #ApplicationDbContext #db #ef #context
+
+
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+    {
+Database.EnsureCreated();
+    }
+ 
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+            base.OnModelCreating(builder);
+    }
+}
+
+
+По умолчанию данный класс наследует весь функционал от IdentityDbContext. Так, мы можем получить содержимое таблиц из бд с помощью следующих свойств:
+#Users: набор объектов IdentityUser, соответствует таблице пользователей
+#Roles: набор объектов IdentityRole, соответствует таблице ролей
+#RoleClaims: набор объектов IdentityRoleClaim, соответствует таблице связи ролей и объектов claims
+#UserLogins: набор объектов IdentityUserLogin, соответствует таблице связи пользователей с их логинами их внешних сервисов
+#UserClaims: набор объектов IdentityUserClaim, соответствует таблице связи пользователей и объектов claims
+#UserRoles: набор объектов IdentityUserRole, соответствует таблице, которая сопоставляет пользователей и их роли
+#UserTokens: набор объектов IdentityUserToken, соответствует таблице токенов пользователей
+
+
+
+
+#IdentityUser 
+public class ApplicationUser : IdentityUser
+{
+
+
+класс для взаимодействия с пользователями #UserManager   получается через обычное DI
+public AdminController(UserManager<ApplicationUser> manager)
+        {
+
+содержит методы
+#ChangePasswordAsync(user, old, new): изменяет пароль пользователя
+#CreateAsync(user): создает нового пользователя
+#DeleteAsync(user): удаляет пользователя
+#FindByIdAsync(id): ищет пользователя по id
+#FindByEmailAsync(email): ищет пользователя по email
+#FindByNameAsync(name): ищет пользователя по нику
+#UpdateAsync(user): обновляет пользователя
+#Users: возвращает всех пользователей
+#AddToRoleAsync(user, role): добавляет для пользователя user роль role
+#GetRolesAsync (user): возвращает список ролей, к которым принадлежит пользователь user
+#IsInRoleAsync(user, name): возвращает true, если пользователь user принадлежит роли name
+#RemoveFromRoleAsync(user, name): удаляет роль name у пользователя user
+
+
+
+
+#IdentityRole #role #роль #роли 
+
+
+
+При установке контекста в методе ConfigureServices() также устанавливается и класс роли:
+
+services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+
+#RoleManager<T> где параметр T представляет класс, описывающий роль
+можно получить также через DI
+методы:
+#CreateAsync(role): создает новую роль
+#DeleteAsync(role): удаляет роль
+#FindByIdAsync(id): возвращает роль по id
+#FindByNameAsync(name): возвращает роль по названию
+#RoleExistsAsync(name): возвращает true, если роль с данным именем существует
+#UpdateAsync(role): обновляет роль
+#Roles: возвращает все роли
+
+
+
+
+
+
+
+
+
+добавление identity в пустой проект
+
+
+определить 
+public class User : IdentityUser{}
+
+определить по примеру выше
+public class ApplicationContext : IdentityDbContext<User>
+
+
+
+ConfigureServices
+//подключить бд
+
+//#AddIdentity #AddEntityFrameworkStores
+//указываем тип пользователя и тип роли, которые будут использоваться системой Identity. В качестве типа пользователя выступает созданный нами выше класс User, а в качестве типа роли взят стандартный класс IdentityRole
+//Метод AddEntityFrameworkStores() устанавливает тип хранилища, которое будет применяться в Identity для хранения данных. В качестве типа хранилища здесь указывается класс контекста данных
+services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationContext>();
+//подключить mvc если надо
+
+Configure
+//этот middleware должен вызываться перед UseMvc()
+app.UseAuthentication();
+
+
+
+
+
+
+создание пользователя #register
+
+public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        {}
+
+[HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                User user = new User { Email = model.Email, UserName = model.Email, Year=model.Year};
+                // добавляем пользователя
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    // установка куки
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+
+
+
+[HttpGet]
+public IActionResult Login(string returnUrl = null)
+{
+    return View(new LoginViewModel { ReturnUrl = returnUrl });
+}
+ 
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Login(LoginViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+        var result = 
+            await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+        if (result.Succeeded)
+        {
+            // проверяем, принадлежит ли URL приложению
+            if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+            {
+                return Redirect(model.ReturnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+        else
+        {
+            ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+        }
+    }
+    return View(model);
+}
+ 
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> LogOff()
+{
+    // удаляем аутентификационные куки
+    await _signInManager.SignOutAsync();
+    return RedirectToAction("Index", "Home");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#пути #sign
+#css #rel #href
 из папки wwwroot/lib/bootstrap/dist/css/
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 #a <a href="~/Home/Index" class="navbar-brand">Главная</a>
@@ -3095,9 +3598,12 @@ return Json(user);
 
 
 
-
-
-
+#ObjectResult
+он реализует такую функциональность, как Content negotiation.
+Content negotiation предполагает процесс согласования между сервером и клиентом по поводу типа контента, который отправляется клиенту
+А для объектов классов отправляемые данные в ObjectResult по умолчанию форматируются в формат JSON, а для заголовка Content-Type устанавливается значение application/json.
+если мы пишем так return db.Users.ToList(); то это транслируется в return new ObjectResult(db.Users.ToList());
+выражение return Ok(user); возвращает объект OkObjectResult
 
 
 
@@ -4129,8 +4635,37 @@ public void ConfigureServices(IServiceCollection services)
 
 
 
+#webapi #api
+пу сути обычное mvc приложение которое возвращает не html а результат
+public List<int> Index(){}
+
+тестирование
+#Postman  
+
+#PowerShell
+
+get запросы
+Например, в моем случае приложение запускается по адресу http://localhost:51396. Поэтому для тестирования GET-запроса на получение списка объектов от контроллера UsersController я должен ввести в Package Manager Console следующую команду:
+Invoke-RestMethod http://localhost:51396/api/users -Method GET
 
 
+post запросы
+Для тестирования POST-запроса необходимо передать объект в формате json с указанием некоторой дополнительной информацией. 
+Invoke-RestMethod http://localhost:51396/api/users -Method POST -Body (@{name = "Bob"; age = "35"} | ConvertTo-Json) -ContentType "application/json"
+указываем с помощью флага ConvertTo-Json, что объект будет отправляться в формате JSON
+Аргумент -Body в этой команде указывает на тело запроса - тот объект, который будет отправляться на сервер
+
+
+PUT-запросов
+Invoke-RestMethod http://localhost:51396/api/users -Method PUT -Body (@{id = "3"; name = "Bob Marley"; age = "44"} | ConvertTo-Json) -ContentType "application/json"
+
+
+DELETE запросы
+Invoke-RestMethod http://localhost:51396/api/users/3 -Method DELETE
+
+
+программа для тестирования #Fiddler
+https://metanit.com/sharp/aspnet5/23.3.php
 
 
 
