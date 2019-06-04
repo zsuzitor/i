@@ -38,6 +38,23 @@ jwt -https://metanit.com/sharp/aspnet5/23.7.php
 
 
 
+то что по тегу #Libman записать все
+
+
+
+
+
+
+куда то засунуть (уже засунул но надо расписать)
+#SignInManager
+
+
+
+
+
+
+
+
 
 #core
 
@@ -2150,6 +2167,22 @@ ModelState.AddModelError("", "Имя и пароль не должны совпадать");
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #attr
 #аннотация #отображение
 System.ComponentModel. #DataAnnotations
@@ -2387,6 +2420,8 @@ Low: низкий приоритет
 High: высокий приоритет
 NeverRemove: контент никогда не удаляется из кэша
 Normal: средний приоритет
+
+
 
 
 
@@ -2991,6 +3026,10 @@ Program->Main
  
             host.Run();
 
+--
+public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
+
 
 
 
@@ -3159,7 +3198,7 @@ Value: возвращает значение объекта claim
 
 
 
-
+------------------------------конец клаймов----------------
 
 
 
@@ -3249,7 +3288,25 @@ public AdminController(UserManager<ApplicationUser> manager)
 
 
 
+
+#SignInManager #TODO
+public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+
+
+
+
+
+
+
+
+
+
+
+
 #IdentityRole #role #роль #роли 
+
+[Authorize(Roles="admin")]
+public class HomeController : Controller
 
 
 
@@ -3269,9 +3326,10 @@ services.AddIdentity<ApplicationUser, IdentityRole>()
 #FindByNameAsync(name): возвращает роль по названию
 #RoleExistsAsync(name): возвращает true, если роль с данным именем существует
 #UpdateAsync(role): обновляет роль
+свойство
 #Roles: возвращает все роли
 
-
+IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
 
 
 
@@ -3387,6 +3445,356 @@ public async Task<IActionResult> LogOff()
 
 
 
+//#FindByIdAsync поиск пользователя по id, если не найдет то вернет null
+User user = await _userManager.FindByIdAsync(model.Id);
+
+
+
+//изменение пароля пользователя
+#IPasswordValidator #IPasswordHasher #UpdateAsync #HashPassword #ValidateAsync #password #ChangePassword
+var _passwordValidator = HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+            var _passwordHasher = HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+     //user- запись которая вернула бд
+            IdentityResult result = await _passwordValidator.ValidateAsync(_userManager, user, model.NewPassword);
+            if(result.Succeeded)
+            {
+                user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
+                await _userManager.UpdateAsync(user);
+
+
+можно изменить вот так
+IdentityResult result = 
+                await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if(result.Succeeded)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+валидация пароля Microsoft.AspNetCore.Identity.#PasswordOptions
+можно переопределить стандартную логику валидации
+
+что то такое
+services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+меняем на что то такое
+
+services.AddIdentity<ApplicationUser, IdentityRole>(opts=> {
+        opts.Password.RequiredLength = 5;   // минимальная длина
+        opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+        opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
+        opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
+        opts.Password.RequireDigit = false; // требуются ли цифры
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+
+Класс PasswordOptions предоставляет следующие свойства:
+#RequiredLength: минимальная длина пароля
+#RequireNonLetterOrDigit: если равно true, то пароль должен будет иметь как минимум один символ, который не является алфавитно-цифровым
+#RequireDigit: если равно true, то пароль должен будет иметь как минимум одну цифру
+#RequireLowercase: если равно true, то пароль должен будет иметь как минимум один символ в нижнем регистре
+#RequireUppercase: если равно true, то пароль должен будет иметь как минимум один символ в верхнем регистре
+
+
+если нужна более сложная валидация то нужно реализоваться интерфейс #IPasswordValidator
+public interface IPasswordValidator<T> where T : class {
+ 
+    Task<IdentityResult> ValidateAsync(UserManager<T> manager, T user, string password);
+}
+
+
+для использования такого класс нужно 
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddTransient<IPasswordValidator<ApplicationUser>, 
+                    CustomPasswordValidator>(serv=>new CustomPasswordValidator(6));
+
+
+public class CustomPasswordValidator : IPasswordValidator<ApplicationUser>
+    {
+        public int RequiredLength { get; set; } // минимальная длина
+ 
+        public CustomPasswordValidator(int length)
+        {
+            RequiredLength = length;
+        }
+ 
+        public Task<IdentityResult> ValidateAsync
+            (UserManager<ApplicationUser> manager, ApplicationUser user, string password)
+        {
+            List<IdentityError> errors = new List<IdentityError>();
+ 
+            if (String.IsNullOrEmpty(password) || password.Length < RequiredLength)
+            {
+                errors.Add(new IdentityError
+                {
+                    Description = String.Format("Минимальная длина пароля равна {0}", RequiredLength)
+                });
+            }
+            string pattern = "^[0-9]+$";
+ 
+            if (!Regex.IsMatch(password, pattern))
+            {
+                errors.Add(new IdentityError
+                {
+                    Description = "Пароль должен состоять только из цифр"
+                });
+            }
+            return Task.FromResult(errors.Count == 0 ?
+                IdentityResult.Success : IdentityResult.Failed(errors.ToArray()));
+        }
+    }
+
+
+
+
+
+
+
+
+валидация пользователя-почта и тд
+
+
+#UserOptions
+такой способ не позволит переопределить сообщения ошибок и тд
+свойства
+AllowedUserNameCharacters: если равно true, то юзернейм должен содержать только алфавитно-цифровые символы
+RequireUniqueEmail: если равно true, то email пользователя должен быть уникальным
+
+
+public void ConfigureServices(IServiceCollection services)
+{ 
+    services.AddIdentity<ApplicationUser, IdentityRole>(opts => {
+            opts.User.RequireUniqueEmail = true;    // уникальный email
+            opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz"; // допустимые символы
+        })
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
+}
+
+
+
+
+
+можно изменить через создание своего класса валидации #IUserValidator или переопределить-унаследовать класс #UserValidator
+
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddTransient<IUserValidator<ApplicationUser>, CustomUserValidator>();
+ 
+    services.AddIdentity<ApplicationUser, IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
+ 
+    services.AddMvc();
+}
+
+
+
+public interface IUserValidator<TUser> where TUser : class {
+//Метод ValidateAsync() вызывается при валидации адреса электронной почты. В качестве параметров в метод передаются объект UserManager и валидируемый пользователь.
+    Task<IdentityResult> ValidateAsync(UserManager<TUser> manager, TUser user);
+}
+
+
+ public class CustomUserValidator : IUserValidator<ApplicationUser>
+    {
+        public Task<IdentityResult> ValidateAsync(UserManager<ApplicationUser> manager, ApplicationUser user)
+        {
+            List<IdentityError> errors = new List<IdentityError>();
+ 
+            if (user.Email.ToLower().EndsWith("@spam.com"))
+            {
+                errors.Add(new IdentityError
+                {
+                    Description = "Данный домен находится в спам-базе. Выберите другой почтовый сервис"
+                });
+            }
+            return Task.FromResult(errors.Count == 0 ?
+                IdentityResult.Success : IdentityResult.Failed(errors.ToArray()));
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#mail #почта #SmtpClient
+Для отправки email будем использовать #MailKit. Для его установки добавим через NuGet
+
+
+добавление классов пользователя контекста и тд тд , общая настройка всего
+
+
+#AddDefaultTokenProviders #AddEntityFrameworkStores
+ConfigureServices->
+
+services.AddIdentity<User, IdentityRole>() 
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();//добавляется функциональность генерации токенов, которые отсылаются в письме для подтверждения. В принципе мы можем и не использовать этот метод - AddDefaultTokenProviders(), однако тогда нам придется самостоятельно реализовать интерфейс #IUserTwoFactorTokenProvider, методы которого собственно и отвечают за генерацию и валидацию токена подтверждения электронной почты.
+
+
+Configure->
+app.UseAuthentication();
+
+
+
+
+
+
+public class EmailService
+    {
+        public async Task SendEmailAsync(string email, string subject, string message)
+        {
+            var emailMessage = new MimeMessage();
+ 
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "login@yandex.ru"));
+            emailMessage.To.Add(new MailboxAddress("", email));
+            emailMessage.Subject = subject;
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = message
+            };
+             
+            using (var client = new SmtpClient())
+            {
+                await client.ConnectAsync("smtp.yandex.ru", 25, false);
+                await client.AuthenticateAsync("login@yandex.ru", "password");
+                await client.SendAsync(emailMessage);
+ 
+                await client.DisconnectAsync(true);
+            }
+        }
+    }
+
+
+
+
+//подтверждение при регистрации
+//заносим в бд
+if (result.Succeeded)
+                {
+                    // генерация токена для пользователя
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
+                    EmailService emailService = new EmailService();
+                    await emailService.SendEmailAsync(model.Email, "Confirm your account",
+                        $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
+ 
+                    return Content("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
+                }
+
+
+//пытаемся подтвердить почту
+[HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if(result.Succeeded)
+                return RedirectToAction("Index", "Home");
+            else
+                return View("Error");
+        }
+
+
+
+//при логине
+
+if (!await _userManager.IsEmailConfirmedAsync(user))
+                    {
+                        ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
+                        return View(model);
+                    }
+
+
+
+[HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            // удаляем аутентификационные куки
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+
+
+
+
+
+#reset #password #сброс #пароль
+
+
+#GeneratePasswordResetTokenAsync
+var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+        EmailService emailService = new EmailService();
+        await emailService.SendEmailAsync(model.Email, "Reset Password",
+            $"Для сброса пароля пройдите по ссылке: <a href='{callbackUrl}'>link</a>");
+        return View("ForgotPasswordConfirmation");
+
+
+
+
+var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+if (result.Succeeded)
 
 
 
@@ -4667,6 +5075,160 @@ Invoke-RestMethod http://localhost:51396/api/users/3 -Method DELETE
 программа для тестирования #Fiddler
 https://metanit.com/sharp/aspnet5/23.3.php
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#бандлы #bundle #Минификация 
+объединение нескольких скриптов в 1 файл и применение mime
+уменьшает нагрузку не сервер, сокращает количество запросов
+#Grunt, #Gulp. Но рекомендуемым способом именно по отношению к ASP.NET Core является использование расширения Visual Studio - #BundlerMinifier
+
+#bundleconfig.json добавляется просто в проект на уровень startup.cs
+[
+  {
+     // настройки 1-го бандла
+  },
+  {
+    // настройки n-го бандла
+  }
+]
+
+необязательно исправлять файл вручную. Мы можем также выделить все нужные элементы, нажать на выделенный элемент правой кнопкой мыши и в контекстном меню выбрать пункт Bundler & Minifier -> Bundle and Minify Files
+
+
+
+//настройка 1 бандла
+{
+//путь выходного файла, который будет формироваться в результате объединения файлов
+    "outputFileName": "wwwroot/js/site.min.js",
+//определяет через запятую набор файлов, которые будут объединяться. То есть в данном случае из файла "wwwroot/js/site.js" будет формироваться файл "wwwroot/js/site.min.js"
+    "inputFiles": [
+      "wwwroot/js/site.js",
+      "wwwroot/js/site.js"
+    ],
+//указывает, будут ли минифицироваться включаемые в бандл файлы. 
+    "minify": {
+//Значение enabled: true включает минификацию
+      "enabled": true,
+//значение "renameLocals": true позволяет сократить имена локальных переменных
+      "renameLocals": true
+    },
+// надо ли генерировать файл-карту сопоставления исходного и выходного файлов
+    "sourceMap": false
+}
+
+
+
+
+перейдем в меню View -> Other Windows -> Task Runner Explorer. После этого внизу Visual Studio откроется окно Task Runner Explorer. В этом окне нажмем правой кнопкой мыши на пункт Update all files
+При открытии контекстого меню нам надо установить привязку с помощью пункта Binding. Здесь имеются четыре типа привязки:
+Before Build: бандлы будут собираться перед построением проекта
+After Build: бандлы будут собираться после построения проекта
+Clean: бандлы будут собираться при очистке проекта
+Project Open: бандлы будут собираться при открытии проекта
+
+К примеру выберем опцию Before Build. И далее мы сможем использовать бандлы, подключив стандартным образом:
+<link rel="stylesheet" href="~/css/site.min.css" />
+<script src="~/js/site.min.js"></script>
+Причем не важно, что на данный момент нет таких файлов. Они будут формироваться автоматически при каждом построении проекта.
+
+
+
+
+
+
+
+
+
+
+Microsoft Library Manager -- #Libman. 
+Этот менеджер позволяет управлять пакетами клиентских библиотек, замена устаревшему #Bower
+#TODO не понял что это
+https://metanit.com/sharp/aspnet5/13.7.php
+
+#NPM
+https://metanit.com/sharp/aspnet5/13.5.php
+
+#Gulp
+https://metanit.com/sharp/aspnet5/13.1.php
+
+#Grunt
+https://metanit.com/sharp/aspnet5/13.2.php
+
+
+
+
+
+
+
+
+Препроцессоры #Less и #Sass
+добавим в проект папку, которая будет хранить файлы Less. Пусть эта папка называется Less. Затем в эту папку добавим новый элемент по типу LESS Style Sheet и назовем его styles.less
+
+Файл с кодом less сам по себе ничего не дает. В итоге нам надо его превратить в файл css. Для этого можно использовать менеджеры автоматизации задач, такие как Gulp или Grunt
+styles.less->
+@base-color:#f7f7fa;
+@article-font-size:13px;
+@font:Verdana;
+ 
+body{
+    font-family:@font;
+    background-color:@base-color;
+}
+h2{font-size:@article-font-size+5;}
+
+
+https://metanit.com/sharp/aspnet5/13.4.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+#IMemoryCache #Cache #кэш #кеш #MemoryCache
+
+IMemoryCache можно получить через DI
+
+IMemoryCache - класс MemoryCache, который используется по умолчанию, инкапсулирует все объекты кэша в виде словаря Dictionary.
+
+bool TryGetValue(object key, out object value): пытаемся получить элемент по ключу key. При успешном получении параметр value заполняется полученным элементом, а метод возвращает true
+object Get(object key): дополнительный метод расширения, который получает по ключу key элемент и возвращает его
+void Remove(object key): удаляет из кэша элемент по ключу key
+object Set(object key, object value, MemoryCacheEntryOptions options): добавляет в кэш элемент с ключом key и значением value, применяя опции кэширования MemoryCacheEntryOptions
+
+
+//#AbsoluteExpirationRelativeToNow 
+cache.Set(product.Id, product, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
+Product product = null;
+            if (!cache.TryGetValue(id, out product))
+
+
+
+ConfigureServices->
+//По сути этот сервис устанавливает зависимость для IMemoryCache, создавая объект синглтон services.TryAdd(ServiceDescriptor.Singleton<IMemoryCache, MemoryCache>());
+services.AddMemoryCache()
 
 
 
