@@ -18,6 +18,10 @@ context.Request.Path.Value.ToLower()
 
 
 #kestrel вместо #iis
+https://metanit.com/sharp/aspnet5/2.7.php
+https://metanit.com/sharp/aspnet5/20.1.php
+https://metanit.com/sharp/aspnet5/20.2.php
+
 
 
 тут такое, про возврат xml и тд про заголовки и контент принимаемый браузером
@@ -2287,7 +2291,7 @@ public DateTime DateOfBirth { get; set; }
 используется для подключения файлов стилей
 
 
-asp-append-version: если имеет значение true, то к пути к названию файла стиля добавляется номер версии
+asp-append-version: если имеет значение true, то к пути к названию файла стиля добавляется номер #версии #version
 asp-fallback-href: указывает вспомогательный путь к файлу стиля, который используется, если загрузка файла, указанного в атрибуте href пройдет неудачно
 asp-fallback-test-class: определяет класс, который используется для теста загрузки стиля из атрибута href
 asp-fallback-test-property: определяет свойство, которое используется для тестирования загрузки стиля из атрибута href
@@ -4824,7 +4828,7 @@ public async Task OnResultExecutionAsync(ResultExecutingContext context,
 
 
 
-Фильтры исключений
+#Фильтры #исключений #exception
 
 Фильтры исключений обрабатывают необработанные исключения, в том числе те, которые возникли при создании контроллера и привязки модели. При этом надо сразу отметить, что они обрабатывают только исключения, которые возникают при вызове действия контроллера в MVC, а не абсолютно все исключения в приложении. В этом плане они менее гибки, чем, скажем, компоненты middleware, которые также предназначены для обработки исключений
 
@@ -5090,7 +5094,7 @@ https://metanit.com/sharp/aspnet5/23.3.php
 
 
 
-#бандлы #bundle #Минификация 
+#бандлы #bundle #Минификация #mime 
 объединение нескольких скриптов в 1 файл и применение mime
 уменьшает нагрузку не сервер, сокращает количество запросов
 #Grunt, #Gulp. Но рекомендуемым способом именно по отношению к ASP.NET Core является использование расширения Visual Studio - #BundlerMinifier
@@ -5237,6 +5241,96 @@ services.AddMemoryCache()
 
 
 
+#ResponseCache 
+кэширование на стороне клиента
+#Cache-Control, #Pragma и #Vary
+
+Основным из них является заголовок Cache-Control, который может принимать следующие значения:
+public: ответ будет кэшироваться везде - и на машине клиента, и на промежуточных прокси-серверах
+private: ответ будет кэшироваться только на компьютере клиента, но промежуточные прокси-серверы не будут выполнять кэширование
+no-cache: ответ нигде не будет кэшироваться
+max-age: время кэширования
+
+
+Для настройки заголовоков ответа атрибут #ResponseCacheAttribute определяет следующие свойства:
+
+Duration: устанавливает максимальное время кэширования в секундах. Является обязательным, если свойство NoStore не равно true. Duration добавляет к заголовку Cache-Control значение max-age с устанавливаемым временным промежутком в секундах
+Location: определяет место кэширования. Принимает одно из значений из перечисления ResponseCacheLocation:
+	Any: ответ кэшируется везде (в том числе и на прокси-серверах). Является значением по умолчанию
+	Client: ответ кэшируется только на компьютере клиента
+	None: ответ нигде не кэшируется
+NoStore: определяет, будет ли ответ кэшироваться. Если равен true, то ответ не кэшируется, а значения свойств Location и Duration игнорируются. Кроме того, заголовку Cache-Control добавляется значение no-store
+VaryByHeader: устанавливает заголовок vary
+CacheProfileName: определяет имя профиля кэширования
+Order: устанавливает порядок данного атрибута при применении к методу контроллера одновременно нескольких атрибутов
+
+//отключить кеширование
+[ResponseCache(NoStore =true, Location =ResponseCacheLocation.None)]
+    public IActionResult Index()
+
+
+
+
+#Профили кэширования #CacheProfile
+если надо применить к нескольким но не ко всем методам контроллера то можно определить профиль и указывать уже его
+//название профиля
+[ResponseCache(CacheProfileName = "NoCaching")]
+public IActionResult Index()
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc(options =>
+    {
+//передается название профиля и собственно профиль
+        options.CacheProfiles.Add("Caching",
+//Объект профиля устанавливает все те свойства, что и атрибут ResponseCacheAttribute.
+            new CacheProfile()
+            {
+                Duration = 300
+            });
+        options.CacheProfiles.Add("NoCaching",
+            new CacheProfile()
+            {
+                Location = ResponseCacheLocation.None,
+                NoStore = true
+            });
+
+
+
+
+
+
+
+
+
+
+Кэширование статических файлов #static #StaticFileResponseContext
+
+ app.UseStaticFiles(new StaticFileOptions()
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Add("Cache-Control", "public,max-age=600");
+    }
+});
+начение "public" указывает, что файл будет кэшироваться как в кэше браузера, так и на промежуточных прокси-серверах.
+А параметр max-age задает время кэширования в секундах
+
+
+
+если мы изменим, например, содержимое файла css или javascript, то при повторном обращении к приложению браузер продолжит извлекать нужные файлы из кэша
+Для решения этой проблемы можно добавлять к статическим файлам версию и при каждом изменении файла соответственно менять версию файла
+
+
+<link rel="stylesheet" href="/css/site.css?v=123" />
+<script src="/js/site.js?v=123"></script>
+<img src="/images/banner1.svg?v=123" />
+
+//или
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<script src="~/js/site.js" asp-append-version="true"></script>
+<img src="~/images/banner1.svg" asp-append-version="true" />
 
 
 
@@ -5250,6 +5344,311 @@ services.AddMemoryCache()
 
 
 
+
+#Сжатие ответа #Compression #mime
+уменьшает производительность, поэтому лучше не использоваться для данных меньше 1 кб
+#mod_deflate #Nginx Microsoft.AspNetCore.#ResponseCompression
+если в таком применении не указать явно компрессор то будет использоваться #GzipCompressionProvider
+
+
+public void ConfigureServices(IServiceCollection services)
+        {
+            // добавляем сервис компрессии
+            services.AddResponseCompression();
+//если создавали свой провайдер
+services.AddResponseCompression(options =>
+    {
+        options.Providers.Add(new DeflateCompressionProvider());
+    });
+
+//если хотим добавить свой mime тип
+options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
+    {
+        "image/svg+xml",
+        "application/atom+xml"
+    }); 
+    options.Providers.Add<GzipCompressionProvider>();
+
+
+//По умолчанию для протокола HTTPS отключено сжатие, но его можно подключить, использовав #EnableForHttps
+services.AddResponseCompression(options =>
+    {
+        options.EnableForHttps = true;
+    });
+
+
+
+
+//если надо явно указать компрессор
+services.Configure<GzipCompressionProviderOptions>(options =>
+    {
+        options.Level = CompressionLevel.Optimal;
+    });
+
+
+
+public void Configure(IApplicationBuilder app)
+        {
+            // подключаем компрессию
+            app.UseResponseCompression();
+ 
+            app.Run(async context =>
+            {
+                // отправляемый текст
+                string loremIpsum = "Lorem Ipsum is simply dummy text ... including versions of Lorem Ipsum.";
+                // установка mime-типа отправляемых данных
+                context.Response.ContentType = "text/plain";
+                // отправка ответа
+                await context.Response.WriteAsync(loremIpsum);
+            });
+        }
+
+
+
+На данный момент middleware компрессии поддерживает следующие MIME-типы:
+
+#text/plain
+#text/css
+#application/javascript
+#text/html
+#application/xml
+#text/xml
+#application/json
+#text/json
+
+
+
+
+
+#GzipCompressionProvider
+
+имеет свойство Level, которое устанавливает уровни сжатия и может принимать следующие значения:
+CompressionLevel.Fastest: сжатие должно происходить как можно быстрее, даже если оно будет неоптимальным в плане уменьшения объема данных.
+CompressionLevel.NoCompression: сжатие не применяется
+CompressionLevel.Optimal: данные должны быть максимально сжаты, даже если для этого потребуется больше времени
+
+
+
+
+
+создание своих провайдеров #ICompressionProvider
+
+
+//данный провайдер будет срабатывать, если клиент прислал в запросе в заголовке Accept-Encoding значение deflate.
+public class DeflateCompressionProvider : ICompressionProvider
+    {
+//указывает на формат сжатия, который поддерживает клиент. Данный формат содержится в заголовке Accept-Encoding в запросе к серверу, наподобие: Accept-Encoding: gzip, deflate, sdch, br
+        public string EncodingName => "deflate";
+//поддерживается ли сброс записи в поток
+        public bool SupportsFlush => true;
+ //возвращает сам поток ответа после сжатия или фактически обертка над изначальным потоком ответа, который передается в качестве параметра в метод. Для сжатия применяется встроенный класс #DeflateStream()
+        public Stream CreateStream(Stream outputStream)
+        {
+            return new DeflateStream(outputStream, CompressionLevel.Optimal);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#test #unit #тестирование 
+
+
+Фрейморки тестирования
+#xUnit.net: фреймворк тестирования для платформы .NET. Наиболее популярный фреймворк для работы именно с .NET Core и ASP.NET Core
+MS Test: фреймворк юнит-тестирования от компании Microsoft, который по умолчанию включен в Visual Studio и который также можно использовать с .NET Core
+#NUnit: портированный фреймворк с JUnit для платформы .NET
+
+
+Отдельно стоит сказать о концепции #TDD или разработка через тестирование. TDD представляет процесс применения юнит-тестов, при котором сначала пишутся тесты, а потом уже программный код, достаточный для выполнения этих тестов.
+Порядок написания кода при TTD :
+Пишем юнит-тест
+Запускаем его и видим, что он завершился неудачей (программный код ведь еще не написан)
+Пишем некоторое количество кода, достаточное для запуска теста
+Снова запускаем тест и видим его результаты
+
+
+Согласно условностям название проекта юнит-тестов называется [название_приложения].Tests. 
+начиная с Visual Studio 2017 специально для тестов были добавлены два типа проектов: xUnit Test Project(.NET Core)(фреймворк xUnit) и Unit Test Project(.NET Core)(MSTest Framework)
+
+
+дальше алгоритм прочто через Class Library (.NET Core) + добавление xUnit руками
+При создании проекта тестирования нужно указать "добавить в решение", если нужно чтобы тесты были внутри основного проекта
+необходимо добавить через NuGet пакеты в таком порядке:
+Microsoft.NET.Test.Sdk
+xunit: функционал фреймворка тестирования
+xunit.runner.visualstudio: обеспечивает интеграцию с Visual Studio
+Microsoft.AspNetCore.App
+
+нужно добавить ссылку на главный проект
+reference manager->projects->solution->name_proj
+
+После добавления пакетов в проект по типу Class Library или даже при использовании проекта по типу xUnit Test Project(.NET Core) Visual Studio может отображать ошибки пакетов:
+Однако это ложные ошибки, их можно игнорировать, на работу проекта тестов они не влияют.
+
+
+
+
+в тестируемом проекте допустим есть этот метод
+public class HomeController : Controller
+public IActionResult Index()
+        {
+            ViewData["Message"] = "Hello!";
+            return View("Index");
+        }
+
+
+
+#Fact
+указывает, что методы представляет тест
+
+#Theory
+
+public class HomeControllerTests
+    {
+        [Fact]
+        public void IndexViewDataMessage()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+ 
+            // Act
+            ViewResult result = controller.Index() as ViewResult;
+ 
+            // Assert
+
+            Assert.Equal("Hello world!", result?.ViewData["Message"]);
+//можно не разделять на 3 метода а закинуть одним тестом
+//Assert.NotNull(result);
+//Assert.Equal("Index", result?.ViewName);
+        }
+ 
+        [Fact]
+        public void IndexViewResultNotNull()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+            // Act
+            ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
+ 
+        [Fact]
+        public void IndexViewNameEqualIndex()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+            // Act
+            ViewResult result = controller.Index() as ViewResult;
+            // Assert
+//проверяет название вызываемого представления 
+            Assert.Equal("Index", result?.ViewName);
+        }
+    }
+
+
+
+запустить тест на выполнение через меню Test->Run->All Tests
+
+
+
+
+Модель тестов Arrange-Act-Assert представляет целую парадигму тестирования, которая используется многими фреймворками юнит-тестов:
+Arrange: устанавливает начальные условия для выполнения теста, создание объектов и тд
+Act: выполняет тест (обычно представляет одну строку кода)
+Assert: верифицирует результат теста
+
+Секции Arrange и Act представляют обычный код на языке C#. А секция Assert использует одноименный класс Assert, который определен в библиотеке xUnit.net.
+
+Для проверки результата в классе Assert определено ряд методов, среди которых можно выделить следующие:
+All(collection, action): метод подтверждает, что все элементы коллекции collection соответствуют действию action
+Contains(expectedSubString, actualString): метод подтверждает, что строка actualString содержит expectedSubString
+DoesNotContain(expectedSubString, actualString): метод подтверждает, что строка actualString не содержит строку expectedSubString
+DoesNotMatch(expectedRegexPattern, actualString): метод подтверждает, что строка actualString не соответствует регулярному выражению expectedRegexPattern
+Matches(expectedRegexPattern, actualString): метод подтверждает, что строка actualString соответствует регулярному выражению expectedRegexPattern
+Equal(expected, result): метод сравнивает результат теста в виде значения result и ожидаемое значение expected и подтверждает их равенство
+NotEqual(expected, result): метод сравнивает результат теста в виде значения result и ожидаемое значение expected и подтверждает их неравенство
+Empty(collection): метод подтверждает, что коллекция collection пустая
+NotEmpty(collection): метод подтверждает, что коллекция collection не пустая
+True(result): метод подтверждает, что результат теста равен true
+False(result): метод подтверждает, что результат теста равен false
+IsType(expected, result): метод подтверждает, что результат теста имеет тип expected
+IsNotType(expected, result): метод подтверждает, что результат теста не представляет тип expected
+IsNull(result): метод подтверждает, что результат теста имеет значение null
+IsNotNull(result): метод подтверждает, что результат теста не равен null
+InRange(result, low, high): метод подтверждает, что результат теста находится в диапазоне между low и high
+IsAssignableFrom<IEnumerable<Phone>>(viewResult.Model); Передается ли в представление в качестве модели объект IEnumerable<Phone>
+NotInRange(result, low, high): метод подтверждает, что результат теста не принадлежит диапазону от low до high
+Same(expected, actual): метод подтверждает, что ссылки expected и actual указывают на один и тот же объект в памяти
+NotSame(expected, actual): метод подтверждает, что ссылки expected и actual указывают на разные объекты в памяти
+Throws(exception, expression): метод подтверждает, что выражение expression генерирует исключение exception
+
+
+var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+Assert.IsType<BadRequestResult>(result);
+Assert.IsType<NotFoundResult>(result);
+
+var viewResult = Assert.IsType<ViewResult>(result);
+    var model = Assert.IsType<Phone>(viewResult.ViewData.Model);
+
+
+
+#Moq
+Moq предназначен для имитации объектов или для создания так называемых фейковых объектов.
+добавить через nuget
+
+
+при таком контроллере
+  public class HomeController : Controller
+    {
+        IRepository repo;
+        public HomeController(IRepository r)
+        {
+            repo = r;
+        }
+        public IActionResult Index()
+        {
+            return View(repo.GetAll());
+        }
+    }
+
+
+//такое тестирование
+// Arrange
+//содаем типизированный объект
+            var mock = new Mock<IRepository>();
+//устанавливаем метод (GetTestPhones) который будет вызываться вместо метода который используется в контроллере(GetAll)
+            mock.Setup(repo=>repo.GetAll()).Returns(GetTestPhones());
+
+//устанавливаем метод(метод в контроллере testPhoneId) и результат
+mock.Setup(repo => repo.Get(testPhoneId)).Returns(null as Phone);
+
+//устанавливаем метод(метод в контроллере testPhoneId) GetTestPhones
+mock.Setup(repo => repo.Get(testPhoneId)).Returns(GetTestPhones().FirstOrDefault(p => p.Id == testPhoneId));
+
+//создаем контроллер и передаем как DI
+            var controller = new HomeController(mock.Object);
+//можно создать имитацию ошибки НО в тесте не будет работать проверка if(ModelState.IsValid), потому что в тесте не учитывается механизм привязки модели, а поэтому и ошибок модели в контроллере нет
+controller.ModelState.AddModelError("Name", "Required");
+
+
+
+#Verify
+Assert.Equal("Index", redirectToActionResult.ActionName);
+//верифицируем, что метод Create у репозитория точно был вызван
+    mock.Verify(r => r.Create(newPhone));
 
 
 
