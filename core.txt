@@ -49,8 +49,21 @@ jwt -https://metanit.com/sharp/aspnet5/23.7.php
 
 
 
+#reactjs
+https://metanit.com/sharp/aspnet5/25.1.php
+https://metanit.com/sharp/aspnet5/25.2.php
+
+
+
+
+
 куда то засунуть (уже засунул но надо расписать)
 #SignInManager
+
+
+
+
+
 
 
 
@@ -5649,6 +5662,543 @@ controller.ModelState.AddModelError("Name", "Required");
 Assert.Equal("Index", redirectToActionResult.ActionName);
 //верифицируем, что метод Create у репозитория точно был вызван
     mock.Verify(r => r.Create(newPhone));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ URL #Rewriting
+Rewriting позволяет решить такие стандартные проблемы, как перенаправление с домена с www на домен без www и наоборот или перенаправление с протокола http на https
+URL Rewriting реализуется до того, как запрос попадет в систему маршрутизации, и начнется его непосредственное выполнение в конвейере MVC
+вроде как немного похоже на #midleware #TODO возможно стоит ближе к нему перенести
+увеличивает накладные расходы на обработку запроса. Поэтому стоит по возможности избегать сложных комплексных правил переопределения строки запроса
+
+nuget-пакете Microsoft.AspNetCore.#Rewrite 
+#UseRewriter #RewriteOptions
+
+
+public void Configure(IApplicationBuilder app)
+        {
+            // подключаем URL Rewriting
+            var options = new RewriteOptions();
+            app.UseRewriter(options);
+
+
+
+
+
+для RouteOptions мы можем задать правила с помощью специальных методов:
+#AddRedirect(): выполняет переадресацию с отправкой статусного кода HTTP 301
+Метод AddRedirect() в качестве первого параметра принимает регулярное выражение, которому должен соответствовать входящий адрес URL. В качетве адреса в метод AddRedirect передается та часть URL, которая образуется с помощью объединения значений Request.Path и Request.QueryString. То есть, если полный запрошенный адрес http://localhost:1234/home/index?id=4, то в метод AddRedirect передается home/index?id=4
+
+//в данном случае удаляется концевой слеш (например, перенаправляется с "localhost:1234/home/index/" на "localhost:1234/home/index")
+var options = new RewriteOptions().AddRedirect("(.*)/$",//любой адрес, который завершается слешем
+ "$1");//в качестве адреса для перенаправления будет использоваться та часть исходного URL, которая идет до слеша// То есть "$1" указывает на первую группу в регулярном выражении "(.*)/$"
+
+//перенаправлять с home на home/index
+.AddRedirect("[h,H]ome[/]?$", "home/index");
+
+#AddRewrite(): подменяет один адрес другим
+Метод AddRewrite() подменяет входящий адрес другим. При этом переадресации как таковой нет, статусный код 301/302 не отправляется клиенту
+Первый параметр метода указывает на регулярное выражение, которому должен соответствовать адрес. Второй параметр указывает, на какой адрес надо подменить входящий. Третий параметр - булевое значение устанавливает, надо ли прекратить применение остальных правил, если адрес соответствует выражению из первого параметра.
+
+.AddRewrite(@"home/index/(\d+)", "home/about?id=$1", skipRemainingRules: false)
+
+//Это правило будет траслировать любой запрос типа "product/tablet/23" в запрос в виде "home/products/cat=tablet?id=23
+.AddRewrite(@"product/(\w+)/(\d+)", "home/products?cat=$1&id=$2", skipRemainingRules: false);
+
+
+#AddRedirectToHttps(): выполняет переадресацию на протокол #HTTPS
+#AddRedirectToHttpsPermanent(): выполняет переадресацию на протокол HTTPS с отправкой статусного кода HTTP 301 (постоянная переадресация)
+//Первый метод в качестве необязательных параметров можно передать статусный код, который будет отправляться, и номер порта (если он отличается от стандартного 443)
+.AddRedirectToHttps(301);  // аналогично AddRedirectToHttpsPermanent()
+
+
+#AddIISUrlRewrite(): в качестве источника правил для переопределения URL использует правила для IIS
+#AddApacheModRewrite(): в качестве источника правил для переопределения URL использует правила для Apache
+добавим в корень проекта новый xml-файл urlrewrite.xml
+<rewrite>
+  <rules>
+    <rule name="Remove trailing slash">
+      <match url = "(.*)/$"/>
+      <conditions>
+          <add input="{REQUEST_URI}" pattern="(.*)/$" />
+      </conditions>
+      <action type="Redirect" url ="{R:1}" />
+    </rule>
+  </rules>
+</rewrite>
+
+Все правила определяются в элементе <rules>. Каждое правило, представленное элементом <rule>, состоит из трех частей:
+Pattern – выражение, которому должна соответствовать строка запроса и которое задается в элементе <match>
+Conditions – различные дополнительные условия, которым должен соответствовать URL-адрес. Например, значения HTTP-заголовков, пути к файлам и т.д.
+Action – действие, которое должно выполняться, если строка URL соответствует регулярному выражению в Pattern и условиям Conditions
+Мы можем использовать несколько правил одновременно, но их выполнение не всегда обязательно. Поэтому у каждого элемента rule определен атрибут StopProcessing. Если имеет значение true, то после выполнения действия в элементе <action> адрес URL, создаваемый данным правилом, передается в конвейер обработки запроса, а другие правила не будут обрабатываться.
+
+
+ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            var options = new RewriteOptions()
+                .AddRedirect("[H,h]ome[/]?$", "home/index")
+                .AddIISUrlRewrite(env.ContentRootFileProvider, "urlrewrite.xml");
+            app.UseRewriter(options);
+//при версии >core 2 можно так
+using (StreamReader iisReader = File.OpenText("urlrewrite.xml"))
+{
+    var options = new RewriteOptions().AddIISUrlRewrite(iisReader);
+    app.UseRewriter(options);
+}
+
+
+
+
+
+Переопределение URL имеет следующий порядок действий:
+Строка запроса сравнивается с выражением в элементе match. Если обнаружится, что запрошенный адрес не соответствует выражению, то модуль URL Rewrite Module прекращает обрабатывать текущее правило и переходит к следующему (если задано несколько правил)
+Если строка запроса соответствует выражению в элементе match и при этом не задано никаких дополнительных условий с помощью элемента <conditions>, то URL Rewrite Module выполняет действие, которое определено в правиле с помощью элемента <action>.
+Если строка запроса соответствует выражению в элементе match и также определены дополнительные условия, то URL Rewrite Module проверяет эти условия. И если URL соответствует этим условиям, то выполняется действие action
+
+
+
+
+
+Определение условий
+
+Условия, задаваемые элементом <conditions>, определяют дополнительную логику оценки URL на соответствие правилу. Каждое отдельное условие задается с помощью элемента <add > и настраивается с помощью следующих атрибутов:
+input: определяет объект, который будет использоваться условием для оценки. В частности, в примере выше используется input="{REQUEST_URI}", где "REQUEST_URI" представляет переменную сервера, хранящую запрошенный адрес url. Тут также могут использоваться и другие переменные сервера.
+pattern: определяет регулярное выражение, которому должен соответствовать объект
+matchType: принимает следующие значения:
+Pattern: в этом случае объект (в данном случае адрес URL) сопоставляется с выражением в атрибуте pattern. При других значениях атрибут pattern не учитывается
+IsFile: определяет, является ли объект (адрес URL) файлом в файловой системе
+IsDirectory: определяет, является ли объект (адрес URL) каталогом в файловой системе
+ignoreCase: указывает, надо ли игнорировать регистр адреса URL. По умолчанию равно true, поэтому регистр не учитывается
+negate: если равно true, то правило применяется, если условие НЕ учитывается. По умолчанию равно false
+
+
+
+Определение действий
+
+Если выражение и условия, определяемые правилом, соответствуют объекту (например, адресу URL), то выполняется определенное действие, заданное элементом <action>. Действия могут быть нескольких типов. Тип задается с помощью атрибута type, который принимает следующие значения:
+Rewrite: заменяет текущую строку запроса URL другой строкой
+Redirect: выполняет редирект, посылая клиенту статусный код 3хх.
+CustomResponse: отправляет клиенту определенный статусный код, а также может отправлять специфическое сообщение
+AbortRequest: сбрасывает подключение для текущего клиента
+
+
+Другие атрибуты элемента action:
+url: строка, которая будет заменять текущую строку запроса URL
+appendQueryString: определяет, должна ли сохраняться та часть строки запроса, которая идет после названия домена и порта. По умолчанию имеет значение true, что значит, что строка запроса со всеми параметрами за исключением названия домена будет сохраняться.
+redirectType: статусный код переадресации при использовании типа Redirect (301 – Permanent, 302 – Found, 303 – See other, 307 – Temporary)
+statusCode: определяет статусный код в качестве ответа клиенту при использовании типа CustomResponse
+subStatusCode: определяет вспомогательный статусный код при использовании типа CustomResponse
+statusReason: определяет сообщение, отправляемое клиенту вместе со статусным кодом при использовании типа CustomResponse
+statusDescription: определяет сообщение, отправляемое клиенту в теле ответа при использовании типа CustomResponse
+statusCode: статусный код в качестве ответа клиенту при использовании типа CustomResponse
+
+
+
+Использование переменных сервера
+
+При изменении URL мы можем использовать следующие переменные сервера:
+QUERY_STRING: параметры запроса
+HTTP_HOST: домен
+SERVER_PORT: номер порта
+SERVER_PORT_SECURE и HTTPS: указывают, использует ли клиент защищенное подключение
+REQUEST_URI: полная строка запроса
+URL представляется в следующем виде: http(s)://<host>:<port>/<path>?<querystring>. Допустим, пользователь обращается к URL http://www.somesite.com/home/index?id=2&name=3. Тогда IIS сегментирует ее следующим образом:
+path: представляет сегмент home/index. Эта часть затем сравнивается правилом с выражением, определенным в элементе <match>
+QUERY_STRING: в данном случае сегмент параметров id=2&name=3
+HTTP_HOST: сегмент www.somesite.com
+SERVER_PORT: если номер порта не указан, то по умолчанию равен 80.
+SERVER_PORT_SECURE равен 0, а HTTPS содержит OFF
+REQUEST_URI: сегмент home/index?id=2&name=3
+При создании условий для правил мы можем ссылаться на эти переменные через выражение вида "{НАЗВАНИЕ_ПЕРЕМЕННОЙ}". Например, нам нужно условие, согласно которому в строке параметров должен быть числовой параметр id:
+<add input="{QUERY_STRING}" pattern="id=([0-9]+)" />
+Кроме того, нам доступны заголовки HTTP-запроса, например, строку юзер-агента мы можем получить с помощью выражения "{HTTP_USER_AGENT}".
+При использовании заголовков запроса надо учитывать, что все дефисы в названии заголовков (например, User-Agent) заменяются символами подчеркивания. Все строчные буквы заменяются заглавными, а к названию переменных добавляется префикс "HTTP_". Как например, из заголовка User-Agent создается переменная HTTP_USER_AGENT.
+
+
+
+
+
+Обратные ссылки
+
+Обратные ссылки представляют отдельные сегменты выражений, которые используются в условиях. Например:
+
+<rewrite>
+  <rules>
+    <rule name="Redirect">
+      <match url = "(.*)"/>
+      <conditions>
+        <add input="{REQUEST_URI}" pattern="([a-z]+)/([a-z]+)/([0-9]+)" matchType="Pattern" />
+      </conditions>
+      <action type="Redirect" url ="{C:1}/{C:3}" />
+    </rule>
+  </rules>
+</rewrite>
+
+
+
+Все обратные ссылки представляют выражения типа {C:N}, где N - число от 0 до 9. При этом значение {C:0} представляет всю попадающую под условие строку.
+То есть из строки запроса "home/index/2" генерировались бы три обратных ссылки C:1 = "home", C:2 = "index" и C:3 = "2". И в соответствии с элементом action шла бы переадресация на адрес "home/2".
+Кроме условий для создания обратных ссылок могут применяться выражения в элементе match. Все обратные ссылки из выражения match доступны через выражения типа {R:N}, где N - число от 0 до 9. При этом значение {R:0} представляет всю попадающую под условие строку.
+
+Так, рассмотрим другой пример. Допустим, у нас есть правило:
+
+<rule name="Rewrite query" stopProcessing="true">
+    <match url="^home/products/([0-9]+)/([_0-9a-z-]+)" />
+    <action type="Rewrite" url="home/products?id={R:1}&name={R:2}"  />
+</rule>
+
+Например, при запросе http://localhost:50645/Home/Products/2/phones мы получим следующие сегменты:
+{R:0} = "Home/Products/2/phones"
+{R:1} = "2"
+{R:2} = "phones"
+
+В итоге будет формироваться следующая строка URL: http://localhost:50645/Home/Products?id=2&name=phones
+//Для тестирования мы можем определить следующий метод:
+public IActionResult Products(int id, string name)
+    {
+        return Content($"{Request.Path.Value}{Request.QueryString.Value}");
+    }
+
+
+
+Еще один пример - переадресация с домена без www на субдомен www:
+
+<rule name="Redirect to WWW" enabled="true" stopProcessing="true">
+    <match url=".*" />
+    <conditions logicalGrouping="MatchAll">
+        <add input="{HTTP_HOST}" pattern=".*" />
+    </conditions>
+    <action type="Redirect" url="http://www.localhost:50645/{R:0}" />
+</rule>
+
+
+Или обратное действие - перенаправление с www на домен без www (для домена localhost):
+
+<rule name="Redirect to NonWWW" stopProcessing="true">
+    <match url=".*" />
+    <conditions logicalGrouping="MatchAll">
+          <add input="{HTTP_HOST}" pattern="^localhost" negate="true" />
+    </conditions>
+    <action type="Redirect" url="http://localhost:50645/{R:0}" />
+</rule>
+
+
+
+
+
+
+
+
+
+
+Применение правил для Apache
+#htaccess
+#RewriteRule
+
+Последующим RewriteRule передается результат предыдущих преобразований
+Если надо выполнить переадресацию, то в конце правила используется выражение [R=301] или [R]
+
+
+Итак, добавим в корень проекта ASP.NET Core новый текстовый файл, который назовем rewrite.txt. Определим в этом файле следующее содержимое
+# удаление концевого слеша
+#получает запрошенный путь, сравнивает его с регулярным выражением, и если сравнение прошло успешно, то преобразует адрес
+RewriteRule (.*)/$ $1 [R=301]
+# переадресация  home/index на /
+RewriteRule Home/Index$ / [R=301]
+# подмена адреса типа Home/Products/2/phones на Home/Products?id=2&name=phones
+#никакой переадресации нет, будет просто подмена одного адреса на другой
+RewriteRule Home/Products/([0-9]+)/([0-9a-z-]+) Home/Products?id=$1&name=$2
+
+
+
+
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            var options = new RewriteOptions()
+                .AddApacheModRewrite(env.ContentRootFileProvider, "rewrite.txt");
+ 
+            app.UseRewriter(options);
+
+//при версии >core 2 можно так
+using (StreamReader apacheReader = File.OpenText("rewrite.txt"))
+{
+    var options = new RewriteOptions().AddApacheModRewrite(apacheReader);
+    app.UseRewriter(options);
+}
+
+
+
+
+
+
+
+
+
+
+определение своих правил с помощью методов или целых классов
+
+
+
+ public void Configure(IApplicationBuilder app)
+        {
+            var options = new RewriteOptions()
+                .Add(RewritePHPRequests);//метод определенный в этом же классе
+ 
+            app.UseRewriter(options);
+
+
+//переопределяет с http://localhost:1234/some.php на http://localhost:1234/html/some.html
+static void RewritePHPRequests(RewriteContext context)
+        {
+            var request = context.HttpContext.Request;
+            var response = context.HttpContext.Response;
+            var pathValue = request.Path.Value; // запрошенный путь
+            // если запрос к папке html, возвращаем ошибку 404
+            if (request.Path.StartsWithSegments(new PathString("/html")))
+            {
+                response.StatusCode = StatusCodes.Status404NotFound;
+                context.Result = RuleResult.EndResponse;
+                return;
+            }
+            // если запрос к файлам с расширенем php, переопределяем запрос на папку html
+            if (pathValue.EndsWith(".php", StringComparison.OrdinalIgnoreCase))
+            {
+                string proccedPath = "/html" + pathValue.Substring(0, pathValue.Length - 3) + "html";
+                request.Path = new PathString(proccedPath);
+            }
+        }
+
+
+
+
+
+если определять  в отдельном классе #IRule #ApplyRule
+
+
+public class RedirectPHPRequests : IRule
+    {
+        private readonly string _extension;
+        private readonly PathString _newPath;
+ 
+//получаем расширение, которое стоит использовать вместо php, а также путь к документам в рамках проекта
+        public RedirectPHPRequests(string extension, string newPath)
+        {
+            if (string.IsNullOrEmpty(extension))
+            {
+                throw new ArgumentException(nameof(extension));
+            }
+            if (!Regex.IsMatch(newPath, @"(/[A-Za-z0-9]+)+?"))
+            {
+                throw new ArgumentException("Запрошенный путь недействителен", nameof(newPath));
+            }
+ 
+            _extension = extension;
+            _newPath = new PathString(newPath);
+        }
+ 
+        public void ApplyRule(RewriteContext context)
+        {
+            var request = context.HttpContext.Request;
+ 
+            if (request.Path.StartsWithSegments(new PathString(_newPath)))
+            {
+                return;
+            }
+ 
+            if (request.Path.Value.EndsWith(".php", StringComparison.OrdinalIgnoreCase))
+            {
+                var response = context.HttpContext.Response;
+                var pathValue = request.Path.Value; // запрошенный путь
+//устанавливаем постоянную переадресацию
+                response.StatusCode = StatusCodes.Status301MovedPermanently;
+                context.Result = RuleResult.EndResponse;
+                response.Headers[HeaderNames.Location] = _newPath + pathValue.Substring(0, pathValue.Length - 3) + _extension;
+            }
+        }
+    }
+
+
+применяется вот так
+var options = new RewriteOptions()
+            .Add(new RedirectPHPRequests(extension:"html", newPath:"/html"));
+ 
+    app.UseRewriter(options);
+
+
+
+
+
+
+
+
+
+
+
+
+#Dapper #db  #sql  #IDbConnection 
+позволяет выполнять sql код и связывать его с моделями(классами)
+
+#Execute - если не нужен результат
+#Query  - если нужен результат
+
+Nuget пакет Dapper
+
+public interface IUserRepository
+    {}
+
+
+ public class UserRepository : IUserRepository
+    {
+ string connectionString = null;
+        public UserRepository(string conn)
+        {
+            connectionString = conn;
+        }
+public List<User> GetUsers()
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                return db.Query<User>("SELECT * FROM Users").ToList();
+return db.Query<User>("SELECT * FROM Users WHERE Id = @id", new { id }).FirstOrDefault();
+
+///----
+var sqlQuery = "INSERT INTO Users (Name, Age) VALUES(@Name, @Age)";
+                db.Execute(sqlQuery, user);
+ 
+                // если мы хотим получить id добавленного пользователя
+                //var sqlQuery = "INSERT INTO Users (Name, Age) VALUES(@Name, @Age); SELECT CAST(SCOPE_IDENTITY() as int)";
+                //int? userId = db.Query<int>(sqlQuery, user).FirstOrDefault();
+                //user.Id = userId.Value;
+            }
+        }
+
+
+
+
+public void ConfigureServices(IServiceCollection services)
+        {
+            string connectionString = "Server=.\\SQLEXPRESS;Initial Catalog=userstore;Integrated Security=True";
+            services.AddTransient<IUserRepository, UserRepository>(provider => new UserRepository(connectionString));
+            services.AddMvc();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
