@@ -178,7 +178,7 @@ class ElfFactory : HeroFactory
 
 
 
-Одиночка (Singleton, Синглтон)
+#Одиночка (#Singleton, Синглтон)
 
 class Singleton
 {
@@ -265,7 +265,7 @@ public class Singleton
 
 
 
-Прототип (Prototype)
+#Прототип (Prototype)
 
 interface IFigure
 {
@@ -293,7 +293,7 @@ public IFigure Clone()
 
 
 
-Стратегия (Strategy)
+#Стратегия (#Strategy)
 
 есть класс с определенным методом, и этот метод задается вне класса а класс на него просто ссылается
 
@@ -333,7 +333,7 @@ public class Context
 
 
 
-Наблюдатель (Observer)
+#Наблюдатель (#Observer)
 
 
 interface IObservable
@@ -382,7 +382,7 @@ class ConcreteObserver :IObserver
 
 
 
-Команда (Command)
+#Команда (#Command)
 
 
 
@@ -397,7 +397,7 @@ class ConcreteObserver :IObserver
 
 
 
-Шаблонный метод (Template Method)
+#Шаблонный метод (#Template Method)
 
 
 abstract class AbstractClass
@@ -432,7 +432,7 @@ class ConcreteClass : AbstractClass
 
 
 
-Состояние (State)
+#Состояние (#State)
 
 есть объект для которого возможны некоторое количество состояний
 в нем определен интерфейс(поле) состояния в котором хранится текущее состояние
@@ -537,7 +537,7 @@ class GasWaterState : IWaterState
 
 
 
-Цепочка Обязанностей (Chain of responsibility)
+#Цепочка Обязанностей (#Chain of responsibility)
 
 можно использовать например когда много ветвления, в таком случае в каждую реализацию класса Handler поместим логику только одной ветки ветвления, и если она не должна выполняться скидывать в след обработчик
 
@@ -597,7 +597,7 @@ class ConcreteHandler2 : Handler
 
 
 
-Хранитель (Memento)
+#Хранитель (#Memento)
 
 
 
@@ -635,7 +635,7 @@ class Originator
 
 
 
-Адаптер (Adapter)
+#Адаптер (#Adapter)
 
 в коде используется определенный класс и мы хотим использовать вместо него другой
 мы создаем класс который наследуем от того который мы уже используем и в нем храним объект класса который хотим использовать
@@ -685,7 +685,7 @@ class Adaptee
 
 
 
-Фасад (Facade)
+#Фасад (#Facade)
 есть некоторые классы, с методами, создается новый класс в котором хранятся(если надо) эти классы, и в котором
 определены методы для группировки методов из классов которые были
 
@@ -751,7 +751,7 @@ class Client
 
 
 
-Принципы SOLID
+#Принципы #SOLID
 
 Single Responsibility Principle (Принцип единственной обязанности)
 пример с принтером
