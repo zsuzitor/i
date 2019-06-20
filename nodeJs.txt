@@ -1,0 +1,643 @@
+#todo
+#async #await
+
+
+
+
+
+
+
+
+
+
+#JS
+
+new #Error("Ошибка выполнения. randInt больше 5")
+
+
+
+
+
+
+#node
+
+
+
+
+
+поднять сервак  -->#server   создать такой файл и в консоли cd путь -> filename
+
+
+исполняемые файлы должны называться name.js
+
+
+
+
+
+
+документация по модулям
+https://nodejs.org/api/
+
+
+
+#module
+require("http");
+require("os");   // предоставляет информацию об окружении и операционной системе
+fs- работа с файлами
+zlib - работа с архивами
+
+
+//подключенные модули кешируются!!
+//объект module представляет ссылку(именно ссылку в привычном понимании, если подключить модуль 2 раза и сохранить в разных переменных, они будут ссылаться на 1 и тот же объект) на текущий модуль, 
+
+
+
+можно создать и подключить свой модуль, просто создать файл и 
+//в данном случае файл находится в томже каталоге, относительный путь с именем файла (расширение файла необязательно)
+const greeting = require("./greeting");
+
+//в данном случае welcome-каталог в котором есть файл index.js  , при таком подключении будет вызываться именно он
+const welcome = require("./welcome");
+
+
+
+
+
+
+
+создание своего файла модуля
+//переменная будет доступна только в данном модуле
+let currentDate = new Date();
+
+//вот так можно сделать переменную видимой вне модуля (Объект module.exports - это то, что возвращает функция require() при получении модуля)
+//а его свойство exports определяет все свойства и методы модуля, 
+//которые могут быть экспортированы и использованы в других модулях
+module.exports.date = currentDate;
+ 
+module.exports.getMessage = function(name){
+    return currentDate.getHours();
+}
+
+//можно и так, в таком случае просто вернет строку
+module.exports = "Доброе утро";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#class
+создание класс в модуле
+
+function User(name){
+     
+    this.name = name;
+    this.displayInfo = function(){
+        console.log("Имя: ${this.name}");
+    }
+}
+//устанавливаем функцию вне класса
+User.prototype.sayHi = function() {
+    console.log(`Привет, меня зовут ${this.name}`);
+};
+ 
+module.exports = User;
+
+
+---
+const User = require("./user.js");
+ 
+let eugene = new User("Eugene", 32);
+eugene.sayHi();
+
+
+
+
+
+
+
+
+
+
+#global
+#window или document недоступны тк работает на серваке
+но есть другие global переменные
+доступные #глобальные объекты https://nodejs.org/api/globals.html
+
+для получения установки глобальной переменной
+global.date = currentDate;
+получить можно без global, просто через date
+
+global.console.log(), и просто console.log()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#process.argv
+передать параметры в приложение
+1 параметр всегда указывает на путь к файлу node.exe  который вызывает приложение
+2 параметр всегда указывает на путь к файлу приложения, который выполняется
+
+для передачи параметров вызывается так, все аргументы приводятся к строкам
+node app.js Tom 23
+
+let nodePath = process.argv[0];
+let appPath = process.argv[1];
+let name = process.argv[2];
+
+
+
+
+можно создать команды по умолчанию
+в package.json добавить
+"scripts" : {
+    "start" : "node app.js",
+    "dev" : "node app.js Tom 26"
+  }
+}
+
+//для активации данных команд если имя зарезервировано(start)
+npm start
+//если свое имя то
+npm run [название_команды]
+//в обоих случаях будет запущен файл app и при DEV будут переданы параметры
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#npm #install
+Node Package Manager
+//если его необходимо обновить
+npm install npm@latest -g
+//узнать текущую версию 
+npm -v
+
+//установка модулей
+перейти в папку проекта
+npm install express
+
+//флаг #global
+//позволяет установить зависимость nodemon глобально для всех проектов на данной локальной машине
+npm install nodemon -g
+
+
+#package.json
+файл для управления модулями
+name-название приложения
+дополнительные секции --- https://docs.npmjs.com/creating-a-package-json-file
+{
+  "name": "modulesapp",
+  "version": "1.0.0"
+}
+
+в таком случае(при наличии файла)
+устанавливать надо так #install
+флаг --save  - указывает что сохранить надо в файле package
+npm install express --save
+
+
+в файле изменения будут записываться так
+{
+  "name": "modulesapp",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
+
+
+если мы определили все необходимые пакеты(или они сами добавили при установке) в файле конфигурации то
+мы можем их удалить, а при необходимости докачать все сразу такой командой
+npm install
+
+
+#devDependencies 
+зависимости которые добавляются только на этап разработки #save-dev
+устанавливать так
+npm install jasmine-node --save-dev
+
+и так сохранится в файл
+},
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
+
+
+#uninstall
+//удаление пакетов
+//просто сам пакет
+npm uninstall express
+//пакет+ информация из файла конфигурации
+npm uninstall express --save
+
+
+
+ТЕОРИЯ
+правила названий версий пакетов
+При определении версии пакета применяется семантическое версионирование. Номер версии, как правило, задается в следующем формате "major.minor.patch". Если в приложении или пакете обнаружен какой-то баг и он исправляется, то увеличивается на единицу число "patch". Если в пакет добавляется какая-то новая функциональность, которая совместима с предыдущей версией пакета, то это небольшое изменение, и увеличивается число "minor". Если же в пакет вносятся какие-то большие изменения, которые несовместимы с предыдущей версией, то увеличивается число "major".
+
+
+
+
+
+
+
+
+#nodemon
+если необходимо внести изменения в проект без явной перезагрузки проекта(при изменении кода, перезагрузится сам)
+npm install nodemon -g
+
+запускать приложение так
+nodemon app.js
+
+
+
+
+
+
+#callback
+#throw
+//такая структура
+function (err, data){
+    if(err) throw err;
+}
+
+
+
+
+
+
+
+
+#async #асинхронность 
+//достигается с помощью #setTimeout  (функция которую туда передаем станосится в очередь и выполняется асинхронно)
+// структура функции желательно должна быть именно такой(данные, колбэк).. структура колбэка (ошибка, данные)
+function display(data, callback){
+    setTimeout(function(){
+        callback(err, data);
+    }, 0);
+}
+display("Обработка данных...", function (err, data){
+ 
+    if(err) throw err;
+    console.log(data);
+});
+
+
+
+
+
+
+
+
+
+
+#fs #file
+необходимо подключить модуль "fs"
+//что бы считать в синхронном варианте
+let fileContent = fs.#readFileSync("hello.txt", "utf8");
+//путь файла относительно файла приложения app.js ... функция вернет текст
+
+//в асинхронном.. колбек выполнится после завершения считывания
+fs.#readFile("hello.txt", "utf8", function(error,data){ });
+
+
+
+запись в файл
+//данные функции перезаписывают файл
+//синхронный вариант
+fs.#writeFileSync("hello.txt", "Привет ми ми ми!")
+//асинхронный вариант, сюда тоже можно засунуть колбэк 3 параметром
+fs.#writeFile("hello.txt", "Привет МИГ-29!")
+
+
+
+ДОзапись в файл
+
+fs.#appendFile()/fs.#appendFileSync():
+
+удаление файла
+//синхронное
+fs.unlinkSync("hello.txt")
+
+//асинхронное
+fs.unlink("hello.txt", (err) => {
+  if (err) console.log(err); // если возникла ошибка    
+  else console.log("hello.txt was deleted");
+});
+
+
+
+
+
+
+
+
+#stream #потоки 
+#createWriteStream #write #createReadStream
+
+const fs = require("fs");
+ 
+//открывает файл, если файла нет то создает
+let writeableStream = fs.createWriteStream("hello.txt");
+writeableStream.write("Привет мир!");
+writeableStream.write("Продолжение записи \n");
+writeableStream.end("Завершение записи");
+let readableStream = fs.createReadStream("hello.txt", "utf8");
+ 
+//Сам поток разбивается на ряд кусков или чанков (chunk). И при считывании каждого такого куска, возникает событие data. С помощью метода on() мы можем подписаться на это событие и вывести каждый кусок данных на консоль
+readableStream.on("data", function(chunk){ 
+    console.log(chunk);
+});
+
+
+
+
+
+проверить существование файла
+//2 параметр-проверяем права на чтение из файла
+fs.access(filePath, fs.constants.R_OK, err => {
+       
+        if(err){
+             // если произошла ошибка - файла нет
+        }
+        else{
+        }
+      });
+
+
+
+
+
+
+
+
+
+#Pipe
+ это канал, который связывает поток для чтения и поток для записи и позволяет сразу считать из потока чтения в поток записи
+
+
+let readableStream = fs.createReadStream("hello.txt", "utf8");
+let writeableStream = fs.createWriteStream("some.txt");
+
+//это можно переписать 
+readableStream.on("data", function(chunk){
+    writeableStream.write(chunk);
+});
+//так
+readableStream.pipe(writeableStream);
+
+const zlib = require("zlib");//#zlib #zip #gz
+let gzip = zlib.createGzip();
+Каждый метод pipe() в цепочке вызовов возвращает поток для чтения, к которому опять же можно применить метод pipe() для записи в другой поток
+readableStream.pipe(gzip).pipe(writeableStream);
+
+
+
+
+
+
+
+
+
+для отправки файла клиенту(html страницы например)
+fs.createReadStream(filePath).pipe(response);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#EventEmitter #Emitter #Event 
+
+
+
+const Emitter = require("events");
+let emitter = new Emitter();
+let eventName = "greet";
+//связываем функцию и обработчик, можно привязать несколько обработчиков
+emitter.on(eventName, function(){
+    console.log("Hello all!");
+});
+ 
+emitter.on(eventName, function(){
+    console.log("Привет!");
+});
+ 
+//вызываем событие
+emitter.emit(eventName);
+//передадим параметр в обработчик, в данном случае обработчик надо переписать так что бы он принимал параметр
+emitter.emit(eventName, "Привет пир!");
+
+
+
+
+#наследование от класса события #util
+
+const util = require("util");
+const EventEmitter = require("events");
+ 
+//---
+//класс наследник от EventEmitter
+function User(){
+}
+//"наследуем"
+util.inherits(User, EventEmitter);
+
+
+//добавляем в класс метод который будет вызывать событие( emit-наследуется)
+User.prototype.sayHi = function(data){
+    this.emit(eventName, data);
+}
+//---
+let eventName = "greet";
+let user = new User();
+// добавляем к объекту user обработку события "greet"
+user.on(eventName, function(data){
+    console.log(data);
+});
+ 
+user.sayHi("Мне нужна твоя одежда...");
+
+
+то что выше находится между //---, можно переписать проще благодаря ES6, тогда строку можно убрать require("util");
+
+class User extends EventEmitter {
+    sayHi(data) {
+        this.emit(eventName, data);
+    }
+}
+
+
+
+
+
+
+
+
+
+#server
+//получаем модуль http, который необходим для создания сервера.
+const http = require("http");
+//создается новый сервер для прослушивания входящих подключений и обработки запросов
+http.createServer(
+//request-поток который хранит всю информацию о запросе, 
+//response-поток который используется для отправки ответа
+function(request,response){
+
+//поддержка русских букв #utf
+response.writeHead(200, {"Content-type": "text/plain; charset=utf-8;"})
+
+     //отправляется ответ
+    response.end("Hello NodeJS!");
+     
+//Чтобы сервер начал прослушивать входящие подключения -listen
+}).listen(3000, "127.0.0.1",function(){
+    console.log("Сервер начал прослушивание запросов на порту 3000");
+});//но вроде можно и так .listen(3000);
+
+
+
+#Request
+//request-поток который хранит всю информацию о запросе,
+//объект класса http.#IncomingMessage
+основные свойства
+#headers: возвращает заголовки запроса... request.headers["user-agent"]
+#method: тип запроса (GET, POST, DELETE, PUT)
+#url: представляет запрошенный адрес
+
+
+
+#Response
+//поток который используется для отправки ответа
+//объект класса http.#ServerResponse
+
+основные методы
+#statusCode: устанавливает статусный код ответа #404
+#statusMessage: устанавливает сообщение, отправляемое вместе со статусным кодом
+#setHeader(name, value): добавляет в ответ один заголовок
+#write: пишет в поток ответа некоторое содержимое
+#writeHead: добавляет в ответ статусный код и набор заголовков
+#end: сигнализирует серверу, что заголовки и тело ответа установлены, в итоге ответ отсылается клиента. Данный метод должен вызываться в каждом запросе.
+
+
+
+
+
+
+
+
+#Переадресация #redirect
+
+
+response.statusCode = 302; // временная переадресация
+        // на адрес localhost:3000/newpage
+        response.setHeader("Location", "/newpage");
+response.end();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
