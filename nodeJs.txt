@@ -2,6 +2,10 @@
 #async #await
 
 
+#TODO
+Создание API https://metanit.com/web/nodejs/4.11.php
+
+
 
 
 
@@ -16,10 +20,37 @@ new #Error("Ошибка выполнения. randInt больше 5")
 
 
 
+#string
+#replace  data.replace("{header}", "header")
+#substring #TODO
+#toString()
+
+
+let data = `${hour}:${minutes}:${seconds} ${request.method} ${request.url} ${request.get("user-agent")}`;
+
+
+#Date
+let now = new Date();
+    let hour = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+
 
 
 
 #node
+
+
+
+#директория #direct
+глобальная константа __dirname
+
+
+
+
+
+
+
 
 
 
@@ -216,7 +247,7 @@ npm install express
 npm install nodemon -g
 
 
-#package.json
+#package.json  #зависимости #конфиг
 файл для управления модулями
 name-название приложения
 дополнительные секции --- https://docs.npmjs.com/creating-a-package-json-file
@@ -368,6 +399,14 @@ fs.unlink("hello.txt", (err) => {
 
 
 
+
+
+
+
+
+
+
+
 #stream #потоки 
 #createWriteStream #write #createReadStream
 
@@ -435,12 +474,29 @@ readableStream.pipe(gzip).pipe(writeableStream);
 
 
 
-для отправки файла клиенту(html страницы например)
+для отправки файла клиенту(#html страницы например)
+response.setHeader("Content-Type", "text/html");
+//response.writeHead(200,{"Content-Type":"application/msword"});
+//можно через пайп и потоки
 fs.createReadStream(filePath).pipe(response);
+//можно просто считать все что в файле и закинуть в поток обычной записью(write)
 
 
 
+если надо отправлять не статичные файлы то
 
+//сам файл
+<body>
+    <h1>{header}</h1>
+    <p>{message}</p>
+</body>
+
+fs.readFile("index.html", "utf8", function(error, data){
+                 
+        let message = "Изучаем Node.js"; 
+        data = data.replace("{header}", header).replace("{message}", message);
+        response.end(data);
+    })
 
 
 
@@ -593,6 +649,530 @@ response.end();
 
 
 
+
+
+
+
+
+#Express
+
+
+
+файл должен выглядеть так
+
+// подключение express
+const express = require("express");
+// создаем объект приложения
+const app = express();
+// определяем обработчик для маршрута "/"
+app.get("/", function(request, response){
+     
+    // отправляем ответ #send
+//В качестве параметра эта функция может принимать объект Buffer, строку, в том числе с html-кодом, объект javascript или массив
+    response.send("<h2>Привет Express!</h2>");
+
+//отправка #файла #file #sendFile, в данную функцию необходимо передать абсолютный путь
+response.sendFile(__dirname + "/index.html");
+});
+// начинаем прослушивать подключения на 3000 порту
+app.listen(3000);
+
+
+
+
+
+для обработки определенных типов запросов
+должны от более частных к общим
+В качестве первого параметра эти функции могут принимать шаблон адреса, запрос по которому будет обрабатываться. Второй параметр функций представляет функцию, которая будет обрабатывать запрос по совпавшему с шаблоном адресу
+#use
+#get
+#post
+#put
+#delete
+app.get("/", function(request, response){});
+
+указать параметры маршрута можно через :
+app.get("/categories/:categoryId/products/:productId"
+
+можно использовать регулярки
+? указывает, что предыдущий символ может встречаться 1 раз или отсутствовать
++ указывает, что предыдущий символ может встречаться 1 и более раз
+* указывает, что на месте данного символа может находиться любое количество символов
+группировка - "/book(.html)?"
+
+можно напрямою указать регулярку
+app.get(/.*(\.)html$/,
+
+
+
+#Переадресация #redirect
+
+response.redirect("https://site.com")//тоже самое что и
+response.redirect(302,"https://site.com")
+
+
+//с ресурса "/home" на ресурс "/about" -- на http://localhost:3000/about
+app.use("/home",function (request, response) {
+  response.redirect("about")
+//на http://localhost:3000/home/about
+app.use("/home/bar",function (request, response) {
+  response.redirect("about")
+//если нужна переадресация относительно корня то нужно добавить \
+ response.redirect("/about")
+//с http://localhost:3000/home/foo/bar на http://localhost:3000/home/foo/about
+response.redirect("./about")
+//с http://localhost:3000/home/foo/bar на http://localhost:3000/home/about
+response.redirect("../about")
+//с http://localhost:3000/home/foo/bar на http://localhost:3000/home/foo
+response.redirect(".")
+//с http://localhost:3000/home/foo/bar на http://localhost:3000/home
+ response.redirect("..")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#middleware #use
+
+
+
+
+const app = express();
+//next: следующая в конвейере обработки функция
+app.use(function(request, response, next){  
+    console.log("Middleware 1");
+    next();
+});
+app.use(function(request, response, next){
+//если вызвать send то дальше вызова следующиего next не будет, и сама обработка запроса закончится(это и будет финальный результат независимо от того что и где еще определено)
+ response.send("Middleware 2");
+});
+app.use("/about", function(request, response, next){});//устанавливаем обработчик для определенного маршрута
+app.get("/", function(request, response){     
+    console.log("Route /");
+    response.send("Hello");
+});
+
+
+
+
+
+#status #404
+
+response.sendStatus(404)
+//если надо отправть свой текст
+response.status(404).send("Ресурс не найден");
+
+
+
+
+#static #file
+//express.static()
+
+необходимо поместить до остальных midleware
+app.use(express.static(__dirname + "/public"));
+//при таком подключении, доступ к файлу по запросу http://localhost:3000/static/about.html
+app.use("/static", express.static(__dirname + "/public"));
+
+
+
+
+
+
+
+#params
+
+то что после & это параметры строки запроса, то что до это параметры маршрута
+localhost:3000/about/user?id=3&name=Tome
+
+
+#get #query
+получаем параметры из строки запроса
+let id = request.query.id;//id-название параметра
+    let userName = request.query.name;//если name-массив то получить его точно также, строка запроса такая же как в c#
+
+получить сложный объект точно также, а передать его через ?user[id]=7&user[name]=nms
+
+
+
+
+
+
+получение параметров маршрута
+задаются через :
+app.get("/products/:productId", function (request, response) {
+  response.send("productId: " + request.params["productId"])
+});
+app.get("/categories/:categoryId/products/:productId"
+
+
+
+
+
+
+
+#form #post #get
+для того что бы получать значения из формы нужен #body-parser
+npm install body-parser --save
+
+
+
+const bodyParser = require("body-parser");
+  
+const app = express();
+  
+// создаем парсер для данных application/x-www-form-urlencoded
+//extended: false указывает, что объект - результат парсинга будет представлять набор пар ключ-значение, а каждое значение может быть представлено в виде строки или массива
+const urlencodedParser = bodyParser.urlencoded({extended: false});
+ 
+app.get("/register", urlencodedParser, function (request, response) {
+    response.sendFile(__dirname + "/register.html");
+});
+app.post("/register", urlencodedParser, function (request, response) {
+//проверяем передана ли форма
+    if(!request.body) return response.sendStatus(400);
+    console.log(request.body);
+    response.send("${request.body.userName} - ${request.body.userAge}");
+});
+
+
+
+
+
+
+
+#json #form
+
+// создаем парсер для данных в формате json
+const jsonParser = express.json();
+  
+app.post("/user", jsonParser, function (request, response) {
+    console.log(request.body);
+    if(!request.body) return response.sendStatus(400);
+//работа также как если бы просто форму принимали, тоесть
+request.body.userName;
+
+     //устанавливает для заголовка "Content-Type" значение "application/json", серилизует данные в json с помощью функции JSON.stringify() и затем отправляет данные с помощью response.send()
+    response.json(request.body); // отправляем пришедший ответ обратно
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Router #routing
+
+//вот такую штуку, можно переписать
+app.use("/products/create",function (request, response) {
+  response.send("Добавление товара");
+});
+app.use("/products/:id",function (request, response) {
+  response.send(`Товар ${request.params.id}`);
+});
+
+//вот так
+
+// определяем Router
+const productRouter = express.Router();
+ 
+// определяем маршруты и их обработчики внутри роутера
+productRouter.use("/create", function(request, response){
+  response.send("Добавление товара");
+});
+productRouter.use("/:id", function(request, response){
+  response.send(`Товар ${request.params.id}`);
+});
+// сопотавляем роутер с конечной точкой "/products"
+app.use("/products", productRouter);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#views 
+
+
+---------------------#hbs #Handlebars ---------------------------------------
+npm install hbs --save
+Для хранения представлений определим в проекте папку views. Затем в нее добавим новый файл contact.hbs. hbs - это расширение по умолчанию для представлений, которые обрабатываются движком Handlebars
+//#render
+
+в файле так помечаем динамические куски
+<title>{{title}}</title>
+{{#if emailsVisible}}
+        <h3>Электронные адреса</h3>
+        <ul>
+            {{#each emails}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+
+
+
+
+//устанавливаем движок представлений
+app.set("view engine", "hbs");
+//устанавливаем путь, это не обязательно, стандартно используется папка views
+app.set("views", "templates"); // установка пути к представлениям 
+
+
+app.use("/contact", function(request, response){
+     //страница без параметров
+    response.render("contact.hbs");
+//с параметрами
+response.render("contact.hbs", {
+        title: "Мои контакты",
+        });
+});
+
+
+
+
+
+
+
+
+#partial
+
+views/partials новый файл menu.hbs
+
+вот так рендерится частичное представление которое находится в файле menu.hbs
+<body>{{> menu}}</body>
+
+const hbs = require("hbs");
+hbs.registerPartials(__dirname + "/views/partials");
+
+
+
+
+
+
+#Layout #лаяут
+
+Создадим в проекте в папке views новый каталог layouts и определим в нем файл layout.hbs
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    {{> menu}}
+      
+    {{{body}}}
+      
+    {{> footer}}
+</body>
+<html>
+
+
+const express = require("express");
+const expressHbs = require("express-handlebars");
+const hbs = require("hbs");
+const app = express();
+  
+// устанавливаем настройки для файлов layout
+app.engine("hbs", expressHbs(
+    {
+        layoutsDir: "views/layouts", //относительный путь
+        defaultLayout: "layout",//название файла
+        extname: "hbs"
+    }
+))
+
+
+
+
+
+
+
+
+
+
+#Хелперы  #helpers #registerHelper
+
+
+hbs.registerHelper("getTime", function(){
+     
+    var myDate = new Date();
+    var hour = myDate.getHours();
+    return "Текущее время: " + hour;
+});
+
+
+hbs.registerHelper("createStringList", function(array){
+     
+    var result="";
+    for(var i=0; i<array.length; i++){
+        result +="<li>" + array[i] + "</li>";
+    }
+    return new hbs.SafeString("<ul>" + result + "</ul>");
+});
+
+
+
+
+вызов хэлпера
+<div>{{getTime}}</div>
+вызов с параметрами
+ <div>{{createStringList fruit}}</div>
+
+
+
+
+------------------КОНЕЦ---#hbs #Handlebars ---------------------------------------
+
+------------------#EJS---------------------------------------
+
+npm install ejs --save
+
+
+
+app.set("view engine", "ejs");
+ 
+app.use("/contact", function(request, response){
+     //для файла contact.ejs
+    response.render("contact", {
+        title: "Мои контакты"
+    });
+});
+
+
+в html
+<title><%=title %></title>
+<% if(emailsVisible) {%>
+        <h3>Электронные адреса</h3>
+        <ul>
+            <% for(var i=0; i<emails.length;i++) {%>
+                <li><%=emails[i] %></li>
+            <%} %>
+        </ul>
+    <% }else {%>
+        <h3>Электронный адрес отсутствует</h3>
+    <%} %>
+
+
+
+
+
+
+#Частичные представления #partial
+определим в папке views каталог partials
+#include
+
+подключение частичного представления
+<%- include("partials/menu.ejs") %>
+
+
+
+
+------------------КОНЕЦ---#EJS---------------------------------------
+
+
+
+
+---------------------#Pug---------------------------------------
+файлы назваются так footer.pug
+
+npm install pug --save
+
+
+
+app.set("view engine", "pug");
+
+в html
+<title>#{title}</title>
+//тут роляют только отступы как в питоне
+if emailsVisible
+        <h3>Электронные адреса</h3>
+	h3 Электронные адреса ТАК ТОЖЕ МОЖНО
+        <ul>
+            each email in emails
+                <li>#{email}</li>
+		li=email
+        </ul>
+    else
+        <h3>Электроннный адрес отсутствует</h3>
+
+
+- var n = 0;
+ul
+  while n < 4
+    li= n++
+
+ul
+  each val, index in {1:'one',2:'two',3:'three'}
+    li= index + ': ' + val
+
+
+
+
+
+
+
+
+#partial #частичные
+
+   include footer.pug
+
+
+
+
+#layout 
+
+layout.pug
+
+<body>
+    block content   //определяем блок в который будут вставляться некоторые данные - указываем название блока
+    include footer.pug
+</body>
+
+
+
+для применения мастер страницы, на другой странице пишем (путь к файлу)
+extends layout.pug
+
+и определяем блоки
+block title
+    <title>#{title}</title>
+ 
+block content
+      
+    <h1>#{title} в Pug</h1>
+
+
+------------------КОНЕЦ---#Pug---------------------------------------
 
 
 
