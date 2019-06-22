@@ -174,7 +174,8 @@ global.date = currentDate;
 
 global.console.log(), и просто console.log()
 
-
+//также доступ в любом месте приложения с помощью express
+app.locals.collection
 
 
 
@@ -1176,6 +1177,423 @@ block content
 
 
 
+
+
+
+
+#test #testing  #тест #тестирование #unittest
+
+
+#Mocha
+https://mochajs.org/
+npm install mocha --save-dev
+
+
+
+файл который нужно тестировать operations.js
+файл который тестирует operations.test.js
+
+var operations = require("./operations");
+ 
+it("name of test", function(){
+     
+    var expectedResult = 15;
+    var result = operations.multiply(3, 5);
+    if(result!==expectedResult){
+        throw new Error("Expected ${expectedResult}, but got ${result}");
+    }
+});
+it("name of test2", function(){});
+
+
+//для тестирования асинхронного кода
+it("shoud async multiply two numbers", function(done){
+    var expectedResult = 12;
+    operations.multiplyAsync(4, 3, function(result){
+        if(result!==expectedResult){
+            throw new Error(`Expected ${expectedResult}, but got ${result}`);
+        }
+        done();
+    });
+});
+
+
+
+
+для автоматического запуска тестирования всех файлов сразу
+package.json
+"version": "1.0.0",
+  "scripts":{
+    "test" : "mocha *.test.js"
+  },
+
+
+и для начала тестирования
+в командной строке перейдем к папке проекта и выполним команду: npm test
+
+
+
+
+
+
+#Assert #Assertions 
+
+#equal
+
+
+var assert = require("assert");
+var operations = require("./operations");
+ 
+it("should multiply two numbers", function(){
+     
+    var expected = 15;
+    var result = operations.multiply(3, 5);
+//сгенерит ошибку если значения не равны
+    assert.equal(result, expected);
+//сгенерит ошибку если значения равны
+ assert.notEqual(result, expected);
+//
+assert.deepEqual(response.body, {name:"Tom", age:22});}
+});
+
+
+#describe
+метод для группировки тестов
+//в файле тестирования
+describe("Operation Tests", function(){
+    it("should multiply two numbers", function(){});
+it("should multiply two numbers", function(){});});
+
+
+
+
+
+
+
+
+
+
+#Express #supertest 
+npm install supertest --save-dev
+
+
+
+const express = require("express");
+var app = express();
+app.get("/", function (request, response){
+    response.send("Hello Test");
+});
+app.listen(3000);
+ //это важно
+module.exports.app = app;
+
+
+
+
+const request = require("supertest");
+const assert = require("assert");
+var app = require("./app").app;
+it("should return Hello Test", function(done){
+    request(app)
+        .get("/")
+        .expect("Hello Test")//ожидаемый результат
+//.expect(404).expect("NotFound") // ---- если результат должен возвращаться так response.status(404).send("NotFound");
+//.expect(function(response){assert.deepEqual(response.body, {name:"Tom", age:22});})  // ---- если результат должен возвращаться так response.send({name:"Tom", age: 22});
+        .end(done);//выполняем тест
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#MongoDB #db 
+установка и использование #TODO
+https://metanit.com/nosql/mongodb/1.2.php
+драйвер https://www.npmjs.com/package/mongodb
+
+
+{
+  "name": "mongoapp",
+  "version": "1.0.0",
+  "dependencies": {
+      "express": "^4.16.0",
+      "body-parser": "^1.18.0",
+      "mongodb": "^3.1.0"
+    }
+}
+//далее
+npm install
+
+
+#MongoClient - ключевой класс
+
+const MongoClient = require("mongodb").MongoClient;
+
+// создаем объект MongoClient и передаем ему строку подключения
+const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
+// err (возникшая ошибка при установке соединения) и client (ссылка на подключенный к серверу клиент)
+mongoClient.connect(function(err, client){
+ 
+    if(err){
+        return console.log(err);
+    }
+    // взаимодействие с базой данных, закрываем подключение
+    client.close();
+});
+
+
+
+пример взаимодействия
+//обращаемся к бд, если такой нет, то она будет создана
+const db = client.db("usersdb");
+//также создается при первом обращении
+    const collection = db.collection("users");
+    let user = {name: "Tom", age: 23};
+//err (ошибка, которая может возникнуть при операции) и result (результат операции - добавленный объект).
+    collection.insertOne(user, function(err, result){
+          
+        if(err){ 
+            return console.log(err);
+        }
+//result.ops- результат вставки-- это уже не просто объект user, а объект, который получен обратно из базы данных и который содержит идентификатор, установленный при добавлении
+        console.log(result.ops);
+        client.close();
+    });
+
+
+
+
+#insertOne - обавить 1 объект
+#insertMany - добавить набор объектов, использование такое же только передать коллекцию
+#findAndModify #TODO
+//#find
+//#findOne - тоже самое но вернет 1 объект
+collection.find().// вернет специальный объект #cursor ---- если надо фильтровать то find({name: "Tom",age:23})
+toArray(function(err, results){
+                 //result - все записи в "таблице"
+        console.log(results);
+        client.close();
+    });
+
+collection.find({}).toArray(function(err, users){
+collection.findOne({_id: id}, function(err, user){
+
+
+#deleteMany(): удаляет все документы, которые соответствуют определенному критерию, в данном улчае result это не коллекция удаленных элементов, а сложный объект
+db.collection("users").deleteMany({name: "Tom"}, function(err, result){
+#deleteOne(): удаляет один документ, который соответствует определенному критерию
+#findOneAndDelete(): получает и удаляет один документ, который соответствует определенному критерию, result-удаленный элемент
+#drop(): удаляет всю коллекцию
+ db.collection("users").drop(function(err, result){
+
+
+#updateOne: обновляет один документ, который соответствует критерию фильтрации, и возвращает информацию об операции обновления
+#updateMany: обновляет все документы, которые соответствуют критерию фильтрации, и возвращает информацию об операции обновления
+#findOneAndUpdate: обновляет один документ, который соответствует критерию фильтрации, и возвращает обновленный документ
+
+db.collection("users").findOneAndUpdate(
+            {age: 21}, // критерий выборки
+            { $set: {age: 25}}, // параметр обновления
+	{// доп. опции обновления, этот объект можно просто пропустить и тогда он будет по умолчанию null    
+            returnOriginal: false//результатом будет новое значение
+        },
+            function(err, result){
+
+db.collection("users").updateMany(
+        {name: "Sam"},              // критерий фильтрации
+        { $set: {name: "Bob"}},     // параметр обновления
+        function(err, result){
+
+
+
+
+при использовании с express, можно написать так
+mongoClient.connect(function(err, client){
+    if(err) return console.log(err);
+    dbClient = client;
+    app.locals.collection = client.db("usersdb").collection("users");
+    app.listen(3000, function(){
+        console.log("Сервер ожидает подключения...");
+    });
+});
+
+
+//закрываем приложение+подключение при компинации клавишь
+// прослушиваем прерывание работы программы (ctrl-c)
+process.on("SIGINT", () => {
+    dbClient.close();
+    process.exit();
+});
+
+
+
+
+
+
+
+
+
+#Mongoose 
+#ORM #ODM #Schema #схема
+
+npm install mongoose --save
+
+
+
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+  
+// установка схемы
+const userScheme = new Schema({
+    name: String},
+ { versionKey: false }//при сохранении данных в документе сохраняется версия(поле __v), такой строкой ее можно отключить
+);
+
+// подключение
+mongoose.connect("mongodb://localhost:27017/usersdb", { useNewUrlParser: true });
+  
+//название модели, свяжет с таблицей по названию модели во множественном числе
+const User = mongoose.model("User", userScheme);
+const user = new User({
+    name: "Bill"
+});
+  
+user.save(function(err){
+    mongoose.disconnect();  // отключение от базы данных
+      
+    if(err) return console.log(err);
+    console.log("Сохранен объект", user);
+});
+//user.save(тот что выше) можно заменить на
+user.save()
+.then(function(doc){
+    console.log("Сохранен объект", doc);
+    mongoose.disconnect();  // отключение от базы данных
+})
+.catch(function (err){
+    console.log(err);
+    mongoose.disconnect();
+});
+
+
+
+
+//схема
+
+// установка схемы
+const userScheme = new Schema({
+    name: String,
+    age: Number,
+name222: {//указываем значение по умолчанию
+        type: String,
+        default: "NoName"
+    },
+name333: {//с ограничениями
+        type: String,
+        required: true,
+        minlength:3,
+        maxlength:20
+    },
+company: {//указываем сложный тип данных
+        name: String,
+        employee: [String], // тип - массив строк
+        date: Date
+    }
+});
+
+
+
+
+
+Определение типа свойств в схеме
+В качестве типа данных можно указывать одно из следующих значений:
+String
+Number
+Date
+Buffer
+Boolean
+Mixed
+Objectid
+Array
+Decimal128
+Map
+
+
+
+
+Валидация
+
+Mongoose имеет ряд встроенных правил валидации, которые мы можем указать в схеме:
+required: требует обязательного наличия значения для свойства
+min и max: задают минимальное и максимальное значения для числовых данных
+minlength и maxlength: задают минимальную и максимальную длину для строк
+enum: строка должна представлять одно из значений в указанном массиве строк
+match: строка должна соответствовать регулярному выражению
+
+
+
+
+
+
+
+
+
+#CRUD в Mongoose
+Create, Read, Update and Delete
+
+//для сохранения данных можно
+user.save()//см выше
+//можно так, функция передается точно такая же как и при save
+User.create({name: "Tom", age: 34}, function(err, doc){});
+
+
+Для получения данных можно использовать целый набор методов:
+find: возвращает все объекты, которые соответствуют критерию фильтрации
+findById: возвращает один объект по значению поля _id
+#findOne: возвращает один объект, который соответствует критерию фильтрации
+
+User.#find({}, function(err, docs){});//функция как обычно, docs-массив выбранных данных
+User.#findById("123asd", function(err, doc){});//
+
+User.#remove({age:33}, function(err, result){//result-- объект операции
+User.#findOneAndDelete({name:"Bill"}, function(err, doc){//result-- объект который удален
+User.#findByIdAndDelete("123asd", function(err, doc){
+
+#updateOne() и #updateMany
+
+User.updateOne({name: "Tom"}, {name: "Tom Smith"}, function(err, result){//result-- объект операции
+User.#findByIdAndUpdate(id, {name: "Sam", age: 25}, function(err, result){//result-- старый док
+User.findByIdAndUpdate(id, {name: "Bilbo Baggins", age: 111}, {new: true}, function(err, user){//result-- обновленный док
+User.findOneAndUpdate({name: "Sam"}, {name: "Bill", age:24}, {new: true}, function(err, user){
+
+
+
+
+
+
+
+
+
+Express и Mongoose
+
+mongoose.connect("mongodb://localhost:27017/usersdb", { useNewUrlParser: true }, function(err){
+    if(err) return console.log(err);
+    app.listen(3000, function(){
+        console.log("Сервер ожидает подключения...");
+    });
+});
 
 
 
