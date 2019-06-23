@@ -131,7 +131,7 @@ module.exports = "Доброе утро";
 
 
 #class
-создание класс в модуле
+создание класса в модуле
 
 function User(name){
      
@@ -148,11 +148,36 @@ User.prototype.sayHi = function() {
 module.exports = User;
 
 
+
+
+module.exports= class User{
+ 
+    constructor(name, age){
+        this.name = name;
+        this.age = age;
+    }
+    save(){
+        users.push(this);
+    }
+    static getAll(){
+        return users;
+    }
+}
+
+
+
+
+
+
+
+
 ---
 const User = require("./user.js");
  
 let eugene = new User("Eugene", 32);
 eugene.sayHi();
+
+
 
 
 
@@ -674,6 +699,11 @@ app.get("/", function(request, response){
 
 //отправка #файла #file #sendFile, в данную функцию необходимо передать абсолютный путь
 response.sendFile(__dirname + "/index.html");
+});
+
+//определяем такое в самом конце, тк сработает если ни 1 обработчик не подойдет
+app.use(function (req, res, next) {
+    res.status(404).send("Not Found")
 });
 // начинаем прослушивать подключения на 3000 порту
 app.listen(3000);
@@ -1594,6 +1624,681 @@ mongoose.connect("mongodb://localhost:27017/usersdb", { useNewUrlParser: true },
         console.log("Сервер ожидает подключения...");
     });
 });
+
+
+
+
+
+
+
+
+#db #mysql #sql
+
+надо установить драйвер
+mysql2 (можно и mysql, но лучше mysql2)
+npm install --save mysql2
+
+
+
+//#createConnection
+
+
+const mysql = require("mysql2");
+  
+const connection = mysql.createConnection({
+  host: "localhost",//хост, на котором запущен сервер mysql. По умолчанию имеет значение "localhost"
+  user: "root",//пользователь MySQL, который используется для подключения
+  database: "usersdb",//имя базы данных, к которой идет подключение. Необязательный параметр. Если он не указан, то подключение идт в целом к северу
+  password: "пароль_от_сервера"//пароль для пользователя MySQL
+});
+
+//также доступны параметры
+port: номер порта, на котором запущен сервер mysql. По умолчанию имеет значение "3306"
+charset: кодировка для подключения, например, по умолчанию используется "UTF8_GENERAL_CI".
+timezone: часовой пояс сервера MySQL. This is used to type cast server date/time values to JavaScript. По умолчанию имеет значение "local"
+
+
+//создаем подключение #connect
+connection.connect(function(err){
+    if (err) {
+      return console.error("Ошибка: " + err.message);
+    }
+    else{
+      console.log("Подключение к серверу MySQL успешно установлено");
+    }
+ });
+
+// закрытие подключения
+//Метод end() гарантирует, что перед закрытием подключения к бд будут выполнены все оставшиеся запросы, которые не завершились к моменту вызова метода.
+//Если мы не вызовем этот метод, то подключение будет оставаться активным, и приложение Node.js продолжит свою работу, пока сервер MySQL не закроет подключение.
+ connection.end(function(err) {
+  if (err) {
+    return console.log("Ошибка: " + err.message);
+  }
+  console.log("Подключение закрыто");
+});
+
+//если необходимо закрыть не дожидаясь выполнения всех запросов то
+connection.destroy()
+
+
+#error
+Если при подключении к серверу mysql генерируется ошибка
+Client does not support authentication protocol requested by server; consider upgrading MySQL client
+В этом случае необходимо в MySQL Workbench выполнить следующую команду:
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'
+Вместо 'password' должен быть указан пароль от MySQL для пользователя root.
+
+
+
+
+//выполнение sql #query
+query(sqlString, callback)
+
+//при выполнении запросов неявно устанавливается подключение, => необязательно у объекта подключения вызывать метод connect().
+connection.query("SELECT * FROM users",
+  function(err, results, fields) {
+    console.log(err);
+    console.log(results); // собственно данные
+    console.log(fields); // мета-данные полей 
+});
+connection.end();
+
+
+
+
+//выполнение sql #execute
+
+connection.execute("SELECT * FROM users", function(err, results, fields) {});
+
+
+//параметризация для предотвращения sql иньекций
+const user = ["Tom", 29];
+const sql = "INSERT INTO users(name, age) VALUES(?, ?)";
+connection.query(sql, user, function(err, results) {
+
+
+
+
+
+
+
+//#Promise API #промис
+
+const connection = mysql.createConnection({
+ //тут как обычно
+}).promise();//тут подключаем
+
+//и тогда можем так
+// получение объектов
+connection.query("SELECT * FROM users")
+          .then(result =>{//тут можно указать так .then(([rows, fields]) =>{
+            console.log(result);
+          })
+          .catch(err =>{
+            console.log(err);
+          });
+
+
+//если параметризованный запрос + запрос не дложен возвращать данные
+connection.query(sql, user)
+          .then(result =>{
+//в данном случае result будет содержать следующие поля
+fieldCount: 0,
+  affectedRows: //мы можем получить количество затронутых операцией (добавленных/ удаленных/обновленных) строк
+  insertId: //id доабвленной записи
+  info: 
+  serverStatus: 
+  warningStatus: 
+
+
+
+
+
+добавление массива
+const users = [
+  ["Bob", 22],
+];
+const sql = `INSERT INTO users(name, age) VALUES ?`;
+connection.query(sql, [users], function(err, results) {
+
+
+
+
+
+
+#pool #пулы #createPool
+позволяет создать сразу несколько подключений и использовать их если они свободны вместо того что бы создавать новые
+при пулах запросы(и на закрытие тоже=> бд может закрыться до выполнения запросов) выполняются асинхронно
+пулы поддерживают Promise
+
+//создание пула из 5 подключений
+const mysql = require("mysql2");
+ 
+const pool = mysql.createPool({
+    connectionLimit: 5,//количество пулов
+    host: "localhost",
+    user: "root",
+    password: "пароль_от_сервера_mysql", 
+    database: "usersdb"
+});
+
+//закрытие всех подключений
+pool.end(function(err) {
+  if (err) {
+    return console.log(err.message);
+  }
+});
+
+//выполнение sql....
+pool.query(sql, data, function(err, results) {
+
+
+
+
+
+
+
+
+
+
+
+
+#orm #odm
+#Sequelize
+СУБД - MySQL, Postgres, MariaDB, SQLite, MS SQL Server
+
+npm install --save mysql2
+npm install --save sequelize
+
+
+const Sequelize = require("sequelize");
+//1-имя бд, 2-логин, 3- пароль
+const sequelize = new Sequelize("usersdb2", "root", "123456", {
+  dialect: "mysql",//диалект языка SQL
+  host: "localhost",//адрес, по которому запущен сервер
+  define: {//это нужно если мы не хотим добавлять столбцы createdAt и updatedAt
+    timestamps: false
+  }
+});
+
+
+подключения к различным субд https://metanit.com/web/nodejs/9.1.php
+Для свойства dialect в зависимости от того, с какой СУБД предстоит работать, могут использоваться следующие значения:
+mysql
+mariadb
+sqlite
+postgres
+mssql
+
+
+
+
+//определение моделей #define
+ если в бд для этой модели нет таблицы, то она будет создаваться. Причем в качестве имени таблицы будет применяться название модели во множественном числе в соответствии с правилами английского языка
+//соответствие типов с типами sql можно посмотреть тут http://docs.sequelizejs.com/manual/data-types.html
+//поле id указывать не обязательно тк при отсутствии оно будет создано само
+//кроме собственно полей модели в таблице по умолчанию будут создаваться два дополнительных поля: createdAt и updatedAt, которые будут иметь тип datetime и будут представлять соответственно время создания и последнего обновления строки в таблице.
+const User = sequelize.define("user", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false//указывает, допускает ли поле отсутствие значение.. true-может иметь null значение
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  age: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  }
+});
+
+//еще можно определить так
+class User extends Model {}
+User.init({
+  id: {
+
+
+
+//синхронизируем БД с моделями приложения, достраиваем таблицы и тд
+sequelize.sync().then(result=>{
+//если нужно удалить таблицы которые не соответствуют моделям и создать их наново то  force: true
+//sequelize.sync({force: true}).then(result=>{
+
+  console.log(result);
+})
+.catch(err=> console.log(err));
+
+
+
+
+//добавляем объект в таблицу
+User.create({
+    name: "Tom",
+    age: 35
+  }).then(res=>{
+const user = {id: res.id, name: res.name, age: res.age};//объект который был добавлен
+    console.log(res);
+  }).catch(err=>console.log(err));
+
+
+//получение всех данных, raw-позволяет получить именно данные таблицы, без метаданных
+User.findAll({raw:true}).then(users=>{
+  console.log(users);
+}).catch(err=>console.log(err));
+
+
+//фильтрация #where
+User.findAll({where:{name: "Tom"}, raw: true })
+.then(users=>{
+  console.log(users);
+}).catch(err=>console.log(err));
+
+
+//#findOne #findByPk
+User.findByPk(2)
+//User.findOne({where: {name: "Tom"}})
+.then(user=>{
+    if(!user) return; // если пользователь не найден
+    console.log(user.name);
+}).catch(err=>console.log(err));
+
+
+
+
+//#update
+//age-новое значение, name-критерий выборки
+User.update({ age: 36 }, {
+  where: {
+    name: "Bob"
+  }
+}).then((res) => {
+  console.log(res);
+});
+
+
+
+//#Удаление #destroy
+User.destroy({
+  where: {
+    name: "Bob"
+  }
+}).then((res) => {
+  console.log(res);
+});
+
+
+
+
+
+
+
+Связь один-ко-многим #1 #many
+По умолчанию в зависимой таблице (то есть products) будет создаваться дополнительный столбец, который называтся по имени главной модели плюс суффикс "Id", 
+то есть в данном случае productId. И через данный столбец строка из companies сможет ссылаться на объект из таблицы products.
+будет создаваться с ограничением ON DELETE SET NULL
+//после объявления моделей докинуть строки
+//company- главная модель
+Company.hasMany(Product);
+Company.hasMany(Product, { onDelete: "cascade" });//для установки каскадного удаления
+
+sequelize.sync({force:true}).then(()=>{
+
+
+для добавления зависимых записей, можно явно указать id главной сущности(правила по названию столбцов есть выше)
+
+Company.findByPk(1).then(company=>{
+//У главной модели для этого неявно определяется метод по имени createЗАВИСИМАЯ_МОДЕЛЬ
+    company.createProduct({name:"iPhone X", price: 300,}).catch(err=>console.log(err));
+
+
+//получить зависимые данные
+Company.findByPk(1).then(company=>{
+   
+  if(!company) return console.log("Company not found");
+  company.getProducts()
+  .then(res=>{
+    for(let i=0; i<res.length;i++)
+      console.log(res[i].name, " - ", company.name);
+  })
+  .catch(err=>console.log(err));
+}).catch(err=>console.log(err));
+
+
+
+
+
+
+один-к-одному #hasOne
+
+
+//при такой связке, дополнительный столбец будет добавлен к Team
+Coach.hasOne(Team, { onDelete: "cascade"});
+ 
+sequelize.sync({force:true}).then(()=>{
+
+//Для установки связанных данных применяется метод setНАЗВАНИЕ_МОДЕЛИ()
+// добавляем тренера
+Coach.create({ name: "Tom Smith"})
+.then(coach=>{
+    // Добавляем команду
+    Team.create({name:"Real Madrid"}).then(team=>{
+        // устанавливаем для тренера команду, эта функция будет вызывать команду update=> обе сущности уже должны быть в бд
+        coach.setTeam(team).catch(err=>console.log(err));
+    });
+}).catch(err=>console.log(err));
+
+
+//получение метод getНАЗВАНИЕ_МОДЕЛИ().
+// получаем тренера с id=1
+Coach.findByPk(1).then(coach=>{
+    if(!coach) return console.log("Coach not found");
+    coach.getTeam().then(team=>{
+        console.log(coach.name, "-", team.name);
+    });
+});
+
+
+
+
+//получение всех данных+ связанных #TODO вообще не понял эту грязь
+Coach.findAll({
+    attributes: ["name"], // включаем столбец name из таблицы coaches
+    include: [{
+      model: Team,
+      attributes: ["name"]  // включаем столбец name из таблицы teams
+    }]
+  }).then(coaches => {
+      for(coach of coaches){
+        console.log(coach.name, "-", coach.team.name);
+      }
+});
+
+
+
+
+
+
+
+
+
+многие-ко-многим #belongsToMany
+
+
+// промежуточная сущность, которая связывает курс и студента
+const Enrolment = sequelize.define("enrolment", {
+    id: {},grade: { }};
+
+//Первый параметр метода - сущность, с которой надо установить связь. Второй параметр - объект конфигурации связи, который с помощью параметра #through обязательно должен задавать промежуточную сущность, через которую будут связаны обе основные сущности
+Student.belongsToMany(Course, {through: Enrolment});
+Course.belongsToMany(Student, {through: Enrolment});
+
+
+// получаем пользователя с именем Tom   метод addИМЯ_МОДЕЛИ()
+Student.findOne({where: {name: "Tom"}})
+.then(student=>{
+    if(!student) return;
+     
+    // добавим Тому курс по JavaScript
+    Course.findOne({where: {name: "JavaScript"}})
+        .then(course=>{
+            if(!course) return;
+            student.addCourse(course, {through:{grade:1}});
+    });
+});
+
+
+
+
+Получение связанных данных метод getИМЯ_МОДЕЛИs()
+
+//в реальности в данном случае мы получаем не просто курс из таблицы courses, а сводные данные на основании таблицы enrolments
+Student.findOne({where: {name: "Tom"}})
+.then(student=>{
+    if(!student) return;
+    student.getCourses().then(courses=>{
+        for(course of courses){
+            console.log("course:", course.name, "grade:", course.enrolment.grade);
+        }
+    });
+});
+
+
+
+
+Удаление связанных данных
+Student.findOne({where: {name: "Tom"}})
+.then(student=>{
+    if(!student) return;
+    student.getCourses().then(courses=>{
+        for(course of courses){
+            if(course.name==="JavaScript") course.enrolment.destroy();
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#MVC
+контроллеры создаются как бычные модули
+определим в каталоге приложения новую папку, которую назовем controllers. Создадим в этой папке новый файл userController.js 
+
+//если не выносим роуты в отдельный модуль
+const homeController = require("./controllers/homeController.js");
+
+//если выносим роуты в отдельный модуль
+в проект новую папку routes. Затем в этой папке создадим новый файл homeRouter.js и определим в нем следующий код
+
+const express = require("express");
+const homeController = require("../controllers/homeController.js");
+const homeRouter = express.Router();
+ 
+homeRouter.get("/about", homeController.about);
+homeRouter.get("/", homeController.index);
+ 
+module.exports = homeRouter;
+
+
+в файле обработки подключаем роут
+const userRouter = require("./routes/userRouter.js");
+
+app.use("/users", userRouter);
+
+
+
+
+
+
+
+
+
+
+#mutler #multer #file #load #middleware
+служит для загрузки файлов на сервер
+//работает с express
+install multer
+
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+        <label>Файл</label><br>
+        <input type="file" name="filedata" /><br><br>
+        <input type="submit" value="Send" />
+      </form>
+
+
+const express = require("express");
+const multer  = require("multer");
+
+
+
+
+const express = require("express");
+const multer  = require("multer");
+  
+const app = express();
+  
+app.use(express.static(__dirname));
+//dest указывает на путь, по которому будет загружаться файл. В данном случае это папка uploads
+//функция single() указывает, что загружаться будет один файл filedata-название с формы
+app.use(multer({dest:"uploads"}).single("filedata"));
+//single можно ПЕРЕНЕСТИ сюда
+//app.post("/upload", upload.single("filedata"), function (req, res, next) {
+app.post("/upload", function (req, res, next) {
+   
+    let filedata = req.file;
+    console.log(filedata);
+    if(!filedata)
+        res.send("Ошибка при загрузке файла");
+    else
+        res.send("Файл загружен");
+});
+app.listen(3000);
+
+
+
+
+
+
+//перед обработкой всех запросов можно #diskStorage
+const storageConfig = multer.diskStorage({//в req есть данные запроса
+    destination: (req, file, cb) =>{//определяет место для сохранения загруженных файлов - в данном случае папка "uploads"
+        cb(null, "uploads");
+    },
+    filename: (req, file, cb) =>{//определяет имя для загруженных файлов - в данном случае это непосредственно имя загруженного файла +дата
+        cb(null, file.originalname+ "-" + Date.now());
+    }
+});
+
+
+// определение фильтра
+const fileFilter = (req, file, cb) => {
+  
+    if(file.mimetype === "image/png" || 
+    file.mimetype === "image/jpg"|| 
+    file.mimetype === "image/jpeg"){
+        cb(null, true);//хотим сохранить файл
+    }
+    else{
+//при получении mutler не устанавливает значение req.file, то есть фактически оно равно undefined
+        cb(null, false);//хотим отклонить файл
+    }
+ }
+
+
+//без фильтра
+app.use(multer({storage:storageConfig}).single("filedata"));
+//с фильтром
+app.use(multer({storage:storageConfig, fileFilter: fileFilter}).single("filedata"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
