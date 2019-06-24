@@ -1,3 +1,110 @@
+
+
+
+
+#TODO
+.table с .table-responsive{-sm|-md|-lg|-xl}, 
+
+
+
+
+
+
+
+
+
+
+#start #layaut
+//то что должно быть в мастре странице(или во всех)
+
+//этот кусок фиксит инпуты на ранних версих андройда
+<script>
+$(function () {
+  var nua = navigator.userAgent
+  var isAndroid = (nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Chrome') === -1)
+  if (isAndroid) {
+    $('select.form-control').removeClass('form-control').css('width', '100%')
+  }
+})
+</script>
+
+
+
+это надо добавить в css для установки box-sizing с content-box на border-box .. и делаем это так что бы не сломать внешние длл
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#install
+установка для nodejs
+npm install bootstrap
+//установка через yarn----> yarn add bootstrap
+
+require('bootstrap') ) загрузит все плагины JS Bootstrap в объект jQuery
+
+
+
+
+
+#html
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 http://bootstrap-3.ru/css.php
 
 
@@ -15,27 +122,57 @@ text-primary
 
 }
 
-img{
-<img class="img-fluid"/>    картинка нормально отображается ??
+
+
+#img #image{
+<img class="img-fluid"/>    картинка нормально отображается / становится адаптивной(сужается и тд)
  img-fluid rounded       закругленные углы для картинки
 img-fluid rounded-circle   круглое
 float-left выравниваем по краю и вроде бы становится обтекаемой
+.img-thumbnail для придания изображению границы 1px
+float-left и float-right 
+mx-auto d-block по центру
 }
-<div class="text-center">   по центру то что внутри
-<p class="help-block">   серый цвет+ прижимается к тому что сверху
-<div class="checkbox">   в див засовываем чекбоксы
-<div class="radio"> в див засовываем радиобаттоны
-<label class="checkbox-inline"> в каждом таком блоке по 1 чекбоксу
-<input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>   "отключает"
-{
-задаем стиль
-<div class="form-group has-success">    если добавить класс has-feedback то не только выделение цветом, но и иконки соответсвующие будут
-.has-warning, .has-error, или .has-success     
-<label class="control-label" for="inputSuccess1">Успешный ввод</label>   связывается с input
 
-}
-<div class="row">  вложенные дивы будут в строку и по col-xs-2 можно менять длину
-  <div class="col-xs-2">
+
+
+
+
+#figure #figcaption
+если необходимо добавить подпись к изображению
+Изображения в figure’s не имеют точного размера, так что удостоверьтесь, что добавили в <img> класс .img-fluid для придания <img> отзывчивости.
+
+
+<figure class="figure">
+  <img src="..." class="figure-img img-fluid rounded" alt="...">
+  <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+</figure>
+
+
+
+
+
+
+
+
+#TODO
+Если вы используете элемент <picture> для привязки множественных элементов <source> к определенному <img>, добавьте классы .img-* в <img>, а не в <picture>.
+<picture>
+<source srcset="..." type="image/svg+xml">
+<img src="..." class="img-fluid img-thumbnail" alt="...">
+</picture>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -81,9 +218,188 @@ float-left выравниваем по краю и вроде бы становится обтекаемой
 }
 
 
-<div class="show">...</div>        скрывает\показывает блок
+
+
+
+
+
+#table
+
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Колонка</th>
+    </tr>
+  </thead>
+  <tbody>
+//tr- это 1 линия
+    <tr>
+//th-1 ячейка линии
+      <th scope="row">текст </th>
+ <td>Jacob</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+    </tr>
+    <tr>
+      <th scope="row">4</th>
+//ячейка которая будет суммой 2х ячеик
+      <td colspan="2">Larry the Bird</td>
+    </tr>
+  </tbody>
+</table>
+
+
+Все стили таблиц в BS4 наследуются, что означает, что вложенные таблицы будут стилизованы как родительские
+
+для добавления стилей BS нужно добавить класс table
+
+
+//атрибут #scope определяет, является ли ячейка заголовком для столбца, строкой или группой столбцов или строк
+ <th scope="col">#</th>
+col	заголовок столбца
+row	заголовок для строки
+colgroup	заголовок для группы столбцов
+rowgroup	заголовок для группы строк
+
+
+можно сделать таблицу черной или светлой "table-dark" "thead-light"
+//всю таблицу
+<table class="table table-dark">
+//заголовок
+ <thead class="thead-dark">
+
+раскрасс таблицы зеброй #зебра 
+бело-серой
+<table class="table table-striped">
+черно-темносерой
+<table class="table table-striped table-dark">
+
+
+
+делаем ширину ячейки равной ширине 2х.. но все ячейки кроме этой остаются своей ширины=> эта ячейка просто ЗАНИМАЕТ 2 ячейки
+<td colspan="2">Larry the Bird</td>
+
+
+//если хотим добавить вертикальные #границы #border (изначально их нет)
+<table class="table table-bordered table-dark">
+//таблица вообще без границ
+<table class="table table-borderless">
+
+//добавить выделение строк при наведении
+<table class="table table-hover">
+
+//таблица компактнее, за счет меньшего padding
+<table class="table table-sm">
+
+
+//можно расскрасить ряды или отдельный ячейки
+//вот так только для светлой темы
+<tr class="table-active">...</tr>
+<tr><td class="table-active">...</td>
+
+<tr class="table-primary">...</tr>
+<tr class="table-secondary">...</tr>
+<tr class="table-success">...</tr>
+<tr class="table-danger">...</tr>
+<tr class="table-warning">...</tr>
+<tr class="table-info">...</tr>
+<tr class="table-light">...</tr>
+<tr class="table-dark">...</tr>
+
+//а вот так можно для темной
+<tr class="bg-primary">...</tr>
+<tr><td class="bg-primary">...</td>
+<tr class="bg-success">...</tr>
+<tr class="bg-warning">...</tr>
+<tr class="bg-danger">...</tr>
+<tr class="bg-info">...</tr>
+
+
+горизонтальная прокрутка таблиц
+<div class="table-responsive">
+//если добавить такие суффиксы, то возможность скролить таблицу будет появляться в разное время
+<div class="table-responsive-lg">  --раньше всего
+<div class="table-responsive-md">
+<div class="table-responsive-sm"> -- позже всего
+
+
+#caption
+//это красивая подпись для таблицы
+<table class="table">
+  <caption>Список пользователей</caption>
+  <thead>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="show">...</div>        скрывает\показывает блок #show #hide #visible #invisible
 <div class="hidden">...</div>
 .invisible
+
+
+
+
+
+
+
+//#container элемент который содержит другие элементы
+<div class="container">
+.container-fluid  -- контейнер с 100% шириной
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="text-center">   по центру то что внутри
+<p class="help-block">   серый цвет+ прижимается к тому что сверху
+<div class="checkbox">   в див засовываем чекбоксы
+<div class="radio"> в див засовываем радиобаттоны
+<label class="checkbox-inline"> в каждом таком блоке по 1 чекбоксу
+<input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>   "отключает"
+{
+задаем стиль
+<div class="form-group has-success">    если добавить класс has-feedback то не только выделение цветом, но и иконки соответсвующие будут
+.has-warning, .has-error, или .has-success     
+<label class="control-label" for="inputSuccess1">Успешный ввод</label>   связывается с input
+
+}
+<div class="row">  вложенные дивы будут в строку и по col-xs-2 можно менять длину
+  <div class="col-xs-2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -94,6 +410,165 @@ float-left выравниваем по краю и вроде бы становится обтекаемой
 
 <ul class="pagination">
     <li><a href="/?page=1">1</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#size #page #media #brakepoint #брейкпоинт
+
+//если указывается min-width - то имеется в виду этот размер И БОЛЬШЕ
+//если max-width - то имеется в виду этот размер И МЕНЬШЕ
+//можно комбинировать
+@media (min-width: 576px) and (max-width: 767.98px) { ... }
+
+// Экстрамалые девайсы («телефоны», < 576px)
+// Нет @media, т.к. это по умолчанию в Bootstrap
+
+// Малые девайсы («ландшафтные телефоны», >= 576px)
+@media (min-width: 576px) { ... }
+
+// Средние девайсы («таблетки», >= 768px)
+@media (min-width: 768px) { ... }
+
+// Большие девайсы (десктопы, >= 992px)
+@media (min-width: 992px) { ... }
+
+// Экстрабольшие девайсы (большие десктопы, >= 1200px)
+@media (min-width: 1200px) { ... }
+
+
+
+
+
+
+
+
+
+
+
+#size #resize #column #row #container #web #сетка #сеть
+
+Содержимое должно быть расположено в колонках, и только колонки могут быть расположены в рядах.
+
+вся страница делится на 12 колонок. Если больше 12-ти колонок разместить в одном ряду, каждая дополнительная колонка обернется в новую строку
+в col можно вложить row
+
+
+внешний div .container
+если элементы в строку то .row   -- если добавить в .row класс .no-gutters то вы можете удалить марджины margin из рядов и паддинги padding из колонок
+и уже в строке .col-sm  и вот между этими элементами разделится 100% ширины по ровну на каждый
+если нужно не равномерно разделять то
+.col очень маленький экран, этот класс применяется всегда и в дополнение к нему может применяться еще 1 из следующих
+.col-sm маленький экран
+.col-md средний экран
+.col-lg большой экран
+.col-xl очень большой экран
+.col-sm-4  -- здесь 4- это ширина в колонках
+col-md-auto  --по ширине содержимого
+
+столбцы одинаковой ширины в пределах 1 row можно разбить на несколько строк с помощью .w-100
+<div class="row">
+    <div class="col">Колонка</div>
+    <div class="w-100"></div>
+    <div class="col">Колонка</div></div>
+
+
+если ширина экрана становится слишком маленькой то .col перестают располагаться на 1 строке и каждая колонка встает на отдельную строку
+
+получается, что при маленьком экране ширина 12 колонок а при большом 8
+<div class="col-12 col-md-8">.col-12 .col-md-8</div>
+
+
+
+
+для row можно добавить дополнительный класс для того что бы задать как будут размещены элементы внутри. 
+//для использования ширина вложенных элементов должна быть ограничена=> допустим 2 таких элемента <div class="col-4">
+ <div class="row justify-content-start">  --слева
+<div class="row justify-content-center">  -- по центру
+ <div class="row justify-content-end">   -- справа
+<div class="row justify-content-around">  -- в центре есть небольшой промежуток
+<div class="row justify-content-between"> -- в центре есть большой промежуток.. скорее даже разносит блоки по краям
+
+
+
+//#offset
+//.offset-md-4 сдвинет на 4 колонки
+//будет блок(4колонки) потом 4 колонки отступа и потом блок(4 колонки)
+ <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-4 offset-md-4">.col-md-4 .offset-md-4</div>
+
+
+
+
+
+//если надо изменить #порядок #order
+//надо установить некоторый элемент первым, остальные не трогать. ему задаем (устанавливает свойство order: -1)
+<div class="col order-first">
+
+//если надо полностью изменить порядок -- сначала идут не упорядоченные, потом по порядку ( 1->2->...)
+
+<div class="col">
+<div class="col order-1">
+<div class="col order-12">
+
+
+
+
+//#TODO
+ml-auto
+mr-auto
+col-auto 
+
+
+
+//#TODO не понял вообще
+<div class="container px-lg-5">
+  <div class="row mx-lg-n5">
+    <div class="col py-3 px-lg-5 border bg-light">Пользовательская вставка столбцов</div>
+    <div class="col py-3 px-lg-5 border bg-light">Пользовательская вставка столбцов</div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
