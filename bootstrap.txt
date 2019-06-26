@@ -160,13 +160,22 @@ require('bootstrap') ) загрузит все плагины JS Bootstrap в объект jQuery
 
 http://bootstrap-3.ru/css.php
 
-#ul #li
+#ul #li #list-group #list-group-item #list-group-item-primary
+
+#list-group-flush - убирает все гланицы у элементов, сотавляя только линии между ними, и все эти элементы становятся 100% ширины
+#list-group-horizontal .list-group-horizontal-{sm|md|lg|xl}  --сделать список горизонтальным
+если добавить #list-group-item-action к всем list-group-item  то при наведении они начнут выделяться
+
  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item active">Cras justo odio</li>
+ <li class="list-group-item disabled">Cras justo odio</li>
+<li class="list-group-item list-group-item-primary">Элемент основной группы списков</li>
+//можно тег А или кнопку
+ <a href="#" class="list-group-item list-group-item-action active">Cras justo odio</a>
   </ul>
 
 
-list-unstyled   убрать отступы и точки у ul #ul #li
+list-unstyled   убрать отступы и точки у ul 
 list-inline     тоже что list-unstyled  но еще и инлайн отобразит
 цвет текста{
 text-primary
@@ -186,6 +195,18 @@ active - сделает кликабельным+ выделит синим, не актив будет серым
     <li class="breadcrumb-item active" aria-current="page">Library</li>
   </ol>
 </nav>
+
+
+
+
+
+<ul class="list-group">
+  <li class="list-group-item">Cras justo odio</li>
+
+
+
+
+
 
 
 
@@ -221,6 +242,40 @@ mx-auto d-block по центру
   <img src="..." class="figure-img img-fluid rounded" alt="...">
   <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
 </figure>
+
+
+
+
+
+
+
+#Медиа #media  #media-body
+способ красиво разместить изображение слева или справа от текста, но не в центре (напрмиер как ава ввк возле сообщения)
+в media-body можно вложить еще 1 медиа блок(полный)
+
+если к изображению(или то что на его месте) добавить
+#align-self-start  -- оно будет слева-сверху
+#align-self-center -- оно будет слева-центр
+#align-self-end    -- оно будет слева-низ
+картинку также можно перенести в правую часть просто переместив в html
+
+<div class="media">
+  <img src="..." class="mr-3" alt="...">
+  <div class="media-body">
+    <h5 class="mt-0">Media heading</h5>
+    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+  </div>
+</div>
+
+
+можно так
+<ul class="list-unstyled">
+  <li class="media">
+    <img src="..." class="mr-3" alt="...">
+    <div class="media-body">
+
+
+
 
 
 
@@ -273,7 +328,7 @@ mx-auto d-block по центру
 <span class="caret"></span>       кнопка "развернуть"
 
 
-контурные кнопки, цветом выделяется текст и границы, фона нет
+контурные кнопки, цветом выделяется текст и границы, фона нет #btn-outline
 class="btn btn-outline-primary"
 
 
@@ -371,23 +426,31 @@ btn-sm - маленькая
 
 #input
 
+#input-group-text
+сгрупировать несколько в 1 линию без пробелов + чуть поменять для всего стили
+можно применить к различным полям ввода (input textarea)
+такой сероватый блок перед основным полем для ввода #input-group-prepend  и вот такой после #input-group-append (его надо резместить после input)
 
-сгрупировать
-
-такой сероватый блок перед основным полем для ввода
-input-group-prepend
-
-<div class="input-group">
+<div class="input-group input-group-sm">
     <div class="input-group-prepend">
-      <div class="input-group-text" id="btnGroupAddon">@</div>
+//...........
     </div>
     <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon">
+<input type="text" aria-label="Last name" class="form-control">  
+</div>
+
+
+в input-group-text можно засунуть чекбокс
+    <div class="input-group-prepend"> можно засунуть чекбокс(возможно в обертке span или label)
+<span class="input-group-text">0.00</span>
+<span class="input-group-text">0.00</span>
+<button class="btn btn-outline-secondary" type="button" id="button-addon1">Кнопка</button>
+<div class="dropdown-menu"></div>
+<select></select>
+<div class="custom-file">
+    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
   </div>
-
-
-
-
-
 
 
 
@@ -564,7 +627,7 @@ dropdown-menu-lg-left
 
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" href="#">Action</a>
-//------аналог #hr
+//------аналог #hr #dropdown-divider
 <div class="dropdown-divider"></div>  
 <button class="dropdown-item" href="#" type="button">Action</button>
 </div></div>
@@ -1020,6 +1083,39 @@ text-white
 
 
 
+#Jumbotron
+похоже на то что появляется когда открываешь в 1 раз проект asp.net
+что то похожее на card но визуально больше к томе что можно просто на страницу закинуть
+Легкий, гибкий компонент для демонстрации ключевого содержимого вашего сайта.
+
+<div class="jumbotron">
+  <h1 class="display-4">Привет, мир!</h1>
+  <p class="lead">Это простой пример блока с компонентом в стиле jumbotron для привлечения дополнительного внимания к содержанию или информации.</p>
+  <hr class="my-4">
+  <p>Использются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+  </p>
+</div>
+
+
+на всю ширину и без закругленных углов
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Fluid jumbotron</h1>
+    <p class="lead">Это модифицированный jumbotron, который занимает все горизонтальное пространство своего родителя.</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1186,7 +1282,7 @@ col-auto
 <a href="#" class="alert-link">примером ссылки</a>
 </div>
 
-alert alert-secondary сорый фон
+alert alert-secondary серый фон
 alert alert-success зеленый фон
 alert alert-danger красный фон
 alert alert-warning желтый фон
@@ -1209,7 +1305,7 @@ $('#myAlert').on('closed.bs.alert', function () {
   // do something…
 })
 
-уведомления который можно закрыть
+уведомления которое можно закрыть
 если закрыть, то оно будет удалено из dom
 это потребует util.js.
 
@@ -1365,19 +1461,69 @@ $('#myCarousel').on('slide.bs.carousel', function () {
 
 
 
+#модальное #дополнительное #окно #modal #alert
+окно которое появится при определенных условиях,  и его можно будет закрыть
+основное окно блокируется, прокрутка работат на модальное
 
+кнопка для того что бы показать окно
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Запустить модальное окно
+</button>
 
+можно запустить из js
+$('#myModal').modal({keyboard: false})
+параметры можно передать объектом в js или атрибутами через data-attrname, все параметры имеют значение true по умолчанию
+backdrop- затемненный фон вокруг окна
+keyboard - закрывает окно при нажатии на ESC
+focus - фокусировка на окне при инициализации
+show - показывает окно при инициализации
 
+$('#myModal').modal('toggle') - Вручную изменяет состояние модального элемента
+$('#myModal').modal('show') Вручную открывает модальный элемент
+$('#myModal').modal('hide') Вручную прячет модальный элемент
+$('#myModal').modal('handleUpdate') Вручную обновляет позицию модального элемента, если высота его изменяется во время открытия (т.е. в случае возникновения полосы прокрутки).
+$('#myModal').modal('dispose') Уничтожает модальный элемент.
 
 
+если добавить так то оно будет расположено по центру вертикали
+ <div class="modal-dialog modal-dialog-centered" role="document">
 
 
+//---само окно
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        //......................
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
+можно использовать сетку
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
 
 
 
+//можно изменить ширину, стандартно ширина 500px
+<div class="modal-dialog modal-lg">
+sm-300px
+lg-800px
+xl-1140px
 
 
 
@@ -1386,6 +1532,17 @@ $('#myCarousel').on('slide.bs.carousel', function () {
 
 
 
+можно немного изменять содержимое(не считая прямое формирование и замену через innerhtml)
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
 
 
 
@@ -1398,6 +1555,10 @@ $('#myCarousel').on('slide.bs.carousel', function () {
 
 
 
+#help #всплывающая #подсказка
+при нажатии на кнопку рядом появится окно с текстом, при повторном нажатии пропадет
+<p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
+  
 
 
 
@@ -1406,38 +1567,187 @@ $('#myCarousel').on('slide.bs.carousel', function () {
 
 
 
+#nav  #нацигация #nav-item #nav-link
 
+Заметьте, что навигационные панели, даже если они стилизованы как вкладки классами .nav-tabs, не должны содержать role="tablist", role="tab" или role="tabpanel". 
+все меню лучше обернуть в div с role="navigation" или обернуть все в nav
 
 
+стандартно просто надписи горизонтальные без границ
+<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Active</a></li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Disabled</a></li>
+</ul>
 
+<nav class="nav">  //--если будем добавлять еще классы кроме .nav тут надо будет добавить .nav-item к ссылкам, если не будет работать
+  <a class="nav-link active" href="#">Active</a>
+  <a class="nav-link disabled" href="#">Disabled</a>
+</nav>
 
 
 
 
 
+//горизонтальный, который станет вертикальным на малых устройствах
+<nav class="nav nav-pills flex-column flex-sm-row">
+  <a class="flex-sm-fill text-sm-center nav-link active" href="#">Active</a>
 
 
+//если надо выровнять по центру #justify-content-center <ul class="nav justify-content-center">
+по правому краю #justify-content-end
 
+//расположить вертикально #flex-column
+<ul class="nav flex-column">
 
+//элементы становятся на всю ширину(каждый может быть разной ширины) <ul class="nav nav-pills nav-fill">
+//элементы становятся на всю ширину(каждый одинаковой ширины) <ul class="nav nav-pills nav-justified">
 
+#fade класс что бы элементы появлялись медленно
 
 
+#подушки #nav-pills
+в виде обычных кнопок
+<ul class="nav nav-pills">
 
+#вкладки #вкладка #nav-tabs открытая будет с  <a class="nav-link active"
+<ul class="nav nav-tabs"> 
 
+в вкладку и подушку можно добавить дроп лист
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">Action</a>
 
 
 
+//если нужны вкладки но не для навигации (просто отображение некоторого блока) отображаться будет именно по href="#home"
+//nav-tabs можно заменить на nav-pills  и data-toggle="tab" заменить на data-toggle="pill"и тогда будет тоже самое но подушками
+<ul class="nav nav-tabs" id="myTab" role="tablist"> ///----тут можно написать так <nav><div class="nav nav-tabs" id="nav-tab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+  </li>
+.....
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+....
+</div>
 
 
+//если нужно вертикально подушками(слева будут подушки вертикально, справа текст)
+<div class="row">
+  <div class="col-3">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a.....<></div></div>
+<div class="col-9">
+    <div class="tab-content" id="v-pills-tabContent">
 
 
 
 
+можно переключать из js
+$('#myTab a[href="#profile"]').tab('show') // Select tab by name
+$('#myTab li:first-child a').tab('show') // Select first tab
+$('#myTab li:last-child a').tab('show') // Select last tab
+$('#myTab li:nth-child(3) a').tab('show') // Select third tab
 
 
 
 
 
+
+
+#navbar
+классы:
+#navbar-brand для названия вашей компании, продукта или имени проекта. лучше применять к тегу A в который уже можно что то засунуть(картинку например)
+#navbar-nav для навигации полной высоты (включая выпадающие элементы).
+#navbar-toggler для использования с нашим JS-«плагином свертывания» и других изменяющихся состояний навигации.
+#form-inline для любых органов контроля форм и действий с ними.
+#navbar-text для добавления вертикально центрированных строк текста.
+#collapse #navbar-collapse для группирования и скрытия содержимого навбара на определенном брейкпойнте родителя.
+
+
+. #fixed-top
+. #fixed-bottom
+. #sticky-top будет располагаться где то и после прокрутки прилипнет к верху
+
+
+navbar-light
+<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+//тут сами пункты можно сделать списком(ul), но можно и без него через div
+<div class="navbar-nav">
+      <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a></div>
+//через список ul
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          ....
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+....
+    </form>
+  </div>
+</nav>
+
+
+
+
+скрывающееся меню при маленьком экране  #Тогглер 
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+
+
+
+если нужен блок который будет открывать содержимое
+<div class="pos-f-t">
+  <div class="collapse" id="navbarToggleExternalContent">
+    <div class="bg-dark p-4">
+      //контент который будет закрыт и открываться
+    </div>
+  </div>
+  <nav class="navbar navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+</div>
 
 
 
