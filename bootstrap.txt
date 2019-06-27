@@ -8,8 +8,12 @@
 ol - li
 
 
+#flex
 
 
+
+#padding #margin #отступы
+https://bootstrap-4.ru/docs/4.3.1/utilities/spacing/
 
 
 
@@ -48,17 +52,45 @@ md-auto  --по ширине содержимого
 
 
 #color
-– primary
-– secondary
-– success
-– danger
-– warning
-– info
-- light
-– dark.
+– primary - синий
+– secondary  - серый
+– success - зеленый
+– danger - красный
+– warning - желтый
+– info - другой синий
+- light - почти белый
+– dark - черный
+--не для всего:
+-body - совсем черный
+-muted-светло серый
+-white- белый
+black-50 - серый
+white-50- серый
+
+.bg-success
+. #text-success
 
 
 
+
+#отображение
+
+.d-{value} для xs
+.d-{breakpoint}-{value} для sm, md, lg и xl.
+
+Где value – это одно из:
+none
+inline
+inline-block
+block
+table
+table-cell
+table-row
+flex
+inline-flex
+
+Медиа-запросы влияют на ширину экрана, начиная с указанного брейкпонта или больше.
+<div class="d-inline p-2 bg-primary text-white">d-inline</div>
 
 
 
@@ -720,6 +752,7 @@ form-control применяется почти для всех инпутов
 
 
 
+
 #range #form-control-range
 <form>
   <div class="form-group">
@@ -854,6 +887,30 @@ form-control применяется почти для всех инпутов
 
 
 
+#border
+//если надо включить границу
+<span class="border"></span>
+<span class="border-top"></span>
+<span class="border-right"></span>
+<span class="border-bottom"></span>
+<span class="border-left"></span>
+
+//если надо исключить границу(указанная не будет отрисована)
+<span class="border-0"></span>
+<span class="border-top-0"></span>
+<span class="border-right-0"></span>
+<span class="border-bottom-0"></span>
+<span class="border-left-0"></span>
+
+
+цвета
+<span class="border border-primary"></span> border-secondary  border-success border-danger   border-warning  border-info border-light  border-dark  border-white              
+
+изменить форму
+<img src="..." alt="..." class="rounded"> rounded-top  rounded-right rounded-bottom rounded-left  rounded-circle rounded-pill rounded-0                    
+
+изменение радиуса
+<img src="..." alt="..." class="rounded-sm">
 
 
 
@@ -862,11 +919,65 @@ form-control применяется почти для всех инпутов
 
 
 
+#float
+
+<div class="float-left">К левому краю на всех областях видимости</div><br>
+<div class="float-right">К правому краю на всех областях видимости</div><br>
+<div class="float-none">Без стороны выравнивания на всех областях видимости</div>
+<div class="float-sm-left">К левому краю на областях видимости маленьких SM (small) или шире</div><br>
 
 
-<div class="show">...</div>        скрывает\показывает блок #show #hide #visible #invisible
+
+#clearfix #fix #error
+если в блоке есть элементы с #float то внешний блок может сломаться(станет 0px и перестанет включать эти элементы), для фикса надо добавить clearfix
+<div class="bg-info clearfix">
+  <button type="button" class="btn btn-secondary float-left">Кнопка примера перемещена влево</button>
+  <button type="button" class="btn btn-secondary float-right">Кнопка примера перемещена вправо</button>
+</div>
+
+
+
+
+
+
+#overflow
+<div class="overflow-auto">...</div>
+<div class="overflow-hidden">...</div>
+
+
+
+
+
+#position
+<div class="position-static">...</div>
+<div class="position-relative">...</div>
+<div class="position-absolute">...</div>
+<div class="position-fixed">...</div>
+<div class="position-sticky">...</div>
+<div class="sticky-top">...</div>
+<div class="fixed-top">...</div>
+<div class="fixed-bottom">...</div>
+
+
+
+
+
+#box-shadow #shadow
+<div class="shadow-none p-3 mb-5 bg-light rounded">Без теней</div>
+<div class="shadow-sm p-3 mb-5 bg-white rounded">Маленькая тень</div>
+<div class="shadow p-3 mb-5 bg-white rounded">Обычная тень</div>
+<div class="shadow-lg p-3 mb-5 bg-white rounded">Большая тень</div>
+
+
+
+
+
+
+<div class="show">...</div>        скрывает\показывает блок #show #hide #visible #invisible #hidden
 <div class="hidden">...</div>
-.invisible
+<div class="visible">...</div>
+<div class="invisible">...</div>
+
 
 
 можно сделать кнопку при нажатии на которую будет скрываться\показываться контент #Collapse
@@ -950,11 +1061,77 @@ $('.collapse').collapse()
 
 
 <div class="text-center">   по центру то что внутри #text #center
+text-left
 text-right справа
 text-muted - сделает текст #серым #серый #gray
 text-white
+<p class="text-sm-left">
 
-<p class="help-block">   серый цвет+ прижимается к тому что сверху
+будет перестраивать текст под блоки(колонки и тдтд)
+<p class="text-justify"
+
+//если слишком длинная строка (например МММ...МММ) то она ничего не сломает а просто будет переноситься
+<p class="text-break">
+
+
+//регистр
+<p class="text-lowercase">Текст в нижнем регистре.</p>
+<p class="text-uppercase">Текст в верхнем регистре.</p>
+<p class="text-capitalize">разноРеГиСТровый текст.</p>  ---- меняет первую букву каждого слова на заглавную
+
+//изменить жирность шрифта
+<p class="font-weight-bold">Жирный текст.</p>
+<p class="font-weight-normal">Нормальный текст.</p>
+<p class="font-weight-light">Легкий текст.</p>
+<p class="font-italic">Курсивный текст.</p>
+
+
+//ширина каждого символа одинакова
+<p class="text-monospace">Это моноширинный текст</p>
+
+
+//текст будет обернут - блок станет как можно меньше но так что бы текст полностью уместился, антагонист .text-nowrap
+<div class="badge badge-primary text-wrap" style="width: 6rem;">
+  This text should wrap.
+</div>
+
+
+
+//если добавить в блок с текстом при заданной ширине блока, текст будет обрезан и добавлено многоточие
+Требует display: inline-block или display: block.
+.text-truncate
+
+
+//заставить цвет текста наследоваться от родителя
+<p class="text-muted">
+  Muted text with a <a href="#" class="text-reset">reset link</a>.</p>
+
+
+#a #link #ссылка
+удалить текстовое оформление для ссылки
+<a href="#" class="text-decoration-none">Non-underlined link</a>
+
+
+//вертикальное выравнивание текста в строке
+<span class="align-baseline">baseline</span>
+<span class="align-top">top</span>
+<span class="align-middle">middle</span>
+<span class="align-bottom">bottom</span>
+<span class="align-text-top">text-top</span>
+<span class="align-text-bottom">text-bottom</span>
+
+
+серый цвет+ прижимается к тому что сверху
+<p class="help-block">   
+
+
+
+
+
+
+
+
+
 <div class="checkbox">   в див засовываем чекбоксы
 <div class="radio"> в див засовываем радиобаттоны
 <label class="checkbox-inline"> в каждом таком блоке по 1 чекбоксу
@@ -1121,10 +1298,13 @@ text-white
 
 #pagination #пагинация
 
-<ul class="pagination">
-    <li><a href="/?page=1">1</a></li>
+<nav aria-label="info"> //--так рекомендуется делать
+<ul class="pagination  pagination-lg justify-content-center">
+// <li class="page-item disabled">
+//<li class="page-item active" aria-current="page">
+  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
 
-
+justify-content-end
 
 
 
@@ -1245,6 +1425,33 @@ col-md-auto  --по ширине содержимого
 .w-75 - ширина 75% и тд
 
 
+#height
+относительно родительского элемента
+<div class="h-25
+<div class="h-auto d-inline-block"
+
+.mh-100  --- максимальная высота 100%
+
+.mw-100 - установит высоту и ширину в 100%
+
+
+Относительно области просмотра
+
+
+
+
+
+
+#inline #inline-block
+.d-inline-block
+<div class="min-vw-100">Min-width 100vw</div>
+<div class="min-vh-100">Min-height 100vh</div>
+<div class="vw-100">Width 100vw</div>
+<div class="vh-100">Height 100vh</div>
+
+
+
+
 
 
 
@@ -1322,6 +1529,52 @@ $('#myAlert').on('closed.bs.alert', function () {
 
 
 
+
+
+#push #пуш #toast
+пуш #уведомления
++util.js.
+
+инициализация $('.toast').toast(option)
+
+
+//если есть несколько(прям блоки html подряд, то они будут вертикально располагаться
+
+
+
+//--обертка для уведомлений
+//для внешнего блока можно так class="d-flex justify-content-center align-items-center"
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+  <!-- Position it -->
+  <div style="position: absolute; top: 0; right: 0;">
+
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
+  <div class="toast-header">
+    <img src="..." class="rounded mr-2" alt="...">
+    <strong class="mr-auto">Bootstrap</strong>
+    <small class="text-muted">11 mins ago</small>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body">
+    Hello, world! This is a toast message.
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #badge #значки #значок #icon #иконка
 подстроится под внешний элемент
 
@@ -1346,6 +1599,22 @@ badge-dark
 <button type="button" class="btn btn-primary">
   Уведомления <span class="badge badge-light">4</span>
 </button>
+
+
+
+
+
+
+#icon #close
+
+
+<button type="button" class="close" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+
+
+
+
 
 
 
@@ -1461,6 +1730,29 @@ $('#myCarousel').on('slide.bs.carousel', function () {
 
 
 
+#progress #process #bar #прогрессбар #бар #процессбар #progress-bar
+
+<div class="progress" style="height: 20px;">
+  <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+0%</div>
+//---сюда можно засунуть несколько полосок, они будут в 1 линию друг за другом по порядку
+</div>
+
+ширину можно и так задать <div class="progress-bar w-75"
+можно полосу сделать полосатой #progress-bar-striped а если добавить #progress-bar-animated то будет еще и анимированной  <div class="progress-bar progress-bar-striped progress-bar-animated"
+
+
+
+
+
+
+
+
+
+
+
+
+
 #модальное #дополнительное #окно #modal #alert
 окно которое появится при определенных условиях,  и его можно будет закрыть
 основное окно блокируется, прокрутка работат на модальное
@@ -1559,6 +1851,35 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 при нажатии на кнопку рядом появится окно с текстом, при повторном нажатии пропадет
 <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
   
+
+
+#поповер #popover
+
+Таковой плагин использует для позиционирования 3-ю часть библиотеки Popper.js. Чтобы плагин работал, Вы должны подключать popper.min.js ПЕРЕД bootstrap.j + util.js
+
+//включаем $('#example').popover(options) или так
+$(function () {
+  $('[data-toggle="popover"]').popover(
+//сюда можно передать объект или не передавать ничего
+)
+})
+
+этот объект для параметра, доступно много свойств, посмотреть можно тут https://bootstrap-4.ru/docs/4.3.1/components/popovers/
+{container: 'body' ////--это нужно дописать Когда у вас есть некие стили родительского элемента, которые взаимодействуют с поповером
+trigger: 'focus'//будет прятать подсказку, если мы кликаем в любое место вне кнопки(в таком случае нужно использовать не button а тег A)
+}
+
+data-placement="top"-будет показываться сверху
+data-placement="right"
+data-placement="bottom"
+data-placement="left"
+
+<button type="button" class="btn btn-lg btn-danger" data-placement="top" data-toggle="popover" title="заголовок подсказки" data-content="текст подсказки">текст кнопки</button>
+
+<a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="заголовок подсказки" data-content="текст подсказки?">текст кнопки</a>
+
+если элемент с атрибутом "disabled" то поповер перестает работать(можно его перенести в оберточный блок)
+
 
 
 
@@ -1755,6 +2076,65 @@ navbar-light
 
 
 
+#scroll #scrollspy #скроллспай
+можно сделать блок который скролится и ссылки которые будут его скролить так что бы что то в нем отобразилось
++ в меню с помощью которого и отображается что то , в зависимости от того что сейчас отображено, будет выделяться нужный пункт
+
+нужен util.js.
+
+для того элемента где текст
+position: relative; 
+удостоверьтесь, что задали height и overflow-y: scroll;
+
+
+<nav id="navbar-example2" class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+
+//---если такой список то все будет горизонтально
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" href="#fat">@fat</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#mdo">@mdo</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#one">one</a>
+        <a class="dropdown-item" href="#two">two</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#three">three</a>
+      </div>
+    </li>
+  </ul>
+//--вот так можно сделать вертикальным с блоками(типо кнопок) и вложенными в них блоками
+<nav class="nav nav-pills flex-column">
+    <a class="nav-link" href="#item-1">Пункт 1</a>
+    <nav class="nav nav-pills flex-column">
+      <a class="nav-link ml-3 my-1" href="#item-1-1">Пункт 1-1</a>
+      <a class="nav-link ml-3 my-1" href="#item-1-2">Пункт 1-2</a>
+    </nav>
+
+//--тоже самое что и выше с кнопками но они красиво растянуты
+<div id="list-example" class="list-group">
+  <a class="list-group-item list-group-item-action" href="#list-item-1">Пункт 1</a>
+
+
+
+</nav>
+<div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+  <h4 id="fat">@fat</h4>
+  <p>...</p>
+  <h4 id="mdo">@mdo</h4>
+  <p>...</p>
+  <h4 id="one">one</h4>
+  <p>...</p>
+  <h4 id="two">two</h4>
+  <p>...</p>
+  <h4 id="three">three</h4>
+  <p>...</p>
+</div>
 
 
 
@@ -1763,6 +2143,48 @@ navbar-light
 
 
 
+
+#preloader #spiner #spinner #Спиннер
+круглая черная штука крутится
+
+<div class="spinner-border text-primary spinner-border-sm" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+
+
+круг который из маленького становится большим
+<div class="spinner-grow text-primary spinner-grow-sm" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+
+
+.float-right .justify-content-center .m-5 для отступов  или можно обернуть в блок с .text-center
+
+
+можно засунуть в кнопку
+<button class="btn btn-primary" type="button" disabled>
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Loading...
+</button>
+
+
+
+
+
+
+
+
+
+
+#iframe  <#embed>, <#video> и <#object>
+
+<div class="embed-responsive embed-responsive-16by9">
+  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+</div>
+
+
+можно задать соотношение сторон 21 на 9, также доступны 16 на 9, 4 на 3, 1 на 1 
+embed-responsive-21by9
 
 
 

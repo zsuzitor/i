@@ -504,6 +504,12 @@ _appEnvironment.ContentRootPath
 Path.Combine(str1,str2);
 
 
+#Directory.#GetCurrentDirectory()
+
+
+
+
+
 
 #static #files
 
@@ -1057,7 +1063,7 @@ string con = AppConfiguration.GetConnectionString("DefaultConnection");
 public Startup()
         {
             // строитель конфигурации, необходимо указать место хранения(можно скопировать ниже) 
-var builder =...
+var builder =new ConfigurationBuilder();
             
             // создаем конфигурацию./ этот элемент попадает в конфигурацию приложения
             AppConfiguration = builder.Build();
@@ -2933,6 +2939,7 @@ db=context;
 
 public class MobileContext : DbContext
     {
+//каждая строка включает не только саму сущность но и ее зависимости(все связанные с ней сущности)
         public DbSet<Phone> Phones { get; set; }
         public DbSet<Order> Orders { get; set; }
  
@@ -2942,6 +2949,20 @@ public class MobileContext : DbContext
 //по определению моделей будет создаваться база данных (если она отсутствует)
             Database.EnsureCreated();//создаст БД если ее нет
         }
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // использование Fluent API см по тегу fluent
+        base.OnModelCreating(modelBuilder);
+    }
+
+//если не настраиваем строку подключения через конфиг и если не передаем объект #DbContextOptions в конктруктор(если только в конструктор, то его придется каждый раз настраивать и передавать руками): public MobileContext(){
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;");
+        }
+
+
     }
 
 
@@ -2966,30 +2987,24 @@ public void ConfigureServices(IServiceCollection services)
         }
 
 
-await db.Phones.ToListAsync()
-db.Phones.Add(phone);
-    await db.SaveChangesAsync();
 
 
-#удаление #delete
-удалить можно так//сгенерирует 1 запрос
-Phone phone = new Phone { Id = id.Value };
-        db.Entry(phone).State = EntityState.Deleted;
-        await db.SaveChangesAsync();
-
-или так//сгенерирует 2 запроса
-Phone phone = await db.Phones.FirstOrDefaultAsync(p => p.Id == id);
-db.Phones.Remove(phone);
-            await db.SaveChangesAsync();
-
-
-#каскадное удаление
-
-свойство внешнего ключа должно иметь тип int - этого достаточно
+//если выбираем способ через передачу в конструктор
+var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+var options = optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;").Options;
+using (ApplicationContext db = new ApplicationContext(options))
 
 
 
 
+
+
+
+#migration
+//
+Add-Migration уникальное_название_миграции
+//выполняем
+Update-Database
 
 
 
@@ -3053,7 +3068,7 @@ public static IWebHost BuildWebHost(string[] args) =>
 
 
 вроде бы другой способ #OnModelCreating
-
+//при таком способе данные будут добавляться либо при миграции либо при  Database.EnsureCreated()
 public class ApplicationContext : DbContext
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
@@ -3068,6 +3083,126 @@ public class ApplicationContext : DbContext
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole});
             base.OnModelCreating(modelBuilder);
 }
+
+
+
+
+
+#attr
+
+
+#fluent #api
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+//можно включить сущность в контекст(аналог public DbSet<Phone> Phones { get; set; })  вот так
+ modelBuilder.Entity<Tablet>();//#entity
+//можно исключить сущность из бд, еще исключить можно атрибутом #NotMapped
+modelBuilder.Ignore<Company>();//#Ignore
+//исключаем свойство
+modelBuilder.Entity<Phone>().Ignore(b => b.CurrentRate);
+//изменяем название таблицы , также можно с помощью атрибута [#Table("Tabname")]
+ modelBuilder.Entity<User>().ToTable("People");
+//изменяем название столбца, также можно через атрибут [#Column("user_id")]
+ modelBuilder.Entity<User>().Property(u=>u.Id).HasColumnName("user_id");
+//явно указываем id, также можно через атрибут [#key]
+modelBuilder.Entity<User>().HasKey(u => u.Ident);//можем к haskey добавить .HasName("UsersPrimaryKey")  и тогда сможем явно указать название ограничения
+//явно указываем составной id(это единственный способ сделать составной id)
+ modelBuilder.Entity<User>().HasKey(u => new { u.PassportSeria, u.PassportNumber});
+//установка уникального ключа(не первичный), может быть составным
+modelBuilder.Entity<User>().HasAlternateKey(u => u.Passport);
+ modelBuilder.Entity<User>().HasAlternateKey(u => new { u.Passport, u.PhoneNumber });
+//установка индекса
+ modelBuilder.Entity<User>().HasIndex(u => u.Passport);//к hasindex можно добавить .IsUnique();
+//индексы для нескольких свойств
+modelBuilder.Entity<User>().HasIndex(u => new { u.Passport, u.PhoneNumber });
+        
+//отключаем автогенерацию значения при добавлении #id, если будем добавлять сущность у которой не установлен id то будет ошибка, можно установить атрибутом [#DatabaseGenerated(DatabaseGeneratedOption.None)], и есть противоположность [#DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+ modelBuilder.Entity<User>().Property(b => b.Id).ValueGeneratedNever();
+//устанавливаем значение по умолчанию
+modelBuilder.Entity<User>().Property(u => u.Age).HasDefaultValue(18);
+//тоже значение по умолчанию но на базе sql #HasComputedColumnSql
+modelBuilder.Entity<User>().Property(u => u.CreatedAt).HasComputedColumnSql("GETDATE()");
+//можно установить sql команду
+ modelBuilder.Entity<User>().Property(u => u.Name).HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
+//устанавливаем свойство как обязательное #IsRequired, можно через атрибут [#Required]
+ modelBuilder.Entity<User>().Property(b => b.Name).IsRequired();
+//ограничение по длине #HasMaxLength, атрибут #MaxLength
+modelBuilder.Entity<User>().Property(b => b.Name).HasMaxLength(50);
+//устанавливаем тип данных #HasColumnType, атрибут [#Column(TypeName = "varchar(200)")]
+ modelBuilder.Entity<User>().Property(u=>u.Name).HasColumnType("varchar(200)");
+
+
+        base.OnModelCreating(modelBuilder);
+    }
+
+
+настройки fluent api можно вынести в отдельный класс 
+#IEntityTypeConfiguration<T> #ApplyConfiguration
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new PhoneConfiguration());
+        modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+    }
+
+public class PhoneConfiguration : IEntityTypeConfiguration<Phone>
+{
+    public void Configure(EntityTypeBuilder<Phone> builder)
+    {
+        builder.ToTable("Mobiles").HasKey(p => p.Ident);
+        builder.Property(p => p.Name).IsRequired().HasMaxLength(30);
+    }
+}
+
+
+
+
+
+#Reverse #Engineering если нужно сгенерить классы по #db #бд #class
+это создаст все классы бд+ контекст бд
+Чтобы воспользоваться этой функцией перейдем в Visual Studio к окну Package Manager Console. Его открыть можно, перейдя в меню Tools –> NuGet Package Manager –> Package Manager Console
+передается строка подключения с указанием сервера+ нахвание бд: Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer
+
+
+
+
+
+
+
+
+
+
+#ef #bd #crud
+
+
+
+await db.Phones.ToListAsync()
+db.Phones.Add(phone);
+    await db.SaveChangesAsync();
+
+
+#удаление #delete
+удалить можно так//сгенерирует 1 запрос
+Phone phone = new Phone { Id = id.Value };
+        db.Entry(phone).State = EntityState.Deleted;
+        await db.SaveChangesAsync();
+
+или так//сгенерирует 2 запроса
+Phone phone = await db.Phones.FirstOrDefaultAsync(p => p.Id == id);
+db.Phones.Remove(phone);
+            await db.SaveChangesAsync();
+
+
+#каскадное удаление
+
+свойство внешнего ключа должно иметь тип int - этого достаточно
+
+
+
+если необходимо #обновить данные #update
+
+ db.Users.Update(user);//user может быть даже не присоеденен к текущему контексту
+db.Users.UpdateRange(user1, user2);
+
 
 
 
