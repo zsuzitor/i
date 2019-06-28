@@ -310,7 +310,7 @@ if (env.IsDevelopment())
 
 
 
-#получение #объекта #зависимости #injection
+#получение #объекта #зависимости #injection #di 
 
 #[] #attr #FromServices
 если не хотим передавать в конструктор контроллера 
@@ -414,7 +414,7 @@ services.AddTransient<IMessageSender>(provider=> {
 
 // теперь можем указать IMessageSender как подключенный сервис
 Configure(IApplicationBuilder app, IHostingEnvironment env, IMessageSender messageSender)
-messageSender.Send();//высовется метод того класс зависимость которого установили
+messageSender.Send();//вызовется метод того класс зависимость которого установили
 
 теперь данную зависимость можно использовать:
 Через конструктор класса (за исключением конструктора класса Startup) - класс может иметь только 1 конструктор который поддерживает параметр зависимости
@@ -3131,6 +3131,19 @@ modelBuilder.Entity<User>().Property(b => b.Name).HasMaxLength(50);
 //устанавливаем тип данных #HasColumnType, атрибут [#Column(TypeName = "varchar(200)")]
  modelBuilder.Entity<User>().Property(u=>u.Name).HasColumnType("varchar(200)");
 
+#1 к 1 #many #многие #многим
+в основном все как в обычном entity
+#Cascade: зависимая сущность удаляется вместе с главной
+#SetNull: свойство-внешний ключ в зависимой сущности получает значение null
+#Restrict: зависимая сущность никак не изменяется при удалении главной сущности
+
+modelBuilder.Entity<Player>()
+            .HasOne(p => p.Team)
+            .WithMany(t => t.Players)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+
 
         base.OnModelCreating(modelBuilder);
     }
@@ -3153,6 +3166,146 @@ public class PhoneConfiguration : IEntityTypeConfiguration<Phone>
     }
 }
 
+
+
+
+
+//при связи 1 к 1 данныее можно хранить в 1 таблице
+
+...(обычная настрока связи 1 к 1).....HasForeignKey<UserProfile>(e => e.Id);
+        modelBuilder.Entity<User>().ToTable("Users");
+        modelBuilder.Entity<UserProfile>().ToTable("Users");
+в таком случае данные надо добавлять сразу цельной сущностью
+User user1 = new User
+    {
+        Login = "login1",
+        Password = "pass1234",
+        Profile = new UserProfile { Age = 22, Name = "Tom"}
+    };
+
+
+
+
+
+//многие ко многим
+на данный момент необходимо самому создавать связывающий класс
+
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<StudentCourse>()
+            .HasKey(t => new { t.StudentId, t.CourseId });
+ 
+        modelBuilder.Entity<StudentCourse>()
+            .HasOne(sc => sc.Student)
+            .WithMany(s => s.StudentCourses)
+            .HasForeignKey(sc => sc.StudentId);
+ 
+        modelBuilder.Entity<StudentCourse>()
+            .HasOne(sc => sc.Course)
+            .WithMany(c => c.StudentCourses)
+            .HasForeignKey(sc => sc.CourseId);
+    }
+
+
+public class Student
+{
+    public List<StudentCourse> StudentCourses { get; set; }}
+public class Course
+{
+    public List<StudentCourse> StudentCourses { get; set; }}
+public class StudentCourse
+{
+    public int StudentId { get; set; }
+    public Student Student { get; set; }
+ 
+    public int CourseId { get; set; }
+    public Course Course { get; set; }
+}
+
+
+
+s1.StudentCourses.Add(new StudentCourse { CourseId = c1.Id, StudentId = s1.Id });
+
+
+
+
+
+//несколько модерей в 1 таблице ....
+1 способ см не в коре по--: Две модели в одной таблице #ToTable #Table
+2 способ
+#OwnsOne #Комплексные типы
+если нужны сущности которые дополняют определенную сущность,
+данные сущности не содержат id
+public class User
+{
+    public int Id { get; set; }
+    public string Login { get; set; }
+    public string Password { get; set; }
+    public UserProfile Profile { get; set; }
+}  
+public class UserProfile
+{
+    public Claim Name { get; set; }
+    public Claim Age { get; set; }
+}
+public class Claim
+{
+    public string Key { get; set; }
+    public string Value { get; set; }
+}
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>().OwnsOne(u => u.Profile, p =>
+        {
+            p.OwnsOne(c => c.Name);
+            p.OwnsOne(c => c.Age);
+        });
+    }
+
+
+
+
+
+
+
+
+#load #include
+
+Team team = db.Teams
+        .Include(t=>t.Players)//загружаем связанное свойство
+	.Include(p => p.Team)//загружаем еще одно связанное свойство
+            .ThenInclude(p=>p.Country)//загружаем связанное свойство в свойстве Players
+//.Include(p => p.Team)//это свойство можно загрузить до ThenInclude и после  
+        .FirstOrDefault();
+
+
+
+#Explicit loading
+все как в обычном entity+ можно еще так
+Team team = db.Teams.FirstOrDefault();
+    db.Players.Where(p=>p.TeamId==team.Id).Load();
+//если надо загрузить вообще всех то
+db.Players.Load()
+
+
+
+#Lazy loading
+Однако при использовании lazy loading следует учитывать ряд моментов. В частности, при загрузке объектов из бд, загружаются также все связанные с ними данные. Для определения загружены ли данные, EF Core использует специальный флаг, который устанавливается после загрузки. И после этого данные не перезагружаются, даже если базе данных произошли какие-нибудь изменения (например, другой пользоваль изменил данные).
+данные загружаются синхронно
+
+//добавить в проект Microsoft.EntityFrameworkCore.Proxies
+
+ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                .UseLazyLoadingProxies()//без этого не будет работать #UseLazyLoadingProxies
+                .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=relationsdb2;Trusted_Connection=True;");
+        }
+
+public int TeamId { get; set; }
+        public virtual Team Team { get; set; }
 
 
 
@@ -3292,7 +3445,7 @@ var claims = new List<Claim>
 
 если такой атрибут применен к контроллеру и к методу контроллера применить вот такой - #AllowAnonymous то к этому методу сможет получить доступ анон
 
-//#TODO получить роль пользователя
+//#TODO получить #роль пользователя #role
 string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
 
 
@@ -3357,8 +3510,9 @@ Value: возвращает значение объекта claim
 
 
 #Identity 
-для добавления функционала нажмем на название проекта правой кнопкой мыши и в контекстном меню выберем пункт Add -> New Scaffolded Item-> identity
-
+для добавления функционала нажмем на название проекта правой кнопкой мыши и в контекстном меню выберем пункт 
+Add -> New Scaffolded Item-> identity
+добавить->создать шаблонный элемент->удостоверение
 
 public void ConfigureServices(IServiceCollection services){
  // добавление ApplicationDbContext для взаимодействия с базой данных учетных записей
@@ -3414,9 +3568,12 @@ Database.EnsureCreated();
 
 
 
-#IdentityUser 
-public class ApplicationUser : IdentityUser
-{
+#IdentityUser  #ApplicationUser
+public class ApplicationUser : IdentityUser{}
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+надо заменить все схождения "IdentityUser" в проекте на "ApplicationUser"
+
+
 
 
 класс для взаимодействия с пользователями #UserManager   получается через обычное DI
