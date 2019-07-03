@@ -396,7 +396,7 @@ btn-sm - маленькая
 
 
 #checkbox
-все хорошо только если на нее кликать мышкой, если необходимо изменять другими способами то надо самом добавлять атрибут active
+все хорошо только если на нее кликать мышкой, если необходимо изменять другими способами то надо самому добавлять атрибут active
 тоже самое что radio которое описано ниже
 <div class="btn-group-toggle" data-toggle="buttons">
   <label class="btn btn-secondary active">
@@ -429,7 +429,7 @@ btn-sm - маленькая
 
 
 #toolbar
-группировка схожа с граппировкой для пагинации
+группировка схожа с группировкой для пагинации
 
 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
   <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -1124,6 +1124,8 @@ text-white
 серый цвет+ прижимается к тому что сверху
 <p class="help-block">   
 
+//маленький текст
+<small>11 mins ago</small>
 
 
 
@@ -1349,7 +1351,7 @@ justify-content-end
 
 
 
-#size #resize #column #row #container #web #сетка #сеть
+#size #resize #column #row #container #web #сетка #сеть #col 
 
 Содержимое должно быть расположено в колонках, и только колонки могут быть расположены в рядах.
 
@@ -1358,7 +1360,17 @@ justify-content-end
 
 
 внешний div .container
-если элементы в строку то .row   -- если добавить в .row класс .no-gutters то вы можете удалить марджины margin из рядов и паддинги padding из колонок
+если элементы в строку то .row   -- если добавить в .row класс .#no-gutters то вы можете удалить марджины margin из рядов и паддинги padding из колонок, его необходимо самому добавить в css
+.no-gutters {
+    margin-right: 0 /*!important*/;
+    margin-left: 0 /*!important*/;
+}
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
 и уже в строке .col-sm  и вот между этими элементами разделится 100% ширины по ровну на каждый
 если нужно не равномерно разделять то (тоесть мы можем задать ширину для каждого типа экрана)
 .col очень маленький экран, этот класс применяется всегда и в дополнение к нему может применяться еще 1 из следующих
@@ -1420,7 +1432,7 @@ col-md-auto  --по ширине содержимого
 
 
 
-#size #width
+#size #width 
 можно задать ширину в #%
 .w-75 - ширина 75% и тд
 
@@ -1438,17 +1450,20 @@ col-md-auto  --по ширине содержимого
 Относительно области просмотра
 
 
+<div class="min-vw-100">Min-width 100vw</div>
+<div class="min-vh-100">Min-height 100vh</div>
+<div class="vw-100">Width 100vw</div>
+<div class="vh-100">Height 100vh</div>
+
+
+
+
 
 
 
 
 #inline #inline-block
 .d-inline-block
-<div class="min-vw-100">Min-width 100vw</div>
-<div class="min-vh-100">Min-height 100vh</div>
-<div class="vw-100">Width 100vw</div>
-<div class="vh-100">Height 100vh</div>
-
 
 
 
@@ -1896,8 +1911,8 @@ data-placement="left"
 
 стандартно просто надписи горизонтальные без границ
 <ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a></li>
+  <li class="nav-item active">
+    <a class="nav-link" href="#">Active</a></li>
   <li class="nav-item">
     <a class="nav-link disabled" href="#">Disabled</a></li>
 </ul>
@@ -1952,7 +1967,7 @@ data-placement="left"
 .....
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+  <div class="tab-pane fade show active in" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
 ....
 </div>
 

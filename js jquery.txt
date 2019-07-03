@@ -1,0 +1,75 @@
+
+
+
+
+
+
+
+
+#form
+
+<form class="s_form">
+    <input class="s_text nameinp sinp" type="text" name="name" placeholder="Ваше имя*">
+    <input class="s_text phoneinp sinp" type="text" name="phone" placeholder="Ваш телефон*">
+    <input class="s_submit" type="button" value="Отправить">
+</form>
+$('.s_submit').on('click', function () {
+     var form = this.form;
+     alert('Имя ' + form.name.value + ', Телефон: ' + form.phone.value);
+ });
+
+
+
+#submit
+по умолчанию любая кнопка в форме определяется как submit, если указать явно форма не будет отправляться
+<button type="button">Нажать, но не отправить</button>
+
+
+
+
+//onclick(this) на кнопке
+function cancelAdd(button) {
+    var form = button.form;
+    form.remove();
+    return false;
+}
+
+
+
+
+
+
+
+
+#class
+$("#test1").removeClass("active");
+$("#test2").addClass("active")
+
+
+
+
+
+
+
+#проверить #существование #элемента
+$("div").is(".lBlock")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

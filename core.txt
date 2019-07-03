@@ -3,6 +3,13 @@
 #TODO
 
 
+компиляция запросов https://metanit.com/sharp/entityframeworkcore/8.1.php
+логирование https://metanit.com/sharp/entityframeworkcore/2.12.php
+хранимые процедуры https://metanit.com/sharp/entityframeworkcore/6.3.php
+хранимые функции https://metanit.com/sharp/entityframeworkcore/6.2.php
+
+
+
 #FromBody
 
 
@@ -1858,7 +1865,7 @@ var routeBuilder = new RouteBuilder(app);
 
 
 
-#AnchorTagHelper #a #link
+#AnchorTagHelper #a #link #asp-
 #actionlink->
 
 <a asp-controller="Home" asp-action="Contacts" asp-route-id="5" asp-route-data='new Dictionary<string,string>(){{"id","5"}}'>контакты</a>
@@ -2922,7 +2929,7 @@ public class HomeController : Controller
 #db  #ef #efc  #context #entity #framework 
 #DefaultConnection #Configuration #GetConnectionString #connection #AddDbContext #context
 
-#TODO https://metanit.com/sharp/entityframeworkcore/
+
 
 Microsoft.EntityFrameworkCore. #DbContext
 
@@ -3088,6 +3095,47 @@ public class ApplicationContext : DbContext
 
 
 
+#like #Functions #linq
+db.Phones.Where(p => EF.Functions.Like(p.Name, "%Galaxy%"))
+%: соответствует любой подстроке, которая может иметь любое количество символов, при этом подстрока может и не содержать ни одного символа
+_: соответствует любому одиночному символу
+[ ]: соответствует одному символу, который указан в квадратных скобках
+[ - ]: соответствует одному символу из определенного диапазона
+[ ^ ]: соответствует одному символу, который неуказан после символа ^
+
+
+#find
+db.Phones.Find(3); // выберем элемент с id=3
+
+
+
+
+
+отслеживание изменений #ChangeTracker #QueryTrackingBehavior #NoTracking #AskNoTracking #отслеживание #tracing
+Можно отключить отслеживание изменений db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+//изменения не будут сохранены
+var phone = db.Phones.FirstOrDefault();
+phone.Price = 66600;
+db.SaveChanges();
+
+
+
+Узнать сколько элементов отслеживаются db.ChangeTracker.Entries().Count();
+
+
+Если объекты отслеживаются то ссылки будут указывать на 1 объект 
+var phone = db.Phones.FirstOrDefault();
+var phone2 = db.Phones.FirstOrDefault();
+phone.Price = 66000;
+Если не отслеживается то они не будут связаны
+
+
+
+
+
+
+
 #attr
 
 
@@ -3143,6 +3191,13 @@ modelBuilder.Entity<Player>()
             .OnDelete(DeleteBehavior.Cascade);
 
 
+
+//ограничиваем запросы к таблице(добавление #фильтра #filter) все запросы к таблице будут возвращать только записи которые будут удовлетворять этим условиям
+//в результате запросов будут извлекаться только те объекты User, у которых значение свойства Age больше 17, а свойство RoleId равно значению свойства RoleId их контекста данных
+//данный фильтр будет действовать для всех запросов к базе данных, которые извлекают данные из таблицы Users
+modelBuilder.Entity<User>().HasQueryFilter(u => u.Age > 17 && u.RoleId == this.RoleId);
+//Можно игнорировать фильтры 
+db.Users.IgnoreQueryFilters().Min(x => x.Age);
 
 
         base.OnModelCreating(modelBuilder);
@@ -3270,6 +3325,27 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 
 
 
+По умолчанию при работе с цепочками наследования классов Entity Framework Core использует подход #TPH (Table Per Hierarchy / Таблица на одну иерархию классов).,
+ если несколько сущностей и главная user, то при получении userов мы получим всех, но в контексте будет 3 списка
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #load #include
 
@@ -3359,6 +3435,61 @@ db.Users.UpdateRange(user1, user2);
 
 
 
+
+
+
+
+
+#sql #query #comand 
+#FromSql - только для выборки
+var comps = db.Companies.FromSql("SELECT * FROM Companies").ToList();
+Тут все будет выполняться за 1 sql. Запрос var comps = db.Companies.FromSql("SELECT * FROM Companies").OrderBy(x=>x.Name).ToList();
+
+
+//#param #SqlParameter 
+SqlParameter param = new SqlParameter("@name", "%Galaxy%");
+var phones = db.Phones.FromSql("SELECT * FROM Phones WHERE Name LIKE @name", param).ToList();
+//
+var name = "%Galaxy%";
+var phones = db.Phones.FromSql("SELECT * FROM Phones WHERE Name LIKE {0}", name).ToList();
+
+для crud надо применять метод #ExecuteSqlCommand(),который возвращает количество затронутых командой строк. надо применять к свойству #Database 
+string htc = "htc";
+int numberOfRowInserted = db.Database.ExecuteSqlCommand("INSERT INTO Companies (Name) VALUES ({0})", htc);
+
+
+
+Если в строку запроса параметры будет передавать через интерполяцию $, то. В бд будет генериться так
+@p0='%Galaxy%'
+@p1=30000
+SELECT *
+FROM Phones
+WHERE Name LIKE @p0 AND Price > @p1
+
+
+
+
+
+
+
+
+#parallel
+Параллелизм выбросит исключение если данные кто то уже поменял 
+
+Перед добавлением сравнивает Id,name и если они одинаковые то все хорошо
+[#ConcurrencyCheck]
+public string Name { get; set; 
+catch(#DbUpdateConcurrencyException ex){}
+через fluent 
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{modelBuilder.Entity<User>().Property(b => b.Name).IsConcurrencyToken();}
+
+
+
+Другой способ 
+[#Timestamp]//свойство именно такогго типа
+public byte[] RowVersion { get; set; }
+ 
 
 
 
@@ -3568,10 +3699,33 @@ Database.EnsureCreated();
 
 
 
-#IdentityUser  #ApplicationUser
+#IdentityUser  #ApplicationUser #user
 public class ApplicationUser : IdentityUser{}
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 надо заменить все схождения "IdentityUser" в проекте на "ApplicationUser"
+
+
+
+#id #check_id #userId  #userName #Email
+в контроллере
+var userId =  User.FindFirst(ClaimTypes.NameIdentifier)?.Value // will give the user userId
+        var userName =  User.FindFirst(ClaimTypes.Name)?.Value // will give the user userName
+        var userEmail =  User.FindFirst(ClaimTypes.Email)?.Value // will give the user Email
+
+не в контроллере
+олучаем через DI
+public OtherClassConstr(IHttpContextAccessor httpContextAccessor)
+
+var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      // or
+      var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+   
+и регистрируем
+ services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    // Or you can also register as follows
+    services.AddHttpContextAccessor();
+
+
 
 
 
@@ -3593,7 +3747,7 @@ public AdminController(UserManager<ApplicationUser> manager)
 #GetRolesAsync (user): возвращает список ролей, к которым принадлежит пользователь user
 #IsInRoleAsync(user, name): возвращает true, если пользователь user принадлежит роли name
 #RemoveFromRoleAsync(user, name): удаляет роль name у пользователя user
-
+#GetUserAsync(HttpContext.User)
 
 
 
@@ -4603,6 +4757,10 @@ Response---
 частичное представление
 @Html.Partial("_GetMessage")
 @Html.Partial("_GetMessage", new List<string> { "Lumia 950", "iPhone 6S", "Samsung Galaxy s 6", "LG G 4" })
+ <partial name="_LoginPartial" />
+<partial name="~/Pages/Folder/_PartialName.cshtml" />
+<partial name="../Account/_PartialName.cshtml" />
+!!! @await Html.PartialAsync("/Views/Partial/MainHeader.cshtml",new DataArchives.Models.ViewModel.MainHeaderV((string)ViewData["MainHeaderSelectPage"]))
 
 тоже самое что и @{await Html.RenderPartialAsync("_GetMessage");}
 
@@ -6405,7 +6563,40 @@ public void ConfigureServices(IServiceCollection services)
 
 
 
+#img #image #byte #file #IFormFile 
+[HttpPost]
+        public async Task<IActionResult> AddFile(IFormFile uploadedFile)
+        {
+            if (uploadedFile != null)
+            {
+                // путь к папке Files
+                string path = "/Files/" + uploadedFile.FileName;
+                // сохраняем файл в папку Files в каталоге wwwroot
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(fileStream);
+                }
+            }
+            
+            return RedirectToAction("Index");
+        }
 
+
+
+//при множественно загрузке #IFormFileCollection
+public async Task<IActionResult> AddFile(IFormFileCollection uploads)
+foreach(var uploadedFile in uploads)
+    {...}
+
+
+
+если байты
+byte[] imageData = null;
+        // считываем переданный файл в массив байтов
+        using (var binaryReader = new BinaryReader(uploadedFile.OpenReadStream()))
+        {
+            imageData = binaryReader.ReadBytes((int)uploadedFile.Length);
+        }
 
 
 

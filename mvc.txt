@@ -2176,15 +2176,23 @@ private object obj = new object();
    // синхронизированная область для obj
 }
 //преабразуется в
-Monitor.Enter(obj);
+bool acquired = false;
+object tmp = listLock; 
 try
 {
-   // синхронизированная область для obj
+Monitor.Enter(tmp, ref acquired);//Запрос блокировки внутри блока try
+list.Add("item");
 }
 finally
 {
-   Monitor.Exit(obj);
+if (acquired)//Условное освобождение блокировки
+{
+Monitor.Exit(tmp);
 }
+}
+
+
+
 if (Monitor.TryEnter(lockObject, 300)) {  
     try {  
         // Place code protected by the Monitor here.  
@@ -3905,6 +3913,8 @@ finally{
     background-size: contain;
 }
 
+<img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" />
+
 
 загрузка картинок на сервер сюда код формы метод для преобразования картинок в байты и тд
 @using (Html.BeginForm("Add_new_image", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -4273,6 +4283,20 @@ FileFormat: XlFileFormat.xlWorkbookNormal);
 app.Application.Quit();
 
 
+#Ексель 
+using  Microsoft.Office.Interop.Excel
+
+var арр = new Application { Visible = true };//Открыть Excel с активным рабочим листом
+арр.Workbooks.Add();
+Worksheet worksheet = (Worksheet) app.ActiveSheet;
+//Создать диапазон можно было бы и с помощью единственного вызова метода Range["А1:Т1]
+Range start = (Range) worksheet.Cells[1, 1];//Определить начальную и конечную ячейки
+Range end = (Range) worksheet.Cells[1, 20];//Определить начальную и конечную ячейки
+worksheet.Range[start, end].Value = Enumerable.Range(1, 20).ToArray();//Заполнить диапазон значений [1, 20]
+ 
+
+
+
 
 
 
@@ -4301,6 +4325,10 @@ app.Application.Quit();
 
 
 
+#python
+ScriptEngine engine = Python.CreateEngine();
+engine.Execute("print 'hello, world'");
+engine.ExecuteFile("HelloWorld.py");
 
 
 

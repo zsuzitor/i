@@ -166,6 +166,54 @@ module.exports= class User{
 
 
 
+let SiteGuest = class User {
+  sayHi() { alert('Привет!'); }
+};
+
+new SiteGuest().sayHi(); // Привет
+new User(); // ошибка
+
+
+
+
+//#get #set 
+ // геттер
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  // сеттер
+  set fullName(newValue) {
+    [this.firstName, this.lastName] = newValue.split(' ');
+  }
+
+  // вычисляемое название метода #TODO
+  ["test".toUpperCase()]() {
+    alert("PASSED!");
+  }
+
+
+
+//#static
+static createGuest() {
+    return new User("Гость", "Сайта");
+  }
+
+
+
+//наследование  #extends 
+class Rabbit extends Animal {
+  walk() {
+    super.walk();
+    alert("...and jump!");
+  }
+constructor() {
+    // вызвать конструктор Animal с аргументом "Кроль"
+//super() можно вызвать только в конструкторе, и перед этим вызовом не может быть обращения к this
+    super("Кроль"); // то же, что и Animal.call(this, "Кроль")
+  }
+}
+
 
 
 
