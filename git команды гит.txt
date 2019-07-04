@@ -32,6 +32,35 @@ Then press @Enter@
 
 
 
+
+
+
+
+1. Копируете себе локально репозиторий.
+git clone url [folder]
+cd [folder]
+2. Создаете ветку [branch_name]
+git checkout -b [branch_name]
+3. Делайте изменения 
+4. Делаете один коммит или несколько.
+git add . (если создавали новые файлы)
+git commit -am "Added beautiful fixes"
+5. Создаете удаленную ветку.
+git push --set-upstream origin [branch_name]
+В дальнейшем когда удаленная ветка создана то просто 
+git push
+6. Создаете в интерфейсе github pull-request. Из вашей ветки в master.
+
+
+
+
+
+
+
+
+
+
+
 https://git-scm.com/book/ru/v1/%D0%92%D0%B5%D1%82%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-Git-%D0%A3%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B5%D1%82%D0%BA%D0%B0%D0%BC%D0%B8
 
 

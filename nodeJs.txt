@@ -754,8 +754,9 @@ app.use(function (req, res, next) {
     res.status(404).send("Not Found")
 });
 // начинаем прослушивать подключения на 3000 порту
-app.listen(3000);
-
+//вот так(закомментил) была ошибка и пофикшена была, app.listen(3000);
+app.set('port', "3000");
+module.exports = app;
 
 
 
