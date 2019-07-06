@@ -51,8 +51,139 @@ $("#test2").addClass("active")
 
 
 
-#проверить #существование #элемента
+#проверить #существование #элемента #exist #существует #элемент
 $("div").is(".lBlock")
+проверить существует ли элемент jquery $(".class").is("#id")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#select #выбрать #first #1 #первый
+сделать первый элемент в select выбранным $("#actionI").val($("#actionI option:first").val());
+$("#actionI option[value='idOption']").prop("selected", true); // установить выбранным idOption
+
+
+#ready #document #start #старт
+$(document).ready(function () 
+{
+
+
+#checkbox #radiobutton #each #for #foreach
+$('#' + ch.value + type + ' input:checkbox:checked').each(function () {//[type=checkbox] 
+$(this).removeAttr("checked") 
+});
+
+
+
+
+#scroll #scrollTop
+
+$("html, body").animate({ scrollTop: $("#ScrollChangeActionId").offset().top }, "slow");
+
+#запретить #скролл body.modal-open { 
+overflow: hidden; 
+}
+
+
+
+
+
+
+
+
+
+
+#int #приведение #parseInt
+
+var num = parseInt("a4r t 4r43 43a b345b 123 cc gaeg4".replace(/\D+/g,"")); 
+parseInt- парсит строку слева направо преобразу€ по символу, если находит не цифру то заканчивает
+
+
+
+
+
+
+
+
+
+
+
+
+#JS
+
+#отмена #клика #cancel #click #остановка #отстановить #отмена #клик
+
+event.stopPropagation();
+
+это не будет работать если этот блок в ссылке, но будет если внешней ссылки нет
+onclick='event.stopPropagation()'
+
+||
+ elem = document.getElementById("tbl1");
+  elem.addEventListener("click", stopEvent, false);
+
+function stopEvent(ev) {
+  // this ought to keep t-daddy from getting the click.
+  ev.stopPropagation();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

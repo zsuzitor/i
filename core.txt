@@ -231,7 +231,7 @@ await _next.Invoke(context);//моно вызвать следующий по очереди метод, если его 
 
 #run
 //метод является конечным(дальше вызываться ничего не будет)
-//данный метод не передает обработку запроса далее по конвейеру, то его следует помещать в самом конце
+//данный метод не передает обработку запроса далее по конвейеру, тоесть его следует помещать в самом конце
 //В качестве параметра метод Run принимает делегат RequestDelegate. Этот делегат имеет следующее определение:
 //public delegate Task RequestDelegate(HttpContext context);
 
@@ -323,6 +323,18 @@ if (env.IsDevelopment())
 если не хотим передавать в конструктор контроллера 
 
 ///
+
+то можно так, сам все создаст и закинет
+public IActionResult Index([FromServices] IHostingEnviroment env)
+#TODO кажется дубликат
+#create #зависимость
+var env=HttpContext.RequestServices.GetService<IHostingEnvironment>();
+
+
+
+
+
+///
 при services.AddTransient<ITimeService, SimpleTimeService>();
 public class HomeController : Controller
 {
@@ -335,6 +347,13 @@ public class HomeController : Controller
 }
 
 
+
+для внедрения в вью
+@inject MvcViewsApp.Services.IMessageSender MessageSender
+@MessageSender.SendMessage()
+
+
+
 ///ТЕОРИЯ что происходит при передаче через конструктор контроллера
 Приложение получает запрос к методу контроллера HomeController
 Фреймворк MVC обращается к провайдеру сервисов для создания объекта контроллера HomeController
@@ -343,21 +362,6 @@ public class HomeController : Controller
 Если нужная зависимость найдена, то провайдер сервисов создает объект класса, который реализует интерфейс ITimeService
 Затем провайдер сервисов создает объект HomeController, передавая в его конструктор ранее созданную реализацию ITimeService
 В конце провайдер сервисов возвращает созданный объект HomeController инфраструктуре MVC, которая использует контроллер для обработки запроса
-
-///
-
-то можно так, сам все создаст и закинет
-public IActionResult Index([FromServices] IHostingEnviroment env)
-#TODO кажется дубликат
-#create #зависимость
-var env=HttpContext.RequestServices.GetService<IHostingEnvironment>();
-
-
-
-для внедрения в вью
-@inject MvcViewsApp.Services.IMessageSender MessageSender
-@MessageSender.SendMessage()
-
 
 
 
@@ -421,7 +425,7 @@ services.AddTransient<IMessageSender>(provider=> {
 
 // теперь можем указать IMessageSender как подключенный сервис
 Configure(IApplicationBuilder app, IHostingEnvironment env, IMessageSender messageSender)
-messageSender.Send();//вызовется метод того класс зависимость которого установили
+messageSender.Send();//вызовется метод того класса зависимость которого установили
 
 теперь данную зависимость можно использовать:
 Через конструктор класса (за исключением конструктора класса Startup) - класс может иметь только 1 конструктор который поддерживает параметр зависимости
@@ -592,7 +596,7 @@ app.UseDirectoryBrowser(new DirectoryBrowserOptions()
 
 
 app.#UseFileServer();
-Метод UseFileServer() объединяет(остальные указывать не надо) функциональность сразу всех трех вышеописанных методов UseStaticFiles, UseDefaultFiles и UseDirectoryBrowser
+Метод UseFileServer() объединяет(остальные указывать не надо) функциональность сразу всех трех методов UseStaticFiles, UseDefaultFiles и UseDirectoryBrowser
 
 Если нам надо еще включить просмотр каталогов, то
 app.UseFileServer(enableDirectoryBrowsing: true);
@@ -732,7 +736,7 @@ return View();
 ------------
 еще вариант в контроллере #TODO сравнить оценить мб оставить только один варик
 
-есть инструкция по проще
+есть инструкция проще
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 {
 loggerFactory.AddFile(Configuration["Logging:LogFileName"]);
@@ -804,7 +808,7 @@ _logger.LogInformation("test message");
 
 
 
-#TODO сздание провайдера логгирования(вывод логов не на консоль а например в файл)
+#TODO создание провайдера логгирования(вывод логов не на консоль а например в файл)
 https://metanit.com/sharp/aspnet5/2.10.php
 
 
@@ -1014,7 +1018,7 @@ preload: если этот параметр установлен, то будет использоваться специальный prel
 
 
 
-#IConfiguration #IConfigurationRoot #конфигурация
+#IConfiguration #IConfigurationRoot #конфигурация #config
 хранение конфигурации приложения
 в версии 2.0++ не обязательно все явно подключать все может подключиться само:
 создать файл appsettings.json - обязательно такое имя // #appsettings.json
@@ -1224,7 +1228,7 @@ app.UseMiddleware<PersonMiddleware>();
 
 
 
-#Request #Query
+#Request #Query #params
 получение переданных параметров get
 string altitudeString = Request.Query.FirstOrDefault(p => p.Key == "altitude").Value;
 

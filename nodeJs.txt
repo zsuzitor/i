@@ -176,6 +176,56 @@ new User(); // ошибка
 
 
 
+
+
+function Machine() {//функция конструктор класса, если нужны параметры то закидывать
+  var enabled = false;//private свойство, 
+
+function asd(){//private функция, не будет наслодоваться, если  надо наседовать то объявлять через this._asd  ,  _- указывает что функция прайват
+
+}
+  this.enable = function() {//public функция будет наследоваться
+    enabled = true;
+  };
+
+  this.disable = function() {
+    enabled = false;
+  };
+}
+
+var sdf=new Machine();// или(но лучше со скобками) var sdf=new Machine;
+
+
+2 способ с 2015 года
+'use strict';//указывает о том что новые стандарты используются
+
+class User {
+//нельзя указывать поля(var a)
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayHi() {
+    alert(this.name);
+  }
+static createGuest() {
+    return new User("Гость", "Сайта");
+  }
+
+}
+
+let user = new User("Вася");
+
+
+
+
+
+
+
+
+
+
+
 //#get #set 
  // геттер
   get fullName() {
@@ -224,6 +274,76 @@ const User = require("./user.js");
  
 let eugene = new User("Eugene", 32);
 eugene.sayHi();
+
+
+
+
+
+
+
+
+
+
+
+наследование 
+function CoffeeMachine(power) {
+  Machine.call(this); // унаследовать то что через this. задано(public свойства)
+//или так
+//Machine.apply(this, arguments)
+
+// переопределить this.enable
+  this.enable = function() {
+    /* enable для кофеварки */
+  };
+
+
+//если хотим дополнить метод то так
+var parentEnable = this.enable; 
+  this.enable = function() { 
+      parentEnable.call(this);
+      this.run(); 
+}
+}
+
+
+
+
+наследование при class
+
+'use strict';
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  walk() {
+    alert("I walk: " + this.name);
+  }
+}
+
+class Rabbit extends Animal {
+  walk() {
+    super.walk();//метод родителя будет вызываться
+    alert("...and jump!");
+  }
+
+constructor() {
+
+//Вызвать конструктор родителя можно только изнутри конструктора потомка. В частности, super() нельзя вызвать из произвольного метода.
+//В конструкторе потомка мы обязаны вызвать super() до обращения к this. До вызова super не существует this, так как по спецификации в этом случае именно super инициализирует this.
+    // вызвать конструктор Animal с аргументом "Кроль"
+    super("Кроль"); // то же, что и Animal.call(this, "Кроль")
+  }
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -422,6 +542,24 @@ display("Обработка данных...", function (err, data){
     if(err) throw err;
     console.log(data);
 });
+
+
+////--#await
+
+async function add1(x) {
+  const a = await resolveAfter2Seconds(20);
+  const b = await resolveAfter2Seconds(30);
+  return x + a + b;
+}
+
+
+function resolveAfter2Seconds(x) {
+  return new Promise(resolve => {//для этого объекта можно применять await
+    setTimeout(() => {
+      resolve(x);//функция которая будет вызываться асинхронно
+    }, 0);
+  });
+}
 
 
 
@@ -1470,6 +1608,7 @@ collection.find({}).toArray(function(err, users){
 collection.findOne({_id: id}, function(err, user){
 
 
+
 #deleteMany(): удаляет все документы, которые соответствуют определенному критерию, в данном улчае result это не коллекция удаленных элементов, а сложный объект
 db.collection("users").deleteMany({name: "Tom"}, function(err, result){
 #deleteOne(): удаляет один документ, который соответствует определенному критерию
@@ -1535,7 +1674,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
   
 // установка схемы
-const userScheme = new Schema({
+const userSchema = new Schema({
     name: String},
  { versionKey: false }//при сохранении данных в документе сохраняется версия(поле __v), такой строкой ее можно отключить
 );
@@ -1549,6 +1688,36 @@ const user = new User({
     name: "Bill"
 });
   
+
+
+
+
+#static
+добавляем статические методы
+userSchema.statics.findUserByName = (name, cb) => {
+  return this.findOne({name: new RegExp(name, 'i')}, cb)
+}
+//User.findUserByName('alex', (err, user) => {console.log(err, user)})
+
+
+//не статический метод
+userSchema.methods.findSimilarUsersByCountry = function (cb) {
+  return this.model('User').find({country: this.country}, cb)
+}
+
+userSchema.methods.findSimilarUsersByCountry = function (cb) {
+  return this.model('User')
+    .where('country', this.country)
+    .where('_id').ne(this._id)
+    .exec(cb)
+}
+
+
+
+
+
+
+
 user.save(function(err){
     mongoose.disconnect();  // отключение от базы данных
       
@@ -1645,6 +1814,8 @@ findById: возвращает один объект по значению поля _id
 
 User.#find({}, function(err, docs){});//функция как обычно, docs-массив выбранных данных
 User.#findById("123asd", function(err, doc){});//
+User.findOne({name: new RegExp('alex', 'i')}, (err, user) => {})
+
 
 User.#remove({age:33}, function(err, result){//result-- объект операции
 User.#findOneAndDelete({name:"Bill"}, function(err, doc){//result-- объект который удален
@@ -1656,6 +1827,17 @@ User.updateOne({name: "Tom"}, {name: "Tom Smith"}, function(err, result){//resul
 User.#findByIdAndUpdate(id, {name: "Sam", age: 25}, function(err, result){//result-- старый док
 User.findByIdAndUpdate(id, {name: "Bilbo Baggins", age: 111}, {new: true}, function(err, user){//result-- обновленный док
 User.findOneAndUpdate({name: "Sam"}, {name: "Bill", age:24}, {new: true}, function(err, user){
+
+
+
+
+
+User.findUserByName('alex', (err, user) => {
+  user.country = 'US'
+  user.save((err, savedUser) => {
+    console.log('saaa', err, savedUser)
+  })
+})
 
 
 
