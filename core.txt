@@ -858,7 +858,7 @@ using Microsoft.AspNetCore.Http;
 
 Для хранения состояния сессии на сервере создается словарь или хеш-таблица, которая хранится в кэше и которая существует для всех запросов из одного браузера в течение некоторого времени. На клиенте хранится идентификатор сессии в куках. Этот идентификатор посылается на сервер с каждым запросом. Сервер использует этот идентификатор для извлечения нужных данных из сессии. Эти куки удаляются только при завершении сессии. Но если сервер получает куки, которые установлены уже для истекшей сессии, то для этих кук создается новая сессия.
 название куки в которой хранится ключ сессии по умолчанию - ".AspNet.Session"
-все сессии работают поверх объекта #IDistributedCache
+все сессии работают поверх объекта #IDistributedCache //#AddDistributedMemoryCache
 
 
 в ConfigureServices
@@ -908,7 +908,7 @@ services.AddDistributedMemoryCache();
 
 
 
-хранить в сессии можно только строку, поэтому надо конвертить(можно так)
+хранить в сессии можно только строку\число, поэтому надо конвертить(можно так)
 #json
 
 //context.Session.Get<Person>("person");
@@ -1253,7 +1253,7 @@ string altitudeString = Request.Query.FirstOrDefault(p => p.Key == "altitude").V
 
 #attr
 
-#route #HttpGet #get #post
+#route #HttpGet #get #post #routing #router
 [HttpGet("api/index")]
 Index()
 [HttpGet("api/index/{id}")]
@@ -1384,10 +1384,10 @@ services.AddRouting();
 #RouteHandler #RouteBuilder 
 
 Configure->
- // определяем обработчик маршрута
+ // определяем обработчик маршрута (только если нужно определить его как объект, в таком случае мы не будем его указывать в MapRoute)
             var myRouteHandler = new RouteHandler(Handle);
             // создаем маршрут, используя обработчик
-            var routeBuilder = new RouteBuilder(app, myRouteHandler);
+            var routeBuilder = new RouteBuilder(app, myRouteHandler);//если делегат надо указывать в MapRoute то тут поставляем только параметр app --(app);
 
 //ТУТ надо применить MapRoute
 
@@ -1438,7 +1438,7 @@ routeBuilder.MapRoute("{controller}/{action}",
 
 
 
-//если мы подключили MVC добавление компонентов mvc и определение маршрута
+//если мы подключили #MVC добавление компонентов mvc и определение маршрута
 //Метод app.UseMvc() в качестве параметра принимает объект Action<IRouteBuilder> #IRouteBuilder
 //Для обработки маршрутов фреймворк предоставляет встроенный класс #MvcRouteHandler
         app.UseMvc(routes =>
@@ -2009,7 +2009,7 @@ span с таким атрибутом сгенерит код и будет содержать ошибки
 
 
 
-#js #ajax #jquery #error #valid
+#js #ajax #jquery #error #valid #ModelState #IsValid
 обработка ошибок js которые устанавливаются через ModelState.AddModelError
 if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -2387,7 +2387,10 @@ asp-route-[название параметра]: определяет значение для определенного параметра
         crossorigin="anonymous"
         integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
 </script>
-Данный элемент представляет не просто стандартный тег script, но и класс тег-хэлпера ScriptTagHelper. Атрибут src указывает на скрипт, который мы хотим подключить. Логично подключать скрипты из CDN, чтобы сократить нагрузку на собственный сайт. Но CDN может не работать, например, произойдет какой-то временный сбой, и чтобы определить, что скрипт загружен, применяется атрибут asp-fallback-test. Он тестирует загрузку с помощью выражения window.jQuery. Если объект window.jQuery определен, то загрузка скрипта прошла успешно. Если же нет, то загружается скрипт, который указан в атрибуте asp-fallback-src.
+Данный элемент представляет не просто стандартный тег script, но и класс тег-хэлпера ScriptTagHelper. Атрибут src указывает на скрипт, который мы хотим подключить. 
+Логично подключать скрипты из CDN, чтобы сократить нагрузку на собственный сайт. Но CDN может не работать, например, произойдет какой-то временный сбой, и чтобы определить, 
+что скрипт загружен, применяется атрибут asp-fallback-test. Он тестирует загрузку с помощью выражения window.jQuery. Если объект window.jQuery определен, то загрузка скрипта прошла успешно. 
+Если же нет, то загружается скрипт, который указан в атрибуте asp-fallback-src.
 
 
 
@@ -2414,7 +2417,9 @@ asp-route-[название параметра]: определяет значение для определенного параметра
 
 
 #CacheTagHelper #cache #кеш #кэш
-CacheTagHelper обертывает контент представления и позволяет кэшировать его в памяти сервера. Он использует тег <cache>, и весь контент, определенный внутри этого тега, кэшируется в памяти. Перед кэшированием тег-хелпер проверяет, сохранен ли уже данный контент в MemoryCache. Если контент имеется в кэше, тогда движку Razor посылается контент из кэша. Если же данного контента не оказывается в кэше, тогда Razor обрабатывает контент, а тег-хелпер сохраняет контент в memory cache для последующего использования
+CacheTagHelper обертывает контент представления и позволяет кэшировать его в памяти сервера. Он использует тег <cache>, и весь контент, определенный внутри этого тега, кэшируется в памяти. 
+Перед кэшированием тег-хелпер проверяет, сохранен ли уже данный контент в MemoryCache. Если контент имеется в кэше, тогда движку Razor посылается контент из кэша.
+ Если же данного контента не оказывается в кэше, тогда Razor обрабатывает контент, а тег-хелпер сохраняет контент в memory cache для последующего использования
 <cache expires-after="@TimeSpan.FromMinutes(5)">  
     @Html.Partial("BookInfo")
 </cache> 
@@ -2977,6 +2982,7 @@ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     }
 
 
+//#ConnectionStrings
 в appsettings.json->
 добавить в внешние скобки "ConnectionStrings": 
 {
@@ -3011,7 +3017,7 @@ using (ApplicationContext db = new ApplicationContext(options))
 
 
 
-#migration
+#migration #миграция
 //
 Add-Migration уникальное_название_миграции
 //выполняем
@@ -3116,7 +3122,8 @@ db.Phones.Find(3); // выберем элемент с id=3
 
 
 отслеживание изменений #ChangeTracker #QueryTrackingBehavior #NoTracking #AskNoTracking #отслеживание #tracing
-Можно отключить отслеживание изменений db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+Можно отключить отслеживание изменений 
+db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
 //изменения не будут сохранены
 var phone = db.Phones.FirstOrDefault();
@@ -3414,7 +3421,7 @@ db.Phones.Add(phone);
 
 
 #удаление #delete
-удалить можно так//сгенерирует 1 запрос
+удалить можно так//сгенерирует 1 запрос #EntityState #Deleted
 Phone phone = new Phone { Id = id.Value };
         db.Entry(phone).State = EntityState.Deleted;
         await db.SaveChangesAsync();
@@ -3506,7 +3513,7 @@ public byte[] RowVersion { get; set; }
 
 
 #AddAuthentication #Authentication #user #авторизация #CookieAuthenticationDefaults #AuthenticationScheme #AddCookie #CookieAuthenticationOptions #LoginPath 
-#Identity 
+#Identity  #IIdentity 
 
 
 
@@ -4298,7 +4305,7 @@ if (result.Succeeded)
 
 
 
-#пути #sign
+#пути #sign #path
 #css #rel #href
 из папки wwwroot/lib/bootstrap/dist/css/
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -4780,7 +4787,8 @@ Response---
 
 
 #Области #area
-каждая область представляет какой-то свой сегмент приложения. Например, одна область может отвечать за функции администрирования, другая - за управление учетными записями и т.д. И каждая область представляет собой мини-проект, имеет свою собственную структуру каталогов. Это позволяет разрабатывать и тестировать код для каждой области отдельно независимо от других областей.
+каждая область представляет какой-то свой сегмент приложения. Например, одна область может отвечать за функции администрирования, другая - за управление учетными записями и т.д.
+ И каждая область представляет собой мини-проект, имеет свою собственную структуру каталогов. Это позволяет разрабатывать и тестировать код для каждой области отдельно независимо от других областей.
 Как правило, области помещаются в отдельную папку.
 
 создать иерархию Areas/Store и добавить - Controllers и Views
@@ -5010,7 +5018,7 @@ public IViewComponentResult Invoke()
 
 
 #BindRequired и #BindNever #attr
-зменение алгоритма привязки
+изменение алгоритма привязки
 
 Атрибут BindRequired требует обязательного наличия значения для свойства модели.
 
@@ -5112,7 +5120,7 @@ public SimpleActionFilter(int age, string message){}
         {}
         public void OnActionExecuted(ActionExecutedContext context)
         { 
-		ontext.HttpContext.Response.Cookies.Append("LastVisit","--");
+		context.HttpContext.Response.Cookies.Append("LastVisit","--");
 		//вот так можно остановить конвейер выполнения (предотвратить выполнение последующих фильтров)
 // Значение этого свойства фактически будет использоваться в качестве результата выполнения запроса.
 		context.Result =  new ContentResult { Content = "Ресурс не найден" };
@@ -5950,7 +5958,7 @@ MS Test: фреймворк юнит-тестирования от компании Microsoft, который по умолчанию
 начиная с Visual Studio 2017 специально для тестов были добавлены два типа проектов: xUnit Test Project(.NET Core)(фреймворк xUnit) и Unit Test Project(.NET Core)(MSTest Framework)
 
 
-дальше алгоритм прочто через Class Library (.NET Core) + добавление xUnit руками
+дальше алгоритм просто через Class Library (.NET Core) + добавление xUnit руками
 При создании проекта тестирования нужно указать "добавить в решение", если нужно чтобы тесты были внутри основного проекта
 необходимо добавить через NuGet пакеты в таком порядке:
 Microsoft.NET.Test.Sdk
