@@ -1,0 +1,130 @@
+создать папки 
+Controllers 
+Models ->Domain,
+Views (если создана папка Pages то ее переименовать)->папки по названи€м контроллеров, Shared
+Data - все что св€зано с бд и в нее Migrations
+
+
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
+
+            app.UseAuthentication();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Archives}/{action=Index}/{id?}");
+            });
+        }
+
+
+
+в appsettings.json
+
+"ConnectionStrings": {
+    "DefaultConnection": "Server=.\\SQLEXPRESS01;Database=aspnet-DataArchives-9071A866-2221-492C-BC4C-55D4F0F1F4F8;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+
+
+
+
+
+
+services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+//до mvc
+services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+
+в папку Data закинуть класс
+public class ApplicationDbContext:DbContext//: IdentityDbContext<ApplicationUser>
+    {
+        public DbSet<Article> Articles { get; set; }
+
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+               : base(options)
+        {
+            Database.EnsureCreated();//создаст Ѕƒ если ее нет
+        }
+
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // использование Fluent API см по тегу fluent
+            base.OnModelCreating(modelBuilder);
+        }
+
+    }
+
+
+
+
+public class ApplicationUser : IdentityUser
+    {
+    }
+
+
+
+создать HomeController:Controller
+
+
+
+
+
+
+Views ->
+_ViewImports.cshtml
+@using ProjName
+@using ProjName.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+_ViewStart.cshtml
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+Shared->
+Error.cshtml
+CookieConsentPartial.cshtml
+_Layout.cshtml
+_LoginPartial.cshtml
+ValidationScriptsPartial.cshtml
+
+
+
+
+добавить страницы логина и регистрации через шаблоны 
+areas->identity->pages->_viewStart надо путь до ла€ута сделать такой же как в основном  _ViewStart.cshtml
+
+
+
+
+
+
+
+
+
+

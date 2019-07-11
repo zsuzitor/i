@@ -88,7 +88,6 @@ AS выражение_SELECT
 
 CREATE VIEW OrdersProductsCustomers AS SELECT Orders.CreatedAt AS OrderDate, ...
 CREATE VIEW OrdersProductsCustomers2 (OrderDate, Customer,Product) AS SELECT ...
-
 SELECT * FROM OrdersProductsCustomers
 
  оманда SELECT, используема€ в представлении, не может включать выражени€ INTO или ORDER BY (за исключением тех случаев, когда также примен€етс€ выражение TOP или OFFSET). ≈сли же необходима сортировка данных в представлении, то выражение ORDER BY примен€етс€ в команде SELECT, котора€ извлекает данные из представлени€.

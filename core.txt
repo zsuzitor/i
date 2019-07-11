@@ -2982,7 +2982,7 @@ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     }
 
 
-//#ConnectionStrings
+//#ConnectionStrings #GetConnectionString
 в appsettings.json->
 добавить в внешние скобки "ConnectionStrings": 
 {
@@ -3511,7 +3511,7 @@ public byte[] RowVersion { get; set; }
 
 
 
-
+#UseAuthentication
 #AddAuthentication #Authentication #user #авторизаци€ #CookieAuthenticationDefaults #AuthenticationScheme #AddCookie #CookieAuthenticationOptions #LoginPath 
 #Identity  #IIdentity 
 
@@ -3785,7 +3785,7 @@ public class HomeController : Controller
 
 
 ѕри установке контекста в методе ConfigureServices() также устанавливаетс€ и класс роли:
-
+//до mvc
 services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();

@@ -1717,7 +1717,7 @@ userSchema.methods.findSimilarUsersByCountry = function (cb) {
 
 
 
-
+//добавляем в бд+ создаем саму бд если ее нет
 user.save(function(err){
     mongoose.disconnect();  // отключение от базы данных
       
@@ -1764,6 +1764,55 @@ company: {//указываем сложный тип данных
 
 
 
+//если нужен массив в схеме
+var Lib = new mongoose.Schema({
+	userId: mongoose.Schema.ObjectId,
+	images: {
+		// правила валидации и дефолты для каждого из полей объекта массива images
+		type: [{
+			uploaded: {
+				type: Date,
+				default: Date.now
+			},
+			src: String
+		}],
+		// значение по-умолчанию для поля images
+		default: [{uploaded: new Date(2012, 11, 22), src: '/img/default.png'}]
+	}
+});
+module.exports = mongoose.model('Lib', Lib);
+
+
+
+
+//если надо выгрузить всю коллекцию на частями
+e.m.users.find({}).stream()
+	.on('data', function(user) {
+		var me = this;
+		me.pause();
+		
+		// выполняем надо пользователем очень хитрые асинронные манипуляции
+		user.save(function(err) {
+			me.resume(err);
+		});
+	})
+	.on('error', function(err) {
+		log(err);
+	})
+	.on('close', function() {
+		log('All done');
+	});
+
+
+
+
+
+
+
+
+
+
+
 
 Определение типа свойств в схеме
 В качестве типа данных можно указывать одно из следующих значений:
@@ -1795,6 +1844,9 @@ match: строка должна соответствовать регулярному выражению
 
 
 
+что бы правильно сравнивать id объектов надо
+user1._id.equals(user2._id)
+или user1._id.toString() == user2._id.toString()
 
 
 
@@ -1808,12 +1860,12 @@ User.create({name: "Tom", age: 34}, function(err, doc){});
 
 
 Для получения данных можно использовать целый набор методов:
-find: возвращает все объекты, которые соответствуют критерию фильтрации
-findById: возвращает один объект по значению поля _id
+#find: возвращает все объекты, которые соответствуют критерию фильтрации
+#findById: возвращает один объект по значению поля _id
 #findOne: возвращает один объект, который соответствует критерию фильтрации
 
-User.#find({}, function(err, docs){});//функция как обычно, docs-массив выбранных данных
-User.#findById("123asd", function(err, doc){});//
+User.find({}, function(err, docs){});//функция как обычно, docs-массив выбранных данных
+User.findById("123asd", function(err, doc){});//
 User.findOne({name: new RegExp('alex', 'i')}, (err, user) => {})
 
 

@@ -468,7 +468,8 @@ Console.WriteLine (s == leftRight); / / True
 #dynamic
 #Динамическое #связывание противоположность #статического #связывания #статическое
 проверка типа откладывается до выполнения
-
+Среде CLR о dynamic ничего не известно — любые
+случаи использования dynamic в коде транслируются в тип object, к которому соответствующим образом применен атрибут #DynamicAttribute
 
 dynamic val;
 val="";
@@ -503,6 +504,25 @@ d.Waddle(); // Выводит Waddle was called
 
 
 при вызове например метода которого нет(для обычного dynamic) выбросится исключение #RuntimeBinderException
+
+
+
+
+#ExpandoObject
+//такое
+dynamic expando = new ExpandoObject();
+IDictionary<string, object> dictionary = expando;
+expando.First = "value set dynamically";
+Console.WriteLine(dictionary["First"]);
+dictionary["Second"] = "value set with dictionary";
+Console.WriteLine(expando.Second);
+//
+dynamic expando = new ExpandoObject();
+expando.AddOne = (Func<int, int>) (x => x + 1);
+Console.Write(expando.AddOne(10));
+
+
+
 
 
 
@@ -1569,6 +1589,26 @@ System.Threading.Tasks
 
 после того, как задача завершена, она не может быть перезапущена. => для повторного запуска нужно пересоздать
 
+при возникновении исключения(можно узнать по свойствам, но выбросится на await)
+Свойство Status задачи получает значение Faulted, когда асинхронная операция отказала
+(и свойство IsFaulted возвращает true).
+• Свойство Exception возвращает объест AggregateException, содержащий все (потенциально множественные) исключения, которые привели к отказу задачи, или null, если
+задача не отказывала.
+• Метод Wait() сгенерирует исключение AggregateException, если задача находится в
+состоянии отказа.
+• Свойство Result класса Task<T> (который также ожидает завершения) аналогичным образом сгенерирует исключение AggregateException
+
+для того что бы выбрасывать исключения сразу а не через await
+static Task<int> ComputeLengthAsync(string text)//метод не объявляется асинхронным!
+{
+//если надо выбрасываем исключения до вызова
+return ASYNCMETHOD();//можно обернуть в асинхронную лямбду и вызвать ее+вернуть ее результат
+}
+
+
+
+
+
 
 public delegate void Action()
 public Task(Action действие)
@@ -1656,7 +1696,20 @@ var outer = Task.Factory.StartNew(() =>      // внешняя задача
 var inner = Task.Factory.StartNew(() =>  // вложенная задача
         {}, TaskCreationOptions.AttachedToParent);
     });
-outer.Wait(); // ожидаем выполнения внешней задачи
+outer.Wait(); // ожидаем выполнения внешней задачи(блокирует поток)--!! надо применять await
+
+
+
+
+#delay
+
+var taskDelay = Task.Delay(3000);//создаем delay(это не остановит таск, выполнение продолжится)
+//выполнение
+//останавливаем таск если время еще не прошло
+await taskDelay;
+
+
+
 
 
 
@@ -1798,6 +1851,8 @@ ParallelLoopResult result = Parallel.ForEach<int>(new List<int>() { 1, 3, 5, 8 }
     CancellationToken token = cancelTokenSource.Token;
 //остановить 
 cancelTokenSource.Cancel();
+cancelTokenSource.CancelAfter(TimeSpan.FromSeconds(1));
+await Task.Delay(TimeSpan.FromSeconds(1.5), source.Token);//#TODO #delay
 //в task
 if (token.IsCancellationRequested)
             {
@@ -1859,8 +1914,18 @@ DisplayHandler handler = new DisplayHandler(Display);
 
 
 
+
+
+
 #async и #await
+
 ассинхронные методы -суффикс Async
+
+await. Их нельзя применять в блоках catch или finally, в неасинхронных
+анонимных функциях, в теле оператора lock или в небезопасном коде
+
+var w=async ()=>return 1;
+
 async void DisplayResultAsync()
     {
 //возращает int тк есть await если его нет то возвращает task
@@ -1884,6 +1949,17 @@ DisplayResultAsync().GetAwaiter().GetResult();
  Task<int> t1 = FactorialAsync(num1);
 await Task.WhenAll(new[] { t1, t2, t3 });
  var gg=t1.Result
+
+
+
+#GetAwaiter #TaskAwaiter #GetResult
+Task<TResult>.GetAwaiter() возвращает объект TaskAwaiter<TResult>, который имеет метод GetResult(), возвращающий TResult
+
+#TODO
+Task.Yield(), который возвращает структуру YieldAwaitable она имеет метод GetAwaiter(), возвращающий структуру Yield
+Awaitable.YieldAwaiter, которая содержит метод GetResult(), возвращающий void
+await Task.Yield();
+
 
 
 #ef #core нужно использовать async только там где происходит реальная работа с данными(например FirstOrDefaultAsync или SaveChangesAsync), 
@@ -3607,6 +3683,17 @@ Test(in "42");//так нельзя
 свойства, операторы, индексаторы и события не могут быть обобщенными, но могут использовать в обобщенном классе с параметрами обобщенного типа этого класса
 к обобщенному методу нельзя применять модификатор extern
 типы указателей нельзя использовать в аргументах типа
+
+class BaseTypeOfDynamic : dynamic
+• class DynamicTypeConstraint<T> where T : dynamic
+• class DynamicTypeConstraint<T> where T : List<dynamic>
+• class DynamicInterface : IEnumerable<dynamic>
+Но следующие объявления будут допустимыми:
+• class GenericDynamicBaseClass : List<dynamic>
+• IEnumerable<dynamic> variable;
+
+
+
 если в обобщенном классе есть поле static то оно свое для каждого типа класса(cl<int> cl<string>-разные, cl<string> cl<string> -одно поле)
 
 параметр обобщенного типа можно сравнивать(== и =!) только с null, но если есть ограничения(например class) то можно и друг с другом
@@ -4247,7 +4334,7 @@ sizeof(type)//узнать размер типа данных
 
 
 
-#inthernet #HttpWebRequest #parse #uri #url #интернет #парсинг #www 
+#inthernet #HttpWebRequest #parse #uri #url #интернет #парсинг #www  #internet #web
 #HttpWebRequest req = (HttpWebRequest) #WebRequest.Create("http://www.McGraw-Hill.com");
 #HttpWebResponse resp = (HttpWebResponse) req. #GetResponse();
 Stream istrm = resp. #GetResponseStream();
@@ -4278,6 +4365,24 @@ public int Port { get; }
 равен 80
 public string Query { get; } Получает строку запроса
 public string Scheme { get; } Получает протокол
+
+
+
+
+
+#HttpClient обновленный тип для #WebClient #TODO не понятно откуда взялась: text
+using (HttpClient client = new HttpClient())
+{
+await client.GetStringAsync("http://csharpindepth.com");
+string str = text.Length.ToString();
+}
+
+
+
+
+
+
+
 
 
 
