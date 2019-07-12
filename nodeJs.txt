@@ -1010,19 +1010,20 @@ app.use("/static", express.static(__dirname + "/public"));
 
 #params
 
-то что после & это параметры строки запроса, то что до это параметры маршрута
+то что после & это параметры строки запроса, то что до это параметры маршрута req.query.name
 localhost:3000/about/user?id=3&name=Tome
-
+let userName = request.query.name;//если name-массив то получить его точно также, строка запроса такая же как в c#
 
 #get #query
 получаем параметры из строки запроса
 let id = request.query.id;//id-название параметра
-    let userName = request.query.name;//если name-массив то получить его точно также, строка запроса такая же как в c#
+    let userName = request.params.name;
 
 получить сложный объект точно также, а передать его через ?user[id]=7&user[name]=nms
 
 
-
+если из боди(пост запрос например)
+req.body.name;
 
 
 
@@ -1125,6 +1126,15 @@ app.use("/products", productRouter);
 
 
 
+const swaggerJSDoc = require('swagger-jsdoc');
+router.get('/', require ('./example/main_example').get);
+router.post('/add-example', require ('./example/add_example').post);
+
+//и файл должен выглядеть как то так
+const Example = require('../../models/example');
+exports.post = function (req, res) {
+        res.status(200).send('');
+}
 
 
 
@@ -1867,6 +1877,9 @@ User.create({name: "Tom", age: 34}, function(err, doc){});
 User.find({}, function(err, docs){});//функция как обычно, docs-массив выбранных данных
 User.findById("123asd", function(err, doc){});//
 User.findOne({name: new RegExp('alex', 'i')}, (err, user) => {})
+let example = await Example.findOne({ _id: req.params._id });
+let examples = await Example.find({});
+
 
 
 User.#remove({age:33}, function(err, result){//result-- объект операции
@@ -1899,6 +1912,11 @@ User.findUserByName('alex', (err, user) => {
 
 
 
+
+
+
+
+
 Express и Mongoose
 
 mongoose.connect("mongodb://localhost:27017/usersdb", { useNewUrlParser: true }, function(err){
@@ -1907,6 +1925,42 @@ mongoose.connect("mongodb://localhost:27017/usersdb", { useNewUrlParser: true },
         console.log("Сервер ожидает подключения...");
     });
 });
+
+
+
+
+
+#связи
+
+var mongoose = require('mongoose');
+var UserSchema = new mongoose.Schema({
+    name: String
+});
+module.exports = mongoose.model("User", UserSchema);
+
+
+var PostSchema = new mongoose.Schema({
+    title: String,
+    postedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    comments: [{
+        text: String,
+        postedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    }]
+});
+
+
+
+
+
+
+
+
 
 
 

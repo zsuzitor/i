@@ -14,6 +14,14 @@ git branch -d iss53 удалить ветку
 git diff ветка сравнить чем отличаются по строкам
 
 
+при начале работы
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+
+узнать логин
+git config user.name
+
+
 откатиться к последнему коммиту
 git stash
 git stash drop
