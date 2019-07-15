@@ -428,6 +428,7 @@ enum apple:int{val1,val2,val3,val4=10}
 for(apple i=apple.val1;i<apple.val4&&(i)<20;++i)
 console.writeline(i);//val1...
 
+//#role
 foreach (RolesProject roleName in (RolesProject[])Enum.GetValues(typeof(RolesProject)))
                 var role = new IdentityRole { Name = roleName.ToString() };
 

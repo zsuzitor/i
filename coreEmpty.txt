@@ -44,12 +44,14 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 
 
-
+//уже добавляет зависимость для БД
 services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+//то что закомменчено(если оставлять services.AddIdentity) лучше убрать\не добавлять , не позволит создать бд
+            //services.AddDefaultIdentity<ApplicationUser>()
+                //.AddEntityFrameworkStores<ApplicationDbContext>();
 //до mvc
 services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()

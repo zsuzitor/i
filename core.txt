@@ -3076,9 +3076,12 @@ Program->Main
             host.Run();
 
 --
-public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
-
+//public static IWebHost BuildWebHost(string[] args) =>
+//            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
+//вроде так лучше, определяется само
+public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
 
 
 
@@ -3158,7 +3161,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 //можно исключить сущность из бд, еще исключить можно атрибутом #NotMapped
 modelBuilder.Ignore<Company>();//#Ignore
 //исключаем свойство
-modelBuilder.Entity<Phone>().Ignore(b => b.CurrentRate);
+modelBuilder.Entity<Phone>().Ignore(b => b.CurrentRate);// еще исключить можно атрибутом #NotMapped
 //изменяем название таблицы , также можно с помощью атрибута [#Table("Tabname")]
  modelBuilder.Entity<User>().ToTable("People");
 //изменяем название столбца, также можно через атрибут [#Column("user_id")]
@@ -5525,6 +5528,25 @@ public void ConfigureServices(IServiceCollection services)
 #webapi #api
 пу сути обычное mvc приложение которое возвращает не html а результат
 public List<int> Index(){}
+
+
+контроллер желательно унаследоватьот #ControllerBase а не от Controller
+к контроллеру атрибут [#ApiController]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 тестирование
 #Postman  
