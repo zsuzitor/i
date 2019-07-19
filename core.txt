@@ -3195,6 +3195,7 @@ modelBuilder.Entity<User>().Property(b => b.Name).HasMaxLength(50);
 
 #1 к 1 #many #многие #многим
 в основном все как в обычном entity
+#OnDelete
 #Cascade: зависимая сущность удаляется вместе с главной
 #SetNull: свойство-внешний ключ в зависимой сущности получает значение null
 #Restrict: зависимая сущность никак не изменяется при удалении главной сущности
@@ -3592,6 +3593,7 @@ var claims = new List<Claim>
 
 //#TODO получить #роль пользователя #role
 string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+можно получить через usermanager
 
 
 
@@ -3739,6 +3741,7 @@ var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIden
     // Or you can also register as follows
     services.AddHttpContextAccessor();
 
+//#TODO usermanager.
 
 
 
@@ -3758,7 +3761,7 @@ public AdminController(UserManager<ApplicationUser> manager)
 #UpdateAsync(user): обновляет пользователя
 #Users: возвращает всех пользователей
 #AddToRoleAsync(user, role): добавляет для пользователя user роль role
-#GetRolesAsync (user): возвращает список ролей, к которым принадлежит пользователь user
+#GetRolesAsync (user): возвращает список ролей, к которым принадлежит пользователь user #roles
 #IsInRoleAsync(user, name): возвращает true, если пользователь user принадлежит роли name
 #RemoveFromRoleAsync(user, name): удаляет роль name у пользователя user
 #GetUserAsync(HttpContext.User)

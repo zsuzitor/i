@@ -6284,11 +6284,16 @@ await UserManager.AddToRoleAsync(user.Id, "user");
                                             .GetUserManager<ApplicationUserManager>();
 IList<string> roles=userManager.GetRoles(user.Id);
 //еще вариант возвращает для зарегистрированного пользователя
-System.Web.Security.Roles.GetRolesForUser();
+System.Web.Security.Roles.GetRolesForUser();//есть перегрузки для поиска по имени
 //вернет id ролей(сложный объект)
 using(var db=)
 this.Roles;
 db.Roles.where(=>);
+
+//можно вот так
+RolePrincipal r = (RolePrincipal)User;   rolesArray = r.GetRoles();
+
+
 
 //проверить принадлежит ли пользователь к роли
  System.Web.HttpContext.Current.User.IsInRole("role");
