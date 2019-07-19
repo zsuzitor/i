@@ -57,7 +57,7 @@ let now = new Date();
 
 
 поднять сервак  -->#server   создать такой файл и в консоли cd путь -> filename
-
+node app.js
 
 исполняемые файлы должны называться name.js
 
@@ -84,7 +84,7 @@ zlib - работа с архивами
 
 
 можно создать и подключить свой модуль, просто создать файл и 
-//в данном случае файл находится в томже каталоге, относительный путь с именем файла (расширение файла необязательно)
+//в данном случае файл находится в том же каталоге, относительный путь с именем файла (расширение файла необязательно)
 const greeting = require("./greeting");
 
 //в данном случае welcome-каталог в котором есть файл index.js  , при таком подключении будет вызываться именно он
@@ -181,7 +181,7 @@ new User(); // ошибка
 function Machine() {//функция конструктор класса, если нужны параметры то закидывать
   var enabled = false;//private свойство, 
 
-function asd(){//private функция, не будет наслодоваться, если  надо наседовать то объявлять через this._asd  ,  _- указывает что функция прайват
+function asd(){//private функция, не будет наследоваться, если  надо наседовать то объявлять через this._asd  ,  _- указывает что функция прайват
 
 }
   this.enable = function() {//public функция будет наследоваться
@@ -251,7 +251,7 @@ static createGuest() {
 
 
 
-//наследование  #extends 
+//#наследование  #extends  #:
 class Rabbit extends Animal {
   walk() {
     super.walk();
@@ -529,7 +529,7 @@ function (err, data){
 
 
 
-#async #асинхронность 
+#async #асинхронность  #Promise
 //достигается с помощью #setTimeout  (функция которую туда передаем станосится в очередь и выполняется асинхронно)
 // структура функции желательно должна быть именно такой(данные, колбэк).. структура колбэка (ошибка, данные)
 function display(data, callback){
@@ -553,10 +553,11 @@ async function add1(x) {
 }
 
 
-function resolveAfter2Seconds(x) {
+async function resolveAfter2Seconds(x) {
   return new Promise(resolve => {//для этого объекта можно применять await
     setTimeout(() => {
-      resolve(x);//функция которая будет вызываться асинхронно
+//асинхронный код
+      resolve(x);//функция которая вернет данные(она передается параметром самой системой)
     }, 0);
   });
 }
@@ -640,7 +641,7 @@ readableStream.on("data", function(chunk){
 
 
 
-проверить существование файла
+проверить существование файла #exist
 //2 параметр-проверяем права на чтение из файла
 fs.access(filePath, fs.constants.R_OK, err => {
        
@@ -1008,7 +1009,7 @@ app.use("/static", express.static(__dirname + "/public"));
 
 
 
-#params
+#params #request
 
 то что после & это параметры строки запроса, то что до это параметры маршрута req.query.name
 localhost:3000/about/user?id=3&name=Tome
@@ -1321,7 +1322,7 @@ app.use("/contact", function(request, response){
 
 подключение частичного представления
 <%- include("partials/menu.ejs") %>
-
+<%- include('user/show', {user: user}); %>
 
 
 
@@ -1602,7 +1603,7 @@ const db = client.db("usersdb");
 
 
 
-#insertOne - обавить 1 объект
+#insertOne - добавить 1 объект
 #insertMany - добавить набор объектов, использование такое же только передать коллекцию
 #findAndModify #TODO
 //#find
@@ -1678,7 +1679,9 @@ process.on("SIGINT", () => {
 
 npm install mongoose --save
 
-
+// подключение
+mongoose.connect("mongodb://localhost:27017/usersdb", { useNewUrlParser: true });
+  
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
@@ -1689,9 +1692,6 @@ const userSchema = new Schema({
  { versionKey: false }//при сохранении данных в документе сохраняется версия(поле __v), такой строкой ее можно отключить
 );
 
-// подключение
-mongoose.connect("mongodb://localhost:27017/usersdb", { useNewUrlParser: true });
-  
 //название модели, свяжет с таблицей по названию модели во множественном числе
 const User = mongoose.model("User", userScheme);
 const user = new User({
@@ -1795,7 +1795,7 @@ module.exports = mongoose.model('Lib', Lib);
 
 
 
-//если надо выгрузить всю коллекцию на частями
+//если надо выгрузить всю коллекцию частями
 e.m.users.find({}).stream()
 	.on('data', function(user) {
 		var me = this;
