@@ -342,7 +342,7 @@ checked{(byte)(int_1*int_2)}
 
 #goto case х (переход на другую конструкцию case); 
  goto defaul t
-switch 
+switch (num)
 { 
 case 13: 
 //если тут нет кода то можно пропустить break; и 2 case объединятся
@@ -420,7 +420,7 @@ tta=(a)tt;
 #enum
 
 [:int]- тип перечисления
-enum apple[:int]{val1,val2,val3,val4=10}
+enum apple[:type]{val1,val2,val3,val4=10}
 enum apple:int{val1,val2,val3,val4=10}
 (int)apple.val1;//0
 (int)apple.val4;//10
@@ -466,8 +466,10 @@ Console.WriteLine (s == leftRight); / / True
 
 
 
-#dynamic
+#dynamic #dlr
 #Динамическое #связывание противоположность #статического #связывания #статическое
+
+DLR--dynamic language runtime
 проверка типа откладывается до выполнения
 Среде CLR о dynamic ничего не известно — любые
 случаи использования dynamic в коде транслируются в тип object, к которому соответствующим образом применен атрибут #DynamicAttribute
@@ -541,8 +543,6 @@ Console.Write(expando.AddOne(10));
 
 
 
-#DLR
-dynamic language runtime
 
 
 
@@ -1346,7 +1346,7 @@ func(b:func1(),a:func2());
 
 
 #именованные параметры
-порядок вызова смотре для "позиционные
+порядок вызова смотри для "позиционные
 Foo (х:1, у:2);
 bool success = int.TryParse("10", result: out number);
 
@@ -1406,7 +1406,7 @@ private static (string name, int age) GetTuple((string n, int a) tuple, int x)
 
 
 
-есть утиная тапизация
+есть утиная типизация
 
 когда делаем так
 List<int> val=new List<int>(){10,20};
@@ -1453,7 +1453,7 @@ yield break; // прерывание итератора #TODO
 
 
 
-//такая конструкция необходимо потому что метод  с итератором не будет вызван пока не будет вызван метод MoveNext, 
+//такая конструкция необходима потому что метод  с итератором не будет вызван пока не будет вызван метод MoveNext, 
 но в таком случае сразу будет обработка ошибки а потом уже ждет вызов метода MoveNext
 
 public static IEnumerable<T> Where<T>(IEnumerable<T> source, Predicate<T> predicate)
@@ -1593,7 +1593,7 @@ System.Threading.Tasks
 при возникновении исключения(можно узнать по свойствам, но выбросится на await)
 Свойство Status задачи получает значение Faulted, когда асинхронная операция отказала
 (и свойство IsFaulted возвращает true).
-• Свойство Exception возвращает объест AggregateException, содержащий все (потенциально множественные) исключения, которые привели к отказу задачи, или null, если
+• Свойство Exception возвращает объект #AggregateException, содержащий все (потенциально множественные) исключения, которые привели к отказу задачи, или null, если
 задача не отказывала.
 • Метод Wait() сгенерирует исключение AggregateException, если задача находится в
 состоянии отказа.
@@ -1648,6 +1648,7 @@ Task task = Task.Factory.StartNew((Action action);
 //3 способ
 Task task = Task.Run(() => Console.WriteLine("Hello Task!"));
 
+//это все блокирует поток тк не используется await
 //получить результат
 Task<int> task1 = new Task<int>(()=>Factorial(5));
         task1.Start();
@@ -1660,6 +1661,12 @@ var f=task1.Result
 Task.WaitAll(params Task[] tasks)
 //остановит поток до выполнения хотя бы 1 задачи в массиве  tasks
 Task.WaitAny(params Task[] tasks)
+
+//вроде нормально будет работать как обычный await
+ int[] ids = new[] { 1, 2, 3, 4, 5 };
+    await Task.WhenAll(ids.Select(i => DoSomething(1, i, blogClient)));
+
+
 
 //task2 начнет выполнение после завершения task1
 
@@ -1702,7 +1709,7 @@ outer.Wait(); // ожидаем выполнения внешней задачи(блокирует поток)--!! надо при
 
 
 
-#delay
+#delay #sleep
 
 var taskDelay = Task.Delay(3000);//создаем delay(это не остановит таск, выполнение продолжится)
 //выполнение
@@ -1946,9 +1953,9 @@ Task t = DisplayResultAsync();
 //.GetAwaiter(), который остановит выполнение в вызывающем потоке, пока задача не завершится, и .GetResult(), который возвращает результат
 DisplayResultAsync().GetAwaiter().GetResult();
 
-//ждать выполнение всех задач
+//ждать выполнения всех задач
  Task<int> t1 = FactorialAsync(num1);
-await Task.WhenAll(new[] { t1, t2, t3 });
+await Task.#WhenAll(new[] { t1, t2, t3 });
  var gg=t1.Result
 
 
@@ -2408,7 +2415,7 @@ a.GetTypes();
 
 #LINQ
 для параллельного выполнения см PLINQ
-применяется для IEnumerable<T>  (реализованы как методы расширения в System.Linq.EnumeraЫe)
+применяется для IEnumerable<T>  (реализованы как методы расширения в System.Linq.Enumerable)
 
 формирование запроса
 var t=from n in nums where n>0 select n;
@@ -2675,7 +2682,7 @@ root.Element("projects").Elements().Elements("subscription")
 #linq #rx
 #Range #IObservable
 #Observable.Range() создание наблюдаемого диапазона
-. Каждый раз, когда какой-то наблюдатель подписывается па
+. Каждый раз, когда какой-то наблюдатель подписывается на
 диапазон, этому наблюдателю будут выдаваться числа при вызове им метода OnNext(), за которым следует OnCompleted().
 
 “холодный” наблюдаемый объект: он остается бездействующим до тех пор, пока какой-либо наблюдатель не подпишется на него, после чего будет выдавать значения этому отдельному наблюдателю. Если вдобавок
@@ -5874,7 +5881,7 @@ db.SaveChanges();
 #Аннотации
 System.ComponentModel.DataAnnotations
 установить ключ в качестве идентификатора
-[Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)] //[Key]
+[Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)] //[Key] #DatabaseGeneratedOption.Identity
 public int Ident { get; set; }
  [Required]-NOT NULL в БД
 [MaxLength(20)]/MinLength устанавливают максимальное и минимальное количество символов в строке-свойстве
@@ -5894,7 +5901,7 @@ public class Phone
 
  [Index]--установка индекса
 
-[ConcurrencyCheck]--решает проблему параллелизма(если свойство было изменено пока менялось текущем пользователем то выбрасывает исключение DbUpdateConcurrencyException)
+[#ConcurrencyCheck]--решает проблему параллелизма(если свойство было изменено пока менялось текущем пользователем то выбрасывает исключение DbUpdateConcurrencyException) #parallel
 
 комплексные типы / если в моделе есть другая модель
 [ComplexType]
@@ -6730,7 +6737,7 @@ this.ErrorMessage = "сообщение об ошибке";
 
 Самовалидация модели
 
- public class User : IValidatableObject
+ public class User : #IValidatableObject
     {
 public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
