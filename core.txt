@@ -144,7 +144,7 @@ app.#UseStaticFiles();//разрешаем отдавать static файлы
 //метод является конечным(дальше вызываться ничего не будет)
 //Теперь обращения к приложению типа http://localhost:xxxx/about будут обрабатываться с помощью метода About
 app.Map("/index", Index);//Index-делегат который будет возвращать html
-    app.Map("/about", About);
+app.Map("/about", About);
 
 //сложенность, Теперь метод About будет обарабатывать запрос не http://localhost:xxxx/about, а http://localhost:xxxx/home/about
 app.Map("/home", home =>
@@ -184,6 +184,11 @@ app.Use(async (context, next) =>
         await context.Response.WriteAsync($"Result: {x}");
 
     });
+
+
+
+
+
 
 
 метод расширения для вызова app.UseToken(); в методе Configure, может быть упразднен, тогда вместо app.UseToken();   => app.UseMiddleware<TokenMiddleware>();
@@ -271,7 +276,7 @@ Configure() класса Startup-> if (env.IsDevelopment()){app.#UseDeveloperException
 
 
 
-#UseExceptionHandler #error
+#UseExceptionHandler #error #Exception
 Он перенаправляет при возникновении исключения на некоторый адрес и позволяет обработать исключение
 следует помещать ближе к началу  Configure
 
@@ -317,7 +322,24 @@ if (env.IsDevelopment())
 
 
 
-#получение #объекта #зависимости #injection #di 
+
+
+#зависимости #injection #di 
+///
+при services.AddTransient<ITimeService, SimpleTimeService>();
+public class HomeController : Controller
+{
+    private readonly ITimeService _timeService;
+ 
+    public HomeController(ITimeService timeServ)
+    {
+        _timeService = timeServ;
+    }
+}
+
+
+
+#получение #объекта 
 
 #[] #attr #FromServices
 если не хотим передавать в конструктор контроллера 
@@ -333,24 +355,13 @@ var env=HttpContext.RequestServices.GetService<IHostingEnvironment>();
 
 
 
-
-///
-при services.AddTransient<ITimeService, SimpleTimeService>();
-public class HomeController : Controller
-{
-    private readonly ITimeService _timeService;
- 
-    public HomeController(ITimeService timeServ)
-    {
-        _timeService = timeServ;
-    }
-}
-
-
-
 для внедрения в вью
 @inject MvcViewsApp.Services.IMessageSender MessageSender
 @MessageSender.SendMessage()
+
+
+подробнее в "Создание своих сервисов" и "AddTransient"
+
 
 
 
@@ -459,7 +470,7 @@ var serviceProvider = new ServiceCollection()
 
 
 
-создание объекта  для зависимости (по например интерфесу создать объект)
+создание объекта  для зависимости (по например интерфейсу создать объект)
 
 #HttpContext. #RequestServices
 предоставляет доступ к всем внедренным зависимостям с помощью своих методов
@@ -524,7 +535,7 @@ Path.Combine(str1,str2);
 
 #static #files
 
-необходимо в sturtup->config докинуть
+необходимо в #sturtup->config докинуть
 app.#UseStaticFiles();//разрешаем отдавать static файлы
 
 по ссылке http://localhost:55234/index.html можно получить статический файл который расположен
@@ -574,7 +585,7 @@ app.UseStaticFiles();
 
 
 
-app.#UseDirectoryBrowser();
+app.#UseDirectoryBrowser(); #директория
 докинув в config и докинув  services.AddDirectoryBrowser(); в ConfigureServices
 можно позволить пользователям просмотривать файлы на сервере
 
@@ -642,7 +653,7 @@ public Task SendResponseAsync(IDictionary<string, object> environment)
 
 
 
-Ключи запроса
+Ключи запроса то что используется тут environment["owin.ResponseBody"]
 owin.#RequestBody : объект Stream, представляющий тело запроса
 owin.#RequestHeaders : объект IDictionary<string, string[]>, представляющий заголовки запроса
 owin.#RequestMethod : объект string, представляющий метод запроса ("GET", "POST")
@@ -653,7 +664,7 @@ owin.#RequestQueryString : объект string, хранящий строку запроса, то есть ту ча
 owin.#RequestScheme : объект string, хранящий схему URI запроса ("http", "https")
 owin.#RequestId : объект string, представляющий уникальный идентификатор запроса (необязательный параметр)
 
-Ключи ответа
+Ключи ответа то что используется тут environment["owin.ResponseBody"]
 owin.#ResponseBody : объект Stream, представляющий поток ответа
 owin.#ResponseHeaders : объект IDictionary<string, string[]>, представляющий заголовки ответа
 owin.#ResponseStatusCode : объект int, хранящий статусный код HTTP, который посылается в ответе (необязательный параметр)
@@ -856,7 +867,9 @@ using Microsoft.AspNetCore.Http;
 #Сессии #Session  #Memory
 
 
-Для хранения состояния сессии на сервере создается словарь или хеш-таблица, которая хранится в кэше и которая существует для всех запросов из одного браузера в течение некоторого времени. На клиенте хранится идентификатор сессии в куках. Этот идентификатор посылается на сервер с каждым запросом. Сервер использует этот идентификатор для извлечения нужных данных из сессии. Эти куки удаляются только при завершении сессии. Но если сервер получает куки, которые установлены уже для истекшей сессии, то для этих кук создается новая сессия.
+Для хранения состояния сессии на сервере создается словарь или хеш-таблица, которая хранится в кэше и которая существует для всех запросов из одного браузера в течение некоторого времени. 
+На клиенте хранится идентификатор сессии в куках. Этот идентификатор посылается на сервер с каждым запросом. Сервер использует этот идентификатор для извлечения нужных данных из сессии. 
+Эти куки удаляются только при завершении сессии. Но если сервер получает куки, которые установлены уже для истекшей сессии, то для этих кук создается новая сессия.
 название куки в которой хранится ключ сессии по умолчанию - ".AspNet.Session"
 все сессии работают поверх объекта #IDistributedCache //#AddDistributedMemoryCache
 
@@ -909,7 +922,7 @@ services.AddDistributedMemoryCache();
 
 
 хранить в сессии можно только строку\число, поэтому надо конвертить(можно так)
-#json
+#json #JsonConvert #SerializeObject #DeserializeObject
 
 //context.Session.Get<Person>("person");
 //context.Session.Set<Person>("person", person);
@@ -966,7 +979,7 @@ if (env.IsDevelopment()){}else//кидать в такое условие тк могут быть проблемы пр
 app.UseHsts();//до UseHttpsRedirection
 
 
-монжно настроить параметры ( Strict-Transport-Security )
+можнно настроить параметры ( Strict-Transport-Security )
 ConfigureServices ->
 services.AddHsts(options =>
     {
@@ -1266,7 +1279,7 @@ Index(string id)
 
 
 
-get  #param #параметры
+#get  #param #параметры
 
 // передать массив из 3х элементов
 http://localhost:57086/Home/Sum?nums=1&nums=2&nums=3 
@@ -1288,7 +1301,10 @@ Home/Square?a=10&h=3// 2 параметра с разными именами
 http://localhost:57086/Home/Square?altitude=10&height=3// передача сложных объектов (указываются атрибуты объекта)
 
 
-применение такого атрибута считается "сильнее" чем определение пути в  Startup
+
+
+
+применение такого атрибута считается "сильнее" чем определение пути в  Startup #route #router #routing
 [Route("Home")]
 HomeController{}
 
@@ -1462,7 +1478,7 @@ routes.MapRoute("api/get", async context=>
 
 
 
-#UseMvcWithDefaultRoute
+#UseMvcWithDefaultRoute #UseMvc
 метод app.UseMvcWithDefaultRoute(); равносилен конструкции
 app.UseMvc(routes =>
 {
@@ -1833,7 +1849,8 @@ var routeBuilder = new RouteBuilder(app);
 
 #addTagHelper для включения в _ViewImports.cshtml (находится в папке Views) нужно докинуть(должно докидываться само)
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-Первый параметр директивы указывает на tag-хелперы, которые будут доступны во всех представлениях из папки Views, а второй параметр определяет библиотеку хелперов. В данном случае директива использует синтаксис подстановок - знак звездочки ("*") означает, что все хелперы из библиотеки Microsoft.AspNetCore.Mvc.TagHelpers.
+Первый параметр директивы указывает на tag-хелперы, которые будут доступны во всех представлениях из папки Views, а второй параметр определяет библиотеку хелперов. 
+В данном случае директива использует синтаксис подстановок - знак звездочки ("*") означает, что все хелперы из библиотеки Microsoft.AspNetCore.Mvc.TagHelpers.
 #removeTagHelper удалить подключенные хелперы
 @removeTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 
@@ -1869,7 +1886,7 @@ var routeBuilder = new RouteBuilder(app);
 
 
 
-#AnchorTagHelper #a #link #asp-
+#AnchorTagHelper #a #link #asp- #html #razor #tag #helper
 #actionlink->
 
 <a asp-controller="Home" asp-action="Contacts" asp-route-id="5" asp-route-data='new Dictionary<string,string>(){{"id","5"}}'>контакты</a>
@@ -1911,7 +1928,7 @@ asp-route-[название параметра]: определяет значение для определенного параметра
 
 
 
-#SelectTagHelper
+#SelectTagHelper #select #option #droplist
 asp-items---IEnumerable<SelectListItem>
 //добавляем базовое значение, остальные закинутся из коллекции
 <select asp-for"vl" asp-items="ViewBag.Companies">
@@ -2080,7 +2097,7 @@ $.ajax({
 #RegularExpression
 Использование данного атрибута предполагает, что вводимое значение должно соответствовать указанному в этом атрибуте регулярному выражению.
 
-[RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")]
+[RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")] #mail
 public string Email { get; set; }
 
 
@@ -2178,12 +2195,13 @@ input[type="checkbox"].input-validation-error {    border: 0 none;}
 
 
 
-валидация на стороне сервера
+#валидация на стороне сервера
 
 если свойство не может принимать null и его не установить то оно не будет default, модель не пройдет валидацию  =>> является по умолчанию Required
 на сервере проверяется так if (ModelState.IsValid) //#ModelState #IsValid
 
-Фреймворк MVC валидирует свойства объекта, пока количество ошибок не достигнет предельного максимального количества (по умолчанию это 200 ошибок). Но мы можем настроить это поведение, определив нужное количество ошибок в методе ConfigureServices() класса Startup:
+Фреймворк MVC валидирует свойства объекта, пока количество ошибок не достигнет предельного максимального количества (по умолчанию это 200 ошибок). 
+Но мы можем настроить это поведение, определив нужное количество ошибок в методе ConfigureServices() класса Startup:
 services.AddMvc(options => options.MaxModelValidationErrors = 50);
 
 //добавляем ошибку для конкретного свойства
@@ -2316,7 +2334,7 @@ public DateTime DateOfBirth { get; set; }
 
 
 
-#LinkTagHelper  #css #link
+#LinkTagHelper  #css #link #js
 см также ScriptTagHelper
 используется для подключения файлов стилей
 
@@ -3108,6 +3126,10 @@ public class ApplicationContext : DbContext
 
 
 
+
+
+
+
 #like #Functions #linq
 db.Phones.Where(p => EF.Functions.Like(p.Name, "%Galaxy%"))
 %: соответствует любой подстроке, которая может иметь любое количество символов, при этом подстрока может и не содержать ни одного символа
@@ -3515,7 +3537,7 @@ public byte[] RowVersion { get; set; }
 
 
 
-#UseAuthentication
+#UseAuthentication #Authentication
 #AddAuthentication #Authentication #user #авторизация #CookieAuthenticationDefaults #AuthenticationScheme #AddCookie #CookieAuthenticationOptions #LoginPath 
 #Identity  #IIdentity 
 
@@ -3610,6 +3632,9 @@ User.Identity.IsAuthenticated
 #AuthenticationType: тип аутентификации в строковом виде
 #IsAuthenticated: возвращает true, если пользователь аутентифицирован
 #Name: возвращает имя пользователя. Как правило, в качестве подобного имени используется логин, по которому пользователь входит в приложение
+
+
+
 
 
 
@@ -3729,7 +3754,7 @@ var userId =  User.FindFirst(ClaimTypes.NameIdentifier)?.Value // will give the 
         var userEmail =  User.FindFirst(ClaimTypes.Email)?.Value // will give the user Email
 
 не в контроллере
-олучаем через DI
+получаем через DI
 public OtherClassConstr(IHttpContextAccessor httpContextAccessor)
 
 var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -3946,21 +3971,6 @@ var _passwordValidator = HttpContext.RequestServices.GetService(typeof(IPassword
 IdentityResult result = 
                 await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if(result.Succeeded)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -4523,7 +4533,7 @@ return RedirectToRoute("default", new { controller = "Home", action = "Square", 
 
 
 
-отправка #статуса #кода #StatusCode 
+отправка #статуса #кода #StatusCode  #status
 #404 #200 #500
 #StatusCodeResult
 
@@ -4569,7 +4579,7 @@ return Ok("Запрос успешно выполнен");
 
 
 
-#FileResult #PhysicalFileResult #PhysicalFile
+#FileResult #PhysicalFileResult #PhysicalFile #result #viewresult #byte #io
 
 #FileContentResult: отправляет клиенту массив байтов, считанный из файла
 
@@ -5009,7 +5019,7 @@ public IViewComponentResult Invoke()
 
 
 
-#привязка #IModelBinder #ModelBinder
+#привязка #IModelBinder #ModelBinder #binder
 
 
 Для поиска значений привязчик модели используется следующие источники в порядке приоритета:
@@ -5391,7 +5401,7 @@ public class AboutModel : PageModel
 [BindProperty]
         public string Message { get; set; }
 
-//при таком применении все будет нормально работать, свойства правильно свяжутся по именам, как если бы мы определили их без класс
+//при таком применении все будет нормально работать, свойства правильно свяжутся по именам, как если бы мы определили их без класса
 [BindProperty]
         public Entry CLP { get; set; }
  
@@ -5406,7 +5416,7 @@ public class AboutModel : PageModel
 
 
 //если хотим определить еще методы для обработки запросов то On[Тип_запроса][доп название]
-//для передаче чего либо этому методу нужно в строке запроса ( http://localhost:56288/Person?handler=ByName&name=Tom ) указать handler= название метода
+//для передачи чего либо этому методу нужно в строке запроса ( http://localhost:56288/Person?handler=ByName&name=Tom ) указать handler= название метода
 //иногда так сделать не получится и тогда нужно модифицировать представление см ниже
 public void OnGetByName(string name)
         {}
@@ -6165,8 +6175,8 @@ Assert.Equal("Index", redirectToActionResult.ActionName);
 
 
 
- URL #Rewriting
-Rewriting позволяет решить такие стандартные проблемы, как перенаправление с домена с www на домен без www и наоборот или перенаправление с протокола http на https
+ #URL #Rewriting #redirect
+Rewriting позволяет решить такие стандартные проблемы, как перенаправление с домена с www на домен без www и наоборот или перенаправление с протокола http на #https
 URL Rewriting реализуется до того, как запрос попадет в систему маршрутизации, и начнется его непосредственное выполнение в конвейере MVC
 вроде как немного похоже на #midleware #TODO возможно стоит ближе к нему перенести
 увеличивает накладные расходы на обработку запроса. Поэтому стоит по возможности избегать сложных комплексных правил переопределения строки запроса
@@ -6536,7 +6546,7 @@ var options = new RewriteOptions()
 
 
 
-#Dapper #db  #sql  #IDbConnection 
+#Dapper #db  #sql  #IDbConnection  #orm
 позволяет выполнять sql код и связывать его с моделями(классами)
 
 #Execute - если не нужен результат
