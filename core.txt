@@ -3289,14 +3289,14 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
             .HasKey(t => new { t.StudentId, t.CourseId });
  
         modelBuilder.Entity<StudentCourse>()
-            .HasOne(sc => sc.Student)
-            .WithMany(s => s.StudentCourses)
-            .HasForeignKey(sc => sc.StudentId);
+            .HasOne(x => x.Student)
+            .WithMany(x => x.StudentCourses)
+            .HasForeignKey(x => x.StudentId);
  
         modelBuilder.Entity<StudentCourse>()
-            .HasOne(sc => sc.Course)
-            .WithMany(c => c.StudentCourses)
-            .HasForeignKey(sc => sc.CourseId);
+            .HasOne(x => x.Course)
+            .WithMany(x => x.StudentCourses)
+            .HasForeignKey(x => x.CourseId);
     }
 
 
@@ -5547,6 +5547,195 @@ public List<int> Index(){}
 к контроллеру атрибут [#ApiController]
 
 
+
+
+
+
+
+
+#jwt #token
+штука для аутентификации без браузера(но можно и с ним)
+использовать можно для апи
+
+//генерировать токен можно через  #IdentityServer или #OpenIdDict ниже вариант с OpenIdDict
+
+
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            // укзывает, будет ли валидироваться издатель при валидации токена
+                            ValidateIssuer = true,
+                            // строка, представляющая издателя
+                            ValidIssuer = AuthOptions.ISSUER,
+ 
+                            // будет ли валидироваться потребитель токена
+                            ValidateAudience = true,
+                            // установка потребителя токена
+                            ValidAudience = AuthOptions.AUDIENCE,
+                            // будет ли валидироваться время существования
+                            ValidateLifetime = true,
+ 
+                            // установка ключа безопасности
+                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                            // валидация ключа безопасности
+                            ValidateIssuerSigningKey = true,
+                        };
+                    });
+ 
+            services.AddMvc();
+
+
+
+
+
+public class AuthJWT
+    {
+        public const string ISSUER = "MyAuthServer"; // издатель токена
+        public const string AUDIENCE = "http://localhost:51884/"; // потребитель токена
+        const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
+        public const int LIFETIME = 1; // время жизни токена - 1 минута
+        public static SymmetricSecurityKey GetSymmetricSecurityKey()
+        {
+            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KEY));
+        }
+
+
+        public async static Task<ClaimsIdentity> GetIdentity(string username, string password, UserManager<ApplicationUser> userManager)
+        {
+            
+            var user = await userManager.FindByNameAsync(username);
+            if (user == null)
+                return null;
+
+            var passwordOK = await userManager.CheckPasswordAsync(user, password);
+            if (!passwordOK)
+                return null;
+
+            if (user!= null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(type:ClaimsIdentity.DefaultNameClaimType,value:user.UserName)//,
+                    //new Claim(type:ClaimsIdentity.DefaultRoleClaimType, value:user.Role)
+                };
+                ClaimsIdentity claimsIdentity =
+                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+                return claimsIdentity;
+            }
+
+            // если пользователя не найдено
+            return null;
+        }
+    }
+
+
+
+
+
+
+
+[Route("api/Account")]
+    [ApiController]
+    public class AccountApiController : ControllerBase
+    {
+        readonly UserManager<ApplicationUser> _userManager=null;
+
+        public AccountApiController(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
+        [HttpPost("/token")]
+        public async Task Token(string username,string password)
+        {
+            //var username = Request.Form["username"];
+            //var password = Request.Form["password"];
+
+            var identity = await AuthJWT.GetIdentity(username, password, _userManager);
+            if (identity == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Invalid username or password.");
+                return;
+            }
+
+            var now = DateTime.UtcNow;
+            // создаем JWT-токен
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthJWT.ISSUER,
+                    audience: AuthJWT.AUDIENCE,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthJWT.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthJWT.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                username = identity.Name
+            };
+
+            // сериализация ответа
+            Response.ContentType = "application/json";
+            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+        }
+
+
+    }
+
+
+
+#headers #header 
+var headers = Request.Headers;
+
+    if (headers.Contains("Custom"))
+    {
+        string token = headers.GetValues("Custom").First();
+    }
+
+
+
+
+//логин
+$.ajax({
+                type: 'POST',
+                url: '/token',
+                data: loginData
+            }).success(function (data) {
+                // сохраняем в хранилище sessionStorage токен доступа
+                sessionStorage.setItem(tokenKey, data.access_token);
+                console.log(data.access_token);
+            }).fail(function (data) {
+                console.log(data);
+            });
+
+
+//разлогин
+sessionStorage.removeItem(tokenKey);
+
+
+//использование
+
+$.ajax({
+                type: 'GET',
+                url: '/api/...',
+                beforeSend: function (xhr) {
+ 
+                    var token = sessionStorage.getItem(tokenKey);
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                success: function (data) {
+                    alert(data);
+                },
+                fail: function (data) {
+                    console.log(data);
+                }
+            });
 
 
 
