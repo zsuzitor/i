@@ -3036,7 +3036,7 @@ using (ApplicationContext db = new ApplicationContext(options))
 
 
 #migration #миграция
-//
+//консоль диспетчера пакетов
 Add-Migration уникальное_название_миграции
 //выполняем
 Update-Database
@@ -3146,7 +3146,7 @@ db.Phones.Find(3); // выберем элемент с id=3
 
 
 
-отслеживание изменений #ChangeTracker #QueryTrackingBehavior #NoTracking #AskNoTracking #отслеживание #tracing
+#отслеживание #изменений #ChangeTracker #QueryTrackingBehavior #NoTracking #AsNoTracking #отслеживание #tracing #tracking 
 Можно отключить отслеживание изменений 
 db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
@@ -3155,6 +3155,7 @@ var phone = db.Phones.FirstOrDefault();
 phone.Price = 66600;
 db.SaveChanges();
 
+ var phone = db.Phones.AsNoTracking().FirstOrDefault();
 
 
 Узнать сколько элементов отслеживаются db.ChangeTracker.Entries().Count();
@@ -3622,6 +3623,10 @@ string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType)
 
 можно получить логин пользователя текущего
 HttpContext.User.Idenity.Name
+//в контроллере
+var claimsIdentity = this.User.Identity as ClaimsIdentity; 
+var #userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;//ClaimTypes.Name - перечисление, мы получаем то что ранее записали в клаймы под флагом этого перечисления
+
 // в методе контроллера
 User.Identity.IsAuthenticated
 
@@ -3790,18 +3795,18 @@ public AdminController(UserManager<ApplicationUser> manager)
 #IsInRoleAsync(user, name): возвращает true, если пользователь user принадлежит роли name
 #RemoveFromRoleAsync(user, name): удаляет роль name у пользователя user
 #GetUserAsync(HttpContext.User)
-
+var passwordOK = await _userManager.#CheckPasswordAsync(user, model.Password);//проверяет соответствует ли пароль
 
 
 
 #SignInManager #TODO
 public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
 
-
-
-
-
-
+SignInManager.#PasswordSignInAsync
+проверяет разрешен ли вход(например из за не подтвержденной почты)
+вызывает UserManager.CheckPasswordAsync для проверки пароля
+Если для пользователя включена двухфакторная аутентификация, метод устанавливает соответствующий файл cookie и возвращает результат SignInResult.TwoFactorRequired
+выполняет процесс входа, который завершает создание ClaimsPrincipalи сохранение его с помощью cookie
 
 
 
@@ -5688,6 +5693,10 @@ public class AuthJWT
 
     }
 
+var claimsIdentity = this.User.Identity as ClaimsIdentity; 
+var #userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;//ClaimTypes.Name - перечисление, мы получаем то что ранее записали в клаймы под флагом этого перечисления
+
+
 
 
 #headers #header 
@@ -5697,6 +5706,21 @@ var headers = Request.Headers;
     {
         string token = headers.GetValues("Custom").First();
     }
+
+$.ajax({
+    url: 'api/products/10',
+    type: 'GET',
+    headers: { 'username': 'test','password':'123' },
+    success: function (data) {
+        alert(data);
+    },
+    failure: function (result) {
+        alert('Error: ' + result);
+    }
+});
+
+
+
 
 
 

@@ -2540,7 +2540,7 @@ SampleData.AllUsers
 
 
 #linq #join
-
+может не сохран€ть пор€док в коллекци€х(зависит от провайдера)
 тк коллекци€ указанна€ справа буферизируетс€, а дл€ левой организуетс€ поток => справа желательно должна быть наименьша€ коллекци€
 
 var phones = db.Phones.Join(db.Companies, // второй набор
@@ -2557,6 +2557,16 @@ from val_a in mass_a
 join val_b in mass_b
 on val_a = val_b;// = == equals
 
+
+
+
+#GroupBy #Count #OrderBy
+data.GroupBy(info => info.metric)
+                        .Select(group => new { 
+                             Metric = group.Key, 
+                             Count = group.Count() 
+                        })
+                        .OrderBy(x => x.Metric)
 
 
 
@@ -4759,8 +4769,17 @@ ServerAndClient: контент кэшируетс€ на клиенте и в выходном кэше сервера
 
 mvc 
 плагин дл€ добавление автоматической пагинации(переключение страниц, нумераци€ страниц, ѕостраничный вывод)
-#пагинаци€
+#пагинаци€ #paggination #pagination
 https://metanit.com/sharp/mvc5/17.7.php
+
+//загрузка по количеству
+db.obj.Skip(Constants.CountForLoad * (loadCount - 1)).Take(Constants.CountForLoad).ToList();
+//загрузка по последнему загруженному id, возможно потребуетс€ orderby
+db.obj.SkipWhile(x1 => lastId > 0 ? (x1 != lastId) : false).Skip(lastId > 0 ? 1 : 0).Take(Constants.CountForLoad).ToList();
+
+
+
+
 
 
 
