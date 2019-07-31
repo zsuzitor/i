@@ -5700,12 +5700,16 @@ var #userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;//ClaimTypes.Name
 
 
 #headers #header 
+actionContext.HttpContext.Request.Headers.TryGetValue("Authorization", out authorizationToken);
+
 var headers = Request.Headers;
 
     if (headers.Contains("Custom"))
     {
         string token = headers.GetValues("Custom").First();
     }
+
+
 
 $.ajax({
     url: 'api/products/10',

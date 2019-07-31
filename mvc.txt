@@ -1287,8 +1287,11 @@ null||null -null
 
 #Random
 
-
-
+#string
+Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
 
 
 
@@ -3692,7 +3695,7 @@ Test(in "42");//так нельзя
 
 
 
-#обобщения  #обобщение #<>
+#обобщения  #обобщение #<> #generic
 могут быть обобщенные классы, интерфейсы, структуры,методы,делегаты
 хранятся в обобщенной форме , а по мере необходимости создаются конкретные экземпляры классов cl<int> cl<string> - разные классы
 
@@ -3701,6 +3704,14 @@ Test(in "42");//так нельзя
 свойства, операторы, индексаторы и события не могут быть обобщенными, но могут использовать в обобщенном классе с параметрами обобщенного типа этого класса
 к обобщенному методу нельзя применять модификатор extern
 типы указателей нельзя использовать в аргументах типа
+
+
+//метод в обычном классе
+public static string Info<T>(T obj)    where T : User
+        {
+            return obj.ToString();
+        }
+
 
 class BaseTypeOfDynamic : dynamic
 • class DynamicTypeConstraint<T> where T : dynamic
