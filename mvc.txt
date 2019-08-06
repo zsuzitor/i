@@ -1134,7 +1134,7 @@ Remove
 
 
 
-#string 
+#string  
 ссылочный тип но передается по значению
 не изменяемый(при попытыке изменения создает новую строку)
 нет конструктора без параметров
@@ -2000,7 +2000,7 @@ ForAll выполняет действие в каждом потоке для той части которая находится в нем
 
 #AsOrdered()
 public static ParallelQuery<TSource> AsOrdered<TSource>(this ParallelQuery<TSource> source)
-.AsParallel().AsOrdered()
+.AsParallel().AsOrdered()//именно так, вместе не разделяя другими linq
 разделяем на потоки и потом выставляем в том порядке как было бы если бы не разделяли
 #TODO
 
@@ -2559,6 +2559,20 @@ var phones = db.Phones.Join(db.Companies, // второй набор
 from val_a in mass_a
 join val_b in mass_b
 on val_a = val_b;// = == equals
+
+
+
+#left #join
+
+var qry = Foo.GroupJoin(
+          Bar, 
+          foo => foo.Foo_Id,
+          bar => bar.Foo_Id,
+          (x,y) => new { Foo = x, Bars = y })
+    .SelectMany(
+          x => x.Bars.DefaultIfEmpty(),
+          (x,y) => new { Foo=x.Foo, Bar=y});
+
 
 
 

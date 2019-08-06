@@ -519,7 +519,7 @@ IMessageSender messageSender = app.ApplicationServices.GetService<IMessageSender
 #ContentRootFileProvider: возвращает реализацию интерфейса Microsoft.AspNetCore.FileProviders.IFileProvider, которая может использоваться для чтения файлов из папки ContentRootPath
 #WebRootFileProvider: возвращает реализацию интерфейса Microsoft.AspNetCore.FileProviders.IFileProvider, которая может использоваться для чтения файлов из папки WebRootPath
 
-IHostingEnvironment appEnvironment
+#IHostingEnvironment #appEnvironment
 _appEnvironment.ContentRootPath
 
 #Combine #TODO
@@ -2981,7 +2981,7 @@ public class MobileContext : DbContext
             : base(options)
         {
 //по определению моделей будет создаваться база данных (если она отсутствует)
-            Database.EnsureCreated();//создаст БД если ее нет
+            Database.EnsureCreated();//создаст БД если ее нет, это лучше не использовать тк может сломать миграции
         }
 
 protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -3040,6 +3040,10 @@ using (ApplicationContext db = new ApplicationContext(options))
 Add-Migration уникальное_название_миграции
 //выполняем
 Update-Database
+
+//в конструкторе бд, это создает бд если ее нет, но может сломать миграции
+//#err с такой ошибкой There is already an object named 'AspNetRoles' in the database
+Database.EnsureCreated()
 
 
 
@@ -3106,13 +3110,13 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 
 
 вроде бы другой способ #OnModelCreating
-//при таком способе данные будут добавляться либо при миграции либо при  Database.EnsureCreated()
+//при таком способе данные будут добавляться либо при миграции либо при  Database. #EnsureCreated()
 public class ApplicationContext : DbContext
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            Database.EnsureCreated();// это лучше не использовать тк может сломать миграции
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -3517,7 +3521,7 @@ WHERE Name LIKE @p0 AND Price > @p1
 Перед добавлением сравнивает Id,name и если они одинаковые то все хорошо
 [#ConcurrencyCheck]
 public string Name { get; set; 
-catch(#DbUpdateConcurrencyException ex){}
+
 через fluent 
 protected override void OnModelCreating(ModelBuilder modelBuilder)
 {modelBuilder.Entity<User>().Property(b => b.Name).IsConcurrencyToken();}
@@ -3530,7 +3534,34 @@ public byte[] RowVersion { get; set; }
  
 
 
+catch(#DbUpdateConcurrencyException ex){
+foreach (var entry in ex.Entries)
+            {
+                if (entry.Entity is Person)//сущность из за которой исключение
+                {
+                    var proposedValues = entry.CurrentValues;
+                    var databaseValues = entry.GetDatabaseValues();
 
+                    foreach (var property in proposedValues.Properties)
+                    {
+                        var proposedValue = proposedValues[property];
+                        var databaseValue = databaseValues[property];
+
+                        // TODO: decide which value should be written to database
+                        // proposedValues[property] = <value to be saved>;
+                    }
+
+                    // Refresh original values to bypass next concurrency check
+                    entry.OriginalValues.SetValues(databaseValues);
+                }
+                else
+                {
+                    throw new NotSupportedException(
+                        "Don't know how to handle concurrency conflicts for "
+                        + entry.Metadata.Name);
+                }
+            }
+}
 
 
 
@@ -3723,7 +3754,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
     {
-Database.EnsureCreated();
+Database.EnsureCreated();//, это лучше не использовать тк может сломать миграции
     }
  
     protected override void OnModelCreating(ModelBuilder builder)
@@ -4489,7 +4520,19 @@ public IActionResult GetVoid()
 #CreatedAtRouteResult: возвращает статусный код 201, который уведомляет о создании нового ресурса. В качестве параметра принимает название маршрута, который используется для создания адреса нового ресурса
 #ChallengeResult: используется для проверки аутентификации пользователя
 #JsonResult: возвращает в качестве ответа объект или набор объектов в формате JSON
+
 return Json(user);
+//
+Response.ContentType = "application/json";
+await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+
+JsonConvert.SerializeObject(YourObject, Formatting.Indented,
+    new JsonSerializerSettings() {
+        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    }
+);
+
+
 
 #PartialViewResult: производит рендеринг частичного представления в выходной поток
 #RedirectResult: перенаправляет пользователя по другому адресу URL, возвращая статусный код 302 для временной переадресации или код 301 для постоянной переадресации зависимости от того, установлен ли флаг Permanent.
@@ -5543,7 +5586,7 @@ public void ConfigureServices(IServiceCollection services)
 
 
 
-#webapi #api
+ #api
 пу сути обычное mvc приложение которое возвращает не html а результат
 public List<int> Index(){}
 
@@ -5552,6 +5595,26 @@ public List<int> Index(){}
 к контроллеру атрибут [#ApiController]
 
 
+
+#webapi #web 
+в контроллере создаются методы Get Post Put Delete, которые обрабатывают соответствующие запросы
+
+
+#restapi #rest 
+архитектурный стиль
+также строится на 4х http методах
+сервер не запоминает состояние пользователя между запросами(состояние #stateless, когда данные хранятся stateful ) - в каждом запросе передаётся информация, 
+идентифицирующая пользователя (например token)и все параметры, необходимые для выполнения операции.
+обычные контроллеры, которые возвращают данные
+
+
+#soap
+протокол
+возвращает только xml
+
+
+
+#put - при одинаковых входных данных всегда одинаковый результат
 
 
 
@@ -5695,6 +5758,19 @@ public class AuthJWT
 
 var claimsIdentity = this.User.Identity as ClaimsIdentity; 
 var #userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;//ClaimTypes.Name - перечисление, мы получаем то что ранее записали в клаймы под флагом этого перечисления
+
+
+
+
+//#TODO проект ProjectRecruting все в файлах AccountApiController(логика взаимодействия) и AuthJWT(вся логика)
+
+
+
+
+
+
+
+
 
 
 
@@ -6818,6 +6894,78 @@ public void ConfigureServices(IServiceCollection services)
 
 
 
+#swagger
+
+nuget->Swashbuckle.AspNetCore
+
+
+
+services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Version = "v1",
+                    Title = "ProjectRecruting",
+                    Description = "service for students",
+                    TermsOfService = "None",
+                    Contact = new Swashbuckle.AspNetCore.Swagger.Contact
+                    { Name = "yeap", Email = "@zsuzitor", Url = "" }
+                });
+                //var xmlFile = "swaggerxmlsettings.xml";
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                
+//тут подключается файл для записей, его уже создает студия при старте проекта
+//по умолчанию называется по названию проекта
+//можно изменить так: settings->build(слева в меню)-> output(раздел на странице)->xml documentation file
+c.IncludeXmlComments(xmlPath);
+            });
+
+
+
+
+app.UseSwagger();
+
+    // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+    // specifying the Swagger JSON endpoint.
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
+
+
+//настройка xml документации
+В обозревателе решений щелкните проект правой кнопкой мыши и выберите команду Изменить <имя_проекта>.csproj
+Вручную добавьте выделенные строки в файл .csproj:
+<PropertyGroup>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  <NoWarn>$(NoWarn);1591</NoWarn>
+</PropertyGroup>
+
+
+//пути должны быть как до приложения(http[s], port и тд)
+https://localhost:44356/swagger/v1/swagger.json
+https://localhost:44356/swagger
+
+
+//---более детельная настройка через такие комментарии, для их поддержки надо включить поддержку xml для swagger
+
+/// <summary> 
+/// описание
+/// </summary> 
+/// <remarks> 
+/// доп уточнения
+/// </remarks> 
+/// <param name="item"></param> 
+/// <returns>New Created Todo Item</returns> 
+/// <response code="201">Returns the newly created item</response>
+
+
+
+
+
+
+
 
 
 
@@ -6864,9 +7012,37 @@ byte[] imageData = null;
 
 
 
+var fileName = ContentDispositionHeaderValue.Parse(((IFromFile)i).ContentDisposition).FileName.Trim('"');
+
+                //получаем формат файла(".jpg"-в таком виде)
+                var FileExtension = Path.GetExtension(fileName);
 
 
+//проверить является ли изображением
+NuGet "System.Drawing.Common"
+using System.Drawing;
+// ...
+public bool IsImage(byte[] data)
+{
+  var dataIsImage = false;
+  using (var imageReadStream = new MemoryStream(data))
+  {
+    try
+    {
+      using (var possibleImage = Image.FromStream(imageReadStream))
+      {
+      }
+      dataIsImage = true;
+    }
+    // Here you'd figure specific exception to catch. Do not leave like that.
+    catch
+    {
+      dataIsImage = false;
+    }
+  }
 
+  return dataIsImage;
+}
 
 
 
