@@ -4388,6 +4388,10 @@ _Layout.cshtml - мастер страница по умолчанию
 #RenderBody
 рендерит тело представления
 
+#IgnoreBody проигнорировать тело, это нужно использовать ВМЕСТО renderBody и обязательно с скобками
+@{IgnoreBody();}
+
+
 
 #RenderSection #Section
 

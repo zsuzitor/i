@@ -144,21 +144,42 @@ function stopEvent(ev) {
 
 
 
+#load #onload
+$(window).load(function () {//это старая версия, лучше делать так как ниже
+  // манипуляции с готовой страницей
+});
+//вот так
+$(window).on('load', function() { ... });
 
 
 
 
 
 
+#cookie #memory #storage
 
+localStorage глобальный объект который доступен только в пределах домена, 
+он не очищается при зыкрытии браузера в отличии от sessionStorage 
+если надо записать сложный объект то приводить в json
+можно закинуть только 5мб
 
+localStorage.setItem('ключ', 'значение')
+localStorage.getItem('ключ')
+localStorage.removeItem("Ключ")
+localStorage.clear() - очистит все
 
+localStorage["Ключ"] = "Значение" //установка значения 
+localStorage["Ключ"] // Получение значения 
+delete localStorage["Ключ"] // Удаление значения
 
-
-
-
-
-
+//проверяем хватает ли памяти
+try { 
+localStorage.setItem('ключ', 'значение'); 
+} catch (e) { 
+if (e == QUOTA_EXCEEDED_ERR) { 
+alert('Превышен лимит'); 
+} 
+}
 
 
 
