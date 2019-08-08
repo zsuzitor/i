@@ -6290,9 +6290,9 @@ MS Test: фреймворк юнит-тестирования от компании Microsoft, который по умолчанию
 начиная с Visual Studio 2017 специально для тестов были добавлены два типа проектов: xUnit Test Project(.NET Core)(фреймворк xUnit) и Unit Test Project(.NET Core)(MSTest Framework)
 
 
-дальше алгоритм просто через Class Library (.NET Core) + добавление xUnit руками
+дальше алгоритм просто через добавление в решение проекта типа Class Library (.NET Core) + добавление xUnit руками
 При создании проекта тестирования нужно указать "добавить в решение", если нужно чтобы тесты были внутри основного проекта
-необходимо добавить через NuGet пакеты в таком порядке:
+необходимо добавить через NuGet пакеты в таком порядке://первые 3 добавляются автоматически при создании проекта типа xUnit Test Project(.NET Core)
 Microsoft.NET.Test.Sdk
 xunit: функционал фреймворка тестирования
 xunit.runner.visualstudio: обеспечивает интеграцию с Visual Studio
@@ -6316,24 +6316,26 @@ public IActionResult Index()
         }
 
 
+//Для этого в проект тестов добавим новый класс, который назовем HomeControllerTests
 
 #Fact
 указывает, что методы представляет тест
 
 #Theory
+//#TODO
 
 public class HomeControllerTests
     {
         [Fact]
         public void IndexViewDataMessage()
         {
-            // Arrange
+            // #Arrange
             HomeController controller = new HomeController();
  
-            // Act
+            // #Act
             ViewResult result = controller.Index() as ViewResult;
  
-            // Assert
+            // #Assert
 
             Assert.Equal("Hello world!", result?.ViewData["Message"]);
 //можно не разделять на 3 метода а закинуть одним тестом
@@ -6359,6 +6361,7 @@ public class HomeControllerTests
             HomeController controller = new HomeController();
             // Act
             ViewResult result = controller.Index() as ViewResult;
+//ViewResult.Model и тд
             // Assert
 //проверяет название вызываемого представления 
             Assert.Equal("Index", result?.ViewName);
@@ -6367,8 +6370,8 @@ public class HomeControllerTests
 
 
 
-запустить тест на выполнение через меню Test->Run->All Tests
-
+запустить тест на выполнение через меню(сверху) Test->Run->All Tests
+правой кнопкой в обозревателе решений->выполнить тесты
 
 
 
@@ -6402,8 +6405,9 @@ Same(expected, actual): метод подтверждает, что ссылки expected и actual указыва
 NotSame(expected, actual): метод подтверждает, что ссылки expected и actual указывают на разные объекты в памяти
 Throws(exception, expression): метод подтверждает, что выражение expression генерирует исключение exception
 
-
+//#RedirectToActionResult
 var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+//#BadRequestResult #NotFoundResult #400 #404
 Assert.IsType<BadRequestResult>(result);
 Assert.IsType<NotFoundResult>(result);
 
@@ -6415,7 +6419,7 @@ var viewResult = Assert.IsType<ViewResult>(result);
 #Moq
 Moq предназначен для имитации объектов или для создания так называемых фейковых объектов.
 добавить через nuget
-
+не зависимо тестируем ли бы post || get метод, все пишется по 1 алгоритму
 
 при таком контроллере
   public class HomeController : Controller
@@ -6435,7 +6439,7 @@ Moq предназначен для имитации объектов или для создания так называемых фейковых 
 //такое тестирование
 // Arrange
 //содаем типизированный объект
-            var mock = new Mock<IRepository>();
+            var mock = new Mock<IRepository>();//это тот объект который принимает оригинальный контроллер
 //устанавливаем метод (GetTestPhones) который будет вызываться вместо метода который используется в контроллере(GetAll)
             mock.Setup(repo=>repo.GetAll()).Returns(GetTestPhones());
 
@@ -6460,6 +6464,13 @@ Assert.Equal("Index", redirectToActionResult.ActionName);
 
 
 
+
+если надо имитировать БД то #UseInMemoryDatabase #InMemoryDatabase
+
+var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                  .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                  .Options;
+ var context = new ApplicationDbContext(options);//получаем обычный контекст, который уже можно передавать куда угодно  ипользоваться как обычным контекстом
 
 
 
