@@ -396,7 +396,7 @@ SELECT DISTINCT Manufacturer FROM Products
 
 
 
-#ORDER BY  #ORDERBY #sort #сортировка
+#ORDER BY  #ORDERBY #sort #сортировка #desc #asc
 если есть DESC то по убыванию(по возрастанию -ASC, используется по умолчанию)
 если сортировка по нескольким столбцам то сначала сортируется по 1 ,если есть несколько равных, они сортируются по 2 и тд
 SELECT  Price AS TotalSum
@@ -990,7 +990,7 @@ ELSE
 
 
 
-#IIF
+#IIF #if
 
 если ProductCount>3 то str1 иначе str2
 IIF(ProductCount>3, 'str1', 'str2')

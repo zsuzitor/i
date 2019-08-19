@@ -297,7 +297,7 @@ app.Map("/error", ap => ap.Run(async context =>
 
 
 
-Обработка #ошибок #ошибка HTTP
+Обработка #ошибок #ошибка HTTP #error #404
 стандартно статус ошибки можно увидеть только в консоле, сама страница просто будет белой
 if (env.IsDevelopment())
     {
@@ -585,7 +585,7 @@ app.UseStaticFiles();
 
 
 
-app.#UseDirectoryBrowser(); #директория
+app.#UseDirectoryBrowser(); #директория #Directory
 докинув в config и докинув  services.AddDirectoryBrowser(); в ConfigureServices
 можно позволить пользователям просмотривать файлы на сервере
 
@@ -2108,7 +2108,7 @@ public string Email { get; set; }
 #Range
 [Range(1, 110, ErrorMessage = "Недопустимый возраст")]
 
-#Compare
+#Compare #Password 
 [Required]
 public string Password { get; set; }
 [Compare("Password", ErrorMessage = "Пароли не совпадают")]
@@ -2334,7 +2334,7 @@ public DateTime DateOfBirth { get; set; }
 
 
 
-#LinkTagHelper  #css #link #js
+#LinkTagHelper  #css #link #js #asp- 
 см также ScriptTagHelper
 используется для подключения файлов стилей
 
@@ -2656,7 +2656,7 @@ public ViewContext ViewContext { get; set; }
 
 
 
-//Атрибут HtmlTargetElement указывает, что класс будет применяться к элементам, у которых установлен атрибут header. Важно, что название хелпера опять же соответствует целевому объекту - атрибуту header.
+//Атрибут #HtmlTargetElement указывает, что класс будет применяться к элементам, у которых установлен атрибут header. Важно, что название хелпера опять же соответствует целевому объекту - атрибуту header.
 using Microsoft.AspNetCore.Razor.TagHelpers;
  
 [HtmlTargetElement(Attributes = "header")]
@@ -3267,7 +3267,7 @@ public class PhoneConfiguration : IEntityTypeConfiguration<Phone>
 
 
 
-//при связи 1 к 1 данныее можно хранить в 1 таблице
+//при связи 1 к 1 данные можно хранить в 1 таблице
 
 ...(обычная настрока связи 1 к 1).....HasForeignKey<UserProfile>(e => e.Id);
         modelBuilder.Entity<User>().ToTable("Users");
@@ -3511,8 +3511,12 @@ WHERE Name LIKE @p0 AND Price > @p1
 
 
 
-
-
+#injection #иньекции
+для предотвращения иньекция надо параметризировать запрос
+FromSql("EXECUTE dbo.GetMostPopularBlogsForUser {0}", user)
+FromSql($"EXECUTE dbo.GetMostPopularBlogsForUser {user}")
+FromSql("EXECUTE dbo.GetMostPopularBlogsForUser @user", user)
+FromSql("EXECUTE dbo.GetMostPopularBlogs @filterByUser=@user", user)
 
 
 #parallel
@@ -3651,8 +3655,8 @@ string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType)
 
 
 
-
-можно получить логин пользователя текущего
+ 
+можно получить #логин пользователя текущего #login 
 HttpContext.User.Idenity.Name
 //в контроллере
 var claimsIdentity = this.User.Identity as ClaimsIdentity; 
@@ -3835,7 +3839,7 @@ public AccountController(UserManager<User> userManager, SignInManager<User> sign
 
 SignInManager.#PasswordSignInAsync
 проверяет разрешен ли вход(например из за не подтвержденной почты)
-вызывает UserManager.CheckPasswordAsync для проверки пароля
+вызывает UserManager.#CheckPasswordAsync для проверки пароля
 Если для пользователя включена двухфакторная аутентификация, метод устанавливает соответствующий файл cookie и возвращает результат SignInResult.TwoFactorRequired
 выполняет процесс входа, который завершает создание ClaimsPrincipalи сохранение его с помощью cookie
 
@@ -3908,7 +3912,7 @@ app.UseAuthentication();
 
 
 
-создание пользователя #register
+создание пользователя #register #login
 
 public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {}
@@ -4010,8 +4014,28 @@ IdentityResult result =
 
 
 
+#hash #Salt #KeyDerivation #Pbkdf2 #KeyDerivationPrf #HMACSHA1
+ public static string GetHashRefreshToken(string token)
+        {
+            
+            // generate a 128-bit salt using a secure PRNG
+            //byte[] salt = new byte[128 / 8];
+            //using (var rng = RandomNumberGenerator.Create())
+            //{
+            //    rng.GetBytes(salt);
+            //}
+            //Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
 
-
+            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: token,
+                salt: new byte[0],
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+            //Console.WriteLine($"Hashed: {hashed}");
+            return hashed;
+        }
 
 
 
@@ -4104,7 +4128,7 @@ public class CustomPasswordValidator : IPasswordValidator<ApplicationUser>
 
 
 
-валидация пользователя-почта и тд
+#валидация пользователя-почта и тд #validation #email #password #login
 
 
 #UserOptions
@@ -4383,7 +4407,7 @@ _Layout.cshtml - мастер страница по умолчанию
 }
 
 
-для создания файла мастре страницы надо создать файл с типом "MVC View Layout Page"
+для создания файла мастер страницы надо создать файл с типом "MVC View Layout Page"
 
 #RenderBody
 рендерит тело представления
@@ -4705,7 +4729,7 @@ public VirtualFileResult GetVirtualFile()
 
 
 #controller
-
+#filter #методы
 public class HelloBaseController : Controller{}
 
 
@@ -4770,7 +4794,7 @@ public class HomeController : HelloBaseController
 
 #ActionDescriptor: возвращает дескриптор действия - объект ActionDescriptor, который описывает вызываемое действие контроллера
 
-#ModelState: возвращает словарь ModelStateDictionary, который используется для валидации данных, отправленных пользователем
+#ModelState: возвращает словарь #ModelStateDictionary, который используется для валидации данных, отправленных пользователем
 
 #RouteData: возвращает данные маршрута
 получить в контроллере все параметры маршрута, используя объект RouteData
@@ -5085,7 +5109,7 @@ public IViewComponentResult Invoke()
 
 
 
-#BindRequired и #BindNever #attr
+#BindRequired и #BindNever #attr #binding
 изменение алгоритма привязки
 
 Атрибут BindRequired требует обязательного наличия значения для свойства модели.
@@ -5152,7 +5176,7 @@ https://metanit.com/sharp/aspnet5/8.6.php
 
 
 
-#filer #pipeline #фильтры
+#filer #pipeline #фильтры #IActionFilter
 Фильтры позволяют выполнять некоторые действия до или после определенной стадии обработки запроса. В ASP.NET Core имеются следующие типы фильтров:
 например можно что то записать в куки, применить фильтр глобально и это заменит вызов записи в куки для каждого метода всех контроллеров
 
@@ -5601,7 +5625,7 @@ public List<int> Index(){}
 
 
 #webapi #web 
-в контроллере создаются методы Get Post Put Delete, которые обрабатывают соответствующие запросы
+в контроллере создаются методы!!! Get Post Put Delete, которые обрабатывают соответствующие запросы
 
 
 #restapi #rest 
@@ -5619,7 +5643,11 @@ public List<int> Index(){}
 
 
 #put - при одинаковых входных данных всегда одинаковый результат
-
+put-создание, 
+#post-изменение,
+#get-получение,
+#delete-удаление, 
+#patch частичное изменение
 
 
 
