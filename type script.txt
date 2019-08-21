@@ -1,0 +1,260 @@
+
+
+
+"number", "string", "boolean", или "symbol", void;
+
+
+
+/
+function padLeft(value: string, padding: string | number)
+function padLeft(value: string, padding: any) {
+//#typeof
+    if (typeof padding === "number") {//"string"
+        return Array(padding + 1).join(" ") + value;
+    }
+    
+}
+
+
+
+
+
+#array 
+#join
+//создать строку с пробелами длинной 10 символов
+ Array(10).join(" ");
+
+
+#throw 
+throw new Error(`ќжидал строку или число, а получил '${padding}'.`);
+
+
+
+псевдоним типа 
+ype Name = string;
+type NameResolver = () => string;
+
+
+
+
+
+
+#interface
+
+interface Bird {
+    fly();
+    layEggs();
+}
+ 
+interface Fish {
+    swim();
+    layEggs();
+getPaddingString(): string
+}
+ 
+function getSmallPet(): Fish | Bird {
+    // ...
+}
+ 
+let pet = getSmallPet();
+pet.layEggs(); // ок
+pet.swim();    // ошибка
+
+
+
+
+//вот так приведет к ошибке
+pet.swim
+//но можно вот так
+if ((<fish>pet).swim) 
+    (<fish>pet).swim();
+
+
+
+
+#is #as
+вот такой функцией можно проверить соответствует ли объект классу
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (<fish>pet).swim !== undefined;
+}
+function isNumber(x: any): x is number {
+    return typeof x === "number";
+}
+
+
+
+
+#class
+
+class SpaceRepeatingPadder implements Padder {
+    constructor(private numSpaces: number) { }
+    getPaddingString() {
+        return Array(this.numSpaces + 1).join(" ");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
