@@ -1,0 +1,483 @@
+
+
+#redux
+
+
+импорт из файла ...const ADD_ITEM="";
+import { ADD_ITEM, REMOVE_ITEM } from './actions'
+
+
+все построена на состояния приложения, состояние может быть изменено только при выполнении действия
+Единственное требование к объекту действия — это наличие свойства type, значением которого обычно является строка.
+{ 
+  type: 'SELECTED_USER', //лучше через константу(обычная conts переменная) const ADD_ITEM = 'ADD_ITEM'
+  userId: 232 
+}
+
+
+#генераторы действий-функции создающие действия
+function addItem(t) { 
+  return { 
+    type: ADD_ITEM, 
+    title: t 
+  } 
+}
+
+
+
+#редуктор #reducer
+ это чистая функция, которая вычисляет следующее состояние дерева на основании его предыдущего состояния и применяемого действия
+(currentState, action) => newState
+
+Редуктор — это всегда чистая функция, поэтому он не должен:
+мутировать аргументы;
+мутировать состояние. Вместо этого создаётся новое состояние с помощью Object.assign({}, ...);
+иметь побочные эффекты (никаких API-вызовов с какими-либо изменениями);
+вызывать нечистые функции. Это функции, результат которых зависит от чего-то кроме их аргументов (например, Date.now() или Math.random()).
+
+
+
+
+#Хранилище (#store) 
+это объект, который:
+содержит состояние приложения;
+отображает состояние через getState();
+может обновлять состояние через dispatch();
+позволяет регистрироваться (или удаляться) в качестве слушателя изменения состояния через subscribe().
+
+//получить состояние
+store.getState()
+//Обновление состояния:
+store.dispatch(addItem('Something'))
+//подписка на изменение состояния
+const unsubscribe = store.subscribe(() => 
+  const newState = store.getState() 
+) 
+unsubscribe()
+
+
+
+
+
+
+
+
+
+
+-----------------
+
+
+#babel
+штука которая разбивает js код на синтаксическое древо и по нему уже может строиться код предыдущей версии(не es6 например)
+добавляет еще всекие фичи, используется с react
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+
+#TODO #babel-cli
+https://metanit.com/web/react/1.4.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------
+
+
+#react #reactjs
+
+расширение для хрома и мозиллы "React Devtools\\\\ React Developer Tools
+https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
+
+
+<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+
+
+
+
+#component
+компонент не изменемый, при каждом изменении рендерится полностью, сравниваются основные куски и если есть изменения то заменяются только эти отличающиеся куски
+
+
+
+//должен содержать как минимум метод render
+//доступ к свойствам через this.props , внутри(через this) их нельзя изменить
+//может содержать внутреннее состояние this.state._name
+
+
+
+//запуск рендера страницы, тут важен атрибут в теге scripts
+<script type="text/babel">
+ReactDOM.render(
+  <HelloMessage name="Саша" />,//компонент который будет главным
+  document.getElementById('hello-example')//куда отрендерится
+);
+
+//вот это будет запрашивать файл по ajax
+<script type="text/babel" src="index.jsx"></script>
+
+
+
+
+
+
+в render (#jsx):
+1-вместо class в html теге используется className 
+2- атрибут style в качестве значения принимает объект json
+3-в JSX используется camel-case, то есть если мы хотим определить стилевое свойство для шрифта, например, свойство font-family, то соответствующее свойство в объекте стиля будет называться fontFamily
+const styleObj = {
+        color:'red', 
+        fontFamily:'Verdana'
+    };
+
+<div className={userClassName}  style={styleObj}>
+
+
+
+--
+//создание компонента
+в компоненте свойство props неизменяемое\только для чтения
+можно создать 2мя способами но всегда должен начинаться с заглавной буквы
+
+import React from 'react';
+
+import './user.scss';
+//если писать в теге скриптов с баблом то можно оставить только объявление класса, без остального мусора
+class User extends React.Component {
+    render () {
+        return <div className='user'>
+            <img src={this.props.avatar} />
+            <span>{this.props.name}</span>
+        <div>;
+    }
+}
+
+
+
+export default User;
+
+
+
+//можно создавать компонент через функцию
+function Square(props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
+}
+
+
+//как при функциональном объявлении так и при обычном
+Hello.defaultProps = {name: "Tom", age: 22};//устанавливаем значения по умолчанию, #defaultProps
+
+
+
+//использоваться будет как обычный html тег, см ниже
+--
+
+
+import React from 'react';
+
+import User from '../user/User.jsx';//----- подключаем тот компонент который будем использовать
+
+class Container extends React.Component {
+   render() {
+       return <div className='container'>
+           <User name='Jack Black' avatar='/images/jblack.jpg' />  ////////-------------!!!!!!!!!!!!!!!! использование компонента
+       </div>;
+   }
+}
+
+export default Container;
+
+
+#method #param #this #bind
+методы в компоненте по умолчанию не ссылаются на this, для фикса надо
+//чтобы в метод press корректно передавалась ссылка на текущий объект через this, в конструкторе класса прописывается вызов:
+this.press = this.press.bind(this);
+
+
+
+метод может принимать параметр источника события
+onNameChange(e) {
+            var val = e.target.value;
+        }
+<input type="number" value={this.state.age} 
+                            onChange={this.onNameChange}  style={{borderColor:ageColor}} />
+
+
+#ref
+
+handleSubmit(e) {
+            e.preventDefault();
+            var name = this.refs.nameField.value; 
+        }
+<input ref="nameField" />
+
+
+минус в этом случае, то что мы не можем установить значение по умолчанию с помощью стандартного атрибута value: при использовании атрибута value опять же придется задавать обработчик события change, как в прошлой теме.
+можно только вот так
+<input defaultValue="Tom" ref="nameField" />
+
+
+
+
+
+
+//про то какие этапы жизни есть у компонентов
+#TODO
+https://metanit.com/web/react/2.6.php
+
+
+
+у компонента есть #state
+это свойство изменяемое
+значения из state должны использоваться при рендеринге. Если какой-то объект не используется в рендерниге компонента, то нет смысла сохранять его в state
+Единственное место, где можно установить объект state(через =) - это конструктор класса:
+this.state = {welcome: "Добро пожаловать на сайт!"};
+
+
+
+//метод изменения состояния
+toggleActive() {
+	this.setState({ active: !this.state.active });
+// с делегатом и доступом к старому значению
+this.setState(state => ({ seconds: state.seconds + 1    }));
+
+  }
+//но лучше всего вот так
+this.setState(function(prevState, props) {
+  return {
+    counter: prevState.counter + props.increment
+  };
+});
+
+
+//если надо передать состояние в другой компонент то передается точно так же как свойство
+
+
+
+есть еще #context - это типо статического ( #static ) свойства #TODO
+this.context.color
+
+в компоненте объявляется так
+static contextTypes = {
+	color: React.PropTypes.string
+  };
+
+
+в компоненте можно определить #конструктор #constructor
+constructor(props) {
+    super(props);//вызывать обязательно и вызывать сразу
+    this.state = { seconds: 0 };//в конструкторе именно так а не через setState({});
+  }
+
+//можно добавлять поля просто через this.val
+
+
+
+если надо из внутреннего компонента вызвать внешний
+надо в внутренний передать функцию как свойство
+а в внутреннем ее проверить и вызвать если она установлена
+
+//внутренний комопонент рендерит инпут
+<input type='text' onChange={this,onChange} />
+//у внутреннего компонента есть событие
+onChange = e => {
+//проверяет СВОЙСТВО которое устанавливается извне
+  this.props.onChange && this.props.onChange(e.target.value);
+};
+//рендер уже внутреннего компонента из внешнего 
+<Search onChange={this.filterList} />
+
+
+
+
+
+
+#for #foreach 
+это в рендере
+return (
+      <ul>
+        {this.props.items.map(item => (
+          <li key={item.id}>{item.text}</li>
+        ))}
+      </ul>
+    );
+
+
+
+
+//#TODO
+#webpack https://metanit.com/web/react/2.9.php
+https://metanit.com/web/react/4.8.php
+#flux https://metanit.com/web/react/5.1.php
+#reflux https://metanit.com/web/react/5.2.php
+
+
+
+
+
+
+
+#route #url #router #switch #path #маршруты #маршрутизация 
+
+ <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+
+
+<script type="text/babel">
+    const Router = ReactRouterDOM.BrowserRouter;
+    const Route = ReactRouterDOM.Route;
+    const Switch = ReactRouterDOM.Switch;
+
+class About extends React.Component{
+        render(){
+            return <h2>О сайте</h2>;
+        }
+    }
+
+//#exact - указываем что нужно полное совпадение без учета конечного / ---подходит как "about" так и "about/"
+если заменить exact на strict то нужно будет ПОЛНОЕ совпадение
+//без этих ключевых слов  путь "/" или путь "/about" или путь "/contact/dsdf", и все эти пути будут соответствовать маршруту с шаблоном адреса "/"
+//тк любой урл который заканчивается на / не считается законченным(дальше может идти что угодно)
+ ReactDOM.render(
+        <Router>
+            <Switch>
+                <Route exact path="/" component={Main} />
+                <Route path="/about" component={About} />
+//компонент можно создать лямбдой
+ <Route path="/about" children={()=><h2>About</h2>} />
+
+//Этот маршрут будет сопоставляться со всеми адресами URL, которые не соответствуют предыдущим маршрутам. это типо default
+                <Route component={NotFound} />
+            </Switch>
+        </Router>,
+        document.getElementById("app")
+    )
+
+
+
+можно сделать пложенные маршруты
+
+
+<Router>
+            <Switch>
+                <Route path="/products" component={Products} />
+            </Switch>
+        </Router>,
+
+class Products extends React.Component{
+    render(){
+        return <div>
+            <h2>Товары</h2>
+                <Switch>
+                    <Route path="/products/phones" component={Phone} />
+                    <Route path="/products/tablets" component={Tablet} />
+                </Switch>
+        </div>;
+    }
+}
+
+
+
+
+#link #href #a #to
+
+//это к объявлению свичей и роутов
+const Link = ReactRouterDOM.Link;
+
+class Nav extends React.Component{
+        render(){
+            return <nav>
+                    <Link to="/">Главная</Link>  
+                  </nav>;
+        }
+    }
+    ReactDOM.render(
+        <Router>
+            <div>
+                <Nav />
+                <Switch>
+                    <Route exact path="/" component={Home} />
+//можем указать параметры, и получить их const id= this.props.match.params.id;//#match это для роутов
+<Route path="/about/:id/:name" component={About} />
+//#location для query- this.props.location.search // <Link to="/2/?name=Bob&age=23">Bob</Link>
+
+//необязательные параметры
+<Route path="about/:id?/:name?" component={About} />
+//ограничение
+<Route path="/products/:id(\d+)" component={Product} />
+//можем не использовать слэш
+<Route path="/products/:category-:id" component={Product} />
+                </Switch>
+            </div>
+        </Router>,
+        document.getElementById("app")
+    )
+
+
+
+еще есть #NavLink. тоже самое что link но позволяет использовать состояние ссылки. 
+атрибуты #activeClassName и #activeStyle можно установить стиль активной ссылки. 
+
+ const NavLink = ReactRouterDOM.NavLink;
+
+<NavLink to="/" activeClassName="active">Главная</NavLink>  
+//если ошибочно будут выделаться ссылки дополнительные то добавить exact
+<NavLink exact to="/" activeClassName="active">Главная</NavLink> 
+
+
+
+
+
+Основные свойства объекта #match:
+
+path: шаблон url маршрута, выбранного для обработки запроса
+url: сам запрошенный путь url с параметрами, но без строки запроса
+params: набор параметров маршрута
+
+Основные свойства объекта #location:
+pathname: запрошенный путь url с параметрами, но без строки запроса
+search: строка запроса
+
+Но если параметры маршрута легко получить, то для извлечения параметров строки запроса необходимо ее распарсить с помощью объекта #URLSearchParams
+new URLSearchParams(this.props.location.search).get("age")}
+
+
+
+
+
+#Redirect #from #to
+//к роутам
+const Redirect = ReactRouterDOM.Redirect;
+
+
+<Route path="/new" component={New} />
+                    <Redirect from="/old" to="/new" />
+
+
+можно так
+class Old extends React.Component{
+        render(){
+ if(true)
+            return <Redirect to={`/new/${this.props.match.params.id}`} />;
+else
+<h1></h1>
+        }
+    }

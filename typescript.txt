@@ -1,0 +1,733 @@
+
+
+-------------------------------------
+
+#typescript
+установка(если использовать студию то устанавливается автоматически)
+https://metanit.com/web/typescript/1.2.php
+
+
+компиляция
+в командной строке/терминале с помощью команды cd перейдем к каталогу, где расположен файл app.ts (в моем случае это C:\typescript). 
+И для компиляции выполним следующую команду
+tsc app.ts
+
+при компиляции из консоли можно передать флаги
+https://metanit.com/web/typescript/1.4.php
+
+
+
+
+#Boolean: логическое значение true или false
+#Number: числовое значение(все числа считаются double)
+TS поддерживает двоичную, восьмеричную, десятичную и шестнадцатиричную записи чисел:
+#String: строки
+let info: string = `Имя ${firstName}    Возраст: ${age}`;
+
+#Array: массивы
+#Tuple: кортежи
+#Enum: перечисления
+#Any: произвольный тип
+#Null и undefined: соответствуют значениям null и undefined в javascript
+#Void: отсутствие конкретного значения, используется в основном в качестве возвращаемого типа функций
+#Never: также представляет отсутствие значения и используется в качестве возвращаемого типа функций, которые генерируют или возвращают ошибку
+
+
+
+//#undefined  #null 
+let a: undefined = undefined;
+let b: null = null;
+let x: number = undefined;
+
+
+
+
+#array #[] #массив
+let colors: string[] = ["red", "green", "blue"];
+let colors: Array<string> = ["Tom", "Bob", "Alice"];
+colors[0]
+
+
+
+
+
+#tuple #кортеж
+// определение кортежа - кортеж состоит из двух элементов - строки и числа
+let userInfo: [string, number];
+// инициализация кортежа
+userInfo = ["Tom", 28];
+
+// использование кортежа
+console.log(userInfo[1]); //получаем доступ к 2  элементу(28)
+userInfo[1] = 37;
+
+
+
+
+#enum
+enum Season { Winter, Spring, Summer, Autumn };
+enum Season { Winter, Spring, Summer, Autumn };
+let current: Season = Season.Summer;
+var current: string = Season[2];    // 2 - числовое значение Summer
+
+
+
+
+#any #dynamic
+let someVar: any = "hello";
+console.log(someVar);   // сейчас someVar - это string
+someVar = 20; 
+//
+var someArray: any[] = [ 24, "Tom", false];
+
+
+
+#object
+let person = { name: "Tom", age: 23 };
+person = { name: "Alice" };//получим ошибку тк другой тип
+
+
+
+//#let #var
+let z = 6;
+z = 8;
+let x: number = 10; 
+
+//#const
+const z = 6;
+
+
+
+
+
+
+
+#union #объединение
+let id : number | string;
+id = "1345dgg5";
+id = 234;
+
+
+
+
+
+
+#type #псевдоним
+type stringOrNumberType = number | string;
+let sum: stringOrNumberType = 36.6;
+
+
+
+
+#as #is
+
+let strLength: number = (<string>someAnyValue).length;
+let strLength: number = (someAnyValue as string).length;
+
+//#instanceof
+let alice: Employee = new Employee("Microsoft", "Alice");
+if (alice instanceof User) {
+
+
+
+
+#function 
+//может возвращать void
+//если не указать возвращаемый тип, он будет неявно выведен из return
+function add(a: number, b: number): number {
+    return a + b;
+}
+let add = function (a: number, b: number) : number {
+    return a + b;
+}
+
+//тип параметров можно опустить
+let sum = (x: number, y: number) => x + y; 
+let sum = (x: number, y: number) =>{return x + y;}; 
+let result = sum(15, 35); // 50
+
+
+
+
+
+//#params
+в функцию можно передавать только то количество параметров которое она принимает(ни больше ни меньше)
+необязательные параметры должны идти после обязательных:
+//если параметр не передается то он будет undefined
+
+//function getName(firstName: string, lastName: string=defaultSurname()) {
+function getName(firstName: string, lastName?: string) {
+    if (lastName)
+        return firstName + " " + lastName;
+
+
+//переменное количество параметров, аналог params
+function addNumbers(firstNumber: number, ...numberArray: number[]): number {
+
+
+
+
+можно создать тип функции
+let op: (x:number, y:number) => number;
+
+op = function(...);
+function mathOp(x: number, y: number, operation: (a: number, b: number) => number): number{
+
+
+
+
+
+
+
+#Перегрузка функций
+
+//сначала объявить пустые функции(без реализации), потом докинуть функцию с any, но эта функция будет органичена тем что мы объявили с типами(нельзя будет ее вызвать для например boolean)
+function add(x: string, y: string): string;
+function add(x: number, y: number): number;
+function add(x: any, y: any): any {
+    return x + y;
+}
+
+
+
+
+
+
+#аксессоры #get #set 
+
+
+private _name: string;
+ 
+    public get name(): string {
+        return this._name;
+    }
+ 
+    public set name(n: string) {
+        this._name = n;
+    }
+
+
+
+
+
+
+
+
+
+
+#class
+class User{
+static PI: number = 3.14;//#static
+readonly id: number;//#readonly, как везде
+    name : string;
+    age : number;
+
+getInfo(): string {
+        return "id:" + this.id + " name:" + this.name;
+    }
+
+
+//если тут указать вот так (также можно объявить и readonly добавив данное ключевое слово)
+//constructor(private name: string, private age: number)
+//то свойства не надо объявлять в классе, 
+
+    constructor(_name:string, _age: number){//#constructor
+         
+        this.name = _name;
+        this.age = _age;
+    }
+}
+//
+var tom : User = new User("Том", 29);
+
+
+
+
+#модификаторы
+#public 
+#private 
+#protected логика как везде
+
+если не указан то объявляется как private
+
+class User {    
+    private _name: string;
+public displayYear(): void {};
+}
+
+
+
+
+//#extends #super
+class Employee extends User { 
+constructor(name: string, age: number, company: string) {
+        super(name, age);
+    }
+getInfo(): void {
+        super.getInfo()
+        console.log("Работает в компании: " + this.company);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Абстрактный #abstract
+
+
+
+abstract class Figure {
+    getArea_1(): void{
+        console.log("Not Implemented")
+    }
+abstract getArea(): void;
+}
+//наследуется без ключевых слов и тд, надо просто его реализовать в классе
+
+
+
+
+
+//#interface 
+interface IUser {
+    id: number;
+    name: string;
+age?: number;// #? -необязательное свойство, его можно не указывать в объектах
+readonly x: number;//можно будет только установить при создании
+ getFullName(surname: string): string;//определяем функцию
+}
+
+//реализация интерфейса объектом
+//такой конструкцией можно возвращать объект из метода и тд
+let employee: IUser = {
+     
+    id: 1, 
+    name: "Alice"
+}
+
+
+
+//#implements
+class User implements IUser{
+ 
+    id: number;
+    name: string;
+    age: number;
+    constructor(userId: number, userName: string, userAge: number) {
+ 
+    }
+    getFullName(surname: string): string {
+        return this.name + " " + surname;
+    }}
+
+//#extends
+interface ICar extends IMovable {
+ 
+    fill(): void;
+}
+
+
+
+если функция принимает объект типа интерфейса(мб так не только с интерфейсом)
+то мы можем туда передать просто объект у которого ровно теже свойства, также можем передать любой другой объект любого класса,
+если его свойства ничем не отличаются(количество\название и тд)
+
+
+
+
+
+
+
+
+#миксин #mixins
+#наследование #implements
+есть множественное наследование только для интерфейсов
+несколько классов унаследовать нельзя но можно закостылить миксином
+
+Миксин может унаследовать только те свойства и методы, которые непосредственно определены в применяемом классе. 
+Поэтому данный способ не будет работать, если применяемый класс, в свою очередь,
+ также наследует какие-то свойства и методы от другого класса.
+Если родительские классы определяют метод с одним и тем же именем, то миксин наследует только тот метод, 
+который копируется в него последним в функции applyMixins.
+
+
+class Animal {
+ 
+    feed():void {
+        console.log("кормим животное");
+    }
+}
+class Transport {}
+
+class Horse implements Animal, Transport {
+    speed: number=0;
+    feed: () => void;//метод определять обязательно и обязательно с такой заглушкой, в таком случае он реализация будет из класса от которого наследуем
+    move: () => void;
+}
+ 
+function applyMixins(derivedCtor: any, baseCtors: any[]) {
+    baseCtors.forEach(baseCtor => {
+        Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
+            derivedCtor.prototype[name] = baseCtor.prototype[name];
+        });
+    });
+}
+ 
+applyMixins(Horse, [Animal, Transport]);
+ 
+let pony: Horse = new Horse();
+
+
+
+
+
+
+
+
+//----
+let tom :IUser = new User(1, "Tom", 23);
+//или
+let tom :User = new User(1, "Tom", 23);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///интерфейсы функций
+interface FullNameBuilder {
+    (name: string, surname: string): string;
+}
+ 
+let simpleBuilder: FullNameBuilder = function (name:string, surname: string): string {
+        return "Mr. " + name + " " + surname;
+}
+
+
+
+
+
+
+
+///интерфейсы массивов
+
+interface StringArray {
+    [index: number]: string;
+}
+ 
+let phones: StringArray;
+phones = ["iPhone 7", "HTC 10", "HP Elite x3"];
+
+//#Dictionary
+interface Dictionary {
+    [index: string]: string;
+}
+ 
+var colors: Dictionary = {};
+colors["red"] = "#ff0000";
+
+
+//---------интерфейс может применяться сразу и к объекту и к функции (#Гибридные интерфейсы)
+
+
+
+
+
+
+
+
+#generic #<> #><
+
+function getId<T>(id: T): T {
+     
+    return id;
+}
+let result1 = getId<number>(5);
+let result2 = getId<string>("abc");
+
+//#Array
+function getString<T>(arg: Array<T>): string {
+
+
+interface IUser<T> {
+ 
+    getId(): T;
+}
+ 
+class User<T> implements IUser<T> {}
+
+
+
+class User<T> {
+ 
+    private _id: T;
+    constructor(id:T) {
+ 
+        this._id=id;
+    }
+    getId(): T {
+ 
+        return this._id;
+    }
+}
+
+//!!!!!!!!!!!!!!!!!!!!
+let tom = new User<number>(3);
+console.log(tom.getId());
+tom = new User<string>("vsf"); // ошибка, нельзя тк уже типизировали другим типом
+
+
+
+
+
+//#ограничения #extends #where
+//UserInfo<T extends IUser & IMan>
+class UserInfo<T extends IUser>{
+ 
+    getUserInfo(user: T): void{
+ 
+        user.getInfo();
+    }
+}
+
+
+//#default
+
+function UserFactory<T>(): T {
+    return new T(); // ошибка компиляции
+}
+
+//но вот так норм
+function userFactory<T>(type: { new (): T; }): T {
+     
+    return new type();
+}
+
+//class User {};
+let user : User = userFactory(User);
+
+
+
+
+#export
+если мы что то определяем в отдельном файле то надо указывать export независимо от того отдельное ли там пространство имен или нет
+//вот так
+export function Call(phone: Phone) : void{
+    console.log("Make a call by", phone.name);
+}
+//но можно и так
+export {Device, Phone, Call as Devices};//с помощью #as указываем псевдоним
+
+//можно так #default
+export default class SmartWatch{}
+
+
+
+
+
+
+#namespace #пространства 
+
+
+namespace Personnel {
+    export class Employee {//делаем класс видимым извне с помощью export
+     
+        constructor(public name: string){
+        }
+    }
+
+export namespace Personnel_ {//вложенной пространство имен
+        export class Employee_ {
+         
+            constructor(public name: string){
+            }
+        }
+    }
+
+
+export let defaultUser= { name: "Kate" }
+}
+
+let alice = new Personnel.Employee("Alice");
+let tom = new Personnel_.Personnel.Employee("Tom");//при вложенности
+import employee = Data.Personnel.Employee;//#import создаем #псевдоним
+
+
+
+
+для того что бы подключить файл в самом начале файла пишем(именно с ///)
+/// <reference path="personnel.ts" />
+
+
+
+
+#compile #компилирование #compiler
+в командной строке пишем..., файл в которой скопилится все и объеденится и файлы из которых надо все дергать
+tsc --outFile app.js app.ts personnel.ts
+
+
+
+
+
+
+
+
+#module #модуль #модули #
+
+
+браузеры самостоятельно не поддерживают работу с модулями, поэтому или не использовать или 
+подключать библиотеки :
+#SystemJS #TODO https://metanit.com/web/typescript/3.11.php
+
+
+существует 5 типов модулей:
+AMD (Asynchronys Module Defenition)
+CommonJS
+UMD (Universal Module Defenition)
+System
+ES 2015
+
+При компиляции из командной строки или терминала для установки модуля необходимо передать соответствующее значение параметру --module:
+tsc --module commonjs main.ts // для CommonJS
+tsc --module amd main.ts // для AMD
+tsc --module umd main.ts // для UMD
+tsc --module system main.ts // для SytemJS
+
+для загрузки модулей можно выбрать один из следующих загрузчиков:
+
+RequireJS: RequireJS использует синтаксис, известный как асинхронное определение модуля или asynchronous module definition(AMD)
+Browserify: использует синтаксис CommonJS
+SystemJS: универсальный загрузчик, может применяться для модулей любого типа
+
+модуль это отдельный файл в котором есть определенные объявления чего либо с export
+
+
+
+
+
+
+#import #импорт
+//можем указать псевдоним через #as
+import {Phone, Call as makeCall} from "./devices";//импортим из файла в том же самом каталоге, поэтому через ./
+let iphone: Phone = new Phone("iPhone X");
+
+//можно так
+import * as dev from "./devices";
+let iphone: devPhone = new dev.Phone("iPhone X");
+
+
+
+
+
+
+
+#declarate #declare #декларативный файл
+//аналог .h файла, допустим если хотим из ts сослаться на js переменную которая не понятно где лежит
+//расширение всегда такое .d.ts
+создать файл globals.d.ts
+закинуть код:
+declare var globalVar: string;//это внешняя переменная которая нам нужна
+declare function display(): void;//внешняя функция
+// и в файле где она нужно подключаем этот декларативный файл вот так(с ///)
+/// <reference path="globals.d.ts" />
+
+
+
+js библиотеки тоже надо декларировать
+//https://metanit.com/web/typescript/4.2.php
+
+Создадим в проекте каталог @types, а в нем - подкаталог jquery
+В каталог @types/jquery поместим заголовочный файл для jquery - index.d.ts, который можно найти по адресу https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/types/jquery/index.d.ts
+
+и в файле где нужна библиотека подключить ее через /// <reference path="@types/jquery/index.d.ts" />
+
+
+
+
+#Декораторы #декор #attr #[] #@
+
+На текущий момент декораторы являются экпериментальной функциональностью языка TypeScript, поэтому при компиляции следует указывать параметр experimentalDecorators. Например, через файл tsconfig.json:
+
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "experimentalDecorators": true
+    }
+}
+//Либо через параметры в командной строке:
+
+tsc app.ts -t ES5 --experimentalDecorators
+
+
+
+Декоратор класса представляет функцию, которая принимает один параметр:
+
+1
+function classDecoratorFn(constructor: Function){ }
+В качестве параметра выступает конструктор класса. Например, определим простейший декоратор:
+
+function sealed(constructor: Function) {
+    console.log("sealed decorator");
+    Object.seal(constructor);
+    Object.seal(constructor.prototype);
+}
+ 
+@sealed
+class User {};
+
+
+То есть из-за применения декоратора мы, к примеру, не сможем добавить в класс User новое свойство следующим образом:
+
+Object.defineProperty(User, 'age', {
+    value: 17
+});
+
+
+
+//Также декораторы могут изменять результат работы конструктора. тогда надо
+
+function logger<TFunction extends Function>(target: TFunction): TFunction{
+ 
+    let newConstructor: Function = function(name:string){
+        console.log("Creating new instance");
+        this.name = name;
+        this.age = 23;
+        this.print = function():void{
+            console.log(this.name, this.age);
+        }
+    }
+    return <TFunction>newConstructor;
+}
+ 
+@logger
+class User {}
+
+
+
+
+//декоратор метода
+#TODO и все что дальше про декораторы
+https://metanit.com/web/typescript/6.2.php
