@@ -1,0 +1,77 @@
+
+
+
+#ConfigureAwait
+ConfigureAwait(указывает что таска будет выполняться вне контекста)
+метод не вернется в основной паток
+
+
+using (var dbContext = new Northwind())
+				{
+					dbContext.Configuration.LazyLoadingEnabled = false;
+					dbContext.Configuration.ProxyCreationEnabled = false;
+					categories = dbContext.Categories.ToList();
+					cache.Set(user, categories);
+				}
+
+
+
+
+
+почитать
+services
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddApplicationPart(typeof(asd).Assembly)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

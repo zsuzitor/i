@@ -1,0 +1,88 @@
+
+
+скачать
+https://github.com/microsoftarchive/redis/releases
+
+
+то что используется сейчас!
+folder - C:\Program Files\Redis\
+port - 6379
+
+
+nuget->
+Microsoft.Extensions.Caching.Memory
+
+
+public interface ICacher<T, K>
+    {
+        bool TryGet(K key, out T value);
+        void Set(K key, T value);
+    }
+
+
+public class RedisCacher<T, K> : ICacher<T, K>
+    {
+        private readonly RedisClient _redisClient;
+
+        public RedisCacher(string host)
+        {
+            _redisClient = new RedisClient(host);
+        }
+
+        public void Dispose()
+        {
+            _redisClient.Dispose();
+        }
+
+        public void Set(K key, T value)
+        {
+            string keyStr = key.ToString();
+            if (!_redisClient.ContainsKey(keyStr))
+                _redisClient.Set(keyStr, value);
+        }
+
+        public bool TryGet(K key, out T value)
+        {
+            string keyStr = key.ToString();
+            bool contains = _redisClient.ContainsKey(keyStr);
+            value = _redisClient.Get<T>(keyStr);
+            return contains;
+        }
+    }
+
+
+
+
+public class MemoryCacher<T, K> : ICacher<T, K>
+    {
+        private readonly IMemoryCache _cache;
+
+        public MemoryCacher()
+        {
+            _cache = new MemoryCache(new MemoryCacheOptions());
+        }
+
+        public void Dispose()
+        {
+            _cache.Dispose();
+        }
+
+        public void Set(K key, T value)
+        {
+            _cache.Set(key, value);
+        }
+
+        public bool TryGet(K key, out T value)
+        {
+            bool contains = _cache.TryGetValue(key, out T cachedVal);
+            value = cachedVal;
+            return contains;
+        }
+    }
+
+
+
+
+
+
+

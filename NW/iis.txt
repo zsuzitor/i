@@ -1,0 +1,12 @@
+
+
+#version #версия
+в power shell от админа
+[System.Diagnostics.FileVersionInfo]::GetVersionInfo("C:\Windows\system32\notepad.exe").FileVersion
+
+
+
+
+
+
+

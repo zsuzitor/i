@@ -1,0 +1,90 @@
+
+
+nuget->ClosedXML
+namespace OfficeOpenXml
+лучше использовать только дл€ записи, если из байтов или сохраненного файла может не работать
+
+public byte[] Convert(List<Orders> listForConvert)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Orders");
+                int position = 1;
+                foreach (var obj in listForConvert)
+                {
+                    Convert(obj,worksheet, position++);
+                }
+
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    return stream.ToArray();
+                }
+                
+            }
+        }
+private void Convert(Orders objforConvert, IXLWorksheet worksheet,int position)
+        {
+            worksheet.Cell($"A{position}").Value = objforConvert.OrderID;
+            worksheet.Cell($"B{position}").Value = objforConvert.CustomerID;
+}
+
+
+
+
+
+
+
+
+
+nuget->EPPlus
+
+
+public List<Orders> Convert(Stream stream)
+        {
+            if (!stream.CanRead)
+                return null;
+            if (stream.CanSeek)
+                stream.Position = 0;
+
+            var resList = new List<Orders>();
+            ExcelPackage package = new ExcelPackage(stream);
+            var ws = package.Workbook.Worksheets["Orders"];
+            for (int i = 1;; i++)
+            {
+                var order = Convert(ws, i);
+                if (order == null || order.OrderID == 0)
+                    break;
+                resList.Add(order);
+            }
+
+            return resList;
+        }
+
+private Orders Convert(ExcelWorksheet worksheet, int position)
+        {
+            var orderRes = new Orders();
+
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            data["OrderID"] = worksheet.Cells[$"A{position}"].Value?.ToString();
+            data["CustomerID"] = worksheet.Cells[$"B{position}"].Value?.ToString();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

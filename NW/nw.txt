@@ -1,0 +1,536 @@
+путешествие на край комнаты
+
+
+
+
+
+
+#reducer
+
+public interface IReducer
+    {
+        string Reduce(string parsed);
+
+        IReducer SetNextReducer(IReducer reducer);
+    }
+
+
+
+    public abstract class AReducer : IReducer
+    {
+//мб private, но вроде так норм и не реализовывать в чайлд классе
+        protected IReducer _nextReducer;
+
+        protected Reducer()
+        {
+
+        }
+
+
+        public abstract string Reduce(string parsed);
+
+        public IReducer SetNextReducer(IReducer reducer)
+        {
+            _nextReducer = reducer;
+            return reducer;
+        }
+    }
+
+
+
+
+
+
+
+#Identity
+для добавления функционала нажмем на название проекта правой кнопкой мыши и в контекстном меню выберем пункт 
+Add -> New Scaffolded Item-> identity
+добавить->создать шаблонный элемент->удостоверение
+
+!!!!!!!!!!добавить теги #login #register #Scaffolded #ScaffoldedItem
+
+
+
+#fluent #api
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+!!!!!дописать #fluentapi
+
+
+
+
+
+#bcl
+#date для парсинга даты лучше использовать
+Pr=arseExact() или TryParseExact - тк надо явно указать формат
+
+
+
+
+
+
+#settings #appsettings
+nuget->
+Microsoft.Extensions.Configuration
+Microsoft.Extensions.Configuration.FileExtensions
+Microsoft.Extensions.Configuration.Json
+
+appsettings.json
+
+
+var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+    IConfigurationRoot configuration = builder.Build();
+
+
+
+
+var rulesConfigSection = watcherConfigSection.GetSection("Rules");
+//array object
+            foreach (var rule in rulesConfigSection.GetChildren()) //AsEnumerable
+            {
+                var chengedNameParams = rule.GetSection("ChangeNameParaps");
+                watcher.AddNewRule(new RuleMove(new Regex(rule["regexp"]), rule["DestinationFolder"],
+                    bool.Parse(chengedNameParams["AddSerialNumber"]), bool.Parse(chengedNameParams["AddDateMode"])));
+
+            }
+
+
+
+
+
+
+
+//тут примеры для игнора
+http://gitignore.io/
+
+
+#params
+когда передаем параметры через ключевое слово params, лучше этот "массив" в методе проверить на null, тк метод можем быть вызван с явным указанием null вместо всех параметров(которые должны ыли войти в params0s
+
+
+#monocecil mono cecil
+штука для изменения exe и тд
+
+
+
+#test #unit #xunit
+#private
+тестирование частных методов
+Class target = new Class();
+PrivateObject obj = new PrivateObject(target);
+var retVal = obj.Invoke("PrivateMethod");
+Assert.AreEqual(expectedVal, retVal);
+
+
+
+
+
+#todo
+ValueType почитать что это за класс
+
+
+
+
+
+
+
+#linq #select #selactmany
+
+для select есть перегруженная версия которая принимает index в массиве
+arr.Select((x,index)=>);
+
+
+если выборка такая
+class A{
+List<b> arr;
+
+}
+List<a> arr1;
+arr1.select(x1=>x1.arr); // вернет массив массивов
+arr1.selectMany(x1=>x1.arr); // вернет склейку всех массивов в 1 массив 
+#TODO возможно склейка кажды с каждым
+
+
+#while  
+пройдет по всей коллекции и выберит все что под условие подходит
+#takeWhile
+ищет до первого элемента
+
+
+#dictionary #todictionary
+arr.ToDictionary(x1=>x1.Name); // указываем поле которое будет ключом
+
+
+
+
+var res= dataSource.Products.GroupBy(x1 => new
+           {
+               x1.Category,
+               x1.UnitsInStock
+           }).Select(x1=>x1.ToList()).Select(x1 =>  x1.OrderBy(x2 => x2.UnitPrice)).ToList();
+
+
+
+
+
+
+#contract #contractInvariantMethod
+для проверки чего либо и выбрасывания исключений
+
+предусловия, постусловия и инвариант
+
+Contract.Result
+//постусловия
+Contract.Ensures
+OldValue
+можно создать контракты для интерфейса
+
+//предусловия
+Contract.Requires<EcxeptionType>(bool);//если false то исключение
+
+code contract tool
+
+#interface
+[ContractClass(typeof(BB))]
+interface IB{
+void Do(string a);
+}
+[ContractClassFor(typeof(IB))]
+sealed class BB:IB{
+public void Do(string a){
+Contract.Requires(false);
+}
+}
+
+
+
+
+#singleton vs #static
+можно контролировать длительность жизни объекта
+создается экземпляр
+есть наследование
+сериализация объекта
+потокобезопасный (должен быть) .. статик не потокобезопасный
+статик можно назвать просто неймспейсом
+статик код сложнее замокать для тестирования
+
+
+
+
+#hash
+если 2 объекта равны то у них должны быть равны hash codes, НО если у них равны hash codes - это не значит что объекты равны
+GetHashCode - нельзя что бы выбрасывались исключения
+алгоритм должен работать максимально быстро
+hash code не уникальный идентификатор
+у 2х разных объектов может быть одинаковый hash
+
+
+
+typescript
+//установить ноду
+//установить глобальный компилятор
+npm install -g typescript
+//скомпилить файл 
+ctrl+`  ->cd file->tsc filename.ts
+
+
+//расширение Code Runner Extension
+ctrl+alt+n в js файле запустит его
+
+
+
+
+#GAS
+когда используется gas все(или часть) dll из приложения кешируются глобально, а не хранятся файлами в проекте,=> другие программы могут их использовать также не имея файлы
+для установки нужны права
+
+
+
+#webpack
+установка глобально
+npm install -g webpack
+
+
+
+#regex
+alert( str.match(reg) );//если не найдено то вернет null
+
+Regex reg = new Regex("<span.*?class=\"link form__refresh i-bem\" title=\"(.*?)\".*?>.*?<\\/span>");//в скобках указывается группа
+            var matches = reg.Matches(html);
+            return matches.Select(x1 => x1.Groups[1].Value).ToList();//группа 0 это вся найденная строка, группа 1 это именно первая группа
+
+
+
+
+#docker
+краткий гайд от докера
+https://hub.docker.com/?overlay=onboarding
+все оттуда
+git clone https://github.com/docker/doodle.git  //склонировать тестовый проект
+cd doodle\cheers2019 ; docker build -t zsuzitor/cheers2019 .   //creates a Docker image using the Dockerfile. 
+docker run -it --rm zsuzitor/cheers2019  // запустить контейнер
+docker login ; docker push zsuzitor/cheers2019  //публикация на docker hub
+
+
+можно попробовать вот так запустить
+//https://dker.ru/docs/docker-compose/overview-of-docker-compose/
+docker-compose up
+
+
+
+
+
+метод может принимать параметр источника #события #событие #event #params
+
+
+
+
+#c#
+if (callExpression.Callee is MemberExpression memberExpression2)
+public virtual Result Visit([NotNull] IParseTree tree);
+
+
+
+
+var filesToProcess = Directory.GetFiles(_inputFolderPath, "*.frm", SearchOption.AllDirectories);
+foreach (var file in filesToProcess)
+            {
+                var formName = Path.GetFileNameWithoutExtension(file);
+
+                var directoryInfo = Directory.GetParent(file);
+                var relativeDirectoryPath = Path.GetRelativePath(_inputFolderPath, directoryInfo.FullName);
+
+
+
+
+#redux
+очень хорошая статья
+https://getinstance.info/articles/react/learning-react-redux/
+
+библиотека а не подход(в отличии от flux)
+у нас есть главный объект состояния приложения(store)
+и состояние хранится только в нем
+и есть методы для storage которые изменяют состояние
+var action = {
+  type: 'ADD_USER',//type обязательно, остальное по необходимости
+  user: {name: 'Dan'}//данные для обновления
+};
+
+//методы
+store.dispatch(action)
+store.subscribe(listener)//принимает функцию без параметров
+store.getState()
+replaceReducer(nextReducer)
+
+
+// #Reducer Function -- функции, которые обрабатывают экшены и могут вносить изменения в состояние.
+//эти функции располагаются в самом хранилище и они обрабатывают метод #dispatch
+//данный тип функций должен быть чистым
+//чистые функции:
+Они не должны делать внешних вызовов по сети или базе данных.
+Они возвращают значение, зависящее только от переданных параметров.
+Их аргументы являются неизменяемыми, т.е. функции не должны их изменять.
+Вызов чистой функции с теми же аргументами всегда возвращает одинаковый результат.
+//
+var someReducer = function(state, action) {
+  ...
+  return state;
+}
+
+
+
+
+
+// Функция-редьюсер, вызовется сразу после создания хранилища и потом каждый раз при вызове метода #dispatch
+//возвращаемый тип редьюсера устанавливается в качестве состояния в store
+var userReducer = function(state, action) {
+  if (state === undefined) {//при самом первом вызове(при создании store) передается undefined, тут можно задать параметром по умолчанию
+    state = [];//устанавливается базовый объект state
+  }
+  if (action.type === 'ADD_USER') {
+    
+//нельзя изменять состояние, надо записывать новое
+//но если его вообще не надо менять то тогда просто return state;
+//state.push(action.user);//плохо
+var newState = state.concat([action.user]);
+//для объекта
+//var newState = Object.assign({}, state, { foo: 123 });//#=
+//const newState = { ...state, foo: 123 };
+    return newState;
+  }
+  return state;//обязательно
+}
+
+//если нужен сложный объект, то надо создавать несколько редьюсеров, например для такого объекта
+{
+  userState: { ... },
+  widgetState: { ... }
+}
+//надо создать 2 +- таких
+const userReducer = function(state = {}, action) {//должен передаваться тоже только тот кусок за который от отвечает
+  return state;//возвращаем тот кусок состояния за который отвечает
+}
+
+//если несколько редьюсеров то они комбинируются
+const reducers = combineReducers({
+  userState: userReducer,
+  widgetState: widgetReducer
+});
+
+
+// Создание хранилища с передачей редьюсера
+//при создании будут вызваны все редьюсеры
+var store = Redux.createStore(userReducer);//сюда как то можно передать уже готовое состояние
+
+
+
+
+
+/* Отправка первого экшена, чтобы выразить намерение изменить состояние */
+//вызов этого метода будет обработан редьюсером, который мы установили в store
+store.dispatch({
+  type: 'ADD_USER',
+  user: {name: 'Dan'}
+});
+
+
+
+
+
+
+#test #xunit #unit #InlineData
+
+[Theory]
+        [InlineData("func", new[] { "A1" }, "func(A1)", true)]
+        [InlineData(
+            "sum",
+            new[]
+            {
+                "A2:A3"
+            },
+            "(SUM({All Module Value}))",
+            false
+        )]
+        public void CallReduce_VariousInput_GetExpectedResult(string name, IList<string> args, string expected,
+            bool isFinalReducerCalled)
+        {
+
+
+
+#throw #exception
+
+
+Assert.Throws<typeException>(()=>{
+//code
+});
+
+//можно так
+var exp = Assert.Throws<NotConvertableString>(() =>
+            {
+                int converted = stringConverter.Convert(null);
+            });
+
+
+
+
+-----------
+
+правильное удаление редактирование   #Attach #entry #set
+при создании нескольких контекстов на 1 бд ссылающихся и для изменения данных надо прописать
+using(){}
+using(){
+//db.Set<класс_объекта>().Attach(объект);  //ТАК(лучше)
+p1.Price = 60000;
+        //db.Entry(p1).State = EntityState.Modified;//редактирование //ИЛИ ТАК #Modified
+}
+для дозагрузки данных в другом контексте reference collection
+#присоединение к #контексту   #Attach
+db.Set<класс_объекта>().Attach(объект);
+
+
+db.Entry(p1).State = EntityState.Deleted;//#удаление #remove #delete
+ db.Phones.Attach(p1);//
+        db.SaveChanges();
+https://metanit.com/sharp/entityframework/1.3.php
+
+-----------------
+
+
+
+#react
+emailChanged = (e) => {
+        let next = this.state;
+        next.email = e.target.value;
+        this.setState(next);
+    }
+
+
+
+#for #foreach #map
+key обязательно
+return this.state.listQueue.map(function (el, index) {
+            return <OneParagraphLeftMenu element={el} key={index}/>;//key={index}
+//key должен быть установлен на внешний блок в return, если идет <div><innerCompanent/ , то key устанавливается на div>
+        })
+
+
+
+
+#if #return
+{userQueue == true && 
+                <button>Закрыть</button>
+            }
+
+
+
+
+
+
+
+
+
+builder.Entity<User>()
+        .HasIndex(u => u.Email)
+        .IsUnique();
+
+
+
+
+
+
+#input #change #react
+
+passwordChanged = (e) => {
+        let next = this.state;
+        next.password = e.target.value;
+        this.setState(next);
+    }
+
+
+
+
+
+
+https://getinstance.info/articles/react/learning-react-redux/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

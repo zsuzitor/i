@@ -1,0 +1,1442 @@
+что не должно выбрасывать #исключения #exception
+https://docs.microsoft.com/en-us/visualstudio/code-quality/ca1065?view=vs-2019
+
+
+
+#data #type #datatype #sql #mssql #tsql
+какие типы данных в sql каким типом представлены в .net
+https://stackoverflow.com/questions/425389/c-sharp-equivalent-of-sql-server-datatypes
+
+
+
+#resharper
+visual studio cannot resolve symbol
+1-clean solution
+2-resnore nuget packages
+3- extensions-resharper-options-general-clear cache+ reopen VS
+
+https://stackoverflow.com/questions/15713167/resharper-cannot-resolve-symbol-even-when-project-builds
+
+
+
+git submodule
+https://git-scm.com/book/ru/v1/Инструменты-Git-Подмодули
+
+1 склонировать проект
+2 git submodule init
+3 git submodule update
+https://stackoverflow.com/questions/5828324/update-git-submodule-to-latest-commit-on-origin
+
+
+
+js преобразуется браузером в байт код, который может кешироваться
+он можнт быть преобразован в синтаксическое древо(#AST) и обратно https://astexplorer.net/
+
+
+
+-----++
+var player = {score: 1, name: 'Джефф'};
+
+var newPlayer = Object.assign({}, player, {score: 2});
+// Здесь `player` не изменился, а в `newPlayer` находится {score: 2, name: 'Джефф'}
+
+// Или, если вы пользуетесь синтаксисом расширения объектов, вы можете написать:
+// var newPlayer = {...player, score: 2};
+
+-----++
+
+
+чистая функция- это функция результат которой зависит только от параметров(нет рандома, обрещение к времени и тд)
+
+
+
+
+
+const numbers = [1, 2, 3];
+const doubled = numbers.map(x => x * 2); // [2, 4, 6]
+
+
+
+
+
+
+
+#docker
+
+#image- образ
+#container -Контейнер 
+Контейнер запускается путем запуска образа
+
+image-это исполняемый пакет, который включает в себя все необходимое для запуска приложения: код, среду выполнения, библиотеки, переменные среды и файлы конфигурации.
+Контейнер-это экземпляр образа во время выполнения-то, что образ становится в памяти при выполнении --- (что то типо процесса )
+это что то типо виртуальной машины(или 1 exe файла), мы нажимаем 1 кнопку-> все запускается
+
+docker compose - технология для управления контейнерами
+Она существует поверх докера и просто позволяет управлять контейнерами на основе единого конфигурационного файла, в котором описаны контейнеры, их параметры и их взаимосвязи
+
+
+
+
+
+
+
+
+
+
+
+#redux
+
+
+импорт из файла ...const ADD_ITEM="";
+import { ADD_ITEM, REMOVE_ITEM } from './actions'
+
+
+все построена на состояния приложения, состояние может быть изменено только при выполнении действия
+Единственное требование к объекту действия — это наличие свойства type, значением которого обычно является строка.
+{ 
+  type: 'SELECTED_USER', //лучше через константу(обычная conts переменная) const ADD_ITEM = 'ADD_ITEM'
+  userId: 232 
+}
+
+
+#генераторы действий-функции создающие действия
+function addItem(t) { 
+  return { 
+    type: ADD_ITEM, 
+    title: t 
+  } 
+}
+
+
+
+#редуктор #reducer
+ это чистая функция, которая вычисляет следующее состояние дерева на основании его предыдущего состояния и применяемого действия
+(currentState, action) => newState
+
+Редуктор — это всегда чистая функция, поэтому он не должен:
+мутировать аргументы;
+мутировать состояние. Вместо этого создаётся новое состояние с помощью Object.assign({}, ...);
+иметь побочные эффекты (никаких API-вызовов с какими-либо изменениями);
+вызывать нечистые функции. Это функции, результат которых зависит от чего-то кроме их аргументов (например, Date.now() или Math.random()).
+
+
+
+
+#Хранилище (#store) 
+это объект, который:
+содержит состояние приложения;
+отображает состояние через getState();
+может обновлять состояние через dispatch();
+позволяет регистрироваться (или удаляться) в качестве слушателя изменения состояния через subscribe().
+
+//получить состояние
+store.getState()
+//Обновление состояния:
+store.dispatch(addItem('Something'))
+//подписка на изменение состояния
+const unsubscribe = store.subscribe(() => 
+  const newState = store.getState() 
+) 
+unsubscribe()
+
+
+
+
+
+
+
+
+
+
+-----------------
+
+
+#babel
+штука которая разбивает js код на синтаксическое древо и по нему уже может строиться код предыдущей версии(не es6 например)
+добавляет еще всекие фичи, используется с react
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+
+#TODO #babel-cli
+https://metanit.com/web/react/1.4.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------
+
+
+#react #reactjs
+
+расширение для хрома и мозиллы "React Devtools\\\\ React Developer Tools
+https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
+
+
+<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+
+
+
+
+#component
+компонент не изменемый, при каждом изменении рендерится полностью, сравниваются основные куски и если есть изменения то заменяются только эти отличающиеся куски
+
+
+
+//должен содержать как минимум метод render
+//доступ к свойствам через this.props , внутри(через this) их нельзя изменить
+//может содержать внутреннее состояние this.state._name
+
+
+
+//запуск рендера страницы, тут важен атрибут в теге scripts
+<script type="text/babel">
+ReactDOM.render(
+  <HelloMessage name="Саша" />,//компонент который будет главным
+  document.getElementById('hello-example')//куда отрендерится
+);
+
+//вот это будет запрашивать файл по ajax
+<script type="text/babel" src="index.jsx"></script>
+
+
+
+
+
+
+в render (#jsx):
+1-вместо class в html теге используется className 
+2- атрибут style в качестве значения принимает объект json
+3-в JSX используется camel-case, то есть если мы хотим определить стилевое свойство для шрифта, например, свойство font-family, то соответствующее свойство в объекте стиля будет называться fontFamily
+const styleObj = {
+        color:'red', 
+        fontFamily:'Verdana'
+    };
+
+<div className={userClassName}  style={styleObj}>
+
+
+
+--
+//создание компонента
+в компоненте свойство props неизменяемое\только для чтения
+можно создать 2мя способами но всегда должен начинаться с заглавной буквы
+
+import React from 'react';
+
+import './user.scss';
+//если писать в теге скриптов с баблом то можно оставить только объявление класса, без остального мусора
+class User extends React.Component {
+    render () {
+        return <div className='user'>
+            <img src={this.props.avatar} />
+            <span>{this.props.name}</span>
+        <div>;
+    }
+}
+
+
+
+export default User;
+
+
+
+//можно создавать компонент через функцию
+function Square(props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
+}
+
+
+//как при функциональном объявлении так и при обычном
+Hello.defaultProps = {name: "Tom", age: 22};//устанавливаем значения по умолчанию, #defaultProps
+
+
+
+//использоваться будет как обычный html тег, см ниже
+--
+
+
+import React from 'react';
+
+import User from '../user/User.jsx';//----- подключаем тот компонент который будем использовать
+
+class Container extends React.Component {
+   render() {
+       return <div className='container'>
+           <User name='Jack Black' avatar='/images/jblack.jpg' />  ////////-------------!!!!!!!!!!!!!!!! использование компонента
+       </div>;
+   }
+}
+
+export default Container;
+
+
+#method #param #this #bind
+методы в компоненте по умолчанию не ссылаются на this, для фикса надо
+//чтобы в метод press корректно передавалась ссылка на текущий объект через this, в конструкторе класса прописывается вызов:
+this.press = this.press.bind(this);
+
+
+
+метод может принимать параметр источника события
+onNameChange(e) {
+            var val = e.target.value;
+        }
+<input type="number" value={this.state.age} 
+                            onChange={this.onNameChange}  style={{borderColor:ageColor}} />
+
+
+#ref
+
+handleSubmit(e) {
+            e.preventDefault();
+            var name = this.refs.nameField.value; 
+        }
+<input ref="nameField" />
+
+
+минус в этом случае, то что мы не можем установить значение по умолчанию с помощью стандартного атрибута value: при использовании атрибута value опять же придется задавать обработчик события change, как в прошлой теме.
+можно только вот так
+<input defaultValue="Tom" ref="nameField" />
+
+
+
+
+
+
+//про то какие этапы жизни есть у компонентов
+#TODO
+https://metanit.com/web/react/2.6.php
+
+
+
+у компонента есть #state
+это свойство изменяемое
+значения из state должны использоваться при рендеринге. Если какой-то объект не используется в рендерниге компонента, то нет смысла сохранять его в state
+Единственное место, где можно установить объект state(через =) - это конструктор класса:
+this.state = {welcome: "Добро пожаловать на сайт!"};
+
+
+
+//метод изменения состояния
+toggleActive() {
+	this.setState({ active: !this.state.active });
+// с делегатом и доступом к старому значению
+this.setState(state => ({ seconds: state.seconds + 1    }));
+
+  }
+//но лучше всего вот так
+this.setState(function(prevState, props) {
+  return {
+    counter: prevState.counter + props.increment
+  };
+});
+
+
+//если надо передать состояние в другой компонент то передается точно так же как свойство
+
+
+
+есть еще #context - это типо статического ( #static ) свойства #TODO
+this.context.color
+
+в компоненте объявляется так
+static contextTypes = {
+	color: React.PropTypes.string
+  };
+
+
+в компоненте можно определить #конструктор #constructor
+constructor(props) {
+    super(props);//вызывать обязательно и вызывать сразу
+    this.state = { seconds: 0 };//в конструкторе именно так а не через setState({});
+  }
+
+//можно добавлять поля просто через this.val
+
+
+
+если надо из внутреннего компонента вызвать внешний
+надо в внутренний передать функцию как свойство
+а в внутреннем ее проверить и вызвать если она установлена
+
+//внутренний комопонент рендерит инпут
+<input type='text' onChange={this,onChange} />
+//у внутреннего компонента есть событие
+onChange = e => {
+//проверяет СВОЙСТВО которое устанавливается извне
+  this.props.onChange && this.props.onChange(e.target.value);
+};
+//рендер уже внутреннего компонента из внешнего 
+<Search onChange={this.filterList} />
+
+
+
+
+
+
+#for #foreach 
+это в рендере
+return (
+      <ul>
+        {this.props.items.map(item => (
+          <li key={item.id}>{item.text}</li>
+        ))}
+      </ul>
+    );
+
+
+
+
+//#TODO
+#webpack https://metanit.com/web/react/2.9.php
+https://metanit.com/web/react/4.8.php
+#flux https://metanit.com/web/react/5.1.php
+#reflux https://metanit.com/web/react/5.2.php
+
+
+
+
+
+
+
+#route #url #router #switch #path #маршруты #маршрутизация 
+
+ <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+
+
+<script type="text/babel">
+    const Router = ReactRouterDOM.BrowserRouter;
+    const Route = ReactRouterDOM.Route;
+    const Switch = ReactRouterDOM.Switch;
+
+class About extends React.Component{
+        render(){
+            return <h2>О сайте</h2>;
+        }
+    }
+
+//#exact - указываем что нужно полное совпадение без учета конечного / ---подходит как "about" так и "about/"
+если заменить exact на strict то нужно будет ПОЛНОЕ совпадение
+//без этих ключевых слов  путь "/" или путь "/about" или путь "/contact/dsdf", и все эти пути будут соответствовать маршруту с шаблоном адреса "/"
+//тк любой урл который заканчивается на / не считается законченным(дальше может идти что угодно)
+ ReactDOM.render(
+        <Router>
+            <Switch>
+                <Route exact path="/" component={Main} />
+                <Route path="/about" component={About} />
+//компонент можно создать лямбдой
+ <Route path="/about" children={()=><h2>About</h2>} />
+
+//Этот маршрут будет сопоставляться со всеми адресами URL, которые не соответствуют предыдущим маршрутам. это типо default
+                <Route component={NotFound} />
+            </Switch>
+        </Router>,
+        document.getElementById("app")
+    )
+
+
+
+можно сделать пложенные маршруты
+
+
+<Router>
+            <Switch>
+                <Route path="/products" component={Products} />
+            </Switch>
+        </Router>,
+
+class Products extends React.Component{
+    render(){
+        return <div>
+            <h2>Товары</h2>
+                <Switch>
+                    <Route path="/products/phones" component={Phone} />
+                    <Route path="/products/tablets" component={Tablet} />
+                </Switch>
+        </div>;
+    }
+}
+
+
+
+
+#link #href #a #to
+
+//это к объявлению свичей и роутов
+const Link = ReactRouterDOM.Link;
+
+class Nav extends React.Component{
+        render(){
+            return <nav>
+                    <Link to="/">Главная</Link>  
+                  </nav>;
+        }
+    }
+    ReactDOM.render(
+        <Router>
+            <div>
+                <Nav />
+                <Switch>
+                    <Route exact path="/" component={Home} />
+//можем указать параметры, и получить их const id= this.props.match.params.id;//#match это для роутов
+<Route path="/about/:id/:name" component={About} />
+//#location для query- this.props.location.search // <Link to="/2/?name=Bob&age=23">Bob</Link>
+
+//необязательные параметры
+<Route path="about/:id?/:name?" component={About} />
+//ограничение
+<Route path="/products/:id(\d+)" component={Product} />
+//можем не использовать слэш
+<Route path="/products/:category-:id" component={Product} />
+                </Switch>
+            </div>
+        </Router>,
+        document.getElementById("app")
+    )
+
+
+
+еще есть #NavLink. тоже самое что link но позволяет использовать состояние ссылки. 
+атрибуты #activeClassName и #activeStyle можно установить стиль активной ссылки. 
+
+ const NavLink = ReactRouterDOM.NavLink;
+
+<NavLink to="/" activeClassName="active">Главная</NavLink>  
+//если ошибочно будут выделаться ссылки дополнительные то добавить exact
+<NavLink exact to="/" activeClassName="active">Главная</NavLink> 
+
+
+
+
+
+Основные свойства объекта #match:
+
+path: шаблон url маршрута, выбранного для обработки запроса
+url: сам запрошенный путь url с параметрами, но без строки запроса
+params: набор параметров маршрута
+
+Основные свойства объекта #location:
+pathname: запрошенный путь url с параметрами, но без строки запроса
+search: строка запроса
+
+Но если параметры маршрута легко получить, то для извлечения параметров строки запроса необходимо ее распарсить с помощью объекта #URLSearchParams
+new URLSearchParams(this.props.location.search).get("age")}
+
+
+
+
+
+#Redirect #from #to
+//к роутам
+const Redirect = ReactRouterDOM.Redirect;
+
+
+<Route path="/new" component={New} />
+                    <Redirect from="/old" to="/new" />
+
+
+можно так
+class Old extends React.Component{
+        render(){
+ if(true)
+            return <Redirect to={`/new/${this.props.match.params.id}`} />;
+else
+<h1></h1>
+        }
+    }
+
+
+
+
+
+
+
+
+-------------------------------------
+
+#typescript
+установка(если использовать студию то устанавливается автоматически)
+https://metanit.com/web/typescript/1.2.php
+
+
+компиляция
+в командной строке/терминале с помощью команды cd перейдем к каталогу, где расположен файл app.ts (в моем случае это C:\typescript). 
+И для компиляции выполним следующую команду
+tsc app.ts
+
+при компиляции из консоли можно передать флаги
+https://metanit.com/web/typescript/1.4.php
+
+
+
+
+#Boolean: логическое значение true или false
+#Number: числовое значение(все числа считаются double)
+TS поддерживает двоичную, восьмеричную, десятичную и шестнадцатиричную записи чисел:
+#String: строки
+let info: string = `Имя ${firstName}    Возраст: ${age}`;
+
+#Array: массивы
+#Tuple: кортежи
+#Enum: перечисления
+#Any: произвольный тип
+#Null и undefined: соответствуют значениям null и undefined в javascript
+#Void: отсутствие конкретного значения, используется в основном в качестве возвращаемого типа функций
+#Never: также представляет отсутствие значения и используется в качестве возвращаемого типа функций, которые генерируют или возвращают ошибку
+
+
+
+//#undefined  #null 
+let a: undefined = undefined;
+let b: null = null;
+let x: number = undefined;
+
+
+
+
+#array #[] #массив
+let colors: string[] = ["red", "green", "blue"];
+let colors: Array<string> = ["Tom", "Bob", "Alice"];
+colors[0]
+
+
+
+
+
+#tuple #кортеж
+// определение кортежа - кортеж состоит из двух элементов - строки и числа
+let userInfo: [string, number];
+// инициализация кортежа
+userInfo = ["Tom", 28];
+
+// использование кортежа
+console.log(userInfo[1]); //получаем доступ к 2  элементу(28)
+userInfo[1] = 37;
+
+
+
+
+#enum
+enum Season { Winter, Spring, Summer, Autumn };
+enum Season { Winter, Spring, Summer, Autumn };
+let current: Season = Season.Summer;
+var current: string = Season[2];    // 2 - числовое значение Summer
+
+
+
+
+#any #dynamic
+let someVar: any = "hello";
+console.log(someVar);   // сейчас someVar - это string
+someVar = 20; 
+//
+var someArray: any[] = [ 24, "Tom", false];
+
+
+
+#object
+let person = { name: "Tom", age: 23 };
+person = { name: "Alice" };//получим ошибку тк другой тип
+
+
+
+//#let #var
+let z = 6;
+z = 8;
+let x: number = 10; 
+
+//#const
+const z = 6;
+
+
+
+
+
+
+
+#union #объединение
+let id : number | string;
+id = "1345dgg5";
+id = 234;
+
+
+
+
+
+
+#type #псевдоним
+type stringOrNumberType = number | string;
+let sum: stringOrNumberType = 36.6;
+
+
+
+
+#as #is
+
+let strLength: number = (<string>someAnyValue).length;
+let strLength: number = (someAnyValue as string).length;
+
+//#instanceof
+let alice: Employee = new Employee("Microsoft", "Alice");
+if (alice instanceof User) {
+
+
+
+
+#function 
+//может возвращать void
+//если не указать возвращаемый тип, он будет неявно выведен из return
+function add(a: number, b: number): number {
+    return a + b;
+}
+let add = function (a: number, b: number) : number {
+    return a + b;
+}
+
+//тип параметров можно опустить
+let sum = (x: number, y: number) => x + y; 
+let sum = (x: number, y: number) =>{return x + y;}; 
+let result = sum(15, 35); // 50
+
+
+
+
+
+//#params
+в функцию можно передавать только то количество параметров которое она принимает(ни больше ни меньше)
+необязательные параметры должны идти после обязательных:
+//если параметр не передается то он будет undefined
+
+//function getName(firstName: string, lastName: string=defaultSurname()) {
+function getName(firstName: string, lastName?: string) {
+    if (lastName)
+        return firstName + " " + lastName;
+
+
+//переменное количество параметров, аналог params
+function addNumbers(firstNumber: number, ...numberArray: number[]): number {
+
+
+
+
+можно создать тип функции
+let op: (x:number, y:number) => number;
+
+op = function(...);
+function mathOp(x: number, y: number, operation: (a: number, b: number) => number): number{
+
+
+
+
+
+
+
+#Перегрузка функций
+
+//сначала объявить пустые функции(без реализации), потом докинуть функцию с any, но эта функция будет органичена тем что мы объявили с типами(нельзя будет ее вызвать для например boolean)
+function add(x: string, y: string): string;
+function add(x: number, y: number): number;
+function add(x: any, y: any): any {
+    return x + y;
+}
+
+
+
+
+
+
+#аксессоры #get #set 
+
+
+private _name: string;
+ 
+    public get name(): string {
+        return this._name;
+    }
+ 
+    public set name(n: string) {
+        this._name = n;
+    }
+
+
+
+
+
+
+
+
+
+
+#class
+class User{
+static PI: number = 3.14;//#static
+readonly id: number;//#readonly, как везде
+    name : string;
+    age : number;
+
+getInfo(): string {
+        return "id:" + this.id + " name:" + this.name;
+    }
+
+
+//если тут указать вот так (также можно объявить и readonly добавив данное ключевое слово)
+//constructor(private name: string, private age: number)
+//то свойства не надо объявлять в классе, 
+
+    constructor(_name:string, _age: number){//#constructor
+         
+        this.name = _name;
+        this.age = _age;
+    }
+}
+//
+var tom : User = new User("Том", 29);
+
+
+
+
+#модификаторы
+#public 
+#private 
+#protected логика как везде
+
+если не указан то объявляется как private
+
+class User {    
+    private _name: string;
+public displayYear(): void {};
+}
+
+
+
+
+//#extends #super
+class Employee extends User { 
+constructor(name: string, age: number, company: string) {
+        super(name, age);
+    }
+getInfo(): void {
+        super.getInfo()
+        console.log("Работает в компании: " + this.company);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Абстрактный #abstract
+
+
+
+abstract class Figure {
+    getArea_1(): void{
+        console.log("Not Implemented")
+    }
+abstract getArea(): void;
+}
+//наследуется без ключевых слов и тд, надо просто его реализовать в классе
+
+
+
+
+
+//#interface 
+interface IUser {
+    id: number;
+    name: string;
+age?: number;// #? -необязательное свойство, его можно не указывать в объектах
+readonly x: number;//можно будет только установить при создании
+ getFullName(surname: string): string;//определяем функцию
+}
+
+//реализация интерфейса объектом
+//такой конструкцией можно возвращать объект из метода и тд
+let employee: IUser = {
+     
+    id: 1, 
+    name: "Alice"
+}
+
+
+
+//#implements
+class User implements IUser{
+ 
+    id: number;
+    name: string;
+    age: number;
+    constructor(userId: number, userName: string, userAge: number) {
+ 
+    }
+    getFullName(surname: string): string {
+        return this.name + " " + surname;
+    }}
+
+//#extends
+interface ICar extends IMovable {
+ 
+    fill(): void;
+}
+
+
+
+если функция принимает объект типа интерфейса(мб так не только с интерфейсом)
+то мы можем туда передать просто объект у которого ровно теже свойства, также можем передать любой другой объект любого класса,
+если его свойства ничем не отличаются(количество\название и тд)
+
+
+
+
+
+
+
+
+#миксин #mixins
+#наследование #implements
+есть множественное наследование только для интерфейсов
+несколько классов унаследовать нельзя но можно закостылить миксином
+
+Миксин может унаследовать только те свойства и методы, которые непосредственно определены в применяемом классе. 
+Поэтому данный способ не будет работать, если применяемый класс, в свою очередь,
+ также наследует какие-то свойства и методы от другого класса.
+Если родительские классы определяют метод с одним и тем же именем, то миксин наследует только тот метод, 
+который копируется в него последним в функции applyMixins.
+
+
+class Animal {
+ 
+    feed():void {
+        console.log("кормим животное");
+    }
+}
+class Transport {}
+
+class Horse implements Animal, Transport {
+    speed: number=0;
+    feed: () => void;//метод определять обязательно и обязательно с такой заглушкой, в таком случае он реализация будет из класса от которого наследуем
+    move: () => void;
+}
+ 
+function applyMixins(derivedCtor: any, baseCtors: any[]) {
+    baseCtors.forEach(baseCtor => {
+        Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
+            derivedCtor.prototype[name] = baseCtor.prototype[name];
+        });
+    });
+}
+ 
+applyMixins(Horse, [Animal, Transport]);
+ 
+let pony: Horse = new Horse();
+
+
+
+
+
+
+
+
+//----
+let tom :IUser = new User(1, "Tom", 23);
+//или
+let tom :User = new User(1, "Tom", 23);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///интерфейсы функций
+interface FullNameBuilder {
+    (name: string, surname: string): string;
+}
+ 
+let simpleBuilder: FullNameBuilder = function (name:string, surname: string): string {
+        return "Mr. " + name + " " + surname;
+}
+
+
+
+
+
+
+
+///интерфейсы массивов
+
+interface StringArray {
+    [index: number]: string;
+}
+ 
+let phones: StringArray;
+phones = ["iPhone 7", "HTC 10", "HP Elite x3"];
+
+//#Dictionary
+interface Dictionary {
+    [index: string]: string;
+}
+ 
+var colors: Dictionary = {};
+colors["red"] = "#ff0000";
+
+
+//---------интерфейс может применяться сразу и к объекту и к функции (#Гибридные интерфейсы)
+
+
+
+
+
+
+
+
+#generic #<> #><
+
+function getId<T>(id: T): T {
+     
+    return id;
+}
+let result1 = getId<number>(5);
+let result2 = getId<string>("abc");
+
+//#Array
+function getString<T>(arg: Array<T>): string {
+
+
+interface IUser<T> {
+ 
+    getId(): T;
+}
+ 
+class User<T> implements IUser<T> {}
+
+
+
+class User<T> {
+ 
+    private _id: T;
+    constructor(id:T) {
+ 
+        this._id=id;
+    }
+    getId(): T {
+ 
+        return this._id;
+    }
+}
+
+//!!!!!!!!!!!!!!!!!!!!
+let tom = new User<number>(3);
+console.log(tom.getId());
+tom = new User<string>("vsf"); // ошибка, нельзя тк уже типизировали другим типом
+
+
+
+
+
+//#ограничения #extends #where
+//UserInfo<T extends IUser & IMan>
+class UserInfo<T extends IUser>{
+ 
+    getUserInfo(user: T): void{
+ 
+        user.getInfo();
+    }
+}
+
+
+//#default
+
+function UserFactory<T>(): T {
+    return new T(); // ошибка компиляции
+}
+
+//но вот так норм
+function userFactory<T>(type: { new (): T; }): T {
+     
+    return new type();
+}
+
+//class User {};
+let user : User = userFactory(User);
+
+
+
+
+#export
+если мы что то определяем в отдельном файле то надо указывать export независимо от того отдельное ли там пространство имен или нет
+//вот так
+export function Call(phone: Phone) : void{
+    console.log("Make a call by", phone.name);
+}
+//но можно и так
+export {Device, Phone, Call as Devices};//с помощью #as указываем псевдоним
+
+//можно так #default
+export default class SmartWatch{}
+
+
+
+
+
+
+#namespace #пространства 
+
+
+namespace Personnel {
+    export class Employee {//делаем класс видимым извне с помощью export
+     
+        constructor(public name: string){
+        }
+    }
+
+export namespace Personnel_ {//вложенной пространство имен
+        export class Employee_ {
+         
+            constructor(public name: string){
+            }
+        }
+    }
+
+
+export let defaultUser= { name: "Kate" }
+}
+
+let alice = new Personnel.Employee("Alice");
+let tom = new Personnel_.Personnel.Employee("Tom");//при вложенности
+import employee = Data.Personnel.Employee;//#import создаем #псевдоним
+
+
+
+
+для того что бы подключить файл в самом начале файла пишем(именно с ///)
+/// <reference path="personnel.ts" />
+
+
+
+
+#compile #компилирование #compiler
+в командной строке пишем..., файл в которой скопилится все и объеденится и файлы из которых надо все дергать
+tsc --outFile app.js app.ts personnel.ts
+
+
+
+
+
+
+
+
+#module #модуль #модули #
+
+
+браузеры самостоятельно не поддерживают работу с модулями, поэтому или не использовать или 
+подключать библиотеки :
+#SystemJS #TODO https://metanit.com/web/typescript/3.11.php
+
+
+существует 5 типов модулей:
+AMD (Asynchronys Module Defenition)
+CommonJS
+UMD (Universal Module Defenition)
+System
+ES 2015
+
+При компиляции из командной строки или терминала для установки модуля необходимо передать соответствующее значение параметру --module:
+tsc --module commonjs main.ts // для CommonJS
+tsc --module amd main.ts // для AMD
+tsc --module umd main.ts // для UMD
+tsc --module system main.ts // для SytemJS
+
+для загрузки модулей можно выбрать один из следующих загрузчиков:
+
+RequireJS: RequireJS использует синтаксис, известный как асинхронное определение модуля или asynchronous module definition(AMD)
+Browserify: использует синтаксис CommonJS
+SystemJS: универсальный загрузчик, может применяться для модулей любого типа
+
+модуль это отдельный файл в котором есть определенные объявления чего либо с export
+
+
+
+
+
+
+#import #импорт
+//можем указать псевдоним через #as
+import {Phone, Call as makeCall} from "./devices";//импортим из файла в том же самом каталоге, поэтому через ./
+let iphone: Phone = new Phone("iPhone X");
+
+//можно так
+import * as dev from "./devices";
+let iphone: devPhone = new dev.Phone("iPhone X");
+
+
+
+
+
+
+
+#declarate #declare #декларативный файл
+//аналог .h файла, допустим если хотим из ts сослаться на js переменную которая не понятно где лежит
+//расширение всегда такое .d.ts
+создать файл globals.d.ts
+закинуть код:
+declare var globalVar: string;//это внешняя переменная которая нам нужна
+declare function display(): void;//внешняя функция
+// и в файле где она нужно подключаем этот декларативный файл вот так(с ///)
+/// <reference path="globals.d.ts" />
+
+
+
+js библиотеки тоже надо декларировать
+//https://metanit.com/web/typescript/4.2.php
+
+Создадим в проекте каталог @types, а в нем - подкаталог jquery
+В каталог @types/jquery поместим заголовочный файл для jquery - index.d.ts, который можно найти по адресу https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/types/jquery/index.d.ts
+
+и в файле где нужна библиотека подключить ее через /// <reference path="@types/jquery/index.d.ts" />
+
+
+
+
+#Декораторы #декор #attr #[] #@
+
+На текущий момент декораторы являются экпериментальной функциональностью языка TypeScript, поэтому при компиляции следует указывать параметр experimentalDecorators. Например, через файл tsconfig.json:
+
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "experimentalDecorators": true
+    }
+}
+//Либо через параметры в командной строке:
+
+tsc app.ts -t ES5 --experimentalDecorators
+
+
+
+Декоратор класса представляет функцию, которая принимает один параметр:
+
+1
+function classDecoratorFn(constructor: Function){ }
+В качестве параметра выступает конструктор класса. Например, определим простейший декоратор:
+
+function sealed(constructor: Function) {
+    console.log("sealed decorator");
+    Object.seal(constructor);
+    Object.seal(constructor.prototype);
+}
+ 
+@sealed
+class User {};
+
+
+То есть из-за применения декоратора мы, к примеру, не сможем добавить в класс User новое свойство следующим образом:
+
+Object.defineProperty(User, 'age', {
+    value: 17
+});
+
+
+
+//Также декораторы могут изменять результат работы конструктора. тогда надо
+
+function logger<TFunction extends Function>(target: TFunction): TFunction{
+ 
+    let newConstructor: Function = function(name:string){
+        console.log("Creating new instance");
+        this.name = name;
+        this.age = 23;
+        this.print = function():void{
+            console.log(this.name, this.age);
+        }
+    }
+    return <TFunction>newConstructor;
+}
+ 
+@logger
+class User {}
+
+
+
+
+//декоратор метода
+#TODO и все что дальше про декораторы
+https://metanit.com/web/typescript/6.2.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

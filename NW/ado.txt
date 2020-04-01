@@ -1,0 +1,111 @@
+
+
+
+
+
+public class OrderRepository : IOrderRepository
+    {
+        private string _connectionString;
+        private readonly DbProviderFactory _providerFactory;
+
+        public OrderRepository(string connectionString,string provider)
+        {
+            _connectionString = connectionString;
+            _providerFactory = DbProviderFactories.GetFactory(provider);
+        }
+
+        public IEnumerable<Order> GetOrders()
+        {
+            List<Order> orders=new List<Order>();
+            using (var connection = _providerFactory.CreateConnection())
+            {
+                connection.ConnectionString = _connectionString;
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "Select OrderID, OrderDate from dbo.Orders";
+                    command.CommandType = CommandType.Text;
+
+
+
+                    command.CommandText = "Select OrderID, OrderDate from dbo.Orders where OrderID = @id";//сюда можно в конец добавить ; и докинуть еще другой запрос
+                    command.CommandType = CommandType.Text;
+                    var paramId = command.CreateParameter();
+                    paramId.ParameterName = "@id";
+                    paramId.Value = 10;
+                    command.Parameters.Add(paramId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        //if(reader.HasRows)
+                        while (reader.Read())
+                        {
+                            var order = new Order();
+                            order.OrderID = reader.GetInt32(0);
+                            order.OrderDate = reader.GetDateTime(1);
+                            //(int)reader["columnName"]
+
+                            orders.Add(order);
+                        }
+                    }
+                }
+            }
+
+            return orders;
+        }
+
+
+
+
+    }
+
+
+
+
+nuget->
+System.Data.Common
+System.Data.SqlClient
+
+для имспользования вот так в core надо сначала зарегистрировать фабрики
+
+ // Register the factory
+            DbProviderFactories.RegisterFactory("System.Data.SqlClient", System.Data.SqlClient.SqlClientFactory.Instance);
+
+            // Get the provider invariant names
+            IEnumerable<string> invariants = DbProviderFactories.GetProviderInvariantNames(); // => 1 result; 'System.Data.SqlClient'
+
+            // Get a factory using that name
+            DbProviderFactory factory = DbProviderFactories.GetFactory(invariants.FirstOrDefault());
+
+            // Create a connection and set the connection string
+            DbConnection connection = factory.CreateConnection();
+            connection.ConnectionString = "Server = test, Database = test";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+
+
+nuget->
+Autofac
+Autofac.Mvc5
+
+global.asax.cs
+var builder = new ContainerBuilder();
+            builder.RegisterControllers(typeof(HomeController).Assembly);
+            builder.Register(x1 => LogManager.GetLogger("ForControllers")).As<ILogger>();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+
+
+
+
+
+
+#core
+
+"Microsoft.Extensions.DependencyInjection": "1.0.0"
+
+public static void Main(string[] args)
+    {
+        //setup our DI
+        var serviceProvider = new ServiceCollection()
+            .AddSingleton<IFooService, FooService>()
+            .AddSingleton<IBarService, BarService>()
+            .BuildServiceProvider();
+
+        //configure console logging
+        serviceProvider
+            .GetService<ILoggerFactory>();
+
+
+
+
+
+#get
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddTransient<IMyService, MyService>();
+
+    var serviceProvider = services.BuildServiceProvider();
+    var service = serviceProvider.GetService<IMyService>();
+}
+
+
+public string SomeAction([FromServices] IMyService myService) => "Hello";
+
+
+
+
+var env=HttpContext.RequestServices.GetService<IHostingEnvironment>();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

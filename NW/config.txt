@@ -1,0 +1,50 @@
+
+
+Microsoft.Extensions.Configuration
+Microsoft.Extensions.Configuration.FileExtensions
+Microsoft.Extensions.Configuration.Json
+Microsoft.Extensions.Configuration.Binder
+
+
+public class Config
+    {
+        public static DataBaseSettings DbSettings = null;
+
+         static Config()
+        {
+                IConfiguration config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", true, true)
+                    .Build();
+                Config.DbSettings = config.GetSection("dataBaseSettings").Get<DataBaseSettings>();
+            }
+        
+    }
+
+
+
+ public class DataBaseSettings
+    {
+        public string ConnectionString { get; set; }
+    }
+
+
+//set prop "copy to allways"
+appsettings.json
+
+
+{
+  "dataBaseSettings": {
+    "ConnectionString": "Data Source=ecsc0010578a.epam.com;Initial Catalog=GlobalMenu;Integrated Security=True"
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
