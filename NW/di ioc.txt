@@ -49,17 +49,22 @@ public void ConfigureServices(IServiceCollection services)
 public string SomeAction([FromServices] IMyService myService) => "Hello";
 
 
-
-
 var env=HttpContext.RequestServices.GetService<IHostingEnvironment>();
 
 
+get in #ConfigureService
+//nuget->Microsoft.Extensions.DependencyInjection
+// Build an intermediate service provider
+    var sp = services.BuildServiceProvider();//неделательно
+
+    // Resolve the services from the service provider
+    var fooService = sp.GetService<IFooService>();
+    var options = sp.GetService<IOptions<AppSettings>>();
 
 
-
-
-
-
+если нужно получить конфиг то
+var appSettings = new AppSettings();
+configuration.GetSection(nameof(AppSettings)).Bind(appSettings);
 
 
 

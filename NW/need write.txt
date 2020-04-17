@@ -19,15 +19,6 @@ https://stackoverflow.com/questions/15713167/resharper-cannot-resolve-symbol-eve
 
 
 
-git submodule
-https://git-scm.com/book/ru/v1/Инструменты-Git-Подмодули
-
-1 склонировать проект
-2 git submodule init
-3 git submodule update
-https://stackoverflow.com/questions/5828324/update-git-submodule-to-latest-commit-on-origin
-
-
 
 js преобразуется браузером в байт код, который может кешироваться
 он можнт быть преобразован в синтаксическое древо(#AST) и обратно https://astexplorer.net/

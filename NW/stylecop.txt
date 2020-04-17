@@ -5,6 +5,9 @@
 StyleCop
 StyleCop.CSharp
 
+тут dll
+C:\Users\Stanislav_Avdosev\AppData\Local\Microsoft\VisualStudio\16.0_629ab83c\Extensions\pijx3ucf.tqu
+
 если через nuget добавить такое "StyleCop.Analyzers" то добавятся сразу куча правил
 nuget "StyleCop.MSBuild" это можно вместо расширения
 

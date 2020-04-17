@@ -366,6 +366,25 @@ break;
 
 
 
+
+public static RGBColor FromRainbow(Rainbow colorBand) =>
+    colorBand switch
+    {
+        Rainbow.Red    => new RGBColor(0xFF, 0x00, 0x00),
+        _              => throw new ArgumentException(message: "invalid enum value", paramName: nameof(colorBand)),
+    };
+
+
+public static string RockPaperScissors(string first, string second)
+    => (first, second) switch
+    {
+        ("rock", "paper") => "rock is covered by paper. Paper wins.",
+        ("rock", "scissors") => "rock breaks scissors. Rock wins.",
+        (_, _) => "tie"
+    };
+
+
+
 #if #else
 
 

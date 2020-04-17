@@ -15,8 +15,15 @@ public class Config
                 IConfiguration config = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json", true, true)
                     .Build();
+
+//можно так
                 Config.DbSettings = config.GetSection("dataBaseSettings").Get<DataBaseSettings>();
-            }
+//и так
+//nuget->Microsoft.Extensions.DependencyInjection
+var dataBaseConfig = new DataBaseConfig();
+            config.GetSection("DataBase").Bind(dataBaseConfig);           
+
+ }
         
     }
 
@@ -37,6 +44,43 @@ appsettings.json
     "ConnectionString": "Data Source=ecsc0010578a.epam.com;Initial Catalog=GlobalMenu;Integrated Security=True"
   }
 }
+
+
+
+
+
+
+#asp net core #aspnet
+
+
+public void ConfigureServices(IServiceCollection services)
+        {
+            services.Configure<MenuParams>(Configuration.GetSection("CommunicationMenu"));
+}
+
+получаем через DI
+private readonly MenuParams _options;
+
+    public Test2Model(IOptions<MenuParams> options)
+    {
+        _options = options.Value;
+    }
+
+
+можно еще так
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
+            var dataBaseConfig = new DataBaseConfig();
+            configuration.GetSection("DataBase").Bind(dataBaseConfig);
+
+
+
+
+
+
+
+
 
 
 

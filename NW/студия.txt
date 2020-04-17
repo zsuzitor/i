@@ -1,0 +1,2 @@
+пути до расширений и вообще полезные штуки студии
+C:\Users\Stanislav_Avdosev\AppData\Local\Microsoft\VisualStudio\16.0_629ab83c\Extensions

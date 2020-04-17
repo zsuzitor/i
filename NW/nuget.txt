@@ -1,6 +1,11 @@
 C:\Users\Stanislav_Avdosev\.nuget\packages
 
 
+#example
+https://github.com/NuGet/Samples/
+
+
+
 
 для выполнения некоторых команд nuget устанавливается отдельно, можно установить в проект
 nuget->NuGet.CommandLine

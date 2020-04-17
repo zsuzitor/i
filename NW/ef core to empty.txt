@@ -1,0 +1,78 @@
+
+
+
+
+
+
+
+
+
+--need!
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.SqlServer.Design
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.EntityFrameworkCore.SqlServer
+--optional
+Microsoft.Extensions.Caching.SqlServer
+
+
+
+Add-Migration MigrationName [options]
+
+
+ADD-MIGRATION test1
+Update-Database
+
+
+
+
+
+public class MobileContext : DbContext
+    {
+        public DbSet<Phone> Phones { get; set; }
+        public DbSet<Order> Orders { get; set; }
+ 
+        public MobileContext(DbContextOptions<MobileContext> options)
+            : base(options)
+        {
+            //Database.EnsureCreated();
+        }
+    }
+
+
+
+
+
+
+
+
+public void ConfigureServices(IServiceCollection services)
+        {
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<MobileContext>(options => options.UseSqlServer(connection));
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -27,3 +27,35 @@ public void TestProducts()
 
 
 
+
+
+#ef core
+
+ бд можно замокать указав параметр, в таком случае бд будет работать с оперативной памятью
+var options = new DbContextOptionsBuilder<MovieDbContext>()
+            .UseInMemoryDatabase(databaseName: "MovieListDatabase")
+            .Options;
+
+        // Insert seed data into the database using one instance of the context
+        using (var context = new MovieDbContext(options))
+        {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
