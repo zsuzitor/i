@@ -1,0 +1,36 @@
+
+
+
+
+журнал, куча статей на разные темы
+https://rsdn.org/?summary/4512.xml
+
+
+
+--поичтать  GraphQL API
+
+
+azure sql
+postgr
+
+Try TDD and imlepent test for his pet project.
+
+- Read "Паттерны проектирования на платформе .NET", Сергей Тепляков
+
+- Read The Art of Unit Testing by Roy Osherove
+
+- Read CLR via C# by Jeffry Richter
+NET-Microservices-Architecture-for-Containerized-NET-Applications
+docker
+
+
+http://www.quizful.net/interview/csharp?page=1
+
+
+
+
+
+
+
+
+
