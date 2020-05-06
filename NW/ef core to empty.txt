@@ -56,6 +56,21 @@ public void ConfigureServices(IServiceCollection services)
 
 
 
+//из консоли если, то вот так
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=SchoolDB;Trusted_Connection=True;");
+        }
+
+
+или можно явно передать настройки, вот такой вариант это мок
+UseInMemoryDatabase можно поменять
+что бы использовать для мока надо подключить еще и 
+Microsoft.EntityFrameworkCore.InMemory
+
+var options = new DbContextOptionsBuilder<ModuleContext>()
+            .UseInMemoryDatabase(databaseName: "MovieListDatabase")
+            .Options;
 
 
 
