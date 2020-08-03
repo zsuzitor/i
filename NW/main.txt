@@ -1,5 +1,11 @@
 
 
+#attr
+#AttributeUsageAttribute #todo
+
+
+
+
 
 #ConfigureAwait
 ConfigureAwait(указывает что таска будет выполняться вне контекста)
@@ -25,6 +31,16 @@ services
                 .AddApplicationPart(typeof(asd).Assembly)
 
 
+
+
+
+
+
+
+"слабая" ссылка
+позволяет сборщику мусора очищать память даже если на нее что то ссылается - https://rsdn.org/article/dotnet/GCnet.xml#EQMAC
+создается через
+WeakReference
 
 
 
