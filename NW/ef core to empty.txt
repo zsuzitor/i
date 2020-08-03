@@ -1,0 +1,93 @@
+
+
+
+
+
+
+
+
+
+--need!
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.SqlServer.Design
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.EntityFrameworkCore.SqlServer
+--optional
+Microsoft.Extensions.Caching.SqlServer
+
+
+
+Add-Migration MigrationName [options]
+
+
+ADD-MIGRATION test1
+Update-Database
+
+
+
+
+
+public class MobileContext : DbContext
+    {
+        public DbSet<Phone> Phones { get; set; }
+        public DbSet<Order> Orders { get; set; }
+ 
+        public MobileContext(DbContextOptions<MobileContext> options)
+            : base(options)
+        {
+            //Database.EnsureCreated();
+        }
+    }
+
+
+
+
+
+
+
+
+public void ConfigureServices(IServiceCollection services)
+        {
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<MobileContext>(options => options.UseSqlServer(connection));
+            
+        }
+
+
+
+
+//из консоли если, то вот так
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=SchoolDB;Trusted_Connection=True;");
+        }
+
+
+или можно явно передать настройки, вот такой вариант это мок
+UseInMemoryDatabase можно поменять
+что бы использовать для мока надо подключить еще и 
+Microsoft.EntityFrameworkCore.InMemory
+
+var options = new DbContextOptionsBuilder<ModuleContext>()
+            .UseInMemoryDatabase(databaseName: "MovieListDatabase")
+            .Options;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+docker---Hyper-V feature is not enabled.
+
+
+Turn on "Windows Hypervisor Platform" feature to switch to the Native Hypervisor and accelerate your emulator.
+рекомендуют установить  intel HAXM
+
+#err #error
+Device error: Could not get emulator name after starting AVD nexus_4_lollipop_5_0_api_21
+https://forums.xamarin.com/discussion/156240/emulator-not-running-could-not-get-emulator-name-after-starting-avd
+
+
+
+Windows Features -> Hyper-V
+Windows Features -> Windows Hypervisor Plattform
+And New Start of my Emulator (Reset default)
+
+
+
+
+
+

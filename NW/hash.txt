@@ -1,0 +1,17 @@
+public override int GetHashCode()
+        {
+            return HashCode.Combine(ToolSystemName, Type, Group);
+        }
+
+
+
+ public override int GetHashCode()
+        {
+            unchecked
+            {
+                return Prop1?.GetHashCode() ?? 0 ^
+                        Prop2?.GetHashCode() ?? 0;
+            }
+        }
+
+

@@ -1,0 +1,104 @@
+
+добавить расширение в студии
+можно установить http://stylecop.codeplex.com/   но epam блочит
+добавить через nuget дополнительно уже в проект:
+StyleCop
+StyleCop.CSharp
+
+тут dll
+C:\Users\Stanislav_Avdosev\AppData\Local\Microsoft\VisualStudio\16.0_629ab83c\Extensions\pijx3ucf.tqu
+
+если через nuget добавить такое "StyleCop.Analyzers" то добавятся сразу куча правил
+nuget "StyleCop.MSBuild" это можно вместо расширения
+
+если при добавлении в проект ошибка
+Severity	Code	Description	Project	File	Line	Suppression State
+Error		Project "C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" was not imported by "C:\mentoring\StanislavMentoringA1\Module12\Module12.csproj" at (7,3), due to the file not existing.	Module12	C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets	7	
+
+
+то надо либо установить по линке либо в .csproj удалить строку
+ <Import Project="$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
+
+
+
+
+создание своего правила
+создать класс c#
+рядом положить {название класса}.xml
+для xml установить 'build Action' в свойствах -'Embedded resource'
+
+using System.Linq;
+using StyleCop;
+using StyleCop.CSharp;
+
+namespace Module12.StyleCop
+{
+    [SourceAnalyzer(typeof(CsParser))]
+    public class EntityClassAnalyzer : SourceAnalyzer
+    {
+        const string ruleName = "EntityClassAnalyzer";
+
+        public override void AnalyzeDocument(CodeDocument document)
+        {
+            if (document == null||!(document is CsDocument csDocument))
+                return;
+
+            csDocument.WalkDocument(
+                new CodeWalkerElementVisitor<object>(this.VisitElement));
+        }
+
+        private bool VisitElement(CsElement element, CsElement parentElement, object context)
+        {
+            if (!(element is Class classElement))
+                return true;
+
+            if (!classElement.FullNamespaceName.Contains(".Entities."))
+                return true;
+            if (classElement.AccessModifier != AccessModifierType.Public)
+            {
+                this.AddViolation(element, ruleName);
+                return false;
+            }
+
+            return false;
+
+        }
+    }
+}
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="Some Project Custom Rules">
+  <Description>
+    EPAM Some Project Custom Rules
+  </Description>
+  <Rules>
+    <Rule Name="EntityClassAnalyzer" CheckId="EP1000">
+      <Context>Entity class analyzer</Context>
+      <Description>Entity class should be public with attr 'DataContract' and 'Id' and 'Name' public prop and</Description>
+    </Rule>
+  </Rules>
+</SourceAnalyzer>
+
+
+
+тестирование с MSTest 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

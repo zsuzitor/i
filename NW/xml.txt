@@ -1,0 +1,79 @@
+
+
+linq to xml
+var data = (new XElement("Orders",
+                from x1 in listForConvert
+                select new XElement("Order",
+                    new XAttribute("OrderID", x1.OrderID),
+                    new XElement("CustomerID", x1.CustomerID),
+                    new XElement("EmployeeID", x1.EmployeeID),
+
+using (MemoryStream ms = new MemoryStream())
+            {
+                data.Save(ms);
+                return ms.ToArray();
+            }
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<MainElement>
+  <Orders>
+    <Order OrderID="5">
+      <CustomerID />
+      <EmployeeID />
+      <OrderDate>2020-02-20T07:25:55.47</OrderDate>
+      <RequiredDate>2020-02-20T07:25:55.473</RequiredDate>
+      <ShippedDate>2020-02-20T07:25:55.473</ShippedDate>
+      <ShipVia />
+    </Order>
+  </Orders>
+</MainElement>
+
+
+
+string xml = Encoding.UTF8.GetString(responseData);
+            string _byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+            if (xml.StartsWith(_byteOrderMarkUtf8))
+            {
+                xml = xml.Remove(0, _byteOrderMarkUtf8.Length);
+            }
+
+            var x = XElement.Parse(xml);
+//////если в xml есть namespace (атрибут xmlns)  :<catalog xmlns="http://library.by/catalog"
+//то его надо указывать для доступа к каждому элементу
+//получаем его
+var nm = x.GetDefaultNamespace();
+XNamespace nm = "http://library.by/catalog";
+//используем
+var g_=x.Elements(nm+"book");
+если у чайлд элеемнтов не задать неймспейс но задать у родительского, то у всех чайлд будет явно добавлен неймспейс но в виде пустой строки
+///////
+if ( x.Element("Orders") != null)//это проверка не самого внешнего элемента а того что в нем-- см пример xml
+                    {
+                        var notificationList = x.Element("Orders")
+                            .Elements("Order")
+                            .Select(e =>
+                            {
+                                var g_2=e.Element("CustomerID").Value;
+                                return new Orders();
+                            })
+                                .ToList();
+                    }
+
+
+
+#error
+"Data at the root level is invalid" жалуется на 1 строку 1 позицию
+
+string _byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+if (xml.StartsWith(_byteOrderMarkUtf8))
+{
+    xml = xml.Remove(0, _byteOrderMarkUtf8.Length);
+}
+
+можно еще так сравнивать xmlStartsWith(byteOrderMarkUtf8, StringComparison.Ordinal
+
+xml.LoadXml(myString.Substring(myString.IndexOf(Environment.NewLine)));
+
+

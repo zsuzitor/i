@@ -1,0 +1,18 @@
+
+
+nuget->
+NLog
+NLog.Config
+
+
+для выключения в конфиге nlog'a
+<nlog globalThreshold = "Off" />
+
+в конфиге раскомментить блок target и блок rule
+
+
+global.asax.cs
+var builder = new ContainerBuilder();
+            builder.RegisterControllers(typeof(HomeController).Assembly);
+            builder.Register(x1 => LogManager.GetLogger("ForControllers")).As<ILogger>();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));

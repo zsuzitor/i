@@ -1,0 +1,53 @@
+C:\Users\Stanislav_Avdosev\.nuget\packages
+
+
+#example
+https://github.com/NuGet/Samples/
+
+
+
+
+для выполнения некоторых команд nuget устанавливается отдельно, можно установить в проект
+nuget->NuGet.CommandLine
+nuget spec - в консоль создание конфиг файла
+создание пакета или через ui студии->проект->pack или через консоль
+nuget pack MaestroNet.csproj -Properties Configuration=Release -Build -OutputDirectory .\Bin 
+.nupkg файл можно переименовать в zip и открыть
+
+
+для добавление своего static файла в пакет
+Просто поместите ваш файл в папку с названием «content» в корне пакета
+--
+tools - папка tools пакета для сценариев powershell и программ, доступных из консоли диспетчера пакетов. После того, как папка скопирована в целевой проект, она добавляется в переменную окружения `$ env: Path (PATH).
+
+lib - сборки (файлы .dll) в папке lib добавляются как ссылки на сборки при установке пакета.
+
+контент - файлы в папке контента копируются в корень вашего приложения, когда пакет установлен.
+
+Думайте о папке Content как о корне вашего целевого приложения. Например, если я хочу, чтобы пакет добавил изображение в каталог / images целевого приложения, обязательно поместите изображение в папку Content / images пакета. "
+
+
+
+в студии в properties для каждого файла есть свойство "build action" туда можно установить например "content" и он сам поместится в контент
+
+
+
+#install
+установка из файла== не заработало!!
+Install-Package Module12_test_1 -Source C:\Users\Stanislav_Avdosev\Desktop\test\nuget\Module12_test_1.0.0.2.nupkg
+
+Install-Package -Source D:\CustomNuget\mentoringModule12\Module12_test_1.0.0.3.nupkg 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

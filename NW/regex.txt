@@ -1,0 +1,19 @@
+foreach (Match match in Regex.Matches(input, pattern, 
+                                            RegexOptions.IgnoreCase))
+
+
+var reg=new Regex($@"<\s*{tag}.*+{prop}.*+>", RegexOptions.IgnoreCase);//gi//| RegexOptions.Multiline
+            return reg.Matches(html).Select(x1=>x1.Value).ToList();
+
+
+#GROUP #группы
+ var reg=new Regex($@"<\s*{tag}.*?{prop}.*?""(.*?)"".*?>", RegexOptions.IgnoreCase);//gi//| RegexOptions.Multiline
+            return reg.Matches(html).Select(x1=>x1.Groups[0].Value).ToList();
+группа '0' указывает на все вхождение, по факту нумерация начинается с '1'
+
+
+
+
+
+
+
