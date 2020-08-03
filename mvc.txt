@@ -4096,6 +4096,12 @@ close
 flush
 
 
+using (StreamReader reader = File.OpenText(filename))
+            {
+                result = new char[reader.BaseStream.Length];
+                await reader.ReadAsync(result, 0, (int)reader.BaseStream.Length);
+            }
+
 
 вывод текст
 в streamWriter: TextWriter заключаетс€ filestream(или другой наследник stream)
