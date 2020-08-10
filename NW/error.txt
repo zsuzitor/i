@@ -9,6 +9,19 @@ nuget->Microsoft.EntityFrameworkCore.Tools
 
 
 
+#error #точка #останова #pdb 
+не работает точка останова  удалить все файлы в проекте .pdb
+
+
+
+
+
+
+
+
+
+
+
 
 
 

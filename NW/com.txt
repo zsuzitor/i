@@ -87,4 +87,65 @@ private Orders Convert(ExcelWorksheet worksheet, int position)
 
 
 
+#com 
+
+#exel
+
+var арр = new Application { Visible = false };
+Workbook workbook = app.Workbooks.Add();
+Worksheet worksheet = app.ActiveSheet;
+int row = 1;
+foreach (var product in Products)
+{
+worksheet.Cells[row, 1].Value = product.Name;
+worksheet.Cells[row, 2].Value = product.Price;
+row++;
+}
+workbook.SaveAs(Filename: "demo.xls",
+FileFormat: XlFileFormat.xlWorkbookNormal);
+app.Application.Quit();
+
+
+#Ексель 
+using  Microsoft.Office.Interop.Excel
+
+var арр = new Application { Visible = true };//Открыть Excel с активным рабочим листом
+арр.Workbooks.Add();
+Worksheet worksheet = (Worksheet) app.ActiveSheet;
+//Создать диапазон можно было бы и с помощью единственного вызова метода Range["А1:Т1]
+Range start = (Range) worksheet.Cells[1, 1];//Определить начальную и конечную ячейки
+Range end = (Range) worksheet.Cells[1, 20];//Определить начальную и конечную ячейки
+worksheet.Range[start, end].Value = Enumerable.Range(1, 20).ToArray();//Заполнить диапазон значений [1, 20]
+ 
+
+
+
+
+
+
+
+
+#doc #word
+
+
+Application арр = new Application { Visible = true };
+app.Documents.Add();
+Document doc = app.ActiveDocument;
+Paragraph para = doc.Paragraphs.Add();
+para.Range.Text = "Thank goodness for C# 4";
+doc.SaveAs(FileName: "test.doc",
+FileFormat: WdSaveFormat.wdFormatDocument97);
+doc.Close();
+app.Application.Quit();
+
+
+
+
+
+
+
+
+
+
+
 

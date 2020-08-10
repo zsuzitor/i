@@ -28,6 +28,26 @@ C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\Lib\site-packages\boto\p
 
 
 
+#python
+ScriptEngine engine = Python.CreateEngine();
+engine.Execute("print 'hello, world'");
+engine.ExecuteFile("HelloWorld.py");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
