@@ -115,6 +115,11 @@ https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopl
 //должен содержать как минимум метод render
 //доступ к свойствам через this.props , внутри(через this) их нельзя изменить
 //может содержать внутреннее состояние this.state._name
+this.props.match. this.props.location - инфа о урле роуте
+
+
+В {}указывается Js <h2>2 + 2 = {2 + 2}</h2>,
+
 
 
 
@@ -128,7 +133,7 @@ ReactDOM.render(
 //вот это будет запрашивать файл по ajax
 <script type="text/babel" src="index.jsx"></script>
 
-
+если так подключено то это будет компилить постоянно(не 1 раз), это нежелательно, хорошо бы скомпилить 1 раз в js а уже его запрашивать
 
 
 
@@ -211,12 +216,29 @@ this.press = this.press.bind(this);
 
 
 
-метод может принимать параметр источника события
+метод может принимать параметр источника #событи #event
 onNameChange(e) {
             var val = e.target.value;
         }
 <input type="number" value={this.state.age} 
                             onChange={this.onNameChange}  style={{borderColor:ageColor}} />
+
+
+
+
+#componentWillMount(): вызывается непосредственно перед рендерингом компонента
+
+render(): рендеринг компонента
+
+#componentDidMount(): вызывается после рендеринга компонента. Здесь можно выполнять запросы к удаленным ресурсам
+
+#componentWillUnmount(): вызывается перед удалением компонента из DOM - почистить память и тд
+
+
+
+
+
+
 
 
 #ref
@@ -233,6 +255,7 @@ handleSubmit(e) {
 <input defaultValue="Tom" ref="nameField" />
 
 
+ref можно добавить к компоненты react и уже получить его state
 
 
 
@@ -248,7 +271,7 @@ https://metanit.com/web/react/2.6.php
 значения из state должны использоваться при рендеринге. Если какой-то объект не используется в рендерниге компонента, то нет смысла сохранять его в state
 Единственное место, где можно установить объект state(через =) - это конструктор класса:
 this.state = {welcome: "Добро пожаловать на сайт!"};
-
+Такое изменение не перерендерит, для перерендера нужно setstate
 
 
 //метод изменения состояния
@@ -268,6 +291,12 @@ this.setState(function(prevState, props) {
 
 //если надо передать состояние в другой компонент то передается точно так же как свойство
 
+
+
+#prop #default
+
+Просто после объявления компонента, не во что не вложено 
+Hello.defaultProps = {name: "Tom", age: 22};
 
 
 есть еще #context - это типо статического ( #static ) свойства #TODO
@@ -294,7 +323,7 @@ constructor(props) {
 а в внутреннем ее проверить и вызвать если она установлена
 
 //внутренний комопонент рендерит инпут
-<input type='text' onChange={this,onChange} />
+<input type='text' onChange={this.onChange} />
 //у внутреннего компонента есть событие
 onChange = e => {
 //проверяет СВОЙСТВО которое устанавливается извне
@@ -321,8 +350,36 @@ return (
 
 
 
-//#TODO
-#webpack https://metanit.com/web/react/2.9.php
+
+#webpack см файл webpack
+
+или
+https://metanit.com/web/react/2.9.php
+https://metanit.com/web/react/4.8.php
+
+в файле компонента надо добавить 
+var React = require('react');
+//подключаем другие компоненты
+var SearchPlugin = require('./SearchPlugin.jsx');
+но вот так вроде лучше import { ADD_ITEM, REMOVE_ITEM } from './actions'
+
+в файле в котором непосредственно грузятся компоненты ReactDOM.render(
+надо подключить var ReactDOM = require('react-dom'); перед react
+
+//babel указывать не нужно
+ <script src="public/bundle.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
 https://metanit.com/web/react/4.8.php
 #flux https://metanit.com/web/react/5.1.php
 #reflux https://metanit.com/web/react/5.2.php

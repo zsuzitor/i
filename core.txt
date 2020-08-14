@@ -2435,7 +2435,7 @@ asp-route-[название параметра]: определяет значение для определенного параметра
 
 
 #CacheTagHelper #cache #кеш #кэш
-CacheTagHelper обертывает контент представления и позволяет кэшировать его в памяти сервера. Он использует тег <cache>, и весь контент, определенный внутри этого тега, кэшируется в памяти. 
+CacheTagHelper оборачивает контент представления и позволяет кэшировать его в памяти сервера. Он использует тег <cache>, и весь контент, определенный внутри этого тега, кэшируется в памяти. 
 Перед кэшированием тег-хелпер проверяет, сохранен ли уже данный контент в MemoryCache. Если контент имеется в кэше, тогда движку Razor посылается контент из кэша.
  Если же данного контента не оказывается в кэше, тогда Razor обрабатывает контент, а тег-хелпер сохраняет контент в memory cache для последующего использования
 <cache expires-after="@TimeSpan.FromMinutes(5)">  
@@ -3402,6 +3402,7 @@ Team team = db.Teams
 
 #Explicit loading
 все как в обычном entity+ можно еще так
+db.Entry(company).Collection(t=>t.Users).Load();//Reference
 Team team = db.Teams.FirstOrDefault();
     db.Players.Where(p=>p.TeamId==team.Id).Load();
 //если надо загрузить вообще всех то
@@ -3428,10 +3429,10 @@ public int TeamId { get; set; }
 
 
 
-#Reverse #Engineering если нужно сгенерить классы по #db #бд #class
+#Reverse #Engineering если нужно сгенерить классы по #db #бд #class #poco
 это создаст все классы бд+ контекст бд
 Чтобы воспользоваться этой функцией перейдем в Visual Studio к окну Package Manager Console. Его открыть можно, перейдя в меню Tools –> NuGet Package Manager –> Package Manager Console
-передается строка подключения с указанием сервера+ нахвание бд: Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer
+передается строка подключения с указанием сервера+ название бд: Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer
 
 
 
@@ -3451,7 +3452,7 @@ db.Phones.Add(phone);
     await db.SaveChangesAsync();
 
 
-#удаление #delete
+#удаление #delete #remove
 удалить можно так//сгенерирует 1 запрос #EntityState #Deleted
 Phone phone = new Phone { Id = id.Value };
         db.Entry(phone).State = EntityState.Deleted;
@@ -3882,7 +3883,7 @@ IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
 
 
 
-добавление identity в пустой проект
+добавление #identity в пустой проект
 
 
 определить 
@@ -4079,7 +4080,7 @@ public interface IPasswordValidator<T> where T : class {
 }
 
 
-для использования такого класс нужно 
+для использования такого класса нужно 
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddTransient<IPasswordValidator<ApplicationUser>, 
@@ -4549,7 +4550,7 @@ public IActionResult GetVoid()
 #ChallengeResult: используется для проверки аутентификации пользователя
 #JsonResult: возвращает в качестве ответа объект или набор объектов в формате JSON
 
-return Json(user);
+#return #Json(user);
 //
 Response.ContentType = "application/json";
 await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
@@ -5619,12 +5620,13 @@ public void ConfigureServices(IServiceCollection services)
 public List<int> Index(){}
 
 
-контроллер желательно унаследоватьот #ControllerBase а не от Controller
+контроллер желательно унаследовать от #ControllerBase а не от Controller
 к контроллеру атрибут [#ApiController]
 
 
 
 #webapi #web 
+выделяется сущность и за работу с этой сущностью будет отвечать выбранный контроллер
 в контроллере создаются методы!!! Get Post Put Delete, которые обрабатывают соответствующие запросы
 
 
@@ -5634,6 +5636,7 @@ public List<int> Index(){}
 сервер не запоминает состояние пользователя между запросами(состояние #stateless, когда данные хранятся stateful ) - в каждом запросе передаётся информация, 
 идентифицирующая пользователя (например token)и все параметры, необходимые для выполнения операции.
 обычные контроллеры, которые возвращают данные
+отсутствие состояния для того что бы любой запрос мог обработать людей сервер, допустим 2 запроса подряд(А И Б), запрос А обработается сервером А а запрос Б сервером Б и ничего не сломается тк нет сессий и тд
 
 
 #soap
@@ -5654,7 +5657,7 @@ put-создание,
 
 
 #jwt #token
-штука для аутентификации без браузера(но можно и с ним)
+штука для аутентификации
 использовать можно для апи
 
 //генерировать токен можно через  #IdentityServer или #OpenIdDict ниже вариант с OpenIdDict
