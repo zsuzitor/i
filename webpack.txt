@@ -1,0 +1,55 @@
+
+позволит компилить код+раздел€ть на файлы
+
+
+создать package.json
+пример дл€ реакта тут https://metanit.com/web/react/2.9.php https://metanit.com/web/react/4.8.php
+
+секци€ devDependencies - модули которые потребуютс€ только при разработке
+
+секци€ scripts
+тут определ€ютс€ команды
+
+
+создать файл
+webpack.config.js
+пример https://metanit.com/web/react/2.9.php https://metanit.com/web/react/4.8.php
+
+
+файлы react закинуть сюда
+app/components
+
+
+установить все модули npm install
+скомпилить дев версию npm run dev - это команда из секции scripts
+скомпилить норм версию npm run build
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

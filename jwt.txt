@@ -1,0 +1,15 @@
+
+
+декодер
+https://jwt.io/
+
+хорошая статья с алгоритмами https://habr.com/ru/company/Voximplant/blog/323160/
+
+
+https://www.c-sharpcorner.com/article/handle-refresh-token-using-asp-net-core-2-0-and-json-web-token/
+https://bitoftech.net/2014/07/16/enable-oauth-refresh-tokens-angularjs-app-using-asp-net-web-api-2-owin/
+https://goblincoding.com/2016/07/03/issuing-and-authenticating-jwt-tokens-in-asp-net-core-webapi-part-i/
+
+
+
+

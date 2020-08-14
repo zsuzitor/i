@@ -1,0 +1,865 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+entity
+#entityFraemwork   #db   #bd #ef  #connectionstring
+using System.Data.Entity;
+........................
+Web.config в секцию  <configSections> после  <section name="entityFramework" 
+<connectionStrings>
+    <add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-server_info_web_desk-20180518052414.mdf;Integrated Security=True" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+
+в строке подключения не должно быть вхождения строки Initial Catalog=aspnet-dip-20181007084703;
+(LocalDb)\MSSQLLocalDB можно узнать доступные значения (поиск-> sql , расположение sql server -> настройка )
+
+
+#DbSet #context #DbContext
+
+class SoccerContext : DbContext
+{
+    //public SoccerContext() : base("SoccerDB2")
+public ApplicationDbContext(): base("DefaultConnection", throwIfV1Schema: false)
+    { }
+    public DbSet<Team> Teams { get; set; }
+}
+
+
+using(var db=new SoccerContext()){
+db.Log=Console.Out;//вывод логов на консоль
+}
+
+
+
+
+
+правильное удаление редактирование   #Attach
+при создании нескольких контекстов на 1 бд ссылающихся и для изменения данных надо прописать
+using(){}
+using(){
+//db.Set<класс_объекта>().Attach(объект);  //ТАК(лучше)
+p1.Price = 60000;
+        //db.Entry(p1).State = EntityState.Modified;//редактирование //ИЛИ ТАК
+}
+для дозагрузки данных в другом контексте reference collection
+#присоединение к #контексту   #Attach
+db.Set<класс_объекта>().Attach(объект);
+
+
+db.Entry(p1).State = EntityState.Deleted;//удаление
+ db.Phones.Attach(p1);//
+        db.SaveChanges();
+https://metanit.com/sharp/entityframework/1.3.php
+
+
+Способы загрузки и получения связанных данных #load #include #loading #ef #virtual #загрузка 
+//для того что бы можно было закинуть лямбду а не строку надо -- using System.Data.Entity;
+Eager Loading  жадная загрузка
+ var players = db.Players.Include(p=>p.Team).ToList();
+
+
+
+#Explicit Loading  Явная загрузка 
+#Entry
+if(!db.Entry(db.Players.FirstOrDefault()).Reference("Team").IsLoad)
+db.Entry(db.Players.FirstOrDefault()).Reference("Team").Load();
+для загрузки коллекций юзать Collection вместо Reference
+
+можно добавлять условия, но нужно менять load на tolist (тк при load не загрузит(не точно)) #TODO
+#Query
+var mass=db.Entry(this).Collection(x1 => x1.ImagesLikes).Query().Where(...).Take(...).Select(...).....ToList();
+
+
+
+
+
+
+#Lazy Loading
+все делается само но в объявлении модели virtual
+public int? TeamId { get; set; }
+    public virtual Team Team { get; set; }
+
+
+
+настройка связей с #Fluent #API
+#one #to #many #многие #многим #один
+TODO
+
+
+связь 1 к 1
+https://stackoverflow.com/questions/26389707/ef-code-first-one-to-one-relationship-multiplicity-is-not-valid-in-role-in-re
+
+//то что ниже хз мб не для EF
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=relationsdb;Trusted_Connection=True;");
+    }
+     
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder
+            .Entity<User>()
+            .HasOne(u => u.Profile)
+            .WithOne(p => p.User)
+            .HasForeignKey<UserProfile>(p => p.UserKey);
+    }
+
+//должно работать
+
+public class Student
+{
+    public int StudentId { get; set; }
+
+    public StudentAddress Address { get; set; }
+}
+     
+public class StudentAddress 
+{
+    [Key]
+    [#ForeignKey("Student")]
+    public int StudentAddressId { get; set; }
+
+    public Student Student { get; set; }
+}
+
+
+
+
+
+
+
+#1 ко многим 
+
+https://metanit.com/sharp/entityframework/3.3.php
+если не указать внешний ключ как ?(nullable) то создается cascade(удалении записей связанных)
+
+
+ Player pl1 = new Player {Name = "Роналду", Age = 31, Position = "Нападающий", Team=t2 };
+public class Player
+{
+    public int Id { get; set; }
+// название поле с объектом "Team"+ название поле ключа объекта "Team.Id"
+    public int? TeamId { get; set; }
+    public Team Team { get; set; }
+}
+public class Team
+{
+    public int Id { get; set; }
+    public ICollection<Player> Players { get; set; }
+    public Team()
+    {
+        Players = new List<Player>();
+    }
+}
+даже если свойство объяслено так public int? TeamId { get; set; } при удалении Team произойдет ошибка, тк игроки все равно обязаны иметь сязь с командой, для исправления надо
+строка для обNULLения ссылки на team при удалении team на который ссылается
+db.Database.ExecuteSqlCommand("ALTER TABLE dbo.Players ADD CONSTRAINT Players_Teams FOREIGN KEY (TeamId) REFERENCES dbo.Teams (Id) ON DELETE SET NULL");
+
+
+
+
+
+
+
+многие ко многим
+
+
+public class Team
+{
+    public int Id { get; set; }
+    public ICollection<Player> Players { get; set; }
+    public Team()
+    {
+        Players = new List<Player>();
+    }
+}
+public class Player
+{
+    public int Id { get; set; }
+    public ICollection<Team> Teams { get; set; }
+    public Player()
+    {
+        Teams = new List<Team>();
+    }
+}
+
+...{
+ public DbSet<Player> Players { get; set; }
+        public DbSet<Team> Teams { get; set; }
+
+//необязательно, но желательно, обязательно только если между сущностями несколько связей многие ко многим #WithMany #HasMany
+ protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Player>().HasMany(c => c.Teams)//1 класс и свойство который связываем
+                .WithMany(s => s.Players)//2 класс и свойство с которым связываем
+                .Map(t => t.MapLeftKey("PlayerId")//id 1 которое в таблице будет
+                .MapRightKey("TeamId")//id 2
+                .ToTable("PlayerTeam"));//название таблицы
+            base.OnModelCreating(modelBuilder);//инициализация что бы роли и все остальное добавилось нормально
+
+
+//многие ко многим без лишнего
+modelBuilder.Entity<Phone>()
+    .HasMany(p => p.Companies)
+    .WithMany(c => c.Phones);
+
+
+//один-к нулю или к одному #WithOptional
+//Phone -имеет,  Company- может не иметь
+modelBuilder.Entity<Phone>()
+        .HasRequired(c => c.Company)
+        .WithOptional(c => c.BestSeller);
+
+//один к одному #HasRequired #WithRequiredPrincipal
+modelBuilder.Entity<Phone>()
+    .HasRequired(c => c.Company)
+    .WithRequiredPrincipal(c => c.BestSeller);//устанавливает Phone в качестве основной
+
+
+//один ко многим
+modelBuilder.Entity<Company>()
+    .HasMany(p => p.Phones)
+    .WithRequired(p=>p.Company);
+
+
+
+modelBuilder.Entity<Company>()
+    .HasMany(p => p.Phones)
+    .WithRequired(p=>p.Company)
+    .HasForeignKey(s=>s.Manufacturer)//явно указываем внешний ключ для связи с Company
+.WillCascadeOnDelete(false);//отключаем каскадное удаление
+
+//отключение каскадного удаления при отдельных видах отношений
+modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+
+#HasRequired()//обязательно должно быть указано
+#WithOptional()//не обязательная связь
+#WithRequiredPrincipal()//обязательная связь,устанавливает одну из сущностей в качестве основной
+#HasMany()//множественную связь
+#WithMany()//обратная множественная связь
+#HasForeignKey() //явно указываем внешний ключ для связи 
+#WillCascadeOnDelete(false) //отключаем каскадное удаление
+        }
+
+
+
+
+
+
+
+
+закрытие protected override void #Dispose(bool disposing)
+{
+    db.Dispose();
+    base.Dispose(disposing);
+}
+
+
+
+
+
+
+Когда следует использовать #AsNoTracking? Если нам надо просто вывести данные для отображения без необходимости их дальнейшего обновления, тогда как раз тот случай, когда мы можем использовать AsNoTracking.
+не сохранит изменения и ускорит работу, не получится дозагрузить какие либо данные из бд (load,reference и тд)
+Phone firstPhone = db.Phones.AsNoTracking().FirstOrDefault();
+firstPhone.Name = "Samsung Galaxy Ace 2";
+db.SaveChanges();
+возможно стоит присоеденять запись и тогда можно будет ее обновить db.Set<ApplicationUser>().Attach(this);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#атрибуты #atribute #attribute #attr #[] #ef #entityframework
+#Аннотации
+System.ComponentModel.DataAnnotations
+установить ключ в качестве идентификатора
+[Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)] //[Key] #DatabaseGeneratedOption.Identity
+public int Ident { get; set; }
+ [Required]-NOT NULL в БД
+[MaxLength(20)]/MinLength устанавливают максимальное и минимальное количество символов в строке-свойстве
+
+System.ComponentModel.DataAnnotations.Schema
+ [NotMapped]--не сопостовляется/добавляется колонка в дб
+
+[Table("Mobiles")]//указываем название таблиц
+public class Phone
+{
+    public int Id { get; set; }
+    [Column("ModelName")]//указываем  название колонки
+    public string Name { get; set; }
+}
+
+[ForeignKey("CompId")]--внешний ключ
+
+ [Index]--установка индекса
+
+[#ConcurrencyCheck]--решает проблему параллелизма(если свойство было изменено пока менялось текущем пользователем то выбрасывает исключение DbUpdateConcurrencyException) #parallel
+
+комплексные типы / если в моделе есть другая модель
+[ComplexType]
+public class PhoneInfo
+{
+    public string Company { get; set; }
+    public int Price { get; set; }
+}
+public class Phone
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+ 
+    public PhoneInfo Info { get; set; }
+ 
+    public Phone()
+    {
+        Info = new PhoneInfo { Price = 300 };
+    }
+}
+db.Phones.Add(new Phone 
+    { 
+        Name = "Samsung Galaxy S5", 
+        Info = new PhoneInfo { Company = "Samsung", Price = 17000 } 
+    });
+ foreach (Phone p in db.Phones)
+        Console.WriteLine("{0} - {1}", p.Name, p.Info.Price);
+https://metanit.com/sharp/entityframework/6.4.php
+
+
+Две модели в одной таблице
+#ToTable #Table
+[Table("Mobiles")]
+public class PhoneInfo
+{
+    [Key, ForeignKey("Phone")]
+    public int PhoneId { get; set; }
+    public Phone Phone { get; set; }
+}
+[Table("Mobiles")]
+public class Phone
+{
+    [Key, ForeignKey("Info")]
+    public int PhoneId { get; set; }
+    public PhoneInfo Info { get; set; }
+}
+PhoneInfo pi1 = new PhoneInfo { PhoneId=1, Company = "Samsung", Price = 14000};
+Phone p1 = new Phone { PhoneId = 1, Name = "Samsung Galaxy S5", Info = pi1 };
+db.Infos.Add(pi1);
+
+https://metanit.com/sharp/entityframework/6.5.php
+
+Разделение сущности на несколько таблиц
+public DbSet<Phone> Phones { get; set; }
+ 
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Phone>().Map(m =>
+        {
+            m.Properties(d => new { d.Name, d.Id });
+            m.ToTable("Mobiles");
+        }).Map(m =>
+        {
+            m.Properties(d => new { d.Company, d.Price });
+            m.ToTable("MobilesInfo");
+        });
+        base.OnModelCreating(modelBuilder);
+    }
+https://metanit.com/sharp/entityframework/6.6.php
+
+
+конвенции(установить атрибут сразу на определенные свойства всех классов в бд)
+https://metanit.com/sharp/entityframework/6.9.php
+
+
+Наследование в Entity Framework
+
+public class Phone
+{
+    public int Id { get; set; }
+}
+ 
+public class Smartphone : Phone
+{
+    public string OS { get; set; }
+}
+ public DbSet<Phone> Phones { get; set; }
+    public DbSet<Smartphone> Smarts { get; set; }
+создается 1 таблица
+при получении Phone из бд вернутся и Phone и Smartphone
+
+если добавить так
+[Table("Smartphones")]
+public class Smartphone : Phone
+{
+то будут созданы 2 таблицы, в 1 все свойства базового во 2 все свойства производного
+
+для базового и наследника создаются 2 разные таблицы и в каждом свои свойства
+https://metanit.com/sharp/entityframework/7.3.php
+
+
+
+
+
+
+
+
+sql
+добавление своей функции sql
+https://metanit.com/sharp/entityframework/5.2.php
+
+Хранимые процедуры
+https://metanit.com/sharp/entityframework/5.3.php
+
+Fluent API и аннотации//переопределение того как enfr будет связывать таблицы ключи и тд(например изменить тип или название таблицы)
+https://metanit.com/sharp/entityframework/6.1.php
+https://metanit.com/sharp/entityframework/6.2.php
+
+
+#выполнение #sql скрипта  #ExecuteSqlCommand #SqlQuery
+db.Database.ExecuteSqlCommand("");
+var comps = db.Database.SqlQuery<Company>("SELECT * FROM Companies");
+возвращает количество затронутых строк
+int numberOfRowInserted = db.Database.ExecuteSqlCommand("INSERT INTO Companies (Name) VALUES ('HTC')");
+получить строку подключения
+db.Database.Connection.ConnectionString
+
+
+
+
+выполнение любого( создание каталога, индекса и тд ) #tsql скрипта из файла
+#full #text #search   #fulltextsearch #SqlConnection #ExecuteNonQuery ExecuteQuery #Query
+ var connection = new SqlConnection();
+            connection.ConnectionString = "connection string";
+            connection.Open();
+                string script = File.ReadAllText(HostingEnvironment.MapPath($"~/tsqlscripts/file_name.txt"));
+                
+                using (var command = new SqlCommand(script, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+
+
+
+
+получить данные из бд без классов и тдтд
+
+class DbManager
+    {
+        SqlConnection connection;
+        SqlCommand command;
+
+        public DbManager()
+        {
+            connection = new SqlConnection();
+            connection.ConnectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\SOFI.mdf;Integrated Security=True";
+            command = new SqlCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.Text;
+        } // constructor
+
+        public bool GetUsersData(ref string lastname, ref string firstname, ref string age)
+        {
+            bool returnvalue = false;
+            try
+            {
+                command.CommandText = "select * from ActionPros where firstname=@firstname and lastname=@lastname";
+               // command.Parameters.Add("firstname", SqlDbType.VarChar).Value = firstname;
+                //command.Parameters.Add("lastname", SqlDbType.VarChar).Value = lastname;
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+
+                        lastname= reader["actionId"].ToString();
+                        firstname = reader["prosId"].ToString();
+                        // age = reader.GetString(3);
+
+
+                    }
+                }
+                returnvalue = true;
+            }
+            catch
+            { }
+            finally
+            {
+                connection.Close();
+            }
+            return returnvalue;
+
+        }
+
+    }
+}
+
+
+
+получаем данные
+DbManager db = new DbManager();
+
+                bool status = db.GetUsersData(ref lastname, ref firstname, ref age);
+
+
+
+
+
+выполнение tsql скрипта ( создание каталога, индекса и тд ) из файла или из строки
+
+ /// <summary>
+        /// выполнение tsql запроса который ничего не возвращает
+        /// </summary>
+        /// <param name="query - будет использоваться только если command_==null"></param>
+        /// <param name="command_ - если не null то не закрывается"></param>
+        public static void ExecuteNonQuery(string query, SqlCommand command_ = null)
+        {
+            var command = command_;
+            if (command_ == null)
+            {
+                var connection = new SqlConnection() { ConnectionString = Constants.sql_0 };
+                connection.Open();
+                command = new SqlCommand(query, connection);
+
+            }
+            command.ExecuteNonQuery();
+
+            if (command_ == null)
+            {
+                command.Connection.Close();
+                command.Dispose();
+            }
+            
+        }
+
+            
+
+
+
+выполнение tsql скрипта ( выборка данных) из файла или из строки, метод возвращает данные
+
+/// <summary>
+        /// выполнение tsql запроса(например выборка данных) который возвращает данные. при command_-null - откроет новое подключение
+        /// </summary>
+        /// <param name="query - будет использоваться только если command_==null"></param>
+        /// <param name="command_ - если не null то не закрывается"></param>
+        /// <param name="props - список свойств"></param>
+        /// <returns></returns>
+        public static List<Dictionary<string, object>> ExecuteQuery(string query, SqlCommand command_, params string[] props)
+        {
+            List<Dictionary<string, object>> res = new List<Dictionary<string, object>>();
+
+            var command = command_;
+            if (command_ == null)
+            {
+                var connection = new SqlConnection() { ConnectionString = Constants.sql_0 };
+                connection.Open();
+                command = new SqlCommand(query, connection) { CommandType = CommandType.Text };
+
+            }
+
+            using (SqlDataReader reader = command.ExecuteReader())
+                if (reader.HasRows)
+                    while (reader.Read())
+                    {
+                        Dictionary<string, object> dict = new Dictionary<string, object>();
+                        foreach (var i in props)
+                            dict.Add(i, reader[i]);
+                        res.Add(dict);
+                    }
+            if (command_ == null)
+            {
+                command.Connection.Close();
+                command.Dispose();
+            }
+
+            return res;
+        }
+//получаем данные, вызов функции
+var ldr=DataBase.DataBase.ExecuteQuery(q, "keyphrase");
+            foreach (var i in ldr)//список всех выбранных строк
+                res += i["keyphrase"].ToString()+" ";
+
+            return res.Trim();
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Инициализация #базы #данных #seed  #ef #bd #entity #framework
+
+#CreateDatabaseIfNotExists: инициализатор, используемый по умолчанию. Он не удаляет автоматчески базу данных и данные, а в случае изменения структуры моделей и контекста данных выбрасывает исключение.
+
+#DropCreateDatabaseIfModelChanges: данный инициализатор проверяет на соответствие моделям определения таблиц в базе данных. И если модели не соответствуют определению таблиц, то база данные пересоздается
+
+#DropCreateDatabaseAlways: этот инициализатор будет всегда пересоздавать базу данных
+
+
+при старте
+https://metanit.com/sharp/entityframework/3.9.php
+
+class AppDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+{
+    protected override void Seed(ApplicationDbContext db)//название котекста
+    {
+//доп инфа по ролям и созданию пользователей по тегу #roles
+
+db.Phones.Add();
+        db.SaveChanges();
+
+base.Seed(db);//context
+    }
+}
+
+Объявление
+так:
+добавить в класс контекста (статический конструктор)
+//class ApplicationDbContext : DbContext  или так может быть объявлен public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+//{
+static ApplicationDbContext()
+    {
+        Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+    }
+или так
+
+в файл global.asax
+ public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+
+AppDbInitializer  объявить в папке  Models->DataBase
+
+
+
+
+#roles  #seed
+
+к методу [Authorize(Roles="admin")] [Authorize]
+
+в AppDbInitializer->seed
+
+using Microsoft.AspNet.Identity;//!!!!!!!!!!!!!
+
+
+
+var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+ var role1 = new IdentityRole { Name = "admin" };
+roleManager.Create(role1);
+//создание юзера пользователя
+var admin = new ApplicationUser { Email = "admin@mail.ru", UserName = "admin@mail.ru", Name="zsuz",Surname="zsuzSUR",Birthday=DateTime.Now };
+            string password = "Admin1!";
+            var result = userManager.Create(admin, password);
+// если создание пользователя прошло успешно
+            if (result.Succeeded)
+            {
+                // добавляем для пользователя роль
+                userManager.AddToRole(admin.Id, role1.Name);
+	}
+
+
+для добавления роли при регистрации
+accountController
+public async Task<ActionResult> Register(RegisterViewModel model){
+// после этой строки await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+await UserManager.AddToRoleAsync(user.Id, "user");
+
+
+
+
+#roles
+ ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                            .GetUserManager<ApplicationUserManager>();
+IList<string> roles=userManager.GetRoles(user.Id);
+//еще вариант возвращает для зарегистрированного пользователя
+System.Web.Security.Roles.GetRolesForUser();//есть перегрузки для поиска по имени
+//вернет id ролей(сложный объект)
+using(var db=)
+this.Roles;
+db.Roles.where(=>);
+
+//можно вот так
+RolePrincipal r = (RolePrincipal)User;   rolesArray = r.GetRoles();
+
+
+
+//проверить принадлежит ли пользователь к роли
+ System.Web.HttpContext.Current.User.IsInRole("role");
+//если нужно закинуть контекст в метод то по такому типу данных "System.Web.HttpContextBase"
+
+
+
+
+
+
+#check_id  #UserName #Current #FindById
+
+
+string userName = Membership.GetUser(userId).UserName;
+
+HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(ID).UserName;
+
+
+
+
+
+
+
+
+
+сформировать классы по базе данных
+создать класс "linq to sql classes"
+в его конструктор просто перетаскивать из бд таблицы
+
+
+#ef #entity framework
+#mdf #bak #ssms
+создать mdf из bak файла
+по базе данных в microsoft SQL server management studio       задачи->восстановить-> там посоздавать бд   и потом правой кнопкой мыши по ней создать скрипт->использую create там будут пути куда создались файлы будет что то типа
+C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\SOFI.mdf
+
+
+#SQL #server
+расположение server и способ его включить если выключился
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft SQL Server 2017 ->Средства настройки->Диспетчер конфигурации SQL Server 2017
+
+//TODO где то уже есть инфа про строку подключения но другая, надо перетащить сюда
+для формирования #connection #string  #connectionstring
+@"Data Source=.\SQLEXPRESS01;AttachDbFilename=|DataDirectory|\PhysicalEffects.mdf;Integrated Security=True"
+Data Source- ИМЯСЕРВЕРА\ИМЯИНСТАНСА
+можно просто через local задать --  (LocalDb)\MSSQLLocalDB    -- имя можно узнать в cmd -comand---- sqllocaldb i
+можно явно задать .\SQLEXPRESS01  ---  можно узнать какие доступны в  поиск->services ->найти sql server и то что в скобках можно пробовать использовать
+
+#версии #версия #version sql server 
+https://sqlserverbuilds.blogspot.com/2014/01/sql-server-internal-database-versions.html?m=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ #block #db #ef //#TODO
+блокировка записи бд для редактирования и удаления  https://metanit.com/sharp/entityframework/3.10.php
+
+#транзакции #tranzaction #transaction
+
+using(UserContext db = new UserContext())
+{
+using (var transaction = db.Database.BeginTransaction())
+    {
+try
+        {
+            
+            db.SaveChanges();
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+        }
+
+}
+}
+
+
+
+
+
+
+
+
+
+
+миграция https://metanit.com/sharp/entityframework/3.12.php
+
+
+
+репозитории 
+https://metanit.com/sharp/entityframework/3.13.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
