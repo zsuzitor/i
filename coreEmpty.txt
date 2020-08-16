@@ -59,7 +59,7 @@ services.AddIdentity<ApplicationUser, IdentityRole>()
 
 
 в папку Data закинуть класс
-public class ApplicationDbContext:DbContext//: IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext:DbContext//: IdentityDbContext<ApplicationUser> //лучше выделить еще интерфейс что бы модели уже принимали его в качестве параметра
     {
         public DbSet<Article> Articles { get; set; }
 
@@ -67,7 +67,7 @@ public class ApplicationDbContext:DbContext//: IdentityDbContext<ApplicationUser
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
                : base(options)
         {
-            Database.EnsureCreated();//создаст БД если ее нет
+            //Database.EnsureCreated();//создаст БД если ее нет, это вроде лучше не юзать
         }
 
 

@@ -6,6 +6,8 @@
 импорт из файла ...const ADD_ITEM="";
 import { ADD_ITEM, REMOVE_ITEM } from './actions'
 
+и добавить  export default class MainHeader 
+
 
 все построено на состо€ни€ приложени€, состо€ние может быть изменено только при выполнении действи€
 ≈динственное требование к объекту действи€ Ч это наличие свойства type, значением которого обычно €вл€етс€ строка.
@@ -168,8 +170,6 @@ class User extends React.Component {
         </div>;
     }
 }
-
-
 
 export default User;
 
@@ -361,7 +361,17 @@ https://metanit.com/web/react/4.8.php
 var React = require('react');
 //подключаем другие компоненты
 var SearchPlugin = require('./SearchPlugin.jsx');
-но вот так вроде лучше import { ADD_ITEM, REMOVE_ITEM } from './actions'
+еще варик
+//хз зачем такие скобки, с ними на реботает
+import { ADD_ITEM, REMOVE_ITEM } from './actions'
+надо так
+import  React  from 'react'
+import  MainUserMenu  from './HeaderUserMenu.jsx'
+
+и добавить  export default class MainHeader 
+
+после компонента надо жкспортнуть его
+module.exports = Name_Component;
 
 в файле в котором непосредственно груз€тс€ компоненты ReactDOM.render(
 надо подключить var ReactDOM = require('react-dom'); перед react

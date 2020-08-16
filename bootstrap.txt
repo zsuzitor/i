@@ -76,7 +76,7 @@ white-50- серый
 #отображение
 
 .d-{value} дл€ xs
-.d-{breakpoint}-{value} дл€ sm, md, lg и xl.
+.d-{breakpoint}-{value} где breakpoint --> sm, md, lg и xl.
 
 √де value Ц это одно из:
 none
@@ -93,6 +93,13 @@ inline-flex
 <div class="d-inline p-2 bg-primary text-white">d-inline</div>
 
 
+
+
+что бы убрать #отступы #padding
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
 
 
 
