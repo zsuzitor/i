@@ -28,6 +28,11 @@ git stash drop
 
 
 
+#gitignore
+#ignore
+https://www.toptal.com/developers/gitignore
+
+
 
 
 #conflicts #rebase

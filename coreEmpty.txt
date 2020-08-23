@@ -58,6 +58,11 @@ services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 
+//если core 3+ то
+services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Latest);
+
+
+
 в папку Data закинуть класс
 public class ApplicationDbContext:DbContext//: IdentityDbContext<ApplicationUser> //лучше выделить еще интерфейс что бы модели уже принимали его в качестве параметра
     {
