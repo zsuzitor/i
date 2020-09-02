@@ -1,0 +1,33 @@
+
+If anyone is still wondering, to choose a specific class to generate an xsd, type: xsd.exe C:\Dev\Project1\Bin\Debug\library.dll /t:<full_namespace>.<classNameWithout .cs> This should produce a schema from the code. You can specify the location of the output using the /out:<location> command.
+
+C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\xsd.exe C:\Projects\VSK\main\Features\Integration\AdapterManagerService\Adapters\VSKCasco.Integration.Adapter.SAS.dll  /t:VSKCasco.Integration.Adapter.SAS.BO.ServiceEntity.SasContract /out:C:\Users\Avdosev\Desktop\b2b\tickets\ЮЛ\xsd
+
+
+===
+вариант получше на c#
+https://urldefense.com/v3/__https://docs.microsoft.com/ru-ru/dotnet/api/system.runtime.serialization.xsddatacontractimporter?view=netframework-4.8__;!!GF_29dbcQIUBPA!g617M9vO3nJx1zf57arcTWTzIv9MInwGQ1wcOm-rITPFSLQ3ZMOiPJk0IlSLHCMF41DEkQ$ [docs[.]microsoft[.]com]
+https://urldefense.com/v3/__https://docs.microsoft.com/en-us/dotnet/standard/data/xml/reading-and-writing-xml-schemas?redirectedfrom=MSDN__;!!GF_29dbcQIUBPA!g617M9vO3nJx1zf57arcTWTzIv9MInwGQ1wcOm-rITPFSLQ3ZMOiPJk0IlSLHCOHMK4FRQ$ [docs[.]microsoft[.]com]
+
+XsdDataContractExporter ex = new XsdDataContractExporter();
+            ex.Export(typeof(SasContract));
+            var sch = ex.Schemas;
+foreach (var schi in sch.Schemas())
+            {
+                var myschema = (XmlSchema)schi;
+                using (FileStream file = new FileStream($@"C:\new{i++}.xsd", FileMode.Create, FileAccess.ReadWrite))
+                {
+                    using (XmlTextWriter xwriter = new XmlTextWriter(file, new UTF8Encoding()))
+                    {
+                        xwriter.Formatting = Formatting.Indented;
+                        myschema.Write(xwriter);
+                    }
+                }
+                    
+            }
+
+что бы собрать файл c# по объекту xmlSchemaSet уже можно так(код методов есть по ссылкам)
+ CodeCompileUnit ccu = Import(sch);
+            CompileCode(ccu, $@"C:\test_cs.cs");
+
+===

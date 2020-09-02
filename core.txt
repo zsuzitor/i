@@ -3037,6 +3037,7 @@ using (ApplicationContext db = new ApplicationContext(options))
 
 #migration #миграция
 //консоль диспетчера пакетов
+добавить в проект Microsoft.EntityFrameworkCore.Tools
 Add-Migration уникальное_название_миграции
 //выполняем
 Update-Database
