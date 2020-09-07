@@ -16,3 +16,44 @@ var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(HomeController).Assembly);
             builder.Register(x1 => LogManager.GetLogger("ForControllers")).As<ILogger>();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+
+
+
+
+
+
+///
+
+
+nuget->NLog.Web.AspNetCore
+nlog.config
+в конфиге
+<targets>
+    <target xsi:type="File" name="fileTarget" filename="..\logs\log.txt"></target>
+  </targets>
+ 
+  <rules>
+    <logger name="*" minlevel="Trace" writeTo="fileTarget" />
+  </rules>
+
+в program.cs
+вот так
+.UseStartup<Startup>().ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                }).UseNLog();
+
+
+зависимость вот так 
+using Microsoft.Extensions.Logging;
+ILogger<AuthenticateController> logger
+этот обобщенный объект засовывается в необобщенный!!!
+ILogger _logger = logger;
+
+
+
+
+
+
+
