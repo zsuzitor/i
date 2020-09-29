@@ -36,6 +36,9 @@ nlog.config
     <logger name="*" minlevel="Trace" writeTo="fileTarget" />
   </rules>
 
+тот minlvl который указывается тут затирается если есть еще настройки в appsettings.Development.json или appsettings.json
+
+
 в program.cs
 вот так
 .UseStartup<Startup>().ConfigureLogging(logging =>

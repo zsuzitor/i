@@ -15,7 +15,7 @@ git diff ветка сравнить чем отличаются по строкам
 
 
 при начале работы
-git config --global user.name "John Doe"
+git config --global user.name "zsuzitor"
 git config --global user.email johndoe@example.com
 
 узнать логин
