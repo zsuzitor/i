@@ -12,8 +12,6 @@ ol - li
 
 
 
-#padding #margin #отступы
-https://bootstrap-4.ru/docs/4.3.1/utilities/spacing/
 
 
 
@@ -103,13 +101,21 @@ inline-flex
 
 
 
+#padding #margin #отступы
+https://bootstrap-4.ru/docs/4.3.1/utilities/spacing/
+#center #centre
+#offset-3
+<div className='row'>
+            <div className='col-6 offset-3' style={{align:"center"}}>
+для бутстрап 3 ->col-md-offset-3
+для 3-> offset-3 or mx-auto to center a col-md-6
 
 
 
 #start #layaut
 //то что должно быть в мастре странице(или во всех)
 
-//этот кусок фиксит инпуты на ранних версих андройда
+//этот кусок фиксит инпуты на ранних версих андройдах
 <script>
 $(function () {
   var nua = navigator.userAgent

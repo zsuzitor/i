@@ -946,8 +946,11 @@ public static class SessionExtensions
 
 
 
+#JsonSerializer #json
+using System.Text.Json;
+JsonSerializer.Serialize(obj);
 
-
+[JsonPropertyName("access_token")]
 
 
 
@@ -3037,6 +3040,7 @@ using (ApplicationContext db = new ApplicationContext(options))
 
 #migration #миграция
 //консоль диспетчера пакетов
+добавить в проект Microsoft.EntityFrameworkCore.Tools
 Add-Migration уникальное_название_миграции
 //выполняем
 Update-Database
@@ -6447,7 +6451,7 @@ var viewResult = Assert.IsType<ViewResult>(result);
 
 
 
-#Moq
+#Moq #mock
 Moq предназначен для имитации объектов или для создания так называемых фейковых объектов.
 добавить через nuget
 не зависимо тестируем ли бы post || get метод, все пишется по 1 алгоритму
@@ -6495,8 +6499,8 @@ Assert.Equal("Index", redirectToActionResult.ActionName);
 
 
 
-
-если надо имитировать БД то #UseInMemoryDatabase #InMemoryDatabase
+#test #moq #mock #db #ef #core
+если надо #имитировать #БД то #UseInMemoryDatabase #InMemoryDatabase
 
 var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                   .UseInMemoryDatabase(Guid.NewGuid().ToString())
