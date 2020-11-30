@@ -1,0 +1,34 @@
+
+создаем папки. например
+proj/src/components/
+proj/dist/        <-- папка выходных файлов
+
+в proj: npm init
+ИЛИ можно скопировать файл package.json
+
+добавить в раздел devDependencies
+npm install --save-dev lib_name_1 lib_name_2 lib_name_3
+добавить глобально
+npm install -g lib_name_1 lib_name_2 lib_name_3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

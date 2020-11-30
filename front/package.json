@@ -1,0 +1,11 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "description": "asd",
+  "main": "./dist/bundle.js",
+  "scripts": {
+    "script_name": "команды которые запустятся в консоли"
+  },
+  "author": "zsuzitor",
+  "license": "ISC"
+}

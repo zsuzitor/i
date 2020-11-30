@@ -1,0 +1,14 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es5",//тест коммента
+        "removeComments": true,
+        "outDir": "js",
+        "sourceMap": true,
+        "outFile": "js/main.js"
+    },
+    "exclude":[
+        "wwwroot",
+        "node_modules"
+    ]
+}
