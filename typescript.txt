@@ -48,6 +48,12 @@ let colors: Array<string> = ["Tom", "Bob", "Alice"];
 colors[0]
 
 
+#join
+//создать строку с пробелами длинной 10 символов
+ Array(10).join(" ");
+
+
+
 
 
 
@@ -85,6 +91,23 @@ var someArray: any[] = [ 24, "Tom", false];
 #object
 let person = { name: "Tom", age: 23 };
 person = { name: "Alice" };//получим ошибку тк другой тип
+
+Но переменные типа Object позволяют вам только присваивать им любое значение. 
+Вы не можете вызывать у них необъявленные методы, даже те, которые могут существовать на этапе исполнения программы
+
+let prettySure: Object = 4;
+
+
+
+#void
+function warnUser(): void {
+    alert("This is my warning message");
+}
+//
+let unusable: void = undefined;//или =null и все
+
+
+
 
 
 
@@ -127,6 +150,29 @@ let strLength: number = (someAnyValue as string).length;
 //#instanceof
 let alice: Employee = new Employee("Microsoft", "Alice");
 if (alice instanceof User) {
+
+
+/
+function padLeft(value: string, padding: string | number)
+function padLeft(value: string, padding: any) {
+//#typeof
+    if (typeof padding === "number") {//"string"
+        return Array(padding + 1).join(" ") + value;
+    }
+    
+}
+
+
+//???????
+вот такой функцией можно проверить соответствует ли объект классу
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (<fish>pet).swim !== undefined;
+}
+function isNumber(x: any): x is number {
+    return typeof x === "number";
+}
+
+
 
 
 
@@ -342,6 +388,47 @@ interface ICar extends IMovable {
 если функция принимает объект типа интерфейса(мб так не только с интерфейсом)
 то мы можем туда передать просто объект у которого ровно теже свойства, также можем передать любой другой объект любого класса,
 если его свойства ничем не отличаются(количество\название и тд)
+
+
+
+
+
+
+interface Bird {
+    fly();
+    layEggs();
+}
+ 
+interface Fish {
+    swim();
+    layEggs();
+getPaddingString(): string
+}
+ 
+function getSmallPet(): Fish | Bird {
+    // ...
+}
+ 
+let pet = getSmallPet();
+pet.layEggs(); // ок
+pet.swim();    // ошибка
+
+
+
+
+//вот так приведет к ошибке
+pet.swim
+//но можно вот так
+if ((<fish>pet).swim) 
+    (<fish>pet).swim();
+
+
+
+
+
+
+
+
 
 
 
@@ -728,6 +815,52 @@ class User {}
 
 
 
+
+
+
+
+
+
+псевдоним типа 
+type Name = string;
+type NameResolver = () => string;
+
+
+
+
+
+#throw 
+throw new Error(`Ожидал строку или число, а получил '${padding}'.`);
+
+
+
+
+
+
+
+
+
+
+
+
 //декоратор метода
 #TODO и все что дальше про декораторы
 https://metanit.com/web/typescript/6.2.php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
