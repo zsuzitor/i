@@ -751,6 +751,9 @@ js библиотеки тоже надо декларировать
 
 и в файле где нужна библиотека подключить ее через /// <reference path="@types/jquery/index.d.ts" />
 
+если в проекте установлен npm install -g typings то
+typings install --save dt~react -- скачает файлы react
+
 
 
 

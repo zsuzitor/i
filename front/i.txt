@@ -16,6 +16,10 @@ npm install -g lib_name_1 lib_name_2 lib_name_3
 
 
 
+npm link typescript -- используем глобальную версию typescript
+npm install typescript - если надо использовать локальную версию вместо глобальной
+
+
 
 
 
