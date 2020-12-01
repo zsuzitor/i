@@ -5,7 +5,7 @@
         "removeComments": true,
         "outDir": "js",
         "sourceMap": true,
-        "outFile": "js/main.js"
+        "outFile": "./dist/main.js"
     },
     "exclude":[
         "wwwroot",

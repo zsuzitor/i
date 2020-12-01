@@ -1,0 +1,11 @@
+{
+  "name": "proj",
+  "version": "0.0.1",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc"
+  },
+  "author": "zsuzitor",
+  "license": "ISC"
+}

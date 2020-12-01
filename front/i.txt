@@ -11,7 +11,8 @@ npm install --save-dev lib_name_1 lib_name_2 lib_name_3
 добавить глобально
 npm install -g lib_name_1 lib_name_2 lib_name_3
 
-
+то что в package.json ->scripts
+запускается через npm run script_name
 
 
 
