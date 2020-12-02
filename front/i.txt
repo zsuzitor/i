@@ -20,7 +20,7 @@ npm link typescript -- используем глобальную версию typescript
 npm install typescript - если надо использовать локальную версию вместо глобальной
 
 
-
+npm rm {тут тоже самое что при install} - удаляет зависимость
 
 
 
