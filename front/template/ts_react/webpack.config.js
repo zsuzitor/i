@@ -1,7 +1,7 @@
 module.exports = {
     entry: "./src/index.tsx",
     output: {
-        filename: "./dist/bundle.js",
+        filename: "./bundle.js",
     },
 
     // Включить карты кода для отладки вывода webpack

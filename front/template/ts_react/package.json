@@ -4,7 +4,7 @@
   "description": "ts react template \n http://typescript-lang.ru/docs/tutorials/React%20&%20Webpack.html  \n google->ts react webpack",
   "main": "./dist/bundle.js",
   "scripts": {
-    "test": "compile"
+    "buil": "webpack"
   },
   "author": "zsuzitor",
   "license": "ISC",
