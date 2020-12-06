@@ -731,7 +731,7 @@ let iphone: devPhone = new dev.Phone("iPhone X");
 
 
 
-#declarate #declare #декларативный файл
+#declarate #declare #декларативный файл #types #typing
 //аналог .h файла, допустим если хотим из ts сослатьс€ на js переменную котора€ не пон€тно где лежит
 //расширение всегда такое .d.ts
 создать файл globals.d.ts
@@ -753,6 +753,11 @@ js библиотеки тоже надо декларировать
 
 если в проекте установлен npm install -g typings то
 typings install --save dt~react -- скачает файлы react
+Ќќ он именно положит их в репо в proj\typings\modules
+можно этого избежать и засунуть их в node_modules, также в таком случае не об€зательно typings устанавливать вообще(вроде)
+ дл€ этого надо использовать команду 
+npm install --save @types/react
+
 
 
 
