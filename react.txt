@@ -416,6 +416,14 @@ https://metanit.com/web/react/4.8.php
 
 #route #url #router #switch #path #маршруты #маршрутизация 
 
+важно:
+эта штука работает только на серве, для того что бы потестить локально нужно
+установить как dev зависимость lite-server И добавить скрипт для запуска в package.json
+"scripts": {
+    "start": "lite-server"
+  },
+
+
  <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
