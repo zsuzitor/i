@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "pre-first-run": "npm install",
+    "concat-hierarchy": "concat-glob-cli -f ./**/*.js -o bundle.js",
+    "concat-mime": "node concat_js.js"
+  },
+  "dependencies": {
+    "concat": "^1.0.3",
+    "concat-glob-cli": "^0.1.0",
+    "minify": "^6.0.1"
+  }
+}
