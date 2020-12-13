@@ -3,7 +3,7 @@ http://typescript-lang.ru/docs/tutorials/React%20&%20Webpack.html
 
 ===билд===
 npm install -g typescript typings webpack
----typings - это react типы на ts
+---typings - это react типы на ts, их лучше устанавливать в node_modules - инфа в info файле по тс
 npm link typescript -- используем глобальную версию typescript
 npm run buil -- билдим
 

@@ -731,7 +731,7 @@ let iphone: devPhone = new dev.Phone("iPhone X");
 
 
 
-#declarate #declare #декларативный файл #types #typing
+#declarate #declare #декларативный файл #types #typing #global
 //аналог .h файла, допустим если хотим из ts сослатьс€ на js переменную котора€ не пон€тно где лежит
 //расширение всегда такое .d.ts
 создать файл globals.d.ts
@@ -740,6 +740,10 @@ declare var globalVar: string;//это внешн€€ переменна€ котора€ нам нужна
 declare function display(): void;//внешн€€ функци€
 // и в файле где она нужно подключаем этот декларативный файл вот так(с ///)
 /// <reference path="globals.d.ts" />
+
+¬ј∆Ќќ: это не объ€вл€ет переменную, это только указывает ее тип и то что она как бы уже должна существовать ƒЋя typescript
+что бы ее объ€вить надо сделать это €вно в коде который выполнитс€(кэп)
+например window.var_name = "anything"
 
 
 
