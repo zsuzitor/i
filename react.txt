@@ -484,6 +484,17 @@ class Products extends React.Component{
 }
 
 
+props прокидывать вот так
+<Route
+  path='/dashboard'
+  render={(props) => (
+    <Dashboard {...props} isAuthed={true} />
+  )}
+/>
+
+
+
+
 
 
 #link #href #a #to
