@@ -111,6 +111,11 @@ https://bootstrap-4.ru/docs/4.3.1/utilities/spacing/
 для 3-> offset-3 or mx-auto to center a col-md-6
 
 
+по правому краю зная фиксированную ширину
+left: 100%;
+    margin-left: -30px;
+
+
 
 #start #layaut
 //то что должно быть в мастре странице(или во всех)
