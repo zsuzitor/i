@@ -758,6 +758,7 @@ C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\SOFI.mdf
 #SQL #server
 расположение server и способ его включить если выключился
 C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft SQL Server 2017 ->Средства настройки->Диспетчер конфигурации SQL Server 2017
+C:\Windows\SysWOW64\mmc.exe /32 C:\Windows\SysWOW64\SQLServerManager14.msc
 
 //TODO где то уже есть инфа про строку подключения но другая, надо перетащить сюда
 для формирования #connection #string  #connectionstring

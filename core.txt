@@ -6506,7 +6506,7 @@ var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                   .UseInMemoryDatabase(Guid.NewGuid().ToString())
                   .Options;
  var context = new ApplicationDbContext(options);//получаем обычный контекст, который уже можно передавать куда угодно  ипользоваться как обычным контекстом
-
+//докинуть using, закрытие using полностью его должно почистить
 
 
 
