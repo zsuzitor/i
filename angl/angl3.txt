@@ -1,10 +1,14 @@
 https://urldefense.com/v3/__https://puzzle-english.com/directory/1000-popular-words__;!!GF_29dbcQIUBPA!kGkycwXjKqloAKdFSL5h01X8c-V587vWuyusJYReLTflVeo0YsZPx7JGJ6_M0LXaMS2UDg$ [puzzle-english[.]com]
+
+
 sentence [  ] — предложение
 cause [ ] — причина
 through [  ] — через
-then [  ] — затем
+then [  ] — тогда\затем
+than - чем кроме
 cover - покрытие\крышка
 cross - пересекать\крест
+across - через
 carry - нести
 got - получать(прош вр)
 ease - легкость
@@ -13,6 +17,7 @@ above - над
 plain - простой
 plane - самолет\плоскость
 ever - когда либо
+even - даже
 though - хотя однако
 direct - прямой\направлять
 measure - мера\ измерять
@@ -28,6 +33,7 @@ shape - форма
 equate - приравнивать
 brought - привел
 heat - жара
+hat - шляпа
 tire - шина\утомлять
 distant - отдаленный
 paint - краска
@@ -74,6 +80,8 @@ edge - край
 soft - мягкий
 bright - яркий
 strange - странный
+strength - сила
+straight - прямо
 gone - ушедший
 trip - поездка
 receive - получать
@@ -94,14 +102,14 @@ flow - поток \ течь
 fair - ярмарка \ честный
 ear - ухо
 quite - довольно
+quiet - тишина
 case - случай
 scale - шкала \ зависеть?
 loud - громко
-straight - прямо
 665
+hiring - найм
 consonant - согласный (звук)
 cloud - облако
-quiet - тихо \ тихий
 tiny - крошечный
 vibe - атмосфера
 poor - бедный
@@ -144,6 +152,7 @@ imagine - представлять
 thus - таким образом
 gentle - нежный
 guess - предположение \ угадывать
+assumption - предположение \ допущение
 sharp - острый \ умный
 wash - мыть
 bat - летучая мышь
@@ -162,6 +171,7 @@ colony - колония
 tie - галстук
 allow - позволять
 arrive - прибывать \ приехать
+derive - вывести(формулу)
 shore - побережье
 division - деление \ отдел
 sheet - лист \ простынь
@@ -171,6 +181,7 @@ forget - забыть
 post - почта \ после
 glad- рад
 proper - правильный
+useful - полезный
 degree - степень(магистратура)
 populate - населять
 dear - дорогая
@@ -178,13 +189,14 @@ reply - ответ
 occur - происходить
 steam - пар
 liquid - жидкость
+solid - твердый
 violence - жестокость
 meant - mean - значил
 quotient - частное
 shell - ракушка
 neck - шея
 magnet - магнит
-treat - угощать
+treat - угощать \ удовольствие \ лечить
 especially - особенно
 afraid - испуганный
 huge - огромный
@@ -271,7 +283,7 @@ As far as I have been able to figure out - насколько я смог выяснить
 regards - с уважением
 either  - либо \ или \ любой
 hesitate - колебаться \ стесняться
-apparent - очевидно
+apparent - очевидный
 obviously - очевидно \ явно
 hard luck - невезение
 whereby  - согласно которому
@@ -303,3 +315,7 @@ judgment - суждение
 complicated - сложный
 familiar - знакомые \ привычные
 stale - несвежий
+
+supersede - заменить
+appoint - назначать
+suppress - подавлять
