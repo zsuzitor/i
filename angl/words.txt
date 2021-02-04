@@ -42,6 +42,11 @@ auxiliary
 adverb
 tenses - время
 going to visit - планы которые точно случатся
+come up with - придумать
+destination - пункт назначения
+instead
+advice - совет
+
 
 
 65-4
