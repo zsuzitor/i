@@ -1,0 +1,46 @@
+
+
+
+
+
+1-создать container registry
+там будет слева в меню quik start
+в access key есть логины и пароли(там потыкаться появятся)
+это как репозиторий для имейджей
+тут имеджи можно посмотреть в вкладке repositories
+
+2- создать app service
+уже при создании можно указать что потянем апу из пункта 1
+тут в deployment center-> settings - можно поставить галку "continues deployment"
+и тогда в п1 репе при загрузке нового имейджа он будет сюда ставиться
+на overview вкладке есть ссылки для доступа по фтп
+deployment credentials - настройки входа фтп
+рестарт апы должен по идеи спулить последнюю версию контейнера
+
+бд
+создать сервер
+создать к нему бд
+в сервере надо пошарить ip которые смогут к нему стучаться
+Firewalls and virtual network->add->"0.0.0.0" --- "255.255.255.255"
+надо еще где то тут создать пароль
+get connection string
+
+
+blob
+https://www.c-sharpcorner.com/article/upload-files-in-azure-blob-storage-using-asp-net-core/
+Create an Azure Storage Account
+select Storage V2 options
+get connection string
+
+
+
+
+
+
+
+
+
+
+
+
+
