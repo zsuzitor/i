@@ -14,10 +14,12 @@ circa - около приблизительно
 mainstay - опора
 mention - упоминание
 twofold - двоякий
+fold - складывать
 equally - одинаково
 numerous - многочисленные
 journey - поездка \ путешествие
 groundwork - фундамент
+ground - земля
 remainder - остаток
 chapter - глава
 survey - опрос
