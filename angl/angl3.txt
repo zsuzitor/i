@@ -208,7 +208,7 @@ rope - веревка
 slip - скользить
 smell - запах
 valley - долина
-particular - особый\частный(случай)
+particular - конкретный
 deal - сделка \ часть
 term - срок \ семестр \ термин
 opposite - напротив

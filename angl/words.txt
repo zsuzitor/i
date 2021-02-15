@@ -1,4 +1,5 @@
-earth - земля
+
+earth - земля
 cigarette - сигарета
 promise - обещание
 apologise - принести извинения
@@ -63,14 +64,47 @@ inheritance - наследство
 comprehensive - всеобъемлющий \ всесторонний
 simplified - упрощенный
 examined - исследовать
+
+come up with - придумать
+destination - пункт назначения
+instead - вместо
+advice - совет
+meaning - смысл
+Conceivable - возможный
+Despair - отчаяние
+lack - отсутсвие \ недостаток
+belong - принадлежать
+beyond - за пределами
+be obsessed with - быть озабоченным чем-то - одержима
+seek - стремиться \ искать
+sick - больной
+illnesses - болезнь
+fulfilling - наполняющий
+studie - изучение
+Resilient - жизнерадостный
+belonging - принадлежать
+value - ценить может быть значение
+as well - обратно \ также
+purpose - цель
+Custodian - попечитель
+narrative - рассказ
+clarity - ясность
+to hold on to - держаться за
+friendship - дружба
+frequency - частота - дважды в неделю
+pillar -столб
+Renowned - признанный
+Resilient - жизнерадостный
+Intrinsically - в действительности
+Custodian - попечитель
+
+
 
 
 
 
 
 65-4
-
-
 
 
 
