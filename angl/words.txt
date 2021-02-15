@@ -10,7 +10,7 @@ tell - сказать
 rise - подъем повышать
 liar - лжец
 formally - формально
-circa - около приблизительно
+circa - около \  приблизительно
 mainstay - опора
 mention - упоминание
 twofold - двоякий
@@ -32,16 +32,40 @@ fragile - хрупкий
 Despite - несмотря на
 countless - бесчисленное множество
 nowadays - настоящее время
-positive sentence - повествовательное
+declarative sentence - повествовательное предложение
 take place - проходить
 have a rest - отдыхать
 chill - отдыхать где то, бар и тд
 wake up\ get up - проснуться
 adjective - прилагательное
-auxiliary 
-adverb
-tenses - время
+auxiliary - вспомогательный
+adverb - наречие
+tenses - времена
+tense - напряженный
 going to visit - планы которые точно случатся
+Benefits - льгота
+intended - предназначен
+much more - гораздо более
+stage - этап
+rundown - краткое изложение
+courtesy - вежливо
+Interoperability - совместимость
+of course - конечно
+sure - конечно
+commingle - смешиваться
+interop - взаимодействие
+newer - новее
+never - никогда
+onward - вперед
+further - в дальнейшем
+Furthermore - более того
+inheritance - наследство
+comprehensive - всеобъемлющий \ всесторонний
+simplified - упрощенный
+examined - исследовать
+
+
+
 
 
 65-4
