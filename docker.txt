@@ -59,6 +59,25 @@ docker images
 docker rmi id_образа
 
 
+
+параметры в командной строке
+
+docker run:
+https://docs.docker.com/engine/reference/commandline/run/
+-p 8000:80 - мапим внешний порт 8000 с портом контейнера 80
+
+
+
+
+
+
+
+
+
+
+
+
+
 #error
 1:
 выключить докер

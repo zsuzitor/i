@@ -198,6 +198,8 @@ function Square(props) {
   );
 }
 
+<button onClick={() => sayHello('James')}>Greet</button>
+
 
 //как при функциональном объ€влении так и при обычном
 Hello.defaultProps = {name: "Tom", age: 22};//устанавливаем значени€ по умолчанию, #defaultProps
