@@ -29,13 +29,13 @@ explore - исследовать
 frequently - часто
 forbidden - запрещенный
 diverse - разнообразный
-plagued - измеченный
+plague - чума \  досаждать
 fragile - хрупкий
 Despite - несмотря на
 countless - бесчисленное множество
 nowadays - настоящее время
 declarative sentence - повествовательное предложение
-take place - проходить
+take place - происходить
 have a rest - отдыхать
 chill - отдыхать где то, бар и тд
 wake up\ get up - проснуться
@@ -112,7 +112,35 @@ rest assured - быть уверенным
 Conversely - наоборот
 distributed - распределен
 forth - перед
+as ... as : as well as usually - также как
+as ... as
+revise - пересматривать \ исправлять
+singular - единственное число
+plural - множественное число
+pupil - ученик
+seldom - редко
+kindness - доброта
+bought - купить
+seat - сиденье \ место
+against - против
+habits - привычки
+at least - по крайней мере
+curious - любопытный
+experience - опыт \ испытывать
+satisfaction - удовлетворение
+enjoy - наслаждаться \ радоваться
+reminder - напоминание
+happier - счастливее
+first of all - во первых
+celebration -празднование
+another - еще 1
+who - всегда 1 человек
+proposed(to her) - сделать предложение
+engaged - помолвка
+met - встретелись прош время
 
+him - какого то конкретного человека, that person - лучше
+crowd - крауд - толпа
 
 
 
