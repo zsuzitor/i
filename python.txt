@@ -1,13 +1,13 @@
-�������� �������������� ���� peep8 http://pep8online.com/checkresult
+проверка форматировани¤ кода peep8 http://pep8online.com/checkresult
 
 python -m pip install --upgrade pip
 
 
-��������� ������
-�������� python ��� �� �� ���� unknown comand
-cmd python -m pip install --upgrade (��������)
-� �������:
-���� �� pip ������� pip3.exe install (��������)
+установка пакета
+добавить python что бы не было unknown comand
+cmd python -m pip install --upgrade (название)
+в пороект:
+путь до pip проекта pip3.exe install (название)
 C:\Users\zsuz\PycharmProjects\lab3_morph\venv\Scripts\pip3.exe install
 
 C:\Users\zsuz\PycharmProjects
@@ -17,7 +17,7 @@ C:\Users\zsuz\PycharmProjects
 path pip  C:\Users\zsuz\AppData\Local\pip
 python C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\python.exe
 
-ctrl+alt+s  ��������� ��������������
+ctrl+alt+s  настройка интерпритатора
 
 sturtup
 C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\Lib\site-packages\boto\pyami
@@ -34,6 +34,102 @@ engine.Execute("print 'hello, world'");
 engine.ExecuteFile("HelloWorld.py");
 
 
+
+------------------------------------------------------------------------------
+
+кака¤ то стара¤ инфа
+
+
+C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32
+
+
+Path--
+C:\Users\zsuz\AppData\Local\Programs\Python\Python38-32
+C:\Users\zsuz\AppData\Local\Programs\Python\Python38-32\Scripts
+
+PYTHONHOME--
+C:\Users\zsuz\AppData\Local\Programs\Python\Python38-32
+C:\Users\zsuz\AppData\Local\Programs\Python\Python38-32\Lib
+
+PYTHONPATH--
+C:\Users\zsuz\AppData\Local\Programs\Python\Python38-32\DLLs
+C:\Users\zsuz\AppData\Local\Programs\Python\Python38-32\Lib
+C:\Users\zsuz\AppData\Local\Programs\Python\Python38-32\site-packages
+
+
+
+установка пакета в проект
+C:\Users\zsuz\PycharmProjects\bd2_im_test_1\venv\Scripts\pip3.exe install numpy
+
+global
+C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\Scripts\pip3.exe install Django
+
+
+создание проекта
+1)добавление интерпретатора
+2)кнопка запуска не работает
+
+
+
+кнопка запуска не работает 
+ctrl+shift+f10 сделает файл текущим и все запуститс¤
+
+
+добавление интерпретатора
+https://www.jetbrains.com/help/pycharm/configuring-python-interpreter.html
+Ctrl+Alt+S ->слева Project:'название проекта'
+
+
+
+#pip #пип #pip3
+надо учеть что есть глобальный пип и локальный(дл¤ проекта) если обновить глобальный то в проектах он не обновитс¤
+дл¤ обновлени¤ пипа перейти в 
+C:\Users\zsuz\AppData\Local\Programs\Python\Python38\Lib\site-packages
+ввести "python -m pip install --upgrade pip"
+
+---переустановка pip
+python -m pip install -U --force-reinstall pip
+---еще вариант
+https://stackoverflow.com/questions/52460484/python-3-5-pip-9-attributeerror-nonetype-object-has-no-attribute-bytes
+---еще вариант
+найти файл "easy_install" может быть в локальном проекте или в глобал и ввести
+easy_install.exe -U pip
+
+
+
+C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\Scripts\pip3.exe install virtualenv
+
+
+создание виртуальной среды
+перейте в папку куда создавать
+C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\Scripts\virtualenv.exe hello
+дл¤ работы с ней ее надо активировать hello\Scripts\activate.bat
+
+
+
+
+
+можно сохранить установленные библиотеки и снова их установить
+py -3.5 -m pip freeze >requirements.txt
+py -3.6 -m pip install -r requirements.txt
+
+
+
+
+django
+python manage.py runserver
+
+---
+
+C:\Users\zsuz\AppData\Local\Programs\Python\Python36-32\Scripts\django-admin.py startproject hello
+
+
+
+реализовать 
+веб-сервис, выполн¤ющий построение прогноза на основе значений вли¤ющих факторов
+факторов и исторических данных двум¤ методами
+
+¬ ходе данной работы был реализован 
 
 
 

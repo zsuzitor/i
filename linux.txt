@@ -1,0 +1,48 @@
+zsuz1Z пароль
+
+установка http://startubuntu.ru/?p=104328
+http://help.ubuntu.ru/wiki/%D0%BF%D0%B5%D1%80%D0%B5%D1%85%D0%BE%D0%B4%D0%B8%D0%BC_%D0%BD%D0%B0_ubuntu-linux_-_%D0%B8%D0%BD%D1%81%D1%82p%D1%83%D0%BA%D1%86%D0%B8%D1%8F_%D0%B4%D0%BB%D1%8F_%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F_windows
+
+
+Remove the installation medium вытащить флешку нажать enter
+
+
+
+
+не загружается
+Фикс линукса
+
+Не загружается Linux - Welcome to emergency mode
+http://hostadmina.ru/blog/linux/shell/ne-zagruzhaetsya-linux-welcome-to-emergency-mode.html
+
+
+Ошибка была в монтировании виндовых разделов.
+Помогло отключение быстрого запуска в windows:
+1. В поле поиска введите Электропитание и нажмите Ввод.
+2. Выбор, выберите действия кнопок питания.
+3. Щелкните изменение параметров, которые сейчас недоступны.
+4. Прокрутите вниз параметры завершения работы и снимите флажок "Включить быстрый запуск".
+5. Нажмите кнопку сохранить изменения.
+
+
+монтирование разделов http://help.ubuntu.ru/wiki/%D0%BC%D0%BE%D0%BD%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2
+testdisk https://www.youtube.com/watch?v=aZT0lvEz2AY
+
+
+
+
+
+
+Система по умолчанию. 
+http://tauweb.ru/ubuntu/f-a-q/67-kak-izmenit-zagruzhaemuyu-po-umolchaniyu-os-v-ubuntu-izmenyaem-zagruzku-os-v-grub.html
+
+
+https://askubuntu.com/questions/646414/welcome-to-emergency-mode-think-it-is-a-fsck-problem
+Не появляется и порядок http://forum.ubuntu.ru/index.php?topic=182197.0
+
+
+
+
+
+
+

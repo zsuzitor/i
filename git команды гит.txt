@@ -16,7 +16,7 @@ git diff ветка сравнить чем отличаются по строк
 
 при начале работы
 git config --global user.name "zsuzitor"
-git config --global user.email johndoe@example.com
+git config --global user.email test@example.com
 
 
 c:\Program Files\Git\etc\ssh\
