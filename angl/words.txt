@@ -1,4 +1,4 @@
-
+﻿
 
 earth - земля
 cigarette - сигарета
@@ -58,7 +58,6 @@ commingle - смешиваться
 interop - взаимодействие
 interact - взаимодействие
 newer - новее
-never - никогда
 onward - вперед
 further - в дальнейшем
 Furthermore - более того
@@ -66,8 +65,6 @@ inheritance - наследство
 comprehensive - всеобъемлющий \ всесторонний
 simplified - упрощенный
 examined - исследовать
-
-
 come up with - придумать
 destination - пункт назначения
 instead - вместо
@@ -165,8 +162,23 @@ take turns - по очереди
 disgusting - отвратительный
 awful - ужасный
 rude - грубо
-
-
+whose - чей
+inaccurate - неточно
+notion - понятие
+opposed - против
+Moreover  - более того
+Furthermore -  более того
+advent - пришествие \ наступление
+Nevertheless - тем не менее
+bulk - масса
+indeed - в самом деле
+influenced - под влиянием
+whistle - свисток
+efficient - эффективный
+encounter - сталкиваться
+lookup - искать
+unified - единый
+regardless - несмотря на
 
 ----
 nurse - медсестра
@@ -212,7 +224,7 @@ stole
 
 
 книга-
-66-5 до схемы
+68-7 после 1 списка
 
 
 
