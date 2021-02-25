@@ -97,6 +97,7 @@ pillar -столб
 Renowned - признанный
 Resilient - жизнерадостный
 Intrinsically - в действительности
+intrinsic - внутренний
 Custodian - попечитель
 interrelated - взаимосвязанный
 behalf - от имени
@@ -179,6 +180,25 @@ encounter - сталкиваться
 lookup - искать
 unified - единый
 regardless - несмотря на
+cryptic - загадочный
+significant - существенный
+inferred - предполагаемый
+term - срок \ термин \ называть
+purely - чисто \ исключительно
+assume - предполагать
+encourage - поощрять
+worth - стоит
+leisure - досуг
+arise - возникать
+prevalent - преобладающий
+particular - частность \ особый
+bracket - скобки
+leverage - использовать
+honest - честный
+folk - народ
+overall - общий
+fuss - суматоха
+bother - беспокоить
 
 ----
 nurse - медсестра
@@ -217,6 +237,9 @@ meals
 victim
 divorced - 
 stole
+
+
+
 
 ---
 
