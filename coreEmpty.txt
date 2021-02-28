@@ -1,8 +1,8 @@
-создать папки 
+СЃРѕР·РґР°С‚СЊ РїР°РїРєРё 
 Controllers 
 Models ->Domain,
-Views (если создана папка Pages то ее переименовать)->папки по названиям контроллеров, Shared
-Data - все что связано с бд и в нее Migrations
+Views (РµСЃР»Рё СЃРѕР·РґР°РЅР° РїР°РїРєР° Pages С‚Рѕ РµРµ РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ)->РїР°РїРєРё РїРѕ РЅР°Р·РІР°РЅРёСЏРј РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ, Shared
+Data - РІСЃРµ С‡С‚Рѕ СЃРІСЏР·Р°РЅРѕ СЃ Р±Рґ Рё РІ РЅРµРµ Migrations
 
 
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -34,7 +34,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 
 
-в appsettings.json
+РІ appsettings.json
 
 "ConnectionStrings": {
     "DefaultConnection": "Server=.\\SQLEXPRESS01;Database=aspnet-DataArchives-9071A866-2221-492C-BC4C-55D4F0F1F4F8;Trusted_Connection=True;MultipleActiveResultSets=true"
@@ -44,27 +44,27 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 
 
-//уже добавляет зависимость для БД
+//СѓР¶Рµ РґРѕР±Р°РІР»СЏРµС‚ Р·Р°РІРёСЃРёРјРѕСЃС‚СЊ РґР»СЏ Р‘Р”
 services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-//то что закомменчено(если оставлять services.AddIdentity) лучше убрать\не добавлять , не позволит создать бд
+//С‚Рѕ С‡С‚Рѕ Р·Р°РєРѕРјРјРµРЅС‡РµРЅРѕ(РµСЃР»Рё РѕСЃС‚Р°РІР»СЏС‚СЊ services.AddIdentity) Р»СѓС‡С€Рµ СѓР±СЂР°С‚СЊ\РЅРµ РґРѕР±Р°РІР»СЏС‚СЊ , РЅРµ РїРѕР·РІРѕР»РёС‚ СЃРѕР·РґР°С‚СЊ Р±Рґ
             //services.AddDefaultIdentity<ApplicationUser>()
                 //.AddEntityFrameworkStores<ApplicationDbContext>();
-//до mvc
+//РґРѕ mvc
 services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
 
-//если core 3+ то
+//РµСЃР»Рё core 3+ С‚Рѕ
 services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Latest);
 
 
 
-в папку Data закинуть класс
-public class ApplicationDbContext:DbContext//: IdentityDbContext<ApplicationUser> //лучше выделить еще интерфейс что бы модели уже принимали его в качестве параметра
+РІ РїР°РїРєСѓ Data Р·Р°РєРёРЅСѓС‚СЊ РєР»Р°СЃСЃ
+public class ApplicationDbContext:DbContext//: IdentityDbContext<ApplicationUser> //Р»СѓС‡С€Рµ РІС‹РґРµР»РёС‚СЊ РµС‰Рµ РёРЅС‚РµСЂС„РµР№СЃ С‡С‚Рѕ Р±С‹ РјРѕРґРµР»Рё СѓР¶Рµ РїСЂРёРЅРёРјР°Р»Рё РµРіРѕ РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР°
     {
         public DbSet<Article> Articles { get; set; }
 
@@ -72,14 +72,14 @@ public class ApplicationDbContext:DbContext//: IdentityDbContext<ApplicationUser
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
                : base(options)
         {
-            //Database.EnsureCreated();//создаст БД если ее нет, это вроде лучше не юзать
+            //Database.EnsureCreated();//СЃРѕР·РґР°СЃС‚ Р‘Р” РµСЃР»Рё РµРµ РЅРµС‚, СЌС‚Рѕ РІСЂРѕРґРµ Р»СѓС‡С€Рµ РЅРµ СЋР·Р°С‚СЊ
         }
 
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // использование Fluent API см по тегу fluent
+            // РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ Fluent API СЃРј РїРѕ С‚РµРіСѓ fluent
             base.OnModelCreating(modelBuilder);
         }
 
@@ -94,7 +94,7 @@ public class ApplicationUser : IdentityUser
 
 
 
-создать HomeController:Controller
+СЃРѕР·РґР°С‚СЊ HomeController:Controller
 
 
 
@@ -123,8 +123,8 @@ ValidationScriptsPartial.cshtml
 
 
 
-добавить страницы логина и регистрации через шаблоны 
-areas->identity->pages->_viewStart надо путь до лаяута сделать такой же как в основном  _ViewStart.cshtml
+РґРѕР±Р°РІРёС‚СЊ СЃС‚СЂР°РЅРёС†С‹ Р»РѕРіРёРЅР° Рё СЂРµРіРёСЃС‚СЂР°С†РёРё С‡РµСЂРµР· С€Р°Р±Р»РѕРЅС‹ 
+areas->identity->pages->_viewStart РЅР°РґРѕ РїСѓС‚СЊ РґРѕ Р»Р°СЏСѓС‚Р° СЃРґРµР»Р°С‚СЊ С‚Р°РєРѕР№ Р¶Рµ РєР°Рє РІ РѕСЃРЅРѕРІРЅРѕРј  _ViewStart.cshtml
 
 
 

@@ -1,4 +1,4 @@
-﻿$ git init  создание репозитория
+$ git init  создание репозитория
 git remote add origin https://github.com/zsuzitor/4elleng.git           настройка куда заливать
 git push -u origin master          =залить мудл куда настроено
 git add .                 добавить все файлы

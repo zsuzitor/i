@@ -1,19 +1,19 @@
 
-позволит компилить код+разделять на файлы
+РїРѕР·РІРѕР»РёС‚ РєРѕРјРїРёР»РёС‚СЊ РєРѕРґ+СЂР°Р·РґРµР»СЏС‚СЊ РЅР° С„Р°Р№Р»С‹
 
 
 
 
-создать файл
+СЃРѕР·РґР°С‚СЊ С„Р°Р№Р»
 webpack.config.js
-пример https://metanit.com/web/react/2.9.php https://metanit.com/web/react/4.8.php
+РїСЂРёРјРµСЂ https://metanit.com/web/react/2.9.php https://metanit.com/web/react/4.8.php
 
 
 
 
 
 
-в webpack конфиге секция loaders устарела
+РІ webpack РєРѕРЅС„РёРіРµ СЃРµРєС†РёСЏ loaders СѓСЃС‚Р°СЂРµР»Р°
 https://webpack.js.org/concepts/loaders/
 https://stackoverflow.com/questions/42060243/invalid-configuration-object-webpack-has-been-initialised-using-a-configuration
 

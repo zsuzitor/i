@@ -19,13 +19,13 @@ entity
 #entityFraemwork   #db   #bd #ef  #connectionstring
 using System.Data.Entity;
 ........................
-Web.config в секцию  <configSections> после  <section name="entityFramework" 
+Web.config РІ СЃРµРєС†РёСЋ  <configSections> РїРѕСЃР»Рµ  <section name="entityFramework" 
 <connectionStrings>
     <add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-server_info_web_desk-20180518052414.mdf;Integrated Security=True" providerName="System.Data.SqlClient" />
   </connectionStrings>
 
-в строке подключения не должно быть вхождения строки Initial Catalog=aspnet-dip-20181007084703;
-(LocalDb)\MSSQLLocalDB можно узнать доступные значения (поиск-> sql , расположение sql server -> настройка )
+РІ СЃС‚СЂРѕРєРµ РїРѕРґРєР»СЋС‡РµРЅРёСЏ РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РІС…РѕР¶РґРµРЅРёСЏ СЃС‚СЂРѕРєРё Initial Catalog=aspnet-dip-20181007084703;
+(LocalDb)\MSSQLLocalDB РјРѕР¶РЅРѕ СѓР·РЅР°С‚СЊ РґРѕСЃС‚СѓРїРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ (РїРѕРёСЃРє-> sql , СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ sql server -> РЅР°СЃС‚СЂРѕР№РєР° )
 
 
 #DbSet #context #DbContext
@@ -40,46 +40,46 @@ public ApplicationDbContext(): base("DefaultConnection", throwIfV1Schema: false)
 
 
 using(var db=new SoccerContext()){
-db.Log=Console.Out;//вывод логов на консоль
+db.Log=Console.Out;//РІС‹РІРѕРґ Р»РѕРіРѕРІ РЅР° РєРѕРЅСЃРѕР»СЊ
 }
 
 
 
 
 
-правильное удаление редактирование   #Attach
-при создании нескольких контекстов на 1 бд ссылающихся и для изменения данных надо прописать
+РїСЂР°РІРёР»СЊРЅРѕРµ СѓРґР°Р»РµРЅРёРµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ   #Attach
+РїСЂРё СЃРѕР·РґР°РЅРёРё РЅРµСЃРєРѕР»СЊРєРёС… РєРѕРЅС‚РµРєСЃС‚РѕРІ РЅР° 1 Р±Рґ СЃСЃС‹Р»Р°СЋС‰РёС…СЃСЏ Рё РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ РґР°РЅРЅС‹С… РЅР°РґРѕ РїСЂРѕРїРёСЃР°С‚СЊ
 using(){}
 using(){
-//db.Set<класс_объекта>().Attach(объект);  //ТАК(лучше)
+//db.Set<РєР»Р°СЃСЃ_РѕР±СЉРµРєС‚Р°>().Attach(РѕР±СЉРµРєС‚);  //РўРђРљ(Р»СѓС‡С€Рµ)
 p1.Price = 60000;
-        //db.Entry(p1).State = EntityState.Modified;//редактирование //ИЛИ ТАК
+        //db.Entry(p1).State = EntityState.Modified;//СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ //РР›Р РўРђРљ
 }
-для дозагрузки данных в другом контексте reference collection
-#присоединение к #контексту   #Attach
-db.Set<класс_объекта>().Attach(объект);
+РґР»СЏ РґРѕР·Р°РіСЂСѓР·РєРё РґР°РЅРЅС‹С… РІ РґСЂСѓРіРѕРј РєРѕРЅС‚РµРєСЃС‚Рµ reference collection
+#РїСЂРёСЃРѕРµРґРёРЅРµРЅРёРµ Рє #РєРѕРЅС‚РµРєСЃС‚Сѓ   #Attach
+db.Set<РєР»Р°СЃСЃ_РѕР±СЉРµРєС‚Р°>().Attach(РѕР±СЉРµРєС‚);
 
 
-db.Entry(p1).State = EntityState.Deleted;//удаление
+db.Entry(p1).State = EntityState.Deleted;//СѓРґР°Р»РµРЅРёРµ
  db.Phones.Attach(p1);//
         db.SaveChanges();
 https://metanit.com/sharp/entityframework/1.3.php
 
 
-Способы загрузки и получения связанных данных #load #include #loading #ef #virtual #загрузка 
-//для того что бы можно было закинуть лямбду а не строку надо -- using System.Data.Entity;
-Eager Loading  жадная загрузка
+РЎРїРѕСЃРѕР±С‹ Р·Р°РіСЂСѓР·РєРё Рё РїРѕР»СѓС‡РµРЅРёСЏ СЃРІСЏР·Р°РЅРЅС‹С… РґР°РЅРЅС‹С… #load #include #loading #ef #virtual #Р·Р°РіСЂСѓР·РєР° 
+//РґР»СЏ С‚РѕРіРѕ С‡С‚Рѕ Р±С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р·Р°РєРёРЅСѓС‚СЊ Р»СЏРјР±РґСѓ Р° РЅРµ СЃС‚СЂРѕРєСѓ РЅР°РґРѕ -- using System.Data.Entity;
+Eager Loading  Р¶Р°РґРЅР°СЏ Р·Р°РіСЂСѓР·РєР°
  var players = db.Players.Include(p=>p.Team).ToList();
 
 
 
-#Explicit Loading  Явная загрузка 
+#Explicit Loading  РЇРІРЅР°СЏ Р·Р°РіСЂСѓР·РєР° 
 #Entry
 if(!db.Entry(db.Players.FirstOrDefault()).Reference("Team").IsLoad)
 db.Entry(db.Players.FirstOrDefault()).Reference("Team").Load();
-для загрузки коллекций юзать Collection вместо Reference
+РґР»СЏ Р·Р°РіСЂСѓР·РєРё РєРѕР»Р»РµРєС†РёР№ СЋР·Р°С‚СЊ Collection РІРјРµСЃС‚Рѕ Reference
 
-можно добавлять условия, но нужно менять load на tolist (тк при load не загрузит(не точно)) #TODO
+РјРѕР¶РЅРѕ РґРѕР±Р°РІР»СЏС‚СЊ СѓСЃР»РѕРІРёСЏ, РЅРѕ РЅСѓР¶РЅРѕ РјРµРЅСЏС‚СЊ load РЅР° tolist (С‚Рє РїСЂРё load РЅРµ Р·Р°РіСЂСѓР·РёС‚(РЅРµ С‚РѕС‡РЅРѕ)) #TODO
 #Query
 var mass=db.Entry(this).Collection(x1 => x1.ImagesLikes).Query().Where(...).Take(...).Select(...).....ToList();
 
@@ -89,21 +89,21 @@ var mass=db.Entry(this).Collection(x1 => x1.ImagesLikes).Query().Where(...).Take
 
 
 #Lazy Loading
-все делается само но в объявлении модели virtual
+РІСЃРµ РґРµР»Р°РµС‚СЃСЏ СЃР°РјРѕ РЅРѕ РІ РѕР±СЉСЏРІР»РµРЅРёРё РјРѕРґРµР»Рё virtual
 public int? TeamId { get; set; }
     public virtual Team Team { get; set; }
 
 
 
-настройка связей с #Fluent #API
-#one #to #many #многие #многим #один
+РЅР°СЃС‚СЂРѕР№РєР° СЃРІСЏР·РµР№ СЃ #Fluent #API
+#one #to #many #РјРЅРѕРіРёРµ #РјРЅРѕРіРёРј #РѕРґРёРЅ
 TODO
 
 
-связь 1 к 1
+СЃРІСЏР·СЊ 1 Рє 1
 https://stackoverflow.com/questions/26389707/ef-code-first-one-to-one-relationship-multiplicity-is-not-valid-in-role-in-re
 
-//то что ниже хз мб не для EF
+//С‚Рѕ С‡С‚Рѕ РЅРёР¶Рµ С…Р· РјР± РЅРµ РґР»СЏ EF
 protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=relationsdb;Trusted_Connection=True;");
@@ -118,7 +118,7 @@ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             .HasForeignKey<UserProfile>(p => p.UserKey);
     }
 
-//должно работать
+//РґРѕР»Р¶РЅРѕ СЂР°Р±РѕС‚Р°С‚СЊ
 
 public class Student
 {
@@ -142,17 +142,17 @@ public class StudentAddress
 
 
 
-#1 ко многим 
+#1 РєРѕ РјРЅРѕРіРёРј 
 
 https://metanit.com/sharp/entityframework/3.3.php
-если не указать внешний ключ как ?(nullable) то создается cascade(удалении записей связанных)
+РµСЃР»Рё РЅРµ СѓРєР°Р·Р°С‚СЊ РІРЅРµС€РЅРёР№ РєР»СЋС‡ РєР°Рє ?(nullable) С‚Рѕ СЃРѕР·РґР°РµС‚СЃСЏ cascade(СѓРґР°Р»РµРЅРёРё Р·Р°РїРёСЃРµР№ СЃРІСЏР·Р°РЅРЅС‹С…)
 
 
- Player pl1 = new Player {Name = "Роналду", Age = 31, Position = "Нападающий", Team=t2 };
+ Player pl1 = new Player {Name = "Р РѕРЅР°Р»РґСѓ", Age = 31, Position = "РќР°РїР°РґР°СЋС‰РёР№", Team=t2 };
 public class Player
 {
     public int Id { get; set; }
-// название поле с объектом "Team"+ название поле ключа объекта "Team.Id"
+// РЅР°Р·РІР°РЅРёРµ РїРѕР»Рµ СЃ РѕР±СЉРµРєС‚РѕРј "Team"+ РЅР°Р·РІР°РЅРёРµ РїРѕР»Рµ РєР»СЋС‡Р° РѕР±СЉРµРєС‚Р° "Team.Id"
     public int? TeamId { get; set; }
     public Team Team { get; set; }
 }
@@ -165,8 +165,8 @@ public class Team
         Players = new List<Player>();
     }
 }
-даже если свойство объяслено так public int? TeamId { get; set; } при удалении Team произойдет ошибка, тк игроки все равно обязаны иметь сязь с командой, для исправления надо
-строка для обNULLения ссылки на team при удалении team на который ссылается
+РґР°Р¶Рµ РµСЃР»Рё СЃРІРѕР№СЃС‚РІРѕ РѕР±СЉСЏСЃР»РµРЅРѕ С‚Р°Рє public int? TeamId { get; set; } РїСЂРё СѓРґР°Р»РµРЅРёРё Team РїСЂРѕРёР·РѕР№РґРµС‚ РѕС€РёР±РєР°, С‚Рє РёРіСЂРѕРєРё РІСЃРµ СЂР°РІРЅРѕ РѕР±СЏР·Р°РЅС‹ РёРјРµС‚СЊ СЃСЏР·СЊ СЃ РєРѕРјР°РЅРґРѕР№, РґР»СЏ РёСЃРїСЂР°РІР»РµРЅРёСЏ РЅР°РґРѕ
+СЃС‚СЂРѕРєР° РґР»СЏ РѕР±NULLРµРЅРёСЏ СЃСЃС‹Р»РєРё РЅР° team РїСЂРё СѓРґР°Р»РµРЅРёРё team РЅР° РєРѕС‚РѕСЂС‹Р№ СЃСЃС‹Р»Р°РµС‚СЃСЏ
 db.Database.ExecuteSqlCommand("ALTER TABLE dbo.Players ADD CONSTRAINT Players_Teams FOREIGN KEY (TeamId) REFERENCES dbo.Teams (Id) ON DELETE SET NULL");
 
 
@@ -175,7 +175,7 @@ db.Database.ExecuteSqlCommand("ALTER TABLE dbo.Players ADD CONSTRAINT Players_Te
 
 
 
-многие ко многим
+РјРЅРѕРіРёРµ РєРѕ РјРЅРѕРіРёРј
 
 
 public class Team
@@ -201,36 +201,36 @@ public class Player
  public DbSet<Player> Players { get; set; }
         public DbSet<Team> Teams { get; set; }
 
-//необязательно, но желательно, обязательно только если между сущностями несколько связей многие ко многим #WithMany #HasMany
+//РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅРѕ, РЅРѕ Р¶РµР»Р°С‚РµР»СЊРЅРѕ, РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ С‚РѕР»СЊРєРѕ РµСЃР»Рё РјРµР¶РґСѓ СЃСѓС‰РЅРѕСЃС‚СЏРјРё РЅРµСЃРєРѕР»СЊРєРѕ СЃРІСЏР·РµР№ РјРЅРѕРіРёРµ РєРѕ РјРЅРѕРіРёРј #WithMany #HasMany
  protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Player>().HasMany(c => c.Teams)//1 класс и свойство который связываем
-                .WithMany(s => s.Players)//2 класс и свойство с которым связываем
-                .Map(t => t.MapLeftKey("PlayerId")//id 1 которое в таблице будет
+            modelBuilder.Entity<Player>().HasMany(c => c.Teams)//1 РєР»Р°СЃСЃ Рё СЃРІРѕР№СЃС‚РІРѕ РєРѕС‚РѕСЂС‹Р№ СЃРІСЏР·С‹РІР°РµРј
+                .WithMany(s => s.Players)//2 РєР»Р°СЃСЃ Рё СЃРІРѕР№СЃС‚РІРѕ СЃ РєРѕС‚РѕСЂС‹Рј СЃРІСЏР·С‹РІР°РµРј
+                .Map(t => t.MapLeftKey("PlayerId")//id 1 РєРѕС‚РѕСЂРѕРµ РІ С‚Р°Р±Р»РёС†Рµ Р±СѓРґРµС‚
                 .MapRightKey("TeamId")//id 2
-                .ToTable("PlayerTeam"));//название таблицы
-            base.OnModelCreating(modelBuilder);//инициализация что бы роли и все остальное добавилось нормально
+                .ToTable("PlayerTeam"));//РЅР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹
+            base.OnModelCreating(modelBuilder);//РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‡С‚Рѕ Р±С‹ СЂРѕР»Рё Рё РІСЃРµ РѕСЃС‚Р°Р»СЊРЅРѕРµ РґРѕР±Р°РІРёР»РѕСЃСЊ РЅРѕСЂРјР°Р»СЊРЅРѕ
 
 
-//многие ко многим без лишнего
+//РјРЅРѕРіРёРµ РєРѕ РјРЅРѕРіРёРј Р±РµР· Р»РёС€РЅРµРіРѕ
 modelBuilder.Entity<Phone>()
     .HasMany(p => p.Companies)
     .WithMany(c => c.Phones);
 
 
-//один-к нулю или к одному #WithOptional
-//Phone -имеет,  Company- может не иметь
+//РѕРґРёРЅ-Рє РЅСѓР»СЋ РёР»Рё Рє РѕРґРЅРѕРјСѓ #WithOptional
+//Phone -РёРјРµРµС‚,  Company- РјРѕР¶РµС‚ РЅРµ РёРјРµС‚СЊ
 modelBuilder.Entity<Phone>()
         .HasRequired(c => c.Company)
         .WithOptional(c => c.BestSeller);
 
-//один к одному #HasRequired #WithRequiredPrincipal
+//РѕРґРёРЅ Рє РѕРґРЅРѕРјСѓ #HasRequired #WithRequiredPrincipal
 modelBuilder.Entity<Phone>()
     .HasRequired(c => c.Company)
-    .WithRequiredPrincipal(c => c.BestSeller);//устанавливает Phone в качестве основной
+    .WithRequiredPrincipal(c => c.BestSeller);//СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ Phone РІ РєР°С‡РµСЃС‚РІРµ РѕСЃРЅРѕРІРЅРѕР№
 
 
-//один ко многим
+//РѕРґРёРЅ РєРѕ РјРЅРѕРіРёРј
 modelBuilder.Entity<Company>()
     .HasMany(p => p.Phones)
     .WithRequired(p=>p.Company);
@@ -240,20 +240,20 @@ modelBuilder.Entity<Company>()
 modelBuilder.Entity<Company>()
     .HasMany(p => p.Phones)
     .WithRequired(p=>p.Company)
-    .HasForeignKey(s=>s.Manufacturer)//явно указываем внешний ключ для связи с Company
-.WillCascadeOnDelete(false);//отключаем каскадное удаление
+    .HasForeignKey(s=>s.Manufacturer)//СЏРІРЅРѕ СѓРєР°Р·С‹РІР°РµРј РІРЅРµС€РЅРёР№ РєР»СЋС‡ РґР»СЏ СЃРІСЏР·Рё СЃ Company
+.WillCascadeOnDelete(false);//РѕС‚РєР»СЋС‡Р°РµРј РєР°СЃРєР°РґРЅРѕРµ СѓРґР°Р»РµРЅРёРµ
 
-//отключение каскадного удаления при отдельных видах отношений
+//РѕС‚РєР»СЋС‡РµРЅРёРµ РєР°СЃРєР°РґРЅРѕРіРѕ СѓРґР°Р»РµРЅРёСЏ РїСЂРё РѕС‚РґРµР»СЊРЅС‹С… РІРёРґР°С… РѕС‚РЅРѕС€РµРЅРёР№
 modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
-#HasRequired()//обязательно должно быть указано
-#WithOptional()//не обязательная связь
-#WithRequiredPrincipal()//обязательная связь,устанавливает одну из сущностей в качестве основной
-#HasMany()//множественную связь
-#WithMany()//обратная множественная связь
-#HasForeignKey() //явно указываем внешний ключ для связи 
-#WillCascadeOnDelete(false) //отключаем каскадное удаление
+#HasRequired()//РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ СѓРєР°Р·Р°РЅРѕ
+#WithOptional()//РЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅР°СЏ СЃРІСЏР·СЊ
+#WithRequiredPrincipal()//РѕР±СЏР·Р°С‚РµР»СЊРЅР°СЏ СЃРІСЏР·СЊ,СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕРґРЅСѓ РёР· СЃСѓС‰РЅРѕСЃС‚РµР№ РІ РєР°С‡РµСЃС‚РІРµ РѕСЃРЅРѕРІРЅРѕР№
+#HasMany()//РјРЅРѕР¶РµСЃС‚РІРµРЅРЅСѓСЋ СЃРІСЏР·СЊ
+#WithMany()//РѕР±СЂР°С‚РЅР°СЏ РјРЅРѕР¶РµСЃС‚РІРµРЅРЅР°СЏ СЃРІСЏР·СЊ
+#HasForeignKey() //СЏРІРЅРѕ СѓРєР°Р·С‹РІР°РµРј РІРЅРµС€РЅРёР№ РєР»СЋС‡ РґР»СЏ СЃРІСЏР·Рё 
+#WillCascadeOnDelete(false) //РѕС‚РєР»СЋС‡Р°РµРј РєР°СЃРєР°РґРЅРѕРµ СѓРґР°Р»РµРЅРёРµ
         }
 
 
@@ -263,7 +263,7 @@ modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
 
 
-закрытие protected override void #Dispose(bool disposing)
+Р·Р°РєСЂС‹С‚РёРµ protected override void #Dispose(bool disposing)
 {
     db.Dispose();
     base.Dispose(disposing);
@@ -274,12 +274,12 @@ modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
 
 
-Когда следует использовать #AsNoTracking? Если нам надо просто вывести данные для отображения без необходимости их дальнейшего обновления, тогда как раз тот случай, когда мы можем использовать AsNoTracking.
-не сохранит изменения и ускорит работу, не получится дозагрузить какие либо данные из бд (load,reference и тд)
+РљРѕРіРґР° СЃР»РµРґСѓРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ #AsNoTracking? Р•СЃР»Рё РЅР°Рј РЅР°РґРѕ РїСЂРѕСЃС‚Рѕ РІС‹РІРµСЃС‚Рё РґР°РЅРЅС‹Рµ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ Р±РµР· РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё РёС… РґР°Р»СЊРЅРµР№С€РµРіРѕ РѕР±РЅРѕРІР»РµРЅРёСЏ, С‚РѕРіРґР° РєР°Рє СЂР°Р· С‚РѕС‚ СЃР»СѓС‡Р°Р№, РєРѕРіРґР° РјС‹ РјРѕР¶РµРј РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ AsNoTracking.
+РЅРµ СЃРѕС…СЂР°РЅРёС‚ РёР·РјРµРЅРµРЅРёСЏ Рё СѓСЃРєРѕСЂРёС‚ СЂР°Р±РѕС‚Сѓ, РЅРµ РїРѕР»СѓС‡РёС‚СЃСЏ РґРѕР·Р°РіСЂСѓР·РёС‚СЊ РєР°РєРёРµ Р»РёР±Рѕ РґР°РЅРЅС‹Рµ РёР· Р±Рґ (load,reference Рё С‚Рґ)
 Phone firstPhone = db.Phones.AsNoTracking().FirstOrDefault();
 firstPhone.Name = "Samsung Galaxy Ace 2";
 db.SaveChanges();
-возможно стоит присоеденять запись и тогда можно будет ее обновить db.Set<ApplicationUser>().Attach(this);
+РІРѕР·РјРѕР¶РЅРѕ СЃС‚РѕРёС‚ РїСЂРёСЃРѕРµРґРµРЅСЏС‚СЊ Р·Р°РїРёСЃСЊ Рё С‚РѕРіРґР° РјРѕР¶РЅРѕ Р±СѓРґРµС‚ РµРµ РѕР±РЅРѕРІРёС‚СЊ db.Set<ApplicationUser>().Attach(this);
 
 
 
@@ -294,33 +294,33 @@ db.SaveChanges();
 
 
 
-#атрибуты #atribute #attribute #attr #[] #ef #entityframework
-#Аннотации
+#Р°С‚СЂРёР±СѓС‚С‹ #atribute #attribute #attr #[] #ef #entityframework
+#РђРЅРЅРѕС‚Р°С†РёРё
 System.ComponentModel.DataAnnotations
-установить ключ в качестве идентификатора
+СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РєР»СЋС‡ РІ РєР°С‡РµСЃС‚РІРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°
 [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)] //[Key] #DatabaseGeneratedOption.Identity
 public int Ident { get; set; }
- [Required]-NOT NULL в БД
-[MaxLength(20)]/MinLength устанавливают максимальное и минимальное количество символов в строке-свойстве
+ [Required]-NOT NULL РІ Р‘Р”
+[MaxLength(20)]/MinLength СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋС‚ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Рё РјРёРЅРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРёРјРІРѕР»РѕРІ РІ СЃС‚СЂРѕРєРµ-СЃРІРѕР№СЃС‚РІРµ
 
 System.ComponentModel.DataAnnotations.Schema
- [NotMapped]--не сопостовляется/добавляется колонка в дб
+ [NotMapped]--РЅРµ СЃРѕРїРѕСЃС‚РѕРІР»СЏРµС‚СЃСЏ/РґРѕР±Р°РІР»СЏРµС‚СЃСЏ РєРѕР»РѕРЅРєР° РІ РґР±
 
-[Table("Mobiles")]//указываем название таблиц
+[Table("Mobiles")]//СѓРєР°Р·С‹РІР°РµРј РЅР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†
 public class Phone
 {
     public int Id { get; set; }
-    [Column("ModelName")]//указываем  название колонки
+    [Column("ModelName")]//СѓРєР°Р·С‹РІР°РµРј  РЅР°Р·РІР°РЅРёРµ РєРѕР»РѕРЅРєРё
     public string Name { get; set; }
 }
 
-[ForeignKey("CompId")]--внешний ключ
+[ForeignKey("CompId")]--РІРЅРµС€РЅРёР№ РєР»СЋС‡
 
- [Index]--установка индекса
+ [Index]--СѓСЃС‚Р°РЅРѕРІРєР° РёРЅРґРµРєСЃР°
 
-[#ConcurrencyCheck]--решает проблему параллелизма(если свойство было изменено пока менялось текущем пользователем то выбрасывает исключение DbUpdateConcurrencyException) #parallel
+[#ConcurrencyCheck]--СЂРµС€Р°РµС‚ РїСЂРѕР±Р»РµРјСѓ РїР°СЂР°Р»Р»РµР»РёР·РјР°(РµСЃР»Рё СЃРІРѕР№СЃС‚РІРѕ Р±С‹Р»Рѕ РёР·РјРµРЅРµРЅРѕ РїРѕРєР° РјРµРЅСЏР»РѕСЃСЊ С‚РµРєСѓС‰РµРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј С‚Рѕ РІС‹Р±СЂР°СЃС‹РІР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ DbUpdateConcurrencyException) #parallel
 
-комплексные типы / если в моделе есть другая модель
+РєРѕРјРїР»РµРєСЃРЅС‹Рµ С‚РёРїС‹ / РµСЃР»Рё РІ РјРѕРґРµР»Рµ РµСЃС‚СЊ РґСЂСѓРіР°СЏ РјРѕРґРµР»СЊ
 [ComplexType]
 public class PhoneInfo
 {
@@ -349,7 +349,7 @@ db.Phones.Add(new Phone
 https://metanit.com/sharp/entityframework/6.4.php
 
 
-Две модели в одной таблице
+Р”РІРµ РјРѕРґРµР»Рё РІ РѕРґРЅРѕР№ С‚Р°Р±Р»РёС†Рµ
 #ToTable #Table
 [Table("Mobiles")]
 public class PhoneInfo
@@ -371,7 +371,7 @@ db.Infos.Add(pi1);
 
 https://metanit.com/sharp/entityframework/6.5.php
 
-Разделение сущности на несколько таблиц
+Р Р°Р·РґРµР»РµРЅРёРµ СЃСѓС‰РЅРѕСЃС‚Рё РЅР° РЅРµСЃРєРѕР»СЊРєРѕ С‚Р°Р±Р»РёС†
 public DbSet<Phone> Phones { get; set; }
  
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -390,11 +390,11 @@ public DbSet<Phone> Phones { get; set; }
 https://metanit.com/sharp/entityframework/6.6.php
 
 
-конвенции(установить атрибут сразу на определенные свойства всех классов в бд)
+РєРѕРЅРІРµРЅС†РёРё(СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Р°С‚СЂРёР±СѓС‚ СЃСЂР°Р·Сѓ РЅР° РѕРїСЂРµРґРµР»РµРЅРЅС‹Рµ СЃРІРѕР№СЃС‚РІР° РІСЃРµС… РєР»Р°СЃСЃРѕРІ РІ Р±Рґ)
 https://metanit.com/sharp/entityframework/6.9.php
 
 
-Наследование в Entity Framework
+РќР°СЃР»РµРґРѕРІР°РЅРёРµ РІ Entity Framework
 
 public class Phone
 {
@@ -407,16 +407,16 @@ public class Smartphone : Phone
 }
  public DbSet<Phone> Phones { get; set; }
     public DbSet<Smartphone> Smarts { get; set; }
-создается 1 таблица
-при получении Phone из бд вернутся и Phone и Smartphone
+СЃРѕР·РґР°РµС‚СЃСЏ 1 С‚Р°Р±Р»РёС†Р°
+РїСЂРё РїРѕР»СѓС‡РµРЅРёРё Phone РёР· Р±Рґ РІРµСЂРЅСѓС‚СЃСЏ Рё Phone Рё Smartphone
 
-если добавить так
+РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ С‚Р°Рє
 [Table("Smartphones")]
 public class Smartphone : Phone
 {
-то будут созданы 2 таблицы, в 1 все свойства базового во 2 все свойства производного
+С‚Рѕ Р±СѓРґСѓС‚ СЃРѕР·РґР°РЅС‹ 2 С‚Р°Р±Р»РёС†С‹, РІ 1 РІСЃРµ СЃРІРѕР№СЃС‚РІР° Р±Р°Р·РѕРІРѕРіРѕ РІРѕ 2 РІСЃРµ СЃРІРѕР№СЃС‚РІР° РїСЂРѕРёР·РІРѕРґРЅРѕРіРѕ
 
-для базового и наследника создаются 2 разные таблицы и в каждом свои свойства
+РґР»СЏ Р±Р°Р·РѕРІРѕРіРѕ Рё РЅР°СЃР»РµРґРЅРёРєР° СЃРѕР·РґР°СЋС‚СЃСЏ 2 СЂР°Р·РЅС‹Рµ С‚Р°Р±Р»РёС†С‹ Рё РІ РєР°Р¶РґРѕРј СЃРІРѕРё СЃРІРѕР№СЃС‚РІР°
 https://metanit.com/sharp/entityframework/7.3.php
 
 
@@ -427,29 +427,29 @@ https://metanit.com/sharp/entityframework/7.3.php
 
 
 sql
-добавление своей функции sql
+РґРѕР±Р°РІР»РµРЅРёРµ СЃРІРѕРµР№ С„СѓРЅРєС†РёРё sql
 https://metanit.com/sharp/entityframework/5.2.php
 
-Хранимые процедуры
+РҐСЂР°РЅРёРјС‹Рµ РїСЂРѕС†РµРґСѓСЂС‹
 https://metanit.com/sharp/entityframework/5.3.php
 
-Fluent API и аннотации//переопределение того как enfr будет связывать таблицы ключи и тд(например изменить тип или название таблицы)
+Fluent API Рё Р°РЅРЅРѕС‚Р°С†РёРё//РїРµСЂРµРѕРїСЂРµРґРµР»РµРЅРёРµ С‚РѕРіРѕ РєР°Рє enfr Р±СѓРґРµС‚ СЃРІСЏР·С‹РІР°С‚СЊ С‚Р°Р±Р»РёС†С‹ РєР»СЋС‡Рё Рё С‚Рґ(РЅР°РїСЂРёРјРµСЂ РёР·РјРµРЅРёС‚СЊ С‚РёРї РёР»Рё РЅР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹)
 https://metanit.com/sharp/entityframework/6.1.php
 https://metanit.com/sharp/entityframework/6.2.php
 
 
-#выполнение #sql скрипта  #ExecuteSqlCommand #SqlQuery
+#РІС‹РїРѕР»РЅРµРЅРёРµ #sql СЃРєСЂРёРїС‚Р°  #ExecuteSqlCommand #SqlQuery
 db.Database.ExecuteSqlCommand("");
 var comps = db.Database.SqlQuery<Company>("SELECT * FROM Companies");
-возвращает количество затронутых строк
+РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°С‚СЂРѕРЅСѓС‚С‹С… СЃС‚СЂРѕРє
 int numberOfRowInserted = db.Database.ExecuteSqlCommand("INSERT INTO Companies (Name) VALUES ('HTC')");
-получить строку подключения
+РїРѕР»СѓС‡РёС‚СЊ СЃС‚СЂРѕРєСѓ РїРѕРґРєР»СЋС‡РµРЅРёСЏ
 db.Database.Connection.ConnectionString
 
 
 
 
-выполнение любого( создание каталога, индекса и тд ) #tsql скрипта из файла
+РІС‹РїРѕР»РЅРµРЅРёРµ Р»СЋР±РѕРіРѕ( СЃРѕР·РґР°РЅРёРµ РєР°С‚Р°Р»РѕРіР°, РёРЅРґРµРєСЃР° Рё С‚Рґ ) #tsql СЃРєСЂРёРїС‚Р° РёР· С„Р°Р№Р»Р°
 #full #text #search   #fulltextsearch #SqlConnection #ExecuteNonQuery ExecuteQuery #Query
  var connection = new SqlConnection();
             connection.ConnectionString = "connection string";
@@ -466,7 +466,7 @@ db.Database.Connection.ConnectionString
 
 
 
-получить данные из бд без классов и тдтд
+РїРѕР»СѓС‡РёС‚СЊ РґР°РЅРЅС‹Рµ РёР· Р±Рґ Р±РµР· РєР»Р°СЃСЃРѕРІ Рё С‚РґС‚Рґ
 
 class DbManager
     {
@@ -521,7 +521,7 @@ class DbManager
 
 
 
-получаем данные
+РїРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ
 DbManager db = new DbManager();
 
                 bool status = db.GetUsersData(ref lastname, ref firstname, ref age);
@@ -530,13 +530,13 @@ DbManager db = new DbManager();
 
 
 
-выполнение tsql скрипта ( создание каталога, индекса и тд ) из файла или из строки
+РІС‹РїРѕР»РЅРµРЅРёРµ tsql СЃРєСЂРёРїС‚Р° ( СЃРѕР·РґР°РЅРёРµ РєР°С‚Р°Р»РѕРіР°, РёРЅРґРµРєСЃР° Рё С‚Рґ ) РёР· С„Р°Р№Р»Р° РёР»Рё РёР· СЃС‚СЂРѕРєРё
 
  /// <summary>
-        /// выполнение tsql запроса который ничего не возвращает
+        /// РІС‹РїРѕР»РЅРµРЅРёРµ tsql Р·Р°РїСЂРѕСЃР° РєРѕС‚РѕСЂС‹Р№ РЅРёС‡РµРіРѕ РЅРµ РІРѕР·РІСЂР°С‰Р°РµС‚
         /// </summary>
-        /// <param name="query - будет использоваться только если command_==null"></param>
-        /// <param name="command_ - если не null то не закрывается"></param>
+        /// <param name="query - Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РµСЃР»Рё command_==null"></param>
+        /// <param name="command_ - РµСЃР»Рё РЅРµ null С‚Рѕ РЅРµ Р·Р°РєСЂС‹РІР°РµС‚СЃСЏ"></param>
         public static void ExecuteNonQuery(string query, SqlCommand command_ = null)
         {
             var command = command_;
@@ -561,14 +561,14 @@ DbManager db = new DbManager();
 
 
 
-выполнение tsql скрипта ( выборка данных) из файла или из строки, метод возвращает данные
+РІС‹РїРѕР»РЅРµРЅРёРµ tsql СЃРєСЂРёРїС‚Р° ( РІС‹Р±РѕСЂРєР° РґР°РЅРЅС‹С…) РёР· С„Р°Р№Р»Р° РёР»Рё РёР· СЃС‚СЂРѕРєРё, РјРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°РЅРЅС‹Рµ
 
 /// <summary>
-        /// выполнение tsql запроса(например выборка данных) который возвращает данные. при command_-null - откроет новое подключение
+        /// РІС‹РїРѕР»РЅРµРЅРёРµ tsql Р·Р°РїСЂРѕСЃР°(РЅР°РїСЂРёРјРµСЂ РІС‹Р±РѕСЂРєР° РґР°РЅРЅС‹С…) РєРѕС‚РѕСЂС‹Р№ РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°РЅРЅС‹Рµ. РїСЂРё command_-null - РѕС‚РєСЂРѕРµС‚ РЅРѕРІРѕРµ РїРѕРґРєР»СЋС‡РµРЅРёРµ
         /// </summary>
-        /// <param name="query - будет использоваться только если command_==null"></param>
-        /// <param name="command_ - если не null то не закрывается"></param>
-        /// <param name="props - список свойств"></param>
+        /// <param name="query - Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РµСЃР»Рё command_==null"></param>
+        /// <param name="command_ - РµСЃР»Рё РЅРµ null С‚Рѕ РЅРµ Р·Р°РєСЂС‹РІР°РµС‚СЃСЏ"></param>
+        /// <param name="props - СЃРїРёСЃРѕРє СЃРІРѕР№СЃС‚РІ"></param>
         /// <returns></returns>
         public static List<Dictionary<string, object>> ExecuteQuery(string query, SqlCommand command_, params string[] props)
         {
@@ -600,9 +600,9 @@ DbManager db = new DbManager();
 
             return res;
         }
-//получаем данные, вызов функции
+//РїРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ, РІС‹Р·РѕРІ С„СѓРЅРєС†РёРё
 var ldr=DataBase.DataBase.ExecuteQuery(q, "keyphrase");
-            foreach (var i in ldr)//список всех выбранных строк
+            foreach (var i in ldr)//СЃРїРёСЃРѕРє РІСЃРµС… РІС‹Р±СЂР°РЅРЅС‹С… СЃС‚СЂРѕРє
                 res += i["keyphrase"].ToString()+" ";
 
             return res.Trim();
@@ -619,23 +619,23 @@ var ldr=DataBase.DataBase.ExecuteQuery(q, "keyphrase");
 
 
 
-#Инициализация #базы #данных #seed  #ef #bd #entity #framework
+#РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ #Р±Р°Р·С‹ #РґР°РЅРЅС‹С… #seed  #ef #bd #entity #framework
 
-#CreateDatabaseIfNotExists: инициализатор, используемый по умолчанию. Он не удаляет автоматчески базу данных и данные, а в случае изменения структуры моделей и контекста данных выбрасывает исключение.
+#CreateDatabaseIfNotExists: РёРЅРёС†РёР°Р»РёР·Р°С‚РѕСЂ, РёСЃРїРѕР»СЊР·СѓРµРјС‹Р№ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ. РћРЅ РЅРµ СѓРґР°Р»СЏРµС‚ Р°РІС‚РѕРјР°С‚С‡РµСЃРєРё Р±Р°Р·Сѓ РґР°РЅРЅС‹С… Рё РґР°РЅРЅС‹Рµ, Р° РІ СЃР»СѓС‡Р°Рµ РёР·РјРµРЅРµРЅРёСЏ СЃС‚СЂСѓРєС‚СѓСЂС‹ РјРѕРґРµР»РµР№ Рё РєРѕРЅС‚РµРєСЃС‚Р° РґР°РЅРЅС‹С… РІС‹Р±СЂР°СЃС‹РІР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ.
 
-#DropCreateDatabaseIfModelChanges: данный инициализатор проверяет на соответствие моделям определения таблиц в базе данных. И если модели не соответствуют определению таблиц, то база данные пересоздается
+#DropCreateDatabaseIfModelChanges: РґР°РЅРЅС‹Р№ РёРЅРёС†РёР°Р»РёР·Р°С‚РѕСЂ РїСЂРѕРІРµСЂСЏРµС‚ РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РјРѕРґРµР»СЏРј РѕРїСЂРµРґРµР»РµРЅРёСЏ С‚Р°Р±Р»РёС† РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С…. Р РµСЃР»Рё РјРѕРґРµР»Рё РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‚ РѕРїСЂРµРґРµР»РµРЅРёСЋ С‚Р°Р±Р»РёС†, С‚Рѕ Р±Р°Р·Р° РґР°РЅРЅС‹Рµ РїРµСЂРµСЃРѕР·РґР°РµС‚СЃСЏ
 
-#DropCreateDatabaseAlways: этот инициализатор будет всегда пересоздавать базу данных
+#DropCreateDatabaseAlways: СЌС‚РѕС‚ РёРЅРёС†РёР°Р»РёР·Р°С‚РѕСЂ Р±СѓРґРµС‚ РІСЃРµРіРґР° РїРµСЂРµСЃРѕР·РґР°РІР°С‚СЊ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…
 
 
-при старте
+РїСЂРё СЃС‚Р°СЂС‚Рµ
 https://metanit.com/sharp/entityframework/3.9.php
 
 class AppDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
 {
-    protected override void Seed(ApplicationDbContext db)//название котекста
+    protected override void Seed(ApplicationDbContext db)//РЅР°Р·РІР°РЅРёРµ РєРѕС‚РµРєСЃС‚Р°
     {
-//доп инфа по ролям и созданию пользователей по тегу #roles
+//РґРѕРї РёРЅС„Р° РїРѕ СЂРѕР»СЏРј Рё СЃРѕР·РґР°РЅРёСЋ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РїРѕ С‚РµРіСѓ #roles
 
 db.Phones.Add();
         db.SaveChanges();
@@ -644,34 +644,34 @@ base.Seed(db);//context
     }
 }
 
-Объявление
-так:
-добавить в класс контекста (статический конструктор)
-//class ApplicationDbContext : DbContext  или так может быть объявлен public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+РћР±СЉСЏРІР»РµРЅРёРµ
+С‚Р°Рє:
+РґРѕР±Р°РІРёС‚СЊ РІ РєР»Р°СЃСЃ РєРѕРЅС‚РµРєСЃС‚Р° (СЃС‚Р°С‚РёС‡РµСЃРєРёР№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ)
+//class ApplicationDbContext : DbContext  РёР»Рё С‚Р°Рє РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕР±СЉСЏРІР»РµРЅ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 //{
 static ApplicationDbContext()
     {
         Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
     }
-или так
+РёР»Рё С‚Р°Рє
 
-в файл global.asax
+РІ С„Р°Р№Р» global.asax
  public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
             Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
 
-AppDbInitializer  объявить в папке  Models->DataBase
+AppDbInitializer  РѕР±СЉСЏРІРёС‚СЊ РІ РїР°РїРєРµ  Models->DataBase
 
 
 
 
 #roles  #seed
 
-к методу [Authorize(Roles="admin")] [Authorize]
+Рє РјРµС‚РѕРґСѓ [Authorize(Roles="admin")] [Authorize]
 
-в AppDbInitializer->seed
+РІ AppDbInitializer->seed
 
 using Microsoft.AspNet.Identity;//!!!!!!!!!!!!!
 
@@ -682,22 +682,22 @@ var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(cont
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
  var role1 = new IdentityRole { Name = "admin" };
 roleManager.Create(role1);
-//создание юзера пользователя
+//СЃРѕР·РґР°РЅРёРµ СЋР·РµСЂР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 var admin = new ApplicationUser { Email = "admin@mail.ru", UserName = "admin@mail.ru", Name="zsuz",Surname="zsuzSUR",Birthday=DateTime.Now };
             string password = "Admin1!";
             var result = userManager.Create(admin, password);
-// если создание пользователя прошло успешно
+// РµСЃР»Рё СЃРѕР·РґР°РЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїСЂРѕС€Р»Рѕ СѓСЃРїРµС€РЅРѕ
             if (result.Succeeded)
             {
-                // добавляем для пользователя роль
+                // РґРѕР±Р°РІР»СЏРµРј РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ СЂРѕР»СЊ
                 userManager.AddToRole(admin.Id, role1.Name);
 	}
 
 
-для добавления роли при регистрации
+РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ СЂРѕР»Рё РїСЂРё СЂРµРіРёСЃС‚СЂР°С†РёРё
 accountController
 public async Task<ActionResult> Register(RegisterViewModel model){
-// после этой строки await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+// РїРѕСЃР»Рµ СЌС‚РѕР№ СЃС‚СЂРѕРєРё await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 await UserManager.AddToRoleAsync(user.Id, "user");
 
 
@@ -707,21 +707,21 @@ await UserManager.AddToRoleAsync(user.Id, "user");
  ApplicationUserManager userManager = HttpContext.GetOwinContext()
                                             .GetUserManager<ApplicationUserManager>();
 IList<string> roles=userManager.GetRoles(user.Id);
-//еще вариант возвращает для зарегистрированного пользователя
-System.Web.Security.Roles.GetRolesForUser();//есть перегрузки для поиска по имени
-//вернет id ролей(сложный объект)
+//РµС‰Рµ РІР°СЂРёР°РЅС‚ РІРѕР·РІСЂР°С‰Р°РµС‚ РґР»СЏ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+System.Web.Security.Roles.GetRolesForUser();//РµСЃС‚СЊ РїРµСЂРµРіСЂСѓР·РєРё РґР»СЏ РїРѕРёСЃРєР° РїРѕ РёРјРµРЅРё
+//РІРµСЂРЅРµС‚ id СЂРѕР»РµР№(СЃР»РѕР¶РЅС‹Р№ РѕР±СЉРµРєС‚)
 using(var db=)
 this.Roles;
 db.Roles.where(=>);
 
-//можно вот так
+//РјРѕР¶РЅРѕ РІРѕС‚ С‚Р°Рє
 RolePrincipal r = (RolePrincipal)User;   rolesArray = r.GetRoles();
 
 
 
-//проверить принадлежит ли пользователь к роли
+//РїСЂРѕРІРµСЂРёС‚СЊ РїСЂРёРЅР°РґР»РµР¶РёС‚ Р»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Рє СЂРѕР»Рё
  System.Web.HttpContext.Current.User.IsInRole("role");
-//если нужно закинуть контекст в метод то по такому типу данных "System.Web.HttpContextBase"
+//РµСЃР»Рё РЅСѓР¶РЅРѕ Р·Р°РєРёРЅСѓС‚СЊ РєРѕРЅС‚РµРєСЃС‚ РІ РјРµС‚РѕРґ С‚Рѕ РїРѕ С‚Р°РєРѕРјСѓ С‚РёРїСѓ РґР°РЅРЅС‹С… "System.Web.HttpContextBase"
 
 
 
@@ -743,31 +743,31 @@ HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Fi
 
 
 
-сформировать классы по базе данных
-создать класс "linq to sql classes"
-в его конструктор просто перетаскивать из бд таблицы
+СЃС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РєР»Р°СЃСЃС‹ РїРѕ Р±Р°Р·Рµ РґР°РЅРЅС‹С…
+СЃРѕР·РґР°С‚СЊ РєР»Р°СЃСЃ "linq to sql classes"
+РІ РµРіРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРѕСЃС‚Рѕ РїРµСЂРµС‚Р°СЃРєРёРІР°С‚СЊ РёР· Р±Рґ С‚Р°Р±Р»РёС†С‹
 
 
 #ef #entity framework
 #mdf #bak #ssms
-создать mdf из bak файла
-по базе данных в microsoft SQL server management studio       задачи->восстановить-> там посоздавать бд   и потом правой кнопкой мыши по ней создать скрипт->использую create там будут пути куда создались файлы будет что то типа
+СЃРѕР·РґР°С‚СЊ mdf РёР· bak С„Р°Р№Р»Р°
+РїРѕ Р±Р°Р·Рµ РґР°РЅРЅС‹С… РІ microsoft SQL server management studio       Р·Р°РґР°С‡Рё->РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ-> С‚Р°Рј РїРѕСЃРѕР·РґР°РІР°С‚СЊ Р±Рґ   Рё РїРѕС‚РѕРј РїСЂР°РІРѕР№ РєРЅРѕРїРєРѕР№ РјС‹С€Рё РїРѕ РЅРµР№ СЃРѕР·РґР°С‚СЊ СЃРєСЂРёРїС‚->РёСЃРїРѕР»СЊР·СѓСЋ create С‚Р°Рј Р±СѓРґСѓС‚ РїСѓС‚Рё РєСѓРґР° СЃРѕР·РґР°Р»РёСЃСЊ С„Р°Р№Р»С‹ Р±СѓРґРµС‚ С‡С‚Рѕ С‚Рѕ С‚РёРїР°
 C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\SOFI.mdf
 
 
 #SQL #server
-расположение server и способ его включить если выключился
-C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft SQL Server 2017 ->Средства настройки->Диспетчер конфигурации SQL Server 2017
+СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ server Рё СЃРїРѕСЃРѕР± РµРіРѕ РІРєР»СЋС‡РёС‚СЊ РµСЃР»Рё РІС‹РєР»СЋС‡РёР»СЃСЏ
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft SQL Server 2017 ->РЎСЂРµРґСЃС‚РІР° РЅР°СЃС‚СЂРѕР№РєРё->Р”РёСЃРїРµС‚С‡РµСЂ РєРѕРЅС„РёРіСѓСЂР°С†РёРё SQL Server 2017
 C:\Windows\SysWOW64\mmc.exe /32 C:\Windows\SysWOW64\SQLServerManager14.msc
 
-//TODO где то уже есть инфа про строку подключения но другая, надо перетащить сюда
-для формирования #connection #string  #connectionstring
+//TODO РіРґРµ С‚Рѕ СѓР¶Рµ РµСЃС‚СЊ РёРЅС„Р° РїСЂРѕ СЃС‚СЂРѕРєСѓ РїРѕРґРєР»СЋС‡РµРЅРёСЏ РЅРѕ РґСЂСѓРіР°СЏ, РЅР°РґРѕ РїРµСЂРµС‚Р°С‰РёС‚СЊ СЃСЋРґР°
+РґР»СЏ С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ #connection #string  #connectionstring
 @"Data Source=.\SQLEXPRESS01;AttachDbFilename=|DataDirectory|\PhysicalEffects.mdf;Integrated Security=True"
-Data Source- ИМЯСЕРВЕРА\ИМЯИНСТАНСА
-можно просто через local задать --  (LocalDb)\MSSQLLocalDB    -- имя можно узнать в cmd -comand---- sqllocaldb i
-можно явно задать .\SQLEXPRESS01  ---  можно узнать какие доступны в  поиск->services ->найти sql server и то что в скобках можно пробовать использовать
+Data Source- РРњРЇРЎР•Р Р’Р•Р Рђ\РРњРЇРРќРЎРўРђРќРЎРђ
+РјРѕР¶РЅРѕ РїСЂРѕСЃС‚Рѕ С‡РµСЂРµР· local Р·Р°РґР°С‚СЊ --  (LocalDb)\MSSQLLocalDB    -- РёРјСЏ РјРѕР¶РЅРѕ СѓР·РЅР°С‚СЊ РІ cmd -comand---- sqllocaldb i
+РјРѕР¶РЅРѕ СЏРІРЅРѕ Р·Р°РґР°С‚СЊ .\SQLEXPRESS01  ---  РјРѕР¶РЅРѕ СѓР·РЅР°С‚СЊ РєР°РєРёРµ РґРѕСЃС‚СѓРїРЅС‹ РІ  РїРѕРёСЃРє->services ->РЅР°Р№С‚Рё sql server Рё С‚Рѕ С‡С‚Рѕ РІ СЃРєРѕР±РєР°С… РјРѕР¶РЅРѕ РїСЂРѕР±РѕРІР°С‚СЊ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ
 
-#версии #версия #version sql server 
+#РІРµСЂСЃРёРё #РІРµСЂСЃРёСЏ #version sql server 
 https://sqlserverbuilds.blogspot.com/2014/01/sql-server-internal-database-versions.html?m=1
 
 
@@ -796,9 +796,9 @@ https://sqlserverbuilds.blogspot.com/2014/01/sql-server-internal-database-versio
 
 
  #block #db #ef //#TODO
-блокировка записи бд для редактирования и удаления  https://metanit.com/sharp/entityframework/3.10.php
+Р±Р»РѕРєРёСЂРѕРІРєР° Р·Р°РїРёСЃРё Р±Рґ РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ Рё СѓРґР°Р»РµРЅРёСЏ  https://metanit.com/sharp/entityframework/3.10.php
 
-#транзакции #tranzaction #transaction
+#С‚СЂР°РЅР·Р°РєС†РёРё #tranzaction #transaction
 
 using(UserContext db = new UserContext())
 {
@@ -827,11 +827,11 @@ try
 
 
 
-миграция https://metanit.com/sharp/entityframework/3.12.php
+РјРёРіСЂР°С†РёСЏ https://metanit.com/sharp/entityframework/3.12.php
 
 
 
-репозитории 
+СЂРµРїРѕР·РёС‚РѕСЂРёРё 
 https://metanit.com/sharp/entityframework/3.13.php
 
 

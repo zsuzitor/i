@@ -1,13 +1,13 @@
 
-куча ахуительных ui штук на jquery
+РєСѓС‡Р° Р°С…СѓРёС‚РµР»СЊРЅС‹С… ui С€С‚СѓРє РЅР° jquery
 https://jqueryui.com/slider/#range
-это отдельная либа jqueryUI ее надо подключить отдельно
+СЌС‚Рѕ РѕС‚РґРµР»СЊРЅР°СЏ Р»РёР±Р° jqueryUI РµРµ РЅР°РґРѕ РїРѕРґРєР»СЋС‡РёС‚СЊ РѕС‚РґРµР»СЊРЅРѕ
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 
 #TODO
-.table с .table-responsive{-sm|-md|-lg|-xl}, 
+.table СЃ .table-responsive{-sm|-md|-lg|-xl}, 
 #nav
 ol - li
 
@@ -43,31 +43,31 @@ ol - li
 
 
 --------------------------------------------------------
- очень маленький экран, этот класс применяется всегда и в дополнение к нему может применяться еще 1 из следующих
-sm маленький экран
-md средний экран
-lg большой экран
-xl очень большой экран
-sm-4  -- здесь 4- это ширина в колонках
-md-auto  --по ширине содержимого
+ РѕС‡РµРЅСЊ РјР°Р»РµРЅСЊРєРёР№ СЌРєСЂР°РЅ, СЌС‚РѕС‚ РєР»Р°СЃСЃ РїСЂРёРјРµРЅСЏРµС‚СЃСЏ РІСЃРµРіРґР° Рё РІ РґРѕРїРѕР»РЅРµРЅРёРµ Рє РЅРµРјСѓ РјРѕР¶РµС‚ РїСЂРёРјРµРЅСЏС‚СЊСЃСЏ РµС‰Рµ 1 РёР· СЃР»РµРґСѓСЋС‰РёС…
+sm РјР°Р»РµРЅСЊРєРёР№ СЌРєСЂР°РЅ
+md СЃСЂРµРґРЅРёР№ СЌРєСЂР°РЅ
+lg Р±РѕР»СЊС€РѕР№ СЌРєСЂР°РЅ
+xl РѕС‡РµРЅСЊ Р±РѕР»СЊС€РѕР№ СЌРєСЂР°РЅ
+sm-4  -- Р·РґРµСЃСЊ 4- СЌС‚Рѕ С€РёСЂРёРЅР° РІ РєРѕР»РѕРЅРєР°С…
+md-auto  --РїРѕ С€РёСЂРёРЅРµ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ
 
 
 
 #color
-– primary - синий
-– secondary  - серый
-– success - зеленый
-– danger - красный
-– warning - желтый
-– info - другой синий
-- light - почти белый
-– dark - черный
---не для всего:
--body - совсем черный
--muted-светло серый
--white- белый
-black-50 - серый
-white-50- серый
+вЂ“ primary - СЃРёРЅРёР№
+вЂ“ secondary  - СЃРµСЂС‹Р№
+вЂ“ success - Р·РµР»РµРЅС‹Р№
+вЂ“ danger - РєСЂР°СЃРЅС‹Р№
+вЂ“ warning - Р¶РµР»С‚С‹Р№
+вЂ“ info - РґСЂСѓРіРѕР№ СЃРёРЅРёР№
+- light - РїРѕС‡С‚Рё Р±РµР»С‹Р№
+вЂ“ dark - С‡РµСЂРЅС‹Р№
+--РЅРµ РґР»СЏ РІСЃРµРіРѕ:
+-body - СЃРѕРІСЃРµРј С‡РµСЂРЅС‹Р№
+-muted-СЃРІРµС‚Р»Рѕ СЃРµСЂС‹Р№
+-white- Р±РµР»С‹Р№
+black-50 - СЃРµСЂС‹Р№
+white-50- СЃРµСЂС‹Р№
 
 .bg-success
 . #text-success
@@ -75,12 +75,12 @@ white-50- серый
 
 
 
-#отображение
+#РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ
 
-.d-{value} для xs
-.d-{breakpoint}-{value} где breakpoint --> sm, md, lg и xl.
+.d-{value} РґР»СЏ xs
+.d-{breakpoint}-{value} РіРґРµ breakpoint --> sm, md, lg Рё xl.
 
-Где value – это одно из:
+Р“РґРµ value вЂ“ СЌС‚Рѕ РѕРґРЅРѕ РёР·:
 none
 inline
 inline-block
@@ -91,13 +91,13 @@ table-row
 flex
 inline-flex
 
-Медиа-запросы влияют на ширину экрана, начиная с указанного брейкпонта или больше.
+РњРµРґРёР°-Р·Р°РїСЂРѕСЃС‹ РІР»РёСЏСЋС‚ РЅР° С€РёСЂРёРЅСѓ СЌРєСЂР°РЅР°, РЅР°С‡РёРЅР°СЏ СЃ СѓРєР°Р·Р°РЅРЅРѕРіРѕ Р±СЂРµР№РєРїРѕРЅС‚Р° РёР»Рё Р±РѕР»СЊС€Рµ.
 <div class="d-inline p-2 bg-primary text-white">d-inline</div>
 
 
 
 
-что бы убрать #отступы #padding
+С‡С‚Рѕ Р±С‹ СѓР±СЂР°С‚СЊ #РѕС‚СЃС‚СѓРїС‹ #padding
 .nopadding {
    padding: 0 !important;
    margin: 0 !important;
@@ -105,26 +105,26 @@ inline-flex
 
 
 
-#padding #margin #отступы
+#padding #margin #РѕС‚СЃС‚СѓРїС‹
 https://bootstrap-4.ru/docs/4.3.1/utilities/spacing/
 #center #centre
 #offset-3
 <div className='row'>
             <div className='col-6 offset-3' style={{align:"center"}}>
-для бутстрап 3 ->col-md-offset-3
-для 3-> offset-3 or mx-auto to center a col-md-6
+РґР»СЏ Р±СѓС‚СЃС‚СЂР°Рї 3 ->col-md-offset-3
+РґР»СЏ 3-> offset-3 or mx-auto to center a col-md-6
 
 
-по правому краю зная фиксированную ширину
+РїРѕ РїСЂР°РІРѕРјСѓ РєСЂР°СЋ Р·РЅР°СЏ С„РёРєСЃРёСЂРѕРІР°РЅРЅСѓСЋ С€РёСЂРёРЅСѓ
 left: 100%;
     margin-left: -30px;
 
 
 
 #start #layaut
-//то что должно быть в мастре странице(или во всех)
+//С‚Рѕ С‡С‚Рѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РІ РјР°СЃС‚СЂРµ СЃС‚СЂР°РЅРёС†Рµ(РёР»Рё РІРѕ РІСЃРµС…)
 
-//этот кусок фиксит инпуты на ранних версих андройдах
+//СЌС‚РѕС‚ РєСѓСЃРѕРє С„РёРєСЃРёС‚ РёРЅРїСѓС‚С‹ РЅР° СЂР°РЅРЅРёС… РІРµСЂСЃРёС… Р°РЅРґСЂРѕР№РґР°С…
 <script>
 $(function () {
   var nua = navigator.userAgent
@@ -137,7 +137,7 @@ $(function () {
 
 
 
-это надо добавить в css для установки box-sizing с content-box на border-box .. и делаем это так что бы не сломать внешние длл
+СЌС‚Рѕ РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ РІ css РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё box-sizing СЃ content-box РЅР° border-box .. Рё РґРµР»Р°РµРј СЌС‚Рѕ С‚Р°Рє С‡С‚Рѕ Р±С‹ РЅРµ СЃР»РѕРјР°С‚СЊ РІРЅРµС€РЅРёРµ РґР»Р»
 .selector-for-some-widget {
   box-sizing: content-box;
 }
@@ -154,11 +154,11 @@ $(function () {
 
 
 #install
-установка для nodejs
+СѓСЃС‚Р°РЅРѕРІРєР° РґР»СЏ nodejs
 npm install bootstrap
-//установка через yarn----> yarn add bootstrap
+//СѓСЃС‚Р°РЅРѕРІРєР° С‡РµСЂРµР· yarn----> yarn add bootstrap
 
-require('bootstrap') ) загрузит все плагины JS Bootstrap в объект jQuery
+require('bootstrap') ) Р·Р°РіСЂСѓР·РёС‚ РІСЃРµ РїР»Р°РіРёРЅС‹ JS Bootstrap РІ РѕР±СЉРµРєС‚ jQuery
 
 
 
@@ -216,33 +216,33 @@ http://bootstrap-3.ru/css.php
 
 #ul #li #list-group #list-group-item #list-group-item-primary
 
-#list-group-flush - убирает все гланицы у элементов, сотавляя только линии между ними, и все эти элементы становятся 100% ширины
-#list-group-horizontal .list-group-horizontal-{sm|md|lg|xl}  --сделать список горизонтальным
-если добавить #list-group-item-action к всем list-group-item  то при наведении они начнут выделяться
+#list-group-flush - СѓР±РёСЂР°РµС‚ РІСЃРµ РіР»Р°РЅРёС†С‹ Сѓ СЌР»РµРјРµРЅС‚РѕРІ, СЃРѕС‚Р°РІР»СЏСЏ С‚РѕР»СЊРєРѕ Р»РёРЅРёРё РјРµР¶РґСѓ РЅРёРјРё, Рё РІСЃРµ СЌС‚Рё СЌР»РµРјРµРЅС‚С‹ СЃС‚Р°РЅРѕРІСЏС‚СЃСЏ 100% С€РёСЂРёРЅС‹
+#list-group-horizontal .list-group-horizontal-{sm|md|lg|xl}  --СЃРґРµР»Р°С‚СЊ СЃРїРёСЃРѕРє РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Рј
+РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ #list-group-item-action Рє РІСЃРµРј list-group-item  С‚Рѕ РїСЂРё РЅР°РІРµРґРµРЅРёРё РѕРЅРё РЅР°С‡РЅСѓС‚ РІС‹РґРµР»СЏС‚СЊСЃСЏ
 
  <ul class="list-group list-group-flush">
     <li class="list-group-item active">Cras justo odio</li>
  <li class="list-group-item disabled">Cras justo odio</li>
-<li class="list-group-item list-group-item-primary">Элемент основной группы списков</li>
-//можно тег А или кнопку
+<li class="list-group-item list-group-item-primary">Р­Р»РµРјРµРЅС‚ РѕСЃРЅРѕРІРЅРѕР№ РіСЂСѓРїРїС‹ СЃРїРёСЃРєРѕРІ</li>
+//РјРѕР¶РЅРѕ С‚РµРі Рђ РёР»Рё РєРЅРѕРїРєСѓ
  <a href="#" class="list-group-item list-group-item-action active">Cras justo odio</a>
   </ul>
 
 
-list-unstyled   убрать отступы и точки у ul 
-list-inline     тоже что list-unstyled  но еще и инлайн отобразит
-цвет текста{
+list-unstyled   СѓР±СЂР°С‚СЊ РѕС‚СЃС‚СѓРїС‹ Рё С‚РѕС‡РєРё Сѓ ul 
+list-inline     С‚РѕР¶Рµ С‡С‚Рѕ list-unstyled  РЅРѕ РµС‰Рµ Рё РёРЅР»Р°Р№РЅ РѕС‚РѕР±СЂР°Р·РёС‚
+С†РІРµС‚ С‚РµРєСЃС‚Р°{
 text-primary
-– primary....
+вЂ“ primary....
 
 }
 
 
 
-#breadcrumb #разделитель #иерархия #список 
-#навигационная #цепочка
+#breadcrumb #СЂР°Р·РґРµР»РёС‚РµР»СЊ #РёРµСЂР°СЂС…РёСЏ #СЃРїРёСЃРѕРє 
+#РЅР°РІРёРіР°С†РёРѕРЅРЅР°СЏ #С†РµРїРѕС‡РєР°
 Home / Library / Data
-active - сделает кликабельным+ выделит синим, не актив будет серым
+active - СЃРґРµР»Р°РµС‚ РєР»РёРєР°Р±РµР»СЊРЅС‹Рј+ РІС‹РґРµР»РёС‚ СЃРёРЅРёРј, РЅРµ Р°РєС‚РёРІ Р±СѓРґРµС‚ СЃРµСЂС‹Рј
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -274,13 +274,13 @@ active - сделает кликабельным+ выделит синим, не актив будет серым
 
 
 #img #image{
-<img class="img-fluid"/>    картинка нормально отображается / становится адаптивной(сужается и тд)
- img-fluid rounded       закругленные углы для картинки
-img-fluid rounded-circle   круглое
-float-left выравниваем по краю и вроде бы становится обтекаемой
-.img-thumbnail для придания изображению границы 1px
-float-left и float-right 
-mx-auto d-block по центру
+<img class="img-fluid"/>    РєР°СЂС‚РёРЅРєР° РЅРѕСЂРјР°Р»СЊРЅРѕ РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ / СЃС‚Р°РЅРѕРІРёС‚СЃСЏ Р°РґР°РїС‚РёРІРЅРѕР№(СЃСѓР¶Р°РµС‚СЃСЏ Рё С‚Рґ)
+ img-fluid rounded       Р·Р°РєСЂСѓРіР»РµРЅРЅС‹Рµ СѓРіР»С‹ РґР»СЏ РєР°СЂС‚РёРЅРєРё
+img-fluid rounded-circle   РєСЂСѓРіР»РѕРµ
+float-left РІС‹СЂР°РІРЅРёРІР°РµРј РїРѕ РєСЂР°СЋ Рё РІСЂРѕРґРµ Р±С‹ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ РѕР±С‚РµРєР°РµРјРѕР№
+.img-thumbnail РґР»СЏ РїСЂРёРґР°РЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЋ РіСЂР°РЅРёС†С‹ 1px
+float-left Рё float-right 
+mx-auto d-block РїРѕ С†РµРЅС‚СЂСѓ
 }
 
 
@@ -288,8 +288,8 @@ mx-auto d-block по центру
 
 
 #figure #figcaption
-если необходимо добавить подпись к изображению
-Изображения в figure’s не имеют точного размера, так что удостоверьтесь, что добавили в <img> класс .img-fluid для придания <img> отзывчивости.
+РµСЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕР±Р°РІРёС‚СЊ РїРѕРґРїРёСЃСЊ Рє РёР·РѕР±СЂР°Р¶РµРЅРёСЋ
+РР·РѕР±СЂР°Р¶РµРЅРёСЏ РІ figureвЂ™s РЅРµ РёРјРµСЋС‚ С‚РѕС‡РЅРѕРіРѕ СЂР°Р·РјРµСЂР°, С‚Р°Рє С‡С‚Рѕ СѓРґРѕСЃС‚РѕРІРµСЂСЊС‚РµСЃСЊ, С‡С‚Рѕ РґРѕР±Р°РІРёР»Рё РІ <img> РєР»Р°СЃСЃ .img-fluid РґР»СЏ РїСЂРёРґР°РЅРёСЏ <img> РѕС‚Р·С‹РІС‡РёРІРѕСЃС‚Рё.
 
 
 <figure class="figure">
@@ -303,15 +303,15 @@ mx-auto d-block по центру
 
 
 
-#Медиа #media  #media-body
-способ красиво разместить изображение слева или справа от текста, но не в центре (напрмиер как ава ввк возле сообщения)
-в media-body можно вложить еще 1 медиа блок(полный)
+#РњРµРґРёР° #media  #media-body
+СЃРїРѕСЃРѕР± РєСЂР°СЃРёРІРѕ СЂР°Р·РјРµСЃС‚РёС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёРµ СЃР»РµРІР° РёР»Рё СЃРїСЂР°РІР° РѕС‚ С‚РµРєСЃС‚Р°, РЅРѕ РЅРµ РІ С†РµРЅС‚СЂРµ (РЅР°РїСЂРјРёРµСЂ РєР°Рє Р°РІР° РІРІРє РІРѕР·Р»Рµ СЃРѕРѕР±С‰РµРЅРёСЏ)
+РІ media-body РјРѕР¶РЅРѕ РІР»РѕР¶РёС‚СЊ РµС‰Рµ 1 РјРµРґРёР° Р±Р»РѕРє(РїРѕР»РЅС‹Р№)
 
-если к изображению(или то что на его месте) добавить
-#align-self-start  -- оно будет слева-сверху
-#align-self-center -- оно будет слева-центр
-#align-self-end    -- оно будет слева-низ
-картинку также можно перенести в правую часть просто переместив в html
+РµСЃР»Рё Рє РёР·РѕР±СЂР°Р¶РµРЅРёСЋ(РёР»Рё С‚Рѕ С‡С‚Рѕ РЅР° РµРіРѕ РјРµСЃС‚Рµ) РґРѕР±Р°РІРёС‚СЊ
+#align-self-start  -- РѕРЅРѕ Р±СѓРґРµС‚ СЃР»РµРІР°-СЃРІРµСЂС…Сѓ
+#align-self-center -- РѕРЅРѕ Р±СѓРґРµС‚ СЃР»РµРІР°-С†РµРЅС‚СЂ
+#align-self-end    -- РѕРЅРѕ Р±СѓРґРµС‚ СЃР»РµРІР°-РЅРёР·
+РєР°СЂС‚РёРЅРєСѓ С‚Р°РєР¶Рµ РјРѕР¶РЅРѕ РїРµСЂРµРЅРµСЃС‚Рё РІ РїСЂР°РІСѓСЋ С‡Р°СЃС‚СЊ РїСЂРѕСЃС‚Рѕ РїРµСЂРµРјРµСЃС‚РёРІ РІ html
 
 <div class="media">
   <img src="..." class="mr-3" alt="...">
@@ -322,7 +322,7 @@ mx-auto d-block по центру
 </div>
 
 
-можно так
+РјРѕР¶РЅРѕ С‚Р°Рє
 <ul class="list-unstyled">
   <li class="media">
     <img src="..." class="mr-3" alt="...">
@@ -339,7 +339,7 @@ mx-auto d-block по центру
 
 
 #TODO
-Если вы используете элемент <picture> для привязки множественных элементов <source> к определенному <img>, добавьте классы .img-* в <img>, а не в <picture>.
+Р•СЃР»Рё РІС‹ РёСЃРїРѕР»СЊР·СѓРµС‚Рµ СЌР»РµРјРµРЅС‚ <picture> РґР»СЏ РїСЂРёРІСЏР·РєРё РјРЅРѕР¶РµСЃС‚РІРµРЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ <source> Рє РѕРїСЂРµРґРµР»РµРЅРЅРѕРјСѓ <img>, РґРѕР±Р°РІСЊС‚Рµ РєР»Р°СЃСЃС‹ .img-* РІ <img>, Р° РЅРµ РІ <picture>.
 <picture>
 <source srcset="..." type="image/svg+xml">
 <img src="..." class="img-fluid img-thumbnail" alt="...">
@@ -360,7 +360,7 @@ mx-auto d-block по центру
 
 
 {
-#button #кнопки #btn
+#button #РєРЅРѕРїРєРё #btn
 
 
 <button type="button" class="btn btn-default">Default</button>
@@ -369,47 +369,47 @@ mx-auto d-block по центру
 <button type="button" class="btn btn-info">Info</button>
 <button type="button" class="btn btn-warning">Warning</button>
 <button type="button" class="btn btn-danger">Danger</button>
-<button type="button" class="btn btn-link">Ссылка</button>
-<button type="button" class="btn btn-primary btn-lg">Большая кнопка</button>
-<button type="button" class="btn btn-primary">По умолчанию</button>
-<button type="button" class="btn btn-primary btn-sm">Малая кнопка</button>
-<button type="button" class="btn btn-primary btn-xs">Очень малая кнопка</button>
+<button type="button" class="btn btn-link">РЎСЃС‹Р»РєР°</button>
+<button type="button" class="btn btn-primary btn-lg">Р‘РѕР»СЊС€Р°СЏ РєРЅРѕРїРєР°</button>
+<button type="button" class="btn btn-primary">РџРѕ СѓРјРѕР»С‡Р°РЅРёСЋ</button>
+<button type="button" class="btn btn-primary btn-sm">РњР°Р»Р°СЏ РєРЅРѕРїРєР°</button>
+<button type="button" class="btn btn-primary btn-xs">РћС‡РµРЅСЊ РјР°Р»Р°СЏ РєРЅРѕРїРєР°</button>
 
-//при использовании с ссылкой нужно добавить role="button"
-<a href="#" class="btn btn-primary btn-lg active" role="button">Главная ссылка</a>
+//РїСЂРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё СЃ СЃСЃС‹Р»РєРѕР№ РЅСѓР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ role="button"
+<a href="#" class="btn btn-primary btn-lg active" role="button">Р“Р»Р°РІРЅР°СЏ СЃСЃС‹Р»РєР°</a>
 
-<button type="button" class="close" aria-hidden="true">&times;</button>     кнопка закрытия
-<span class="caret"></span>       кнопка "развернуть"
+<button type="button" class="close" aria-hidden="true">&times;</button>     РєРЅРѕРїРєР° Р·Р°РєСЂС‹С‚РёСЏ
+<span class="caret"></span>       РєРЅРѕРїРєР° "СЂР°Р·РІРµСЂРЅСѓС‚СЊ"
 
 
-контурные кнопки, цветом выделяется текст и границы, фона нет #btn-outline
+РєРѕРЅС‚СѓСЂРЅС‹Рµ РєРЅРѕРїРєРё, С†РІРµС‚РѕРј РІС‹РґРµР»СЏРµС‚СЃСЏ С‚РµРєСЃС‚ Рё РіСЂР°РЅРёС†С‹, С„РѕРЅР° РЅРµС‚ #btn-outline
 class="btn btn-outline-primary"
 
 
-размер можно регулировать ДОБАВЛЕНИЕМ классов
-btn-lg - большая
-btn-sm - маленькая
+СЂР°Р·РјРµСЂ РјРѕР¶РЅРѕ СЂРµРіСѓР»РёСЂРѕРІР°С‚СЊ Р”РћР‘РђР’Р›Р•РќРР•Рњ РєР»Р°СЃСЃРѕРІ
+btn-lg - Р±РѕР»СЊС€Р°СЏ
+btn-sm - РјР°Р»РµРЅСЊРєР°СЏ
 
 
-добавив .btn-block можно сделать кнопку блочным элементом=>станет по ширине родительского блока
+РґРѕР±Р°РІРёРІ .btn-block РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РєРЅРѕРїРєСѓ Р±Р»РѕС‡РЅС‹Рј СЌР»РµРјРµРЅС‚РѕРј=>СЃС‚Р°РЅРµС‚ РїРѕ С€РёСЂРёРЅРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ Р±Р»РѕРєР°
 
-если нужно что бы кнопка была всегда в активном состоянии(как будто нажата прямо сейчас) надо добавить класс active и aria-pressed="true"
-<a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Главная ссылка</a>
+РµСЃР»Рё РЅСѓР¶РЅРѕ С‡С‚Рѕ Р±С‹ РєРЅРѕРїРєР° Р±С‹Р»Р° РІСЃРµРіРґР° РІ Р°РєС‚РёРІРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё(РєР°Рє Р±СѓРґС‚Рѕ РЅР°Р¶Р°С‚Р° РїСЂСЏРјРѕ СЃРµР№С‡Р°СЃ) РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ РєР»Р°СЃСЃ active Рё aria-pressed="true"
+<a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Р“Р»Р°РІРЅР°СЏ СЃСЃС‹Р»РєР°</a>
 
-сделать кнопку неактивной(или что бы она так выглядела пока хз #TODO
+СЃРґРµР»Р°С‚СЊ РєРЅРѕРїРєСѓ РЅРµР°РєС‚РёРІРЅРѕР№(РёР»Рё С‡С‚Рѕ Р±С‹ РѕРЅР° С‚Р°Рє РІС‹РіР»СЏРґРµР»Р° РїРѕРєР° С…Р· #TODO
 <button type="button" class="btn btn-lg btn-primary" disabled>
-если хотим сделать так но для тега A то надо добавить класс disabled и добавить атрибут aria-disabled="true"
-<a href="#" class="btn btn-primary btn-lg disabled" role="button" aria-disabled="true">Главный линк</a>
+РµСЃР»Рё С…РѕС‚РёРј СЃРґРµР»Р°С‚СЊ С‚Р°Рє РЅРѕ РґР»СЏ С‚РµРіР° A С‚Рѕ РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ РєР»Р°СЃСЃ disabled Рё РґРѕР±Р°РІРёС‚СЊ Р°С‚СЂРёР±СѓС‚ aria-disabled="true"
+<a href="#" class="btn btn-primary btn-lg disabled" role="button" aria-disabled="true">Р“Р»Р°РІРЅС‹Р№ Р»РёРЅРє</a>
 
 
-для #группировки кнопок #граппировка #group
+РґР»СЏ #РіСЂСѓРїРїРёСЂРѕРІРєРё РєРЅРѕРїРѕРє #РіСЂР°РїРїРёСЂРѕРІРєР° #group
 <div class="btn-group" role="group" aria-label="Basic example">
   <button type="button" class="btn btn-secondary">Left</button>
 
-можно задать размер кнопок в группе сразу всем добавив в див группы класс "btn-group-lg" btn-group-sm
+РјРѕР¶РЅРѕ Р·Р°РґР°С‚СЊ СЂР°Р·РјРµСЂ РєРЅРѕРїРѕРє РІ РіСЂСѓРїРїРµ СЃСЂР°Р·Сѓ РІСЃРµРј РґРѕР±Р°РІРёРІ РІ РґРёРІ РіСЂСѓРїРїС‹ РєР»Р°СЃСЃ "btn-group-lg" btn-group-sm
 
 
-для вертикальной группировки
+РґР»СЏ РІРµСЂС‚РёРєР°Р»СЊРЅРѕР№ РіСЂСѓРїРїРёСЂРѕРІРєРё
 <div class="btn-group-vertical">
 
 
@@ -418,8 +418,8 @@ btn-sm - маленькая
 
 
 #checkbox
-все хорошо только если на нее кликать мышкой, если необходимо изменять другими способами то надо самому добавлять атрибут active
-тоже самое что radio которое описано ниже
+РІСЃРµ С…РѕСЂРѕС€Рѕ С‚РѕР»СЊРєРѕ РµСЃР»Рё РЅР° РЅРµРµ РєР»РёРєР°С‚СЊ РјС‹С€РєРѕР№, РµСЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ РёР·РјРµРЅСЏС‚СЊ РґСЂСѓРіРёРјРё СЃРїРѕСЃРѕР±Р°РјРё С‚Рѕ РЅР°РґРѕ СЃР°РјРѕРјСѓ РґРѕР±Р°РІР»СЏС‚СЊ Р°С‚СЂРёР±СѓС‚ active
+С‚РѕР¶Рµ СЃР°РјРѕРµ С‡С‚Рѕ radio РєРѕС‚РѕСЂРѕРµ РѕРїРёСЃР°РЅРѕ РЅРёР¶Рµ
 <div class="btn-group-toggle" data-toggle="buttons">
   <label class="btn btn-secondary active">
     <input type="checkbox" checked autocomplete="off"> Checked
@@ -429,9 +429,9 @@ btn-sm - маленькая
 
 
 #radio
-можно сделать группу радио кнопок в виде обычных кнопок
-активная будет выделена только цветом, сами "кружки" радио не будут видны
-все хорошо только если на нее кликать мышкой, если необходимо изменять другими способами то надо самом добавлять атрибут active
+РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РіСЂСѓРїРїСѓ СЂР°РґРёРѕ РєРЅРѕРїРѕРє РІ РІРёРґРµ РѕР±С‹С‡РЅС‹С… РєРЅРѕРїРѕРє
+Р°РєС‚РёРІРЅР°СЏ Р±СѓРґРµС‚ РІС‹РґРµР»РµРЅР° С‚РѕР»СЊРєРѕ С†РІРµС‚РѕРј, СЃР°РјРё "РєСЂСѓР¶РєРё" СЂР°РґРёРѕ РЅРµ Р±СѓРґСѓС‚ РІРёРґРЅС‹
+РІСЃРµ С…РѕСЂРѕС€Рѕ С‚РѕР»СЊРєРѕ РµСЃР»Рё РЅР° РЅРµРµ РєР»РёРєР°С‚СЊ РјС‹С€РєРѕР№, РµСЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ РёР·РјРµРЅСЏС‚СЊ РґСЂСѓРіРёРјРё СЃРїРѕСЃРѕР±Р°РјРё С‚Рѕ РЅР°РґРѕ СЃР°РјРѕРј РґРѕР±Р°РІР»СЏС‚СЊ Р°С‚СЂРёР±СѓС‚ active
 
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
   <label class="btn btn-secondary active">
@@ -451,14 +451,14 @@ btn-sm - маленькая
 
 
 #toolbar
-группировка схожа с группировкой для пагинации
+РіСЂСѓРїРїРёСЂРѕРІРєР° СЃС…РѕР¶Р° СЃ РіСЂСѓРїРїРёСЂРѕРІРєРѕР№ РґР»СЏ РїР°РіРёРЅР°С†РёРё
 
 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
   <div class="btn-group mr-2" role="group" aria-label="First group">
     <button type="button" class="btn btn-secondary">1</button>
     <button type="button" class="btn btn-secondary">2</button>
   </div>
-//--------------вот тут будет разрыв
+//--------------РІРѕС‚ С‚СѓС‚ Р±СѓРґРµС‚ СЂР°Р·СЂС‹РІ
   <div class="btn-group mr-2" role="group" aria-label="Second group">
     <button type="button" class="btn btn-secondary">5</button>
   </div>
@@ -481,9 +481,9 @@ btn-sm - маленькая
 #input
 
 #input-group-text
-сгрупировать несколько в 1 линию без пробелов + чуть поменять для всего стили
-можно применить к различным полям ввода (input textarea)
-такой сероватый блок перед основным полем для ввода #input-group-prepend  и вот такой после #input-group-append (его надо резместить после input)
+СЃРіСЂСѓРїРёСЂРѕРІР°С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ РІ 1 Р»РёРЅРёСЋ Р±РµР· РїСЂРѕР±РµР»РѕРІ + С‡СѓС‚СЊ РїРѕРјРµРЅСЏС‚СЊ РґР»СЏ РІСЃРµРіРѕ СЃС‚РёР»Рё
+РјРѕР¶РЅРѕ РїСЂРёРјРµРЅРёС‚СЊ Рє СЂР°Р·Р»РёС‡РЅС‹Рј РїРѕР»СЏРј РІРІРѕРґР° (input textarea)
+С‚Р°РєРѕР№ СЃРµСЂРѕРІР°С‚С‹Р№ Р±Р»РѕРє РїРµСЂРµРґ РѕСЃРЅРѕРІРЅС‹Рј РїРѕР»РµРј РґР»СЏ РІРІРѕРґР° #input-group-prepend  Рё РІРѕС‚ С‚Р°РєРѕР№ РїРѕСЃР»Рµ #input-group-append (РµРіРѕ РЅР°РґРѕ СЂРµР·РјРµСЃС‚РёС‚СЊ РїРѕСЃР»Рµ input)
 
 <div class="input-group input-group-sm">
     <div class="input-group-prepend">
@@ -494,11 +494,11 @@ btn-sm - маленькая
 </div>
 
 
-в input-group-text можно засунуть чекбокс
-    <div class="input-group-prepend"> можно засунуть чекбокс(возможно в обертке span или label)
+РІ input-group-text РјРѕР¶РЅРѕ Р·Р°СЃСѓРЅСѓС‚СЊ С‡РµРєР±РѕРєСЃ
+    <div class="input-group-prepend"> РјРѕР¶РЅРѕ Р·Р°СЃСѓРЅСѓС‚СЊ С‡РµРєР±РѕРєСЃ(РІРѕР·РјРѕР¶РЅРѕ РІ РѕР±РµСЂС‚РєРµ span РёР»Рё label)
 <span class="input-group-text">0.00</span>
 <span class="input-group-text">0.00</span>
-<button class="btn btn-outline-secondary" type="button" id="button-addon1">Кнопка</button>
+<button class="btn btn-outline-secondary" type="button" id="button-addon1">РљРЅРѕРїРєР°</button>
 <div class="dropdown-menu"></div>
 <select></select>
 <div class="custom-file">
@@ -521,14 +521,14 @@ btn-sm - маленькая
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th scope="col">Колонка</th>
+      <th scope="col">РљРѕР»РѕРЅРєР°</th>
     </tr>
   </thead>
   <tbody>
-//tr- это 1 линия
+//tr- СЌС‚Рѕ 1 Р»РёРЅРёСЏ
     <tr>
-//th-1 ячейка линии
-      <th scope="row">текст </th>
+//th-1 СЏС‡РµР№РєР° Р»РёРЅРёРё
+      <th scope="row">С‚РµРєСЃС‚ </th>
  <td>Jacob</td>
     </tr>
     <tr>
@@ -536,58 +536,58 @@ btn-sm - маленькая
     </tr>
     <tr>
       <th scope="row">4</th>
-//ячейка которая будет суммой 2х ячеик
+//СЏС‡РµР№РєР° РєРѕС‚РѕСЂР°СЏ Р±СѓРґРµС‚ СЃСѓРјРјРѕР№ 2С… СЏС‡РµРёРє
       <td colspan="2">Larry the Bird</td>
     </tr>
   </tbody>
 </table>
 
 
-Все стили таблиц в BS4 наследуются, что означает, что вложенные таблицы будут стилизованы как родительские
+Р’СЃРµ СЃС‚РёР»Рё С‚Р°Р±Р»РёС† РІ BS4 РЅР°СЃР»РµРґСѓСЋС‚СЃСЏ, С‡С‚Рѕ РѕР·РЅР°С‡Р°РµС‚, С‡С‚Рѕ РІР»РѕР¶РµРЅРЅС‹Рµ С‚Р°Р±Р»РёС†С‹ Р±СѓРґСѓС‚ СЃС‚РёР»РёР·РѕРІР°РЅС‹ РєР°Рє СЂРѕРґРёС‚РµР»СЊСЃРєРёРµ
 
-для добавления стилей BS нужно добавить класс table
+РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ СЃС‚РёР»РµР№ BS РЅСѓР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РєР»Р°СЃСЃ table
 
 
-//атрибут #scope определяет, является ли ячейка заголовком для столбца, строкой или группой столбцов или строк
+//Р°С‚СЂРёР±СѓС‚ #scope РѕРїСЂРµРґРµР»СЏРµС‚, СЏРІР»СЏРµС‚СЃСЏ Р»Рё СЏС‡РµР№РєР° Р·Р°РіРѕР»РѕРІРєРѕРј РґР»СЏ СЃС‚РѕР»Р±С†Р°, СЃС‚СЂРѕРєРѕР№ РёР»Рё РіСЂСѓРїРїРѕР№ СЃС‚РѕР»Р±С†РѕРІ РёР»Рё СЃС‚СЂРѕРє
  <th scope="col">#</th>
-col	заголовок столбца
-row	заголовок для строки
-colgroup	заголовок для группы столбцов
-rowgroup	заголовок для группы строк
+col	Р·Р°РіРѕР»РѕРІРѕРє СЃС‚РѕР»Р±С†Р°
+row	Р·Р°РіРѕР»РѕРІРѕРє РґР»СЏ СЃС‚СЂРѕРєРё
+colgroup	Р·Р°РіРѕР»РѕРІРѕРє РґР»СЏ РіСЂСѓРїРїС‹ СЃС‚РѕР»Р±С†РѕРІ
+rowgroup	Р·Р°РіРѕР»РѕРІРѕРє РґР»СЏ РіСЂСѓРїРїС‹ СЃС‚СЂРѕРє
 
 
-можно сделать таблицу черной или светлой "table-dark" "thead-light"
-//всю таблицу
+РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ С‚Р°Р±Р»РёС†Сѓ С‡РµСЂРЅРѕР№ РёР»Рё СЃРІРµС‚Р»РѕР№ "table-dark" "thead-light"
+//РІСЃСЋ С‚Р°Р±Р»РёС†Сѓ
 <table class="table table-dark">
-//заголовок
+//Р·Р°РіРѕР»РѕРІРѕРє
  <thead class="thead-dark">
 
-раскрасс таблицы зеброй #зебра 
-бело-серой
+СЂР°СЃРєСЂР°СЃСЃ С‚Р°Р±Р»РёС†С‹ Р·РµР±СЂРѕР№ #Р·РµР±СЂР° 
+Р±РµР»Рѕ-СЃРµСЂРѕР№
 <table class="table table-striped">
-черно-темносерой
+С‡РµСЂРЅРѕ-С‚РµРјРЅРѕСЃРµСЂРѕР№
 <table class="table table-striped table-dark">
 
 
 
-делаем ширину ячейки равной ширине 2х.. но все ячейки кроме этой остаются своей ширины=> эта ячейка просто ЗАНИМАЕТ 2 ячейки
+РґРµР»Р°РµРј С€РёСЂРёРЅСѓ СЏС‡РµР№РєРё СЂР°РІРЅРѕР№ С€РёСЂРёРЅРµ 2С….. РЅРѕ РІСЃРµ СЏС‡РµР№РєРё РєСЂРѕРјРµ СЌС‚РѕР№ РѕСЃС‚Р°СЋС‚СЃСЏ СЃРІРѕРµР№ С€РёСЂРёРЅС‹=> СЌС‚Р° СЏС‡РµР№РєР° РїСЂРѕСЃС‚Рѕ Р—РђРќРРњРђР•Рў 2 СЏС‡РµР№РєРё
 <td colspan="2">Larry the Bird</td>
 
 
-//если хотим добавить вертикальные #границы #border (изначально их нет)
+//РµСЃР»Рё С…РѕС‚РёРј РґРѕР±Р°РІРёС‚СЊ РІРµСЂС‚РёРєР°Р»СЊРЅС‹Рµ #РіСЂР°РЅРёС†С‹ #border (РёР·РЅР°С‡Р°Р»СЊРЅРѕ РёС… РЅРµС‚)
 <table class="table table-bordered table-dark">
-//таблица вообще без границ
+//С‚Р°Р±Р»РёС†Р° РІРѕРѕР±С‰Рµ Р±РµР· РіСЂР°РЅРёС†
 <table class="table table-borderless">
 
-//добавить выделение строк при наведении
+//РґРѕР±Р°РІРёС‚СЊ РІС‹РґРµР»РµРЅРёРµ СЃС‚СЂРѕРє РїСЂРё РЅР°РІРµРґРµРЅРёРё
 <table class="table table-hover">
 
-//таблица компактнее, за счет меньшего padding
+//С‚Р°Р±Р»РёС†Р° РєРѕРјРїР°РєС‚РЅРµРµ, Р·Р° СЃС‡РµС‚ РјРµРЅСЊС€РµРіРѕ padding
 <table class="table table-sm">
 
 
-//можно расскрасить ряды или отдельный ячейки
-//вот так только для светлой темы
+//РјРѕР¶РЅРѕ СЂР°СЃСЃРєСЂР°СЃРёС‚СЊ СЂСЏРґС‹ РёР»Рё РѕС‚РґРµР»СЊРЅС‹Р№ СЏС‡РµР№РєРё
+//РІРѕС‚ С‚Р°Рє С‚РѕР»СЊРєРѕ РґР»СЏ СЃРІРµС‚Р»РѕР№ С‚РµРјС‹
 <tr class="table-active">...</tr>
 <tr><td class="table-active">...</td>
 
@@ -600,7 +600,7 @@ rowgroup	заголовок для группы строк
 <tr class="table-light">...</tr>
 <tr class="table-dark">...</tr>
 
-//а вот так можно для темной
+//Р° РІРѕС‚ С‚Р°Рє РјРѕР¶РЅРѕ РґР»СЏ С‚РµРјРЅРѕР№
 <tr class="bg-primary">...</tr>
 <tr><td class="bg-primary">...</td>
 <tr class="bg-success">...</tr>
@@ -609,18 +609,18 @@ rowgroup	заголовок для группы строк
 <tr class="bg-info">...</tr>
 
 
-горизонтальная прокрутка таблиц
+РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ РїСЂРѕРєСЂСѓС‚РєР° С‚Р°Р±Р»РёС†
 <div class="table-responsive">
-//если добавить такие суффиксы, то возможность скролить таблицу будет появляться в разное время
-<div class="table-responsive-lg">  --раньше всего
+//РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ С‚Р°РєРёРµ СЃСѓС„С„РёРєСЃС‹, С‚Рѕ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЃРєСЂРѕР»РёС‚СЊ С‚Р°Р±Р»РёС†Сѓ Р±СѓРґРµС‚ РїРѕСЏРІР»СЏС‚СЊСЃСЏ РІ СЂР°Р·РЅРѕРµ РІСЂРµРјСЏ
+<div class="table-responsive-lg">  --СЂР°РЅСЊС€Рµ РІСЃРµРіРѕ
 <div class="table-responsive-md">
-<div class="table-responsive-sm"> -- позже всего
+<div class="table-responsive-sm"> -- РїРѕР·Р¶Рµ РІСЃРµРіРѕ
 
 
 #caption
-//это красивая подпись для таблицы
+//СЌС‚Рѕ РєСЂР°СЃРёРІР°СЏ РїРѕРґРїРёСЃСЊ РґР»СЏ С‚Р°Р±Р»РёС†С‹
 <table class="table">
-  <caption>Список пользователей</caption>
+  <caption>РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№</caption>
   <thead>
 
 
@@ -633,8 +633,8 @@ rowgroup	заголовок для группы строк
  
 #select #option #list
 
-можно добавить атрибут multiple для множественного выбора
-можно добавить атрибут size="3" , он отвечает за количество элементов которые будет видно(что бы просмотреть остальные надо скролить)
+РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ Р°С‚СЂРёР±СѓС‚ multiple РґР»СЏ РјРЅРѕР¶РµСЃС‚РІРµРЅРЅРѕРіРѕ РІС‹Р±РѕСЂР°
+РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ Р°С‚СЂРёР±СѓС‚ size="3" , РѕРЅ РѕС‚РІРµС‡Р°РµС‚ Р·Р° РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РєРѕС‚РѕСЂС‹Рµ Р±СѓРґРµС‚ РІРёРґРЅРѕ(С‡С‚Рѕ Р±С‹ РїСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РѕСЃС‚Р°Р»СЊРЅС‹Рµ РЅР°РґРѕ СЃРєСЂРѕР»РёС‚СЊ)
  <select class="custom-select  custom-select-lg" multiple>
         <option selected>Choose...</option>
 
@@ -643,36 +643,36 @@ rowgroup	заголовок для группы строк
 
 
 #dropdown #dropdown-menu #dropdown-item #dropdown-toggle
-такая штука полностью скопирует функционал(визуально) select но в данном случае внутри не просто будет выбор а ссылки
+С‚Р°РєР°СЏ С€С‚СѓРєР° РїРѕР»РЅРѕСЃС‚СЊСЋ СЃРєРѕРїРёСЂСѓРµС‚ С„СѓРЅРєС†РёРѕРЅР°Р»(РІРёР·СѓР°Р»СЊРЅРѕ) select РЅРѕ РІ РґР°РЅРЅРѕРј СЃР»СѓС‡Р°Рµ РІРЅСѓС‚СЂРё РЅРµ РїСЂРѕСЃС‚Рѕ Р±СѓРґРµС‚ РІС‹Р±РѕСЂ Р° СЃСЃС‹Р»РєРё
 
-".dropdown" - будет выпадать вниз
-".dproup" - будет выпадать вверх
-dropright - вправо
-dropleft - влево
+".dropdown" - Р±СѓРґРµС‚ РІС‹РїР°РґР°С‚СЊ РІРЅРёР·
+".dproup" - Р±СѓРґРµС‚ РІС‹РїР°РґР°С‚СЊ РІРІРµСЂС…
+dropright - РІРїСЂР°РІРѕ
+dropleft - РІР»РµРІРѕ
 
-можно выделить цветом-"сделать всегда активным" dropdown-item active 
-можно сделать всегда не активным - dropdown-item disabled 
+РјРѕР¶РЅРѕ РІС‹РґРµР»РёС‚СЊ С†РІРµС‚РѕРј-"СЃРґРµР»Р°С‚СЊ РІСЃРµРіРґР° Р°РєС‚РёРІРЅС‹Рј" dropdown-item active 
+РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РІСЃРµРіРґР° РЅРµ Р°РєС‚РёРІРЅС‹Рј - dropdown-item disabled 
 
-то что выпадает можно выровнять по правой стороне -- 
+С‚Рѕ С‡С‚Рѕ РІС‹РїР°РґР°РµС‚ РјРѕР¶РЅРѕ РІС‹СЂРѕРІРЅСЏС‚СЊ РїРѕ РїСЂР°РІРѕР№ СЃС‚РѕСЂРѕРЅРµ -- 
 <div class="dropdown-menu dropdown-menu-right">
-можно задать ширину экрана для которого применять
+РјРѕР¶РЅРѕ Р·Р°РґР°С‚СЊ С€РёСЂРёРЅСѓ СЌРєСЂР°РЅР° РґР»СЏ РєРѕС‚РѕСЂРѕРіРѕ РїСЂРёРјРµРЅСЏС‚СЊ
 dropdown-menu-lg-right
 dropdown-menu-lg-left
 
 
- data-offset или data-reference для того что бы сместить тот блок который выпадает
+ data-offset РёР»Рё data-reference РґР»СЏ С‚РѕРіРѕ С‡С‚Рѕ Р±С‹ СЃРјРµСЃС‚РёС‚СЊ С‚РѕС‚ Р±Р»РѕРє РєРѕС‚РѕСЂС‹Р№ РІС‹РїР°РґР°РµС‚
 <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">Offset</button>
 <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
 
 
 
 <div class="btn-group dropdown">
-//если просто нужно что то в виде кнопки при нажатии на которую выпадает список то можно так
-  <button class="btn btn-secondary dropdown-toggle btn-danger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Кнопка выпадающего списка</button>
-//если нужен тег А
-<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Выпадающая ссылка</a>
+//РµСЃР»Рё РїСЂРѕСЃС‚Рѕ РЅСѓР¶РЅРѕ С‡С‚Рѕ С‚Рѕ РІ РІРёРґРµ РєРЅРѕРїРєРё РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРѕС‚РѕСЂСѓСЋ РІС‹РїР°РґР°РµС‚ СЃРїРёСЃРѕРє С‚Рѕ РјРѕР¶РЅРѕ С‚Р°Рє
+  <button class="btn btn-secondary dropdown-toggle btn-danger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">РљРЅРѕРїРєР° РІС‹РїР°РґР°СЋС‰РµРіРѕ СЃРїРёСЃРєР°</button>
+//РµСЃР»Рё РЅСѓР¶РµРЅ С‚РµРі Рђ
+<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Р’С‹РїР°РґР°СЋС‰Р°СЏ СЃСЃС‹Р»РєР°</a>
 
-//если нужная кнопка которая разбита на 2 подкнопки, левая с надписью(отдельная кнопка) + справа с треугольником, которая и открывает список(отдельная кнопка) то делаем 2 такие кнопки
+//РµСЃР»Рё РЅСѓР¶РЅР°СЏ РєРЅРѕРїРєР° РєРѕС‚РѕСЂР°СЏ СЂР°Р·Р±РёС‚Р° РЅР° 2 РїРѕРґРєРЅРѕРїРєРё, Р»РµРІР°СЏ СЃ РЅР°РґРїРёСЃСЊСЋ(РѕС‚РґРµР»СЊРЅР°СЏ РєРЅРѕРїРєР°) + СЃРїСЂР°РІР° СЃ С‚СЂРµСѓРіРѕР»СЊРЅРёРєРѕРј, РєРѕС‚РѕСЂР°СЏ Рё РѕС‚РєСЂС‹РІР°РµС‚ СЃРїРёСЃРѕРє(РѕС‚РґРµР»СЊРЅР°СЏ РєРЅРѕРїРєР°) С‚Рѕ РґРµР»Р°РµРј 2 С‚Р°РєРёРµ РєРЅРѕРїРєРё
 <button type="button" class="btn btn-danger">Action</button>
   <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="sr-only">Toggle Dropdown</span>
@@ -681,16 +681,16 @@ dropdown-menu-lg-left
 
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" href="#">Action</a>
-//------аналог #hr #dropdown-divider
+//------Р°РЅР°Р»РѕРі #hr #dropdown-divider
 <div class="dropdown-divider"></div>  
 <button class="dropdown-item" href="#" type="button">Action</button>
 </div></div>
 
 
 
-//если вот так, то не будет сворачиваться и разворачиваться, всегду будет раскрыта
+//РµСЃР»Рё РІРѕС‚ С‚Р°Рє, С‚Рѕ РЅРµ Р±СѓРґРµС‚ СЃРІРѕСЂР°С‡РёРІР°С‚СЊСЃСЏ Рё СЂР°Р·РІРѕСЂР°С‡РёРІР°С‚СЊСЃСЏ, РІСЃРµРіРґСѓ Р±СѓРґРµС‚ СЂР°СЃРєСЂС‹С‚Р°
 <div class="dropdown-menu">
-//----заголовок
+//----Р·Р°РіРѕР»РѕРІРѕРє
  <h6 class="dropdown-header">Dropdown header</h6>
   <span class="dropdown-item-text">Dropdown item text</span>
   <a class="dropdown-item" href="#">Action</a>
@@ -710,17 +710,17 @@ dropdown-menu-lg-left
 #form #form-group #form-control #form-check #form-check-input #form-check-label 
 #radio #checkbox
 
-//все элементы в строку
+//РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РІ СЃС‚СЂРѕРєСѓ
 <form class="form-inline">
 
 
-если в форме нужно .row , то лучше так #form-row --  <form><div class="form-row">
+РµСЃР»Рё РІ С„РѕСЂРјРµ РЅСѓР¶РЅРѕ .row , С‚Рѕ Р»СѓС‡С€Рµ С‚Р°Рє #form-row --  <form><div class="form-row">
 
 
 <div class="form-group">
       <label for="exampleDropdownFormEmail1">Email address</label>
       <input type="email" class="form-control" aria-describedby="emailHelp" id="exampleDropdownFormEmail1" placeholder="email@example.com">
-//---добавит маленький #small серый текст который относится к aria-describedby="emailHelp" 
+//---РґРѕР±Р°РІРёС‚ РјР°Р»РµРЅСЊРєРёР№ #small СЃРµСЂС‹Р№ С‚РµРєСЃС‚ РєРѕС‚РѕСЂС‹Р№ РѕС‚РЅРѕСЃРёС‚СЃСЏ Рє aria-describedby="emailHelp" 
 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>   
 
  </div>
@@ -733,24 +733,24 @@ dropdown-menu-lg-left
       </div>
     </div>
 
-можно также применять так(в дополнение к .form-control)
+РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ РїСЂРёРјРµРЅСЏС‚СЊ С‚Р°Рє(РІ РґРѕРїРѕР»РЅРµРЅРёРµ Рє .form-control)
 .form-control-lg .....
 
-form-control применяется почти для всех инпутов
-для #file пррименяется .form-control-file
+form-control РїСЂРёРјРµРЅСЏРµС‚СЃСЏ РїРѕС‡С‚Рё РґР»СЏ РІСЃРµС… РёРЅРїСѓС‚РѕРІ
+РґР»СЏ #file РїСЂСЂРёРјРµРЅСЏРµС‚СЃСЏ .form-control-file
 
-//только для чтения #readonly , это просто запретит изменять
-<input class="form-control" type="text" placeholder="Readonly input here…" readonly>
-//можно вместо readonly добавить disabled
-//но если сделать так то будет отображаться как обычный текст
+//С‚РѕР»СЊРєРѕ РґР»СЏ С‡С‚РµРЅРёСЏ #readonly , СЌС‚Рѕ РїСЂРѕСЃС‚Рѕ Р·Р°РїСЂРµС‚РёС‚ РёР·РјРµРЅСЏС‚СЊ
+<input class="form-control" type="text" placeholder="Readonly input hereвЂ¦" readonly>
+//РјРѕР¶РЅРѕ РІРјРµСЃС‚Рѕ readonly РґРѕР±Р°РІРёС‚СЊ disabled
+//РЅРѕ РµСЃР»Рё СЃРґРµР»Р°С‚СЊ С‚Р°Рє С‚Рѕ Р±СѓРґРµС‚ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ РєР°Рє РѕР±С‹С‡РЅС‹Р№ С‚РµРєСЃС‚
  <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
 
 
-для радио и чекбоксов есть disabled
+РґР»СЏ СЂР°РґРёРѕ Рё С‡РµРєР±РѕРєСЃРѕРІ РµСЃС‚СЊ disabled
 <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>
 
 
-//можно разместить в строку чекбоксы или радио добавив к каждому диву .form-check-inline
+//РјРѕР¶РЅРѕ СЂР°Р·РјРµСЃС‚РёС‚СЊ РІ СЃС‚СЂРѕРєСѓ С‡РµРєР±РѕРєСЃС‹ РёР»Рё СЂР°РґРёРѕ РґРѕР±Р°РІРёРІ Рє РєР°Р¶РґРѕРјСѓ РґРёРІСѓ .form-check-inline
 <div class="form-check form-check-inline">
   <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
   <label class="form-check-label" for="inlineCheckbox1">1</label>
@@ -764,10 +764,10 @@ form-control применяется почти для всех инпутов
   <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>
 </div>
 
-//если добавляем радио или чекбокс без лейбла лучше в него засунуть атрибут aria-label="описание инпута"
+//РµСЃР»Рё РґРѕР±Р°РІР»СЏРµРј СЂР°РґРёРѕ РёР»Рё С‡РµРєР±РѕРєСЃ Р±РµР· Р»РµР№Р±Р»Р° Р»СѓС‡С€Рµ РІ РЅРµРіРѕ Р·Р°СЃСѓРЅСѓС‚СЊ Р°С‚СЂРёР±СѓС‚ aria-label="РѕРїРёСЃР°РЅРёРµ РёРЅРїСѓС‚Р°"
 
 
-//если форма горизонтальная то надо добавлять к label --- #col-form-label #col-form-label-sm
+//РµСЃР»Рё С„РѕСЂРјР° РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ С‚Рѕ РЅР°РґРѕ РґРѕР±Р°РІР»СЏС‚СЊ Рє label --- #col-form-label #col-form-label-sm
 <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
 
 
@@ -783,10 +783,10 @@ form-control применяется почти для всех инпутов
   </div>
 </form>
 
-//делаем красивым, сам ползунок становится синим на сером фоне
+//РґРµР»Р°РµРј РєСЂР°СЃРёРІС‹Рј, СЃР°Рј РїРѕР»Р·СѓРЅРѕРє СЃС‚Р°РЅРѕРІРёС‚СЃСЏ СЃРёРЅРёРј РЅР° СЃРµСЂРѕРј С„РѕРЅРµ
 <input type="range" class="custom-range" id="customRange1">
 
-//устанвилваем ренж и велечину шага
+//СѓСЃС‚Р°РЅРІРёР»РІР°РµРј СЂРµРЅР¶ Рё РІРµР»РµС‡РёРЅСѓ С€Р°РіР°
 <input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange2">
 
 
@@ -815,8 +815,8 @@ form-control применяется почти для всех инпутов
 
 
 
-#переключатели #control
-кликаешь переключается вправо, еще раз переключается влево
+#РїРµСЂРµРєР»СЋС‡Р°С‚РµР»Рё #control
+РєР»РёРєР°РµС€СЊ РїРµСЂРµРєР»СЋС‡Р°РµС‚СЃСЏ РІРїСЂР°РІРѕ, РµС‰Рµ СЂР°Р· РїРµСЂРµРєР»СЋС‡Р°РµС‚СЃСЏ РІР»РµРІРѕ
 <div class="custom-control custom-switch">
   <input type="checkbox" class="custom-control-input" id="customSwitch1">
   <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
@@ -839,15 +839,15 @@ form-control применяется почти для всех инпутов
 
 #valide #validete #validation 
 
-//помечаем что форма должна валидироваться, и изначально скрываем ошибки
+//РїРѕРјРµС‡Р°РµРј С‡С‚Рѕ С„РѕСЂРјР° РґРѕР»Р¶РЅР° РІР°Р»РёРґРёСЂРѕРІР°С‚СЊСЃСЏ, Рё РёР·РЅР°С‡Р°Р»СЊРЅРѕ СЃРєСЂС‹РІР°РµРј РѕС€РёР±РєРё
 <form class="needs-validation" novalidate>
-<input type="text" class="form-control" id="validationCustom01" placeholder="Имя" value="Mark" required>
-//---будет показано если валидация успешна, если не успешно то будет скрыто
+<input type="text" class="form-control" id="validationCustom01" placeholder="РРјСЏ" value="Mark" required>
+//---Р±СѓРґРµС‚ РїРѕРєР°Р·Р°РЅРѕ РµСЃР»Рё РІР°Р»РёРґР°С†РёСЏ СѓСЃРїРµС€РЅР°, РµСЃР»Рё РЅРµ СѓСЃРїРµС€РЅРѕ С‚Рѕ Р±СѓРґРµС‚ СЃРєСЂС‹С‚Рѕ
       <div class="valid-feedback">
         Looks good!
       </div>
 <input type="text" class="form-control" id="validationCustom03" placeholder="City" required>
-//---будет показано если валидация НЕ успешна  , а если успешна то скрыта    
+//---Р±СѓРґРµС‚ РїРѕРєР°Р·Р°РЅРѕ РµСЃР»Рё РІР°Р»РёРґР°С†РёСЏ РќР• СѓСЃРїРµС€РЅР°  , Р° РµСЃР»Рё СѓСЃРїРµС€РЅР° С‚Рѕ СЃРєСЂС‹С‚Р°    
 <div class="invalid-feedback">
         Please provide a valid city.
       </div>
@@ -857,9 +857,9 @@ form-control применяется почти для всех инпутов
 
 
 
-//сообщения можно стилизовать под всплывающие подсказки     #valid-feedback--->> #valid-tooltip
-//у родительского элемента должно быть position:relative
-      <input type="text" class="form-control" id="validationTooltip01" placeholder="Имя" value="Mark" required>
+//СЃРѕРѕР±С‰РµРЅРёСЏ РјРѕР¶РЅРѕ СЃС‚РёР»РёР·РѕРІР°С‚СЊ РїРѕРґ РІСЃРїР»С‹РІР°СЋС‰РёРµ РїРѕРґСЃРєР°Р·РєРё     #valid-feedback--->> #valid-tooltip
+//Сѓ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ position:relative
+      <input type="text" class="form-control" id="validationTooltip01" placeholder="РРјСЏ" value="Mark" required>
       <div class="valid-tooltip">
         Looks good!
       </div>
@@ -894,11 +894,11 @@ form-control применяется почти для всех инпутов
 
 
 
-если к форме не добавить class="needs-validation" novalidate  + не добавлять скрипты и блоки <div class="invalid-feedback">
-то валидация все равно будет работать, но чуть по другому: будет появляться по 1 сообщению на поле(а не все сразу) и будет выглядеть по разному в каждом браузере
+РµСЃР»Рё Рє С„РѕСЂРјРµ РЅРµ РґРѕР±Р°РІРёС‚СЊ class="needs-validation" novalidate  + РЅРµ РґРѕР±Р°РІР»СЏС‚СЊ СЃРєСЂРёРїС‚С‹ Рё Р±Р»РѕРєРё <div class="invalid-feedback">
+С‚Рѕ РІР°Р»РёРґР°С†РёСЏ РІСЃРµ СЂР°РІРЅРѕ Р±СѓРґРµС‚ СЂР°Р±РѕС‚Р°С‚СЊ, РЅРѕ С‡СѓС‚СЊ РїРѕ РґСЂСѓРіРѕРјСѓ: Р±СѓРґРµС‚ РїРѕСЏРІР»СЏС‚СЊСЃСЏ РїРѕ 1 СЃРѕРѕР±С‰РµРЅРёСЋ РЅР° РїРѕР»Рµ(Р° РЅРµ РІСЃРµ СЃСЂР°Р·Сѓ) Рё Р±СѓРґРµС‚ РІС‹РіР»СЏРґРµС‚СЊ РїРѕ СЂР°Р·РЅРѕРјСѓ РІ РєР°Р¶РґРѕРј Р±СЂР°СѓР·РµСЂРµ
 
-можно самому установить класс для валидности или невалидности #is-invalid #is-valid
-<input type="text" class="form-control is-valid" id="validationServer01" placeholder="Имя" value="Mark" required>
+РјРѕР¶РЅРѕ СЃР°РјРѕРјСѓ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РєР»Р°СЃСЃ РґР»СЏ РІР°Р»РёРґРЅРѕСЃС‚Рё РёР»Рё РЅРµРІР°Р»РёРґРЅРѕСЃС‚Рё #is-invalid #is-valid
+<input type="text" class="form-control is-valid" id="validationServer01" placeholder="РРјСЏ" value="Mark" required>
       
 
 
@@ -910,14 +910,14 @@ form-control применяется почти для всех инпутов
 
 
 #border
-//если надо включить границу
+//РµСЃР»Рё РЅР°РґРѕ РІРєР»СЋС‡РёС‚СЊ РіСЂР°РЅРёС†Сѓ
 <span class="border"></span>
 <span class="border-top"></span>
 <span class="border-right"></span>
 <span class="border-bottom"></span>
 <span class="border-left"></span>
 
-//если надо исключить границу(указанная не будет отрисована)
+//РµСЃР»Рё РЅР°РґРѕ РёСЃРєР»СЋС‡РёС‚СЊ РіСЂР°РЅРёС†Сѓ(СѓРєР°Р·Р°РЅРЅР°СЏ РЅРµ Р±СѓРґРµС‚ РѕС‚СЂРёСЃРѕРІР°РЅР°)
 <span class="border-0"></span>
 <span class="border-top-0"></span>
 <span class="border-right-0"></span>
@@ -925,13 +925,13 @@ form-control применяется почти для всех инпутов
 <span class="border-left-0"></span>
 
 
-цвета
+С†РІРµС‚Р°
 <span class="border border-primary"></span> border-secondary  border-success border-danger   border-warning  border-info border-light  border-dark  border-white              
 
-изменить форму
+РёР·РјРµРЅРёС‚СЊ С„РѕСЂРјСѓ
 <img src="..." alt="..." class="rounded"> rounded-top  rounded-right rounded-bottom rounded-left  rounded-circle rounded-pill rounded-0                    
 
-изменение радиуса
+РёР·РјРµРЅРµРЅРёРµ СЂР°РґРёСѓСЃР°
 <img src="..." alt="..." class="rounded-sm">
 
 
@@ -943,18 +943,18 @@ form-control применяется почти для всех инпутов
 
 #float
 
-<div class="float-left">К левому краю на всех областях видимости</div><br>
-<div class="float-right">К правому краю на всех областях видимости</div><br>
-<div class="float-none">Без стороны выравнивания на всех областях видимости</div>
-<div class="float-sm-left">К левому краю на областях видимости маленьких SM (small) или шире</div><br>
+<div class="float-left">Рљ Р»РµРІРѕРјСѓ РєСЂР°СЋ РЅР° РІСЃРµС… РѕР±Р»Р°СЃС‚СЏС… РІРёРґРёРјРѕСЃС‚Рё</div><br>
+<div class="float-right">Рљ РїСЂР°РІРѕРјСѓ РєСЂР°СЋ РЅР° РІСЃРµС… РѕР±Р»Р°СЃС‚СЏС… РІРёРґРёРјРѕСЃС‚Рё</div><br>
+<div class="float-none">Р‘РµР· СЃС‚РѕСЂРѕРЅС‹ РІС‹СЂР°РІРЅРёРІР°РЅРёСЏ РЅР° РІСЃРµС… РѕР±Р»Р°СЃС‚СЏС… РІРёРґРёРјРѕСЃС‚Рё</div>
+<div class="float-sm-left">Рљ Р»РµРІРѕРјСѓ РєСЂР°СЋ РЅР° РѕР±Р»Р°СЃС‚СЏС… РІРёРґРёРјРѕСЃС‚Рё РјР°Р»РµРЅСЊРєРёС… SM (small) РёР»Рё С€РёСЂРµ</div><br>
 
 
 
 #clearfix #fix #error
-если в блоке есть элементы с #float то внешний блок может сломаться(станет 0px и перестанет включать эти элементы), для фикса надо добавить clearfix
+РµСЃР»Рё РІ Р±Р»РѕРєРµ РµСЃС‚СЊ СЌР»РµРјРµРЅС‚С‹ СЃ #float С‚Рѕ РІРЅРµС€РЅРёР№ Р±Р»РѕРє РјРѕР¶РµС‚ СЃР»РѕРјР°С‚СЊСЃСЏ(СЃС‚Р°РЅРµС‚ 0px Рё РїРµСЂРµСЃС‚Р°РЅРµС‚ РІРєР»СЋС‡Р°С‚СЊ СЌС‚Рё СЌР»РµРјРµРЅС‚С‹), РґР»СЏ С„РёРєСЃР° РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ clearfix
 <div class="bg-info clearfix">
-  <button type="button" class="btn btn-secondary float-left">Кнопка примера перемещена влево</button>
-  <button type="button" class="btn btn-secondary float-right">Кнопка примера перемещена вправо</button>
+  <button type="button" class="btn btn-secondary float-left">РљРЅРѕРїРєР° РїСЂРёРјРµСЂР° РїРµСЂРµРјРµС‰РµРЅР° РІР»РµРІРѕ</button>
+  <button type="button" class="btn btn-secondary float-right">РљРЅРѕРїРєР° РїСЂРёРјРµСЂР° РїРµСЂРµРјРµС‰РµРЅР° РІРїСЂР°РІРѕ</button>
 </div>
 
 
@@ -985,53 +985,53 @@ form-control применяется почти для всех инпутов
 
 
 #box-shadow #shadow
-<div class="shadow-none p-3 mb-5 bg-light rounded">Без теней</div>
-<div class="shadow-sm p-3 mb-5 bg-white rounded">Маленькая тень</div>
-<div class="shadow p-3 mb-5 bg-white rounded">Обычная тень</div>
-<div class="shadow-lg p-3 mb-5 bg-white rounded">Большая тень</div>
+<div class="shadow-none p-3 mb-5 bg-light rounded">Р‘РµР· С‚РµРЅРµР№</div>
+<div class="shadow-sm p-3 mb-5 bg-white rounded">РњР°Р»РµРЅСЊРєР°СЏ С‚РµРЅСЊ</div>
+<div class="shadow p-3 mb-5 bg-white rounded">РћР±С‹С‡РЅР°СЏ С‚РµРЅСЊ</div>
+<div class="shadow-lg p-3 mb-5 bg-white rounded">Р‘РѕР»СЊС€Р°СЏ С‚РµРЅСЊ</div>
 
 
 
 
 
 
-<div class="show">...</div>        скрывает\показывает блок #show #hide #visible #invisible #hidden
+<div class="show">...</div>        СЃРєСЂС‹РІР°РµС‚\РїРѕРєР°Р·С‹РІР°РµС‚ Р±Р»РѕРє #show #hide #visible #invisible #hidden
 <div class="hidden">...</div>
 <div class="visible">...</div>
 <div class="invisible">...</div>
 
 
 
-можно сделать кнопку при нажатии на которую будет скрываться\показываться контент #Collapse
+РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РєРЅРѕРїРєСѓ РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРѕС‚РѕСЂСѓСЋ Р±СѓРґРµС‚ СЃРєСЂС‹РІР°С‚СЊСЃСЏ\РїРѕРєР°Р·С‹РІР°С‚СЊСЃСЏ РєРѕРЅС‚РµРЅС‚ #Collapse
 
 
-// активаторы которые будут менять видимость
-  <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Ссылка с href</a>
-  <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Кнопка с data-target</button>
-//если при нажатии надо переключать несколько элементов то все оставляем как выше но меняем
+// Р°РєС‚РёРІР°С‚РѕСЂС‹ РєРѕС‚РѕСЂС‹Рµ Р±СѓРґСѓС‚ РјРµРЅСЏС‚СЊ РІРёРґРёРјРѕСЃС‚СЊ
+  <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">РЎСЃС‹Р»РєР° СЃ href</a>
+  <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">РљРЅРѕРїРєР° СЃ data-target</button>
+//РµСЃР»Рё РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР°РґРѕ РїРµСЂРµРєР»СЋС‡Р°С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ СЌР»РµРјРµРЅС‚РѕРІ С‚Рѕ РІСЃРµ РѕСЃС‚Р°РІР»СЏРµРј РєР°Рє РІС‹С€Рµ РЅРѕ РјРµРЅСЏРµРј
 data-target=".multi-collapse" aria-controls="multiCollapseExample1 multiCollapseExample2"
 
 
 <div class="collapse" id="collapseExample"></div>
-//при множественном
+//РїСЂРё РјРЅРѕР¶РµСЃС‚РІРµРЅРЅРѕРј
 <div class="collapse multi-collapse" id="multiCollapseExample1">
 
 
 
 
 
-#accordion #акордион #аккордион
+#accordion #Р°РєРѕСЂРґРёРѕРЅ #Р°РєРєРѕСЂРґРёРѕРЅ
 
-размещены заголовки, при нажатии на любой появляется его тело а все остальные тела прячутся
-завязано именно на card
-data-parent="#accordionExample" ---- вот из за этого атрибуту все в родительском элементе будут скрываться кроме того который мы открыли
+СЂР°Р·РјРµС‰РµРЅС‹ Р·Р°РіРѕР»РѕРІРєРё, РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° Р»СЋР±РѕР№ РїРѕСЏРІР»СЏРµС‚СЃСЏ РµРіРѕ С‚РµР»Рѕ Р° РІСЃРµ РѕСЃС‚Р°Р»СЊРЅС‹Рµ С‚РµР»Р° РїСЂСЏС‡СѓС‚СЃСЏ
+Р·Р°РІСЏР·Р°РЅРѕ РёРјРµРЅРЅРѕ РЅР° card
+data-parent="#accordionExample" ---- РІРѕС‚ РёР· Р·Р° СЌС‚РѕРіРѕ Р°С‚СЂРёР±СѓС‚Сѓ РІСЃРµ РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј СЌР»РµРјРµРЅС‚Рµ Р±СѓРґСѓС‚ СЃРєСЂС‹РІР°С‚СЊСЃСЏ РєСЂРѕРјРµ С‚РѕРіРѕ РєРѕС‚РѕСЂС‹Р№ РјС‹ РѕС‚РєСЂС‹Р»Рё
 
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Разворачиваемая панель #1
+          Р Р°Р·РІРѕСЂР°С‡РёРІР°РµРјР°СЏ РїР°РЅРµР»СЊ #1
         </button>
       </h5>
     </div>
@@ -1045,7 +1045,7 @@ data-parent="#accordionExample" ---- вот из за этого атрибуту все в родительском
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Разворачиваемая панель #2
+          Р Р°Р·РІРѕСЂР°С‡РёРІР°РµРјР°СЏ РїР°РЅРµР»СЊ #2
         </button>
       </h5>
     </div>
@@ -1059,9 +1059,9 @@ data-parent="#accordionExample" ---- вот из за этого атрибуту все в родительском
 </div>
 
 
-.collapse прячет содержимое
-.collapse .show показывает содержимое
-.collapsing добавляется, когда переход начинается и удаляется с его завершением
+.collapse РїСЂСЏС‡РµС‚ СЃРѕРґРµСЂР¶РёРјРѕРµ
+.collapse .show РїРѕРєР°Р·С‹РІР°РµС‚ СЃРѕРґРµСЂР¶РёРјРѕРµ
+.collapsing РґРѕР±Р°РІР»СЏРµС‚СЃСЏ, РєРѕРіРґР° РїРµСЂРµС…РѕРґ РЅР°С‡РёРЅР°РµС‚СЃСЏ Рё СѓРґР°Р»СЏРµС‚СЃСЏ СЃ РµРіРѕ Р·Р°РІРµСЂС€РµРЅРёРµРј
 
 $('.collapse').collapse()
 
@@ -1074,67 +1074,67 @@ $('.collapse').collapse()
 
 
 
-//#container элемент который содержит другие элементы
+//#container СЌР»РµРјРµРЅС‚ РєРѕС‚РѕСЂС‹Р№ СЃРѕРґРµСЂР¶РёС‚ РґСЂСѓРіРёРµ СЌР»РµРјРµРЅС‚С‹
 <div class="container">
-.container-fluid  -- контейнер с 100% шириной
+.container-fluid  -- РєРѕРЅС‚РµР№РЅРµСЂ СЃ 100% С€РёСЂРёРЅРѕР№
 
 
 
 
 
-<div class="text-center">   по центру то что внутри #text #center
+<div class="text-center">   РїРѕ С†РµРЅС‚СЂСѓ С‚Рѕ С‡С‚Рѕ РІРЅСѓС‚СЂРё #text #center
 text-left
-text-right справа
-text-muted - сделает текст #серым #серый #gray
+text-right СЃРїСЂР°РІР°
+text-muted - СЃРґРµР»Р°РµС‚ С‚РµРєСЃС‚ #СЃРµСЂС‹Рј #СЃРµСЂС‹Р№ #gray
 text-white
 <p class="text-sm-left">
 
-будет перестраивать текст под блоки(колонки и тдтд)
+Р±СѓРґРµС‚ РїРµСЂРµСЃС‚СЂР°РёРІР°С‚СЊ С‚РµРєСЃС‚ РїРѕРґ Р±Р»РѕРєРё(РєРѕР»РѕРЅРєРё Рё С‚РґС‚Рґ)
 <p class="text-justify"
 
-//если слишком длинная строка (например МММ...МММ) то она ничего не сломает а просто будет переноситься
+//РµСЃР»Рё СЃР»РёС€РєРѕРј РґР»РёРЅРЅР°СЏ СЃС‚СЂРѕРєР° (РЅР°РїСЂРёРјРµСЂ РњРњРњ...РњРњРњ) С‚Рѕ РѕРЅР° РЅРёС‡РµРіРѕ РЅРµ СЃР»РѕРјР°РµС‚ Р° РїСЂРѕСЃС‚Рѕ Р±СѓРґРµС‚ РїРµСЂРµРЅРѕСЃРёС‚СЊСЃСЏ
 <p class="text-break">
 
 
-//регистр
-<p class="text-lowercase">Текст в нижнем регистре.</p>
-<p class="text-uppercase">Текст в верхнем регистре.</p>
-<p class="text-capitalize">разноРеГиСТровый текст.</p>  ---- меняет первую букву каждого слова на заглавную
+//СЂРµРіРёСЃС‚СЂ
+<p class="text-lowercase">РўРµРєСЃС‚ РІ РЅРёР¶РЅРµРј СЂРµРіРёСЃС‚СЂРµ.</p>
+<p class="text-uppercase">РўРµРєСЃС‚ РІ РІРµСЂС…РЅРµРј СЂРµРіРёСЃС‚СЂРµ.</p>
+<p class="text-capitalize">СЂР°Р·РЅРѕР РµР“РёРЎРўСЂРѕРІС‹Р№ С‚РµРєСЃС‚.</p>  ---- РјРµРЅСЏРµС‚ РїРµСЂРІСѓСЋ Р±СѓРєРІСѓ РєР°Р¶РґРѕРіРѕ СЃР»РѕРІР° РЅР° Р·Р°РіР»Р°РІРЅСѓСЋ
 
-//изменить жирность шрифта
-<p class="font-weight-bold">Жирный текст.</p>
-<p class="font-weight-normal">Нормальный текст.</p>
-<p class="font-weight-light">Легкий текст.</p>
-<p class="font-italic">Курсивный текст.</p>
-
-
-//ширина каждого символа одинакова
-<p class="text-monospace">Это моноширинный текст</p>
+//РёР·РјРµРЅРёС‚СЊ Р¶РёСЂРЅРѕСЃС‚СЊ С€СЂРёС„С‚Р°
+<p class="font-weight-bold">Р–РёСЂРЅС‹Р№ С‚РµРєСЃС‚.</p>
+<p class="font-weight-normal">РќРѕСЂРјР°Р»СЊРЅС‹Р№ С‚РµРєСЃС‚.</p>
+<p class="font-weight-light">Р›РµРіРєРёР№ С‚РµРєСЃС‚.</p>
+<p class="font-italic">РљСѓСЂСЃРёРІРЅС‹Р№ С‚РµРєСЃС‚.</p>
 
 
-//текст будет обернут - блок станет как можно меньше но так что бы текст полностью уместился, антагонист .text-nowrap
+//С€РёСЂРёРЅР° РєР°Р¶РґРѕРіРѕ СЃРёРјРІРѕР»Р° РѕРґРёРЅР°РєРѕРІР°
+<p class="text-monospace">Р­С‚Рѕ РјРѕРЅРѕС€РёСЂРёРЅРЅС‹Р№ С‚РµРєСЃС‚</p>
+
+
+//С‚РµРєСЃС‚ Р±СѓРґРµС‚ РѕР±РµСЂРЅСѓС‚ - Р±Р»РѕРє СЃС‚Р°РЅРµС‚ РєР°Рє РјРѕР¶РЅРѕ РјРµРЅСЊС€Рµ РЅРѕ С‚Р°Рє С‡С‚Рѕ Р±С‹ С‚РµРєСЃС‚ РїРѕР»РЅРѕСЃС‚СЊСЋ СѓРјРµСЃС‚РёР»СЃСЏ, Р°РЅС‚Р°РіРѕРЅРёСЃС‚ .text-nowrap
 <div class="badge badge-primary text-wrap" style="width: 6rem;">
   This text should wrap.
 </div>
 
 
 
-//если добавить в блок с текстом при заданной ширине блока, текст будет обрезан и добавлено многоточие
-Требует display: inline-block или display: block.
+//РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ РІ Р±Р»РѕРє СЃ С‚РµРєСЃС‚РѕРј РїСЂРё Р·Р°РґР°РЅРЅРѕР№ С€РёСЂРёРЅРµ Р±Р»РѕРєР°, С‚РµРєСЃС‚ Р±СѓРґРµС‚ РѕР±СЂРµР·Р°РЅ Рё РґРѕР±Р°РІР»РµРЅРѕ РјРЅРѕРіРѕС‚РѕС‡РёРµ
+РўСЂРµР±СѓРµС‚ display: inline-block РёР»Рё display: block.
 .text-truncate
 
 
-//заставить цвет текста наследоваться от родителя
+//Р·Р°СЃС‚Р°РІРёС‚СЊ С†РІРµС‚ С‚РµРєСЃС‚Р° РЅР°СЃР»РµРґРѕРІР°С‚СЊСЃСЏ РѕС‚ СЂРѕРґРёС‚РµР»СЏ
 <p class="text-muted">
   Muted text with a <a href="#" class="text-reset">reset link</a>.</p>
 
 
-#a #link #ссылка
-удалить текстовое оформление для ссылки
+#a #link #СЃСЃС‹Р»РєР°
+СѓРґР°Р»РёС‚СЊ С‚РµРєСЃС‚РѕРІРѕРµ РѕС„РѕСЂРјР»РµРЅРёРµ РґР»СЏ СЃСЃС‹Р»РєРё
 <a href="#" class="text-decoration-none">Non-underlined link</a>
 
 
-//вертикальное выравнивание текста в строке
+//РІРµСЂС‚РёРєР°Р»СЊРЅРѕРµ РІС‹СЂР°РІРЅРёРІР°РЅРёРµ С‚РµРєСЃС‚Р° РІ СЃС‚СЂРѕРєРµ
 <span class="align-baseline">baseline</span>
 <span class="align-top">top</span>
 <span class="align-middle">middle</span>
@@ -1143,10 +1143,10 @@ text-white
 <span class="align-text-bottom">text-bottom</span>
 
 
-серый цвет+ прижимается к тому что сверху
+СЃРµСЂС‹Р№ С†РІРµС‚+ РїСЂРёР¶РёРјР°РµС‚СЃСЏ Рє С‚РѕРјСѓ С‡С‚Рѕ СЃРІРµСЂС…Сѓ
 <p class="help-block">   
 
-//маленький текст
+//РјР°Р»РµРЅСЊРєРёР№ С‚РµРєСЃС‚
 <small>11 mins ago</small>
 
 
@@ -1156,18 +1156,18 @@ text-white
 
 
 
-<div class="checkbox">   в див засовываем чекбоксы
-<div class="radio"> в див засовываем радиобаттоны
-<label class="checkbox-inline"> в каждом таком блоке по 1 чекбоксу
-<input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>   "отключает"
+<div class="checkbox">   РІ РґРёРІ Р·Р°СЃРѕРІС‹РІР°РµРј С‡РµРєР±РѕРєСЃС‹
+<div class="radio"> РІ РґРёРІ Р·Р°СЃРѕРІС‹РІР°РµРј СЂР°РґРёРѕР±Р°С‚С‚РѕРЅС‹
+<label class="checkbox-inline"> РІ РєР°Р¶РґРѕРј С‚Р°РєРѕРј Р±Р»РѕРєРµ РїРѕ 1 С‡РµРєР±РѕРєСЃСѓ
+<input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>   "РѕС‚РєР»СЋС‡Р°РµС‚"
 {
-задаем стиль
-<div class="form-group has-success">    если добавить класс has-feedback то не только выделение цветом, но и иконки соответсвующие будут
-.has-warning, .has-error, или .has-success     
-<label class="control-label" for="inputSuccess1">Успешный ввод</label>   связывается с input
+Р·Р°РґР°РµРј СЃС‚РёР»СЊ
+<div class="form-group has-success">    РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ РєР»Р°СЃСЃ has-feedback С‚Рѕ РЅРµ С‚РѕР»СЊРєРѕ РІС‹РґРµР»РµРЅРёРµ С†РІРµС‚РѕРј, РЅРѕ Рё РёРєРѕРЅРєРё СЃРѕРѕС‚РІРµС‚СЃРІСѓСЋС‰РёРµ Р±СѓРґСѓС‚
+.has-warning, .has-error, РёР»Рё .has-success     
+<label class="control-label" for="inputSuccess1">РЈСЃРїРµС€РЅС‹Р№ РІРІРѕРґ</label>   СЃРІСЏР·С‹РІР°РµС‚СЃСЏ СЃ input
 
 }
-<div class="row">  вложенные дивы будут в строку и по col-xs-2 можно менять длину
+<div class="row">  РІР»РѕР¶РµРЅРЅС‹Рµ РґРёРІС‹ Р±СѓРґСѓС‚ РІ СЃС‚СЂРѕРєСѓ Рё РїРѕ col-xs-2 РјРѕР¶РЅРѕ РјРµРЅСЏС‚СЊ РґР»РёРЅСѓ
   <div class="col-xs-2">
 
 
@@ -1175,51 +1175,51 @@ text-white
 
 
 
-#cart #карточки #card
-получается такой вертикальный квадрат . 
-может содержать что угодно, есть серая граница для мейн дива
-растягивается по ширине на 100%, так что надо задавать ширину
+#cart #РєР°СЂС‚РѕС‡РєРё #card
+РїРѕР»СѓС‡Р°РµС‚СЃСЏ С‚Р°РєРѕР№ РІРµСЂС‚РёРєР°Р»СЊРЅС‹Р№ РєРІР°РґСЂР°С‚ . 
+РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ С‡С‚Рѕ СѓРіРѕРґРЅРѕ, РµСЃС‚СЊ СЃРµСЂР°СЏ РіСЂР°РЅРёС†Р° РґР»СЏ РјРµР№РЅ РґРёРІР°
+СЂР°СЃС‚СЏРіРёРІР°РµС‚СЃСЏ РїРѕ С€РёСЂРёРЅРµ РЅР° 100%, С‚Р°Рє С‡С‚Рѕ РЅР°РґРѕ Р·Р°РґР°РІР°С‚СЊ С€РёСЂРёРЅСѓ
 
-#card-body - должен быть всегда, содержит основной контент
-#card-img-top - для изображвения
-#card-text - текст карточки
-#card-header - header- то что выше названия карточки
-#card-img-top - независимо от того сверху или снизу надо разместить, если надо перместить то просто переместить в html #card-img
-#card-title -название карточки
+#card-body - РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІСЃРµРіРґР°, СЃРѕРґРµСЂР¶РёС‚ РѕСЃРЅРѕРІРЅРѕР№ РєРѕРЅС‚РµРЅС‚
+#card-img-top - РґР»СЏ РёР·РѕР±СЂР°Р¶РІРµРЅРёСЏ
+#card-text - С‚РµРєСЃС‚ РєР°СЂС‚РѕС‡РєРё
+#card-header - header- С‚Рѕ С‡С‚Рѕ РІС‹С€Рµ РЅР°Р·РІР°РЅРёСЏ РєР°СЂС‚РѕС‡РєРё
+#card-img-top - РЅРµР·Р°РІРёСЃРёРјРѕ РѕС‚ С‚РѕРіРѕ СЃРІРµСЂС…Сѓ РёР»Рё СЃРЅРёР·Сѓ РЅР°РґРѕ СЂР°Р·РјРµСЃС‚РёС‚СЊ, РµСЃР»Рё РЅР°РґРѕ РїРµСЂРјРµСЃС‚РёС‚СЊ С‚Рѕ РїСЂРѕСЃС‚Рѕ РїРµСЂРµРјРµСЃС‚РёС‚СЊ РІ html #card-img
+#card-title -РЅР°Р·РІР°РЅРёРµ РєР°СЂС‚РѕС‡РєРё
 
-также в .card можно засунуть блок .row со всеми вытекающими (можно например сделать горизонтально-вертикальную карточку)
+С‚Р°РєР¶Рµ РІ .card РјРѕР¶РЅРѕ Р·Р°СЃСѓРЅСѓС‚СЊ Р±Р»РѕРє .row СЃРѕ РІСЃРµРјРё РІС‹С‚РµРєР°СЋС‰РёРјРё (РјРѕР¶РЅРѕ РЅР°РїСЂРёРјРµСЂ СЃРґРµР»Р°С‚СЊ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕ-РІРµСЂС‚РёРєР°Р»СЊРЅСѓСЋ РєР°СЂС‚РѕС‡РєСѓ)
 
-если необходимо засунуть ссылки то 
- <a href="#" class="card-link">Ссылка карты</a>
+РµСЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ Р·Р°СЃСѓРЅСѓС‚СЊ СЃСЃС‹Р»РєРё С‚Рѕ 
+ <a href="#" class="card-link">РЎСЃС‹Р»РєР° РєР°СЂС‚С‹</a>
 
 
 <div class="card" style="width: 18rem;">
 <div class="card-header">Featured</div>
   <img src="..." class="card-img-top" alt="...">
   <div class="card-body">
-    <h5 class="card-title">Название карточки</h5>
+    <h5 class="card-title">РќР°Р·РІР°РЅРёРµ РєР°СЂС‚РѕС‡РєРё</h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+    <a href="#" class="btn btn-primary">РџРµСЂРµС…РѕРґ РєСѓРґР°-РЅРёР±СѓРґСЊ</a>
   </div>
 </div>
 
 
-если нужен полноценный футер
+РµСЃР»Рё РЅСѓР¶РµРЅ РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ С„СѓС‚РµСЂ
 <div class="card-footer text-muted">
     2 days ago
   </div>
 
 
 
-если изображение нужно сделать фоном, убираем -top у картинки и добавляем дивы #card-img #card-img-overlay
+РµСЃР»Рё РёР·РѕР±СЂР°Р¶РµРЅРёРµ РЅСѓР¶РЅРѕ СЃРґРµР»Р°С‚СЊ С„РѕРЅРѕРј, СѓР±РёСЂР°РµРј -top Сѓ РєР°СЂС‚РёРЅРєРё Рё РґРѕР±Р°РІР»СЏРµРј РґРёРІС‹ #card-img #card-img-overlay
 <img src="..." class="card-img" alt="...">
   <div class="card-img-overlay">
-    <h5 class="card-title">Название карточки</h5>
+    <h5 class="card-title">РќР°Р·РІР°РЅРёРµ РєР°СЂС‚РѕС‡РєРё</h5>
 
 
 
 
-в card-header  можно засунуть что то типо вкладок
+РІ card-header  РјРѕР¶РЅРѕ Р·Р°СЃСѓРЅСѓС‚СЊ С‡С‚Рѕ С‚Рѕ С‚РёРїРѕ РІРєР»Р°РґРѕРє
 <ul class="nav nav-tabs card-header-tabs">
       <li class="nav-item">
         <a class="nav-link active" href="#">Active</a>
@@ -1232,7 +1232,7 @@ text-white
       </li>
     </ul>
 
-или просто список кнопок
+РёР»Рё РїСЂРѕСЃС‚Рѕ СЃРїРёСЃРѕРє РєРЅРѕРїРѕРє
 <ul class="nav nav-pills card-header-pills">
       <li class="nav-item">
         <a class="nav-link active" href="#">Active</a>
@@ -1240,34 +1240,34 @@ text-white
 
 
 
-можно изменить цвет фона и текста
+РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ С†РІРµС‚ С„РѕРЅР° Рё С‚РµРєСЃС‚Р°
 <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
 
-можно сделать фон светлым и изменить цвет границ+текста? не изменить цвет между телом и хэдером
+РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ С„РѕРЅ СЃРІРµС‚Р»С‹Рј Рё РёР·РјРµРЅРёС‚СЊ С†РІРµС‚ РіСЂР°РЅРёС†+С‚РµРєСЃС‚Р°? РЅРµ РёР·РјРµРЅРёС‚СЊ С†РІРµС‚ РјРµР¶РґСѓ С‚РµР»РѕРј Рё С…СЌРґРµСЂРѕРј
 
 <div class="card border-primary mb-3" style="max-width: 18rem;">
  <div class="card-body text-primary">
-это не изменит цвет между боди и header+footer
+СЌС‚Рѕ РЅРµ РёР·РјРµРЅРёС‚ С†РІРµС‚ РјРµР¶РґСѓ Р±РѕРґРё Рё header+footer
  <div class="card-header bg-transparent border-success">Header</div>
 
 
 
 
-можно объеденить в группы
-карты будут прикреплены друг к другу
-если есть футеры хэдеры и тд то все они будут располагаться на 1 уровне
+РјРѕР¶РЅРѕ РѕР±СЉРµРґРµРЅРёС‚СЊ РІ РіСЂСѓРїРїС‹
+РєР°СЂС‚С‹ Р±СѓРґСѓС‚ РїСЂРёРєСЂРµРїР»РµРЅС‹ РґСЂСѓРі Рє РґСЂСѓРіСѓ
+РµСЃР»Рё РµСЃС‚СЊ С„СѓС‚РµСЂС‹ С…СЌРґРµСЂС‹ Рё С‚Рґ С‚Рѕ РІСЃРµ РѕРЅРё Р±СѓРґСѓС‚ СЂР°СЃРїРѕР»Р°РіР°С‚СЊСЃСЏ РЅР° 1 СѓСЂРѕРІРЅРµ
 <div class="card-group">
 
-тоже самое что и группировка, но карты не прикреплены друг к другу
+С‚РѕР¶Рµ СЃР°РјРѕРµ С‡С‚Рѕ Рё РіСЂСѓРїРїРёСЂРѕРІРєР°, РЅРѕ РєР°СЂС‚С‹ РЅРµ РїСЂРёРєСЂРµРїР»РµРЅС‹ РґСЂСѓРі Рє РґСЂСѓРіСѓ
 <div class="card-deck">
 
 
-если надо располагать колонками
+РµСЃР»Рё РЅР°РґРѕ СЂР°СЃРїРѕР»Р°РіР°С‚СЊ РєРѕР»РѕРЅРєР°РјРё
 <div class="card-columns">
   <div class="card">
 
-//#TODO я не нашел этого в примере 
-Внимание! Размеры карточек могут быть разными, поэтому положение колонок тоже может разниться. Чтобы карточки не выходили из колонок, задайте display: inline-block, т.к. column-break-inside: avoid не совсем рабочее решение.
+//#TODO СЏ РЅРµ РЅР°С€РµР» СЌС‚РѕРіРѕ РІ РїСЂРёРјРµСЂРµ 
+Р’РЅРёРјР°РЅРёРµ! Р Р°Р·РјРµСЂС‹ РєР°СЂС‚РѕС‡РµРє РјРѕРіСѓС‚ Р±С‹С‚СЊ СЂР°Р·РЅС‹РјРё, РїРѕСЌС‚РѕРјСѓ РїРѕР»РѕР¶РµРЅРёРµ РєРѕР»РѕРЅРѕРє С‚РѕР¶Рµ РјРѕР¶РµС‚ СЂР°Р·РЅРёС‚СЊСЃСЏ. Р§С‚РѕР±С‹ РєР°СЂС‚РѕС‡РєРё РЅРµ РІС‹С…РѕРґРёР»Рё РёР· РєРѕР»РѕРЅРѕРє, Р·Р°РґР°Р№С‚Рµ display: inline-block, С‚.Рє. column-break-inside: avoid РЅРµ СЃРѕРІСЃРµРј СЂР°Р±РѕС‡РµРµ СЂРµС€РµРЅРёРµ.
 .card-columns {
   @include media-breakpoint-only(lg) {
     column-count: 4;
@@ -1285,26 +1285,26 @@ text-white
 
 
 #Jumbotron
-похоже на то что появляется когда открываешь в 1 раз проект asp.net
-что то похожее на card но визуально больше к томе что можно просто на страницу закинуть
-Легкий, гибкий компонент для демонстрации ключевого содержимого вашего сайта.
+РїРѕС…РѕР¶Рµ РЅР° С‚Рѕ С‡С‚Рѕ РїРѕСЏРІР»СЏРµС‚СЃСЏ РєРѕРіРґР° РѕС‚РєСЂС‹РІР°РµС€СЊ РІ 1 СЂР°Р· РїСЂРѕРµРєС‚ asp.net
+С‡С‚Рѕ С‚Рѕ РїРѕС…РѕР¶РµРµ РЅР° card РЅРѕ РІРёР·СѓР°Р»СЊРЅРѕ Р±РѕР»СЊС€Рµ Рє С‚РѕРјРµ С‡С‚Рѕ РјРѕР¶РЅРѕ РїСЂРѕСЃС‚Рѕ РЅР° СЃС‚СЂР°РЅРёС†Сѓ Р·Р°РєРёРЅСѓС‚СЊ
+Р›РµРіРєРёР№, РіРёР±РєРёР№ РєРѕРјРїРѕРЅРµРЅС‚ РґР»СЏ РґРµРјРѕРЅСЃС‚СЂР°С†РёРё РєР»СЋС‡РµРІРѕРіРѕ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ РІР°С€РµРіРѕ СЃР°Р№С‚Р°.
 
 <div class="jumbotron">
-  <h1 class="display-4">Привет, мир!</h1>
-  <p class="lead">Это простой пример блока с компонентом в стиле jumbotron для привлечения дополнительного внимания к содержанию или информации.</p>
+  <h1 class="display-4">РџСЂРёРІРµС‚, РјРёСЂ!</h1>
+  <p class="lead">Р­С‚Рѕ РїСЂРѕСЃС‚РѕР№ РїСЂРёРјРµСЂ Р±Р»РѕРєР° СЃ РєРѕРјРїРѕРЅРµРЅС‚РѕРј РІ СЃС‚РёР»Рµ jumbotron РґР»СЏ РїСЂРёРІР»РµС‡РµРЅРёСЏ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРіРѕ РІРЅРёРјР°РЅРёСЏ Рє СЃРѕРґРµСЂР¶Р°РЅРёСЋ РёР»Рё РёРЅС„РѕСЂРјР°С†РёРё.</p>
   <hr class="my-4">
-  <p>Использются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>
+  <p>РСЃРїРѕР»СЊР·СЋС‚СЃСЏ СЃР»СѓР¶РµР±РЅС‹Рµ РєР»Р°СЃСЃС‹ РґР»СЏ С‚РёРїРѕРіСЂР°С„РёРєРё Рё СЂР°СЃСЃС‚РѕСЏРЅРёСЏ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ РІ РєРѕРЅС‚РµР№РЅРµСЂРµ Р±РѕР»СЊС€РµРіРѕ СЂР°Р·РјРµСЂР°.</p>
   <p class="lead">
     <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
   </p>
 </div>
 
 
-на всю ширину и без закругленных углов
+РЅР° РІСЃСЋ С€РёСЂРёРЅСѓ Рё Р±РµР· Р·Р°РєСЂСѓРіР»РµРЅРЅС‹С… СѓРіР»РѕРІ
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4">Fluid jumbotron</h1>
-    <p class="lead">Это модифицированный jumbotron, который занимает все горизонтальное пространство своего родителя.</p>
+    <p class="lead">Р­С‚Рѕ РјРѕРґРёС„РёС†РёСЂРѕРІР°РЅРЅС‹Р№ jumbotron, РєРѕС‚РѕСЂС‹Р№ Р·Р°РЅРёРјР°РµС‚ РІСЃРµ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ СЃРІРѕРµРіРѕ СЂРѕРґРёС‚РµР»СЏ.</p>
   </div>
 </div>
 
@@ -1320,9 +1320,9 @@ text-white
 
 
 
-#pagination #пагинация
+#pagination #РїР°РіРёРЅР°С†РёСЏ
 
-<nav aria-label="info"> //--так рекомендуется делать
+<nav aria-label="info"> //--С‚Р°Рє СЂРµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ РґРµР»Р°С‚СЊ
 <ul class="pagination  pagination-lg justify-content-center">
 // <li class="page-item disabled">
 //<li class="page-item active" aria-current="page">
@@ -1341,26 +1341,26 @@ justify-content-end
 
 
 
-#size #page #media #brakepoint #брейкпоинт
+#size #page #media #brakepoint #Р±СЂРµР№РєРїРѕРёРЅС‚
 
-//если указывается min-width - то имеется в виду этот размер И БОЛЬШЕ
-//если max-width - то имеется в виду этот размер И МЕНЬШЕ
-//можно комбинировать
+//РµСЃР»Рё СѓРєР°Р·С‹РІР°РµС‚СЃСЏ min-width - С‚Рѕ РёРјРµРµС‚СЃСЏ РІ РІРёРґСѓ СЌС‚РѕС‚ СЂР°Р·РјРµСЂ Р Р‘РћР›Р¬РЁР•
+//РµСЃР»Рё max-width - С‚Рѕ РёРјРµРµС‚СЃСЏ РІ РІРёРґСѓ СЌС‚РѕС‚ СЂР°Р·РјРµСЂ Р РњР•РќР¬РЁР•
+//РјРѕР¶РЅРѕ РєРѕРјР±РёРЅРёСЂРѕРІР°С‚СЊ
 @media (min-width: 576px) and (max-width: 767.98px) { ... }
 
-// Экстрамалые девайсы («телефоны», < 576px)
-// Нет @media, т.к. это по умолчанию в Bootstrap
+// Р­РєСЃС‚СЂР°РјР°Р»С‹Рµ РґРµРІР°Р№СЃС‹ (В«С‚РµР»РµС„РѕРЅС‹В», < 576px)
+// РќРµС‚ @media, С‚.Рє. СЌС‚Рѕ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РІ Bootstrap
 
-// Малые девайсы («ландшафтные телефоны», >= 576px)
+// РњР°Р»С‹Рµ РґРµРІР°Р№СЃС‹ (В«Р»Р°РЅРґС€Р°С„С‚РЅС‹Рµ С‚РµР»РµС„РѕРЅС‹В», >= 576px)
 @media (min-width: 576px) { ... }
 
-// Средние девайсы («таблетки», >= 768px)
+// РЎСЂРµРґРЅРёРµ РґРµРІР°Р№СЃС‹ (В«С‚Р°Р±Р»РµС‚РєРёВ», >= 768px)
 @media (min-width: 768px) { ... }
 
-// Большие девайсы (десктопы, >= 992px)
+// Р‘РѕР»СЊС€РёРµ РґРµРІР°Р№СЃС‹ (РґРµСЃРєС‚РѕРїС‹, >= 992px)
 @media (min-width: 992px) { ... }
 
-// Экстрабольшие девайсы (большие десктопы, >= 1200px)
+// Р­РєСЃС‚СЂР°Р±РѕР»СЊС€РёРµ РґРµРІР°Р№СЃС‹ (Р±РѕР»СЊС€РёРµ РґРµСЃРєС‚РѕРїС‹, >= 1200px)
 @media (min-width: 1200px) { ... }
 
 
@@ -1373,16 +1373,16 @@ justify-content-end
 
 
 
-#size #resize #column #row #container #web #сетка #сеть #col 
+#size #resize #column #row #container #web #СЃРµС‚РєР° #СЃРµС‚СЊ #col 
 
-Содержимое должно быть расположено в колонках, и только колонки могут быть расположены в рядах.
+РЎРѕРґРµСЂР¶РёРјРѕРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ СЂР°СЃРїРѕР»РѕР¶РµРЅРѕ РІ РєРѕР»РѕРЅРєР°С…, Рё С‚РѕР»СЊРєРѕ РєРѕР»РѕРЅРєРё РјРѕРіСѓС‚ Р±С‹С‚СЊ СЂР°СЃРїРѕР»РѕР¶РµРЅС‹ РІ СЂСЏРґР°С….
 
-вся страница делится на 12 колонок. Если больше 12-ти колонок разместить в одном ряду, каждая дополнительная колонка обернется в новую строку
-в col можно вложить row
+РІСЃСЏ СЃС‚СЂР°РЅРёС†Р° РґРµР»РёС‚СЃСЏ РЅР° 12 РєРѕР»РѕРЅРѕРє. Р•СЃР»Рё Р±РѕР»СЊС€Рµ 12-С‚Рё РєРѕР»РѕРЅРѕРє СЂР°Р·РјРµСЃС‚РёС‚СЊ РІ РѕРґРЅРѕРј СЂСЏРґСѓ, РєР°Р¶РґР°СЏ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ РєРѕР»РѕРЅРєР° РѕР±РµСЂРЅРµС‚СЃСЏ РІ РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ
+РІ col РјРѕР¶РЅРѕ РІР»РѕР¶РёС‚СЊ row
 
 
-внешний div .container
-если элементы в строку то .row   -- если добавить в .row класс .#no-gutters то вы можете удалить марджины margin из рядов и паддинги padding из колонок, его необходимо самому добавить в css
+РІРЅРµС€РЅРёР№ div .container
+РµСЃР»Рё СЌР»РµРјРµРЅС‚С‹ РІ СЃС‚СЂРѕРєСѓ С‚Рѕ .row   -- РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ РІ .row РєР»Р°СЃСЃ .#no-gutters С‚Рѕ РІС‹ РјРѕР¶РµС‚Рµ СѓРґР°Р»РёС‚СЊ РјР°СЂРґР¶РёРЅС‹ margin РёР· СЂСЏРґРѕРІ Рё РїР°РґРґРёРЅРіРё padding РёР· РєРѕР»РѕРЅРѕРє, РµРіРѕ РЅРµРѕР±С…РѕРґРёРјРѕ СЃР°РјРѕРјСѓ РґРѕР±Р°РІРёС‚СЊ РІ css
 .no-gutters {
     margin-right: 0 /*!important*/;
     margin-left: 0 /*!important*/;
@@ -1393,47 +1393,47 @@ justify-content-end
     padding-left: 0;
 }
 
-и уже в строке .col-sm  и вот между этими элементами разделится 100% ширины по ровну на каждый
-если нужно не равномерно разделять то (тоесть мы можем задать ширину для каждого типа экрана)
-.col очень маленький экран, этот класс применяется всегда и в дополнение к нему может применяться еще 1 из следующих
-.col-sm маленький экран
-.col-md средний экран
-.col-lg большой экран
-.col-xl очень большой экран
-.col-sm-4  -- здесь 4- это ширина в колонках
-col-md-auto  --по ширине содержимого
+Рё СѓР¶Рµ РІ СЃС‚СЂРѕРєРµ .col-sm  Рё РІРѕС‚ РјРµР¶РґСѓ СЌС‚РёРјРё СЌР»РµРјРµРЅС‚Р°РјРё СЂР°Р·РґРµР»РёС‚СЃСЏ 100% С€РёСЂРёРЅС‹ РїРѕ СЂРѕРІРЅСѓ РЅР° РєР°Р¶РґС‹Р№
+РµСЃР»Рё РЅСѓР¶РЅРѕ РЅРµ СЂР°РІРЅРѕРјРµСЂРЅРѕ СЂР°Р·РґРµР»СЏС‚СЊ С‚Рѕ (С‚РѕРµСЃС‚СЊ РјС‹ РјРѕР¶РµРј Р·Р°РґР°С‚СЊ С€РёСЂРёРЅСѓ РґР»СЏ РєР°Р¶РґРѕРіРѕ С‚РёРїР° СЌРєСЂР°РЅР°)
+.col РѕС‡РµРЅСЊ РјР°Р»РµРЅСЊРєРёР№ СЌРєСЂР°РЅ, СЌС‚РѕС‚ РєР»Р°СЃСЃ РїСЂРёРјРµРЅСЏРµС‚СЃСЏ РІСЃРµРіРґР° Рё РІ РґРѕРїРѕР»РЅРµРЅРёРµ Рє РЅРµРјСѓ РјРѕР¶РµС‚ РїСЂРёРјРµРЅСЏС‚СЊСЃСЏ РµС‰Рµ 1 РёР· СЃР»РµРґСѓСЋС‰РёС…
+.col-sm РјР°Р»РµРЅСЊРєРёР№ СЌРєСЂР°РЅ
+.col-md СЃСЂРµРґРЅРёР№ СЌРєСЂР°РЅ
+.col-lg Р±РѕР»СЊС€РѕР№ СЌРєСЂР°РЅ
+.col-xl РѕС‡РµРЅСЊ Р±РѕР»СЊС€РѕР№ СЌРєСЂР°РЅ
+.col-sm-4  -- Р·РґРµСЃСЊ 4- СЌС‚Рѕ С€РёСЂРёРЅР° РІ РєРѕР»РѕРЅРєР°С…
+col-md-auto  --РїРѕ С€РёСЂРёРЅРµ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ
 
-столбцы одинаковой ширины в пределах 1 row можно разбить на несколько строк с помощью .w-100
+СЃС‚РѕР»Р±С†С‹ РѕРґРёРЅР°РєРѕРІРѕР№ С€РёСЂРёРЅС‹ РІ РїСЂРµРґРµР»Р°С… 1 row РјРѕР¶РЅРѕ СЂР°Р·Р±РёС‚СЊ РЅР° РЅРµСЃРєРѕР»СЊРєРѕ СЃС‚СЂРѕРє СЃ РїРѕРјРѕС‰СЊСЋ .w-100
 <div class="row">
-    <div class="col">Колонка</div>
+    <div class="col">РљРѕР»РѕРЅРєР°</div>
     <div class="w-100"></div>
-    <div class="col">Колонка</div></div>
+    <div class="col">РљРѕР»РѕРЅРєР°</div></div>
 
 
-если ширина экрана становится слишком маленькой то .col перестают располагаться на 1 строке и каждая колонка встает на отдельную строку
+РµСЃР»Рё С€РёСЂРёРЅР° СЌРєСЂР°РЅР° СЃС‚Р°РЅРѕРІРёС‚СЃСЏ СЃР»РёС€РєРѕРј РјР°Р»РµРЅСЊРєРѕР№ С‚Рѕ .col РїРµСЂРµСЃС‚Р°СЋС‚ СЂР°СЃРїРѕР»Р°РіР°С‚СЊСЃСЏ РЅР° 1 СЃС‚СЂРѕРєРµ Рё РєР°Р¶РґР°СЏ РєРѕР»РѕРЅРєР° РІСЃС‚Р°РµС‚ РЅР° РѕС‚РґРµР»СЊРЅСѓСЋ СЃС‚СЂРѕРєСѓ
 
-получается, что при маленьком экране ширина 12 колонок а при большом 8
+РїРѕР»СѓС‡Р°РµС‚СЃСЏ, С‡С‚Рѕ РїСЂРё РјР°Р»РµРЅСЊРєРѕРј СЌРєСЂР°РЅРµ С€РёСЂРёРЅР° 12 РєРѕР»РѕРЅРѕРє Р° РїСЂРё Р±РѕР»СЊС€РѕРј 8
 <div class="col-12 col-md-8">.col-12 .col-md-8</div>
 
 
 
 
-для row можно добавить дополнительный класс для того что бы задать как будут размещены элементы внутри. 
-//для использования ширина вложенных элементов должна быть ограничена=> допустим 2 таких элемента <div class="col-4">
- <div class="row justify-content-start">  --слева
-<div class="row justify-content-center">  -- по центру
- <div class="row justify-content-end">   -- справа
-<div class="row justify-content-around">  -- в центре есть небольшой промежуток
-<div class="row justify-content-between"> -- в центре есть большой промежуток.. скорее даже разносит блоки по краям
+РґР»СЏ row РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РґР»СЏ С‚РѕРіРѕ С‡С‚Рѕ Р±С‹ Р·Р°РґР°С‚СЊ РєР°Рє Р±СѓРґСѓС‚ СЂР°Р·РјРµС‰РµРЅС‹ СЌР»РµРјРµРЅС‚С‹ РІРЅСѓС‚СЂРё. 
+//РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ С€РёСЂРёРЅР° РІР»РѕР¶РµРЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕРіСЂР°РЅРёС‡РµРЅР°=> РґРѕРїСѓСЃС‚РёРј 2 С‚Р°РєРёС… СЌР»РµРјРµРЅС‚Р° <div class="col-4">
+ <div class="row justify-content-start">  --СЃР»РµРІР°
+<div class="row justify-content-center">  -- РїРѕ С†РµРЅС‚СЂСѓ
+ <div class="row justify-content-end">   -- СЃРїСЂР°РІР°
+<div class="row justify-content-around">  -- РІ С†РµРЅС‚СЂРµ РµСЃС‚СЊ РЅРµР±РѕР»СЊС€РѕР№ РїСЂРѕРјРµР¶СѓС‚РѕРє
+<div class="row justify-content-between"> -- РІ С†РµРЅС‚СЂРµ РµСЃС‚СЊ Р±РѕР»СЊС€РѕР№ РїСЂРѕРјРµР¶СѓС‚РѕРє.. СЃРєРѕСЂРµРµ РґР°Р¶Рµ СЂР°Р·РЅРѕСЃРёС‚ Р±Р»РѕРєРё РїРѕ РєСЂР°СЏРј
 
-#no-gutters можно добавить в row
-уберет пустые места, между столбцами и по краям
+#no-gutters РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РІ row
+СѓР±РµСЂРµС‚ РїСѓСЃС‚С‹Рµ РјРµСЃС‚Р°, РјРµР¶РґСѓ СЃС‚РѕР»Р±С†Р°РјРё Рё РїРѕ РєСЂР°СЏРј
 
 
 
 //#offset
-//.offset-md-4 сдвинет на 4 колонки
-//будет блок(4колонки) потом 4 колонки отступа и потом блок(4 колонки)
+//.offset-md-4 СЃРґРІРёРЅРµС‚ РЅР° 4 РєРѕР»РѕРЅРєРё
+//Р±СѓРґРµС‚ Р±Р»РѕРє(4РєРѕР»РѕРЅРєРё) РїРѕС‚РѕРј 4 РєРѕР»РѕРЅРєРё РѕС‚СЃС‚СѓРїР° Рё РїРѕС‚РѕРј Р±Р»РѕРє(4 РєРѕР»РѕРЅРєРё)
  <div class="col-md-4">.col-md-4</div>
     <div class="col-md-4 offset-md-4">.col-md-4 .offset-md-4</div>
 
@@ -1441,11 +1441,11 @@ col-md-auto  --по ширине содержимого
 
 
 
-//если надо изменить #порядок #order
-//надо установить некоторый элемент первым, остальные не трогать. ему задаем (устанавливает свойство order: -1)
+//РµСЃР»Рё РЅР°РґРѕ РёР·РјРµРЅРёС‚СЊ #РїРѕСЂСЏРґРѕРє #order
+//РЅР°РґРѕ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРµРєРѕС‚РѕСЂС‹Р№ СЌР»РµРјРµРЅС‚ РїРµСЂРІС‹Рј, РѕСЃС‚Р°Р»СЊРЅС‹Рµ РЅРµ С‚СЂРѕРіР°С‚СЊ. РµРјСѓ Р·Р°РґР°РµРј (СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЃРІРѕР№СЃС‚РІРѕ order: -1)
 <div class="col order-first">
 
-//если надо полностью изменить порядок -- сначала идут не упорядоченные, потом по порядку ( 1->2->...)
+//РµСЃР»Рё РЅР°РґРѕ РїРѕР»РЅРѕСЃС‚СЊСЋ РёР·РјРµРЅРёС‚СЊ РїРѕСЂСЏРґРѕРє -- СЃРЅР°С‡Р°Р»Р° РёРґСѓС‚ РЅРµ СѓРїРѕСЂСЏРґРѕС‡РµРЅРЅС‹Рµ, РїРѕС‚РѕРј РїРѕ РїРѕСЂСЏРґРєСѓ ( 1->2->...)
 
 <div class="col">
 <div class="col order-1">
@@ -1455,21 +1455,21 @@ col-md-auto  --по ширине содержимого
 
 
 #size #width 
-можно задать ширину в #%
-.w-75 - ширина 75% и тд
+РјРѕР¶РЅРѕ Р·Р°РґР°С‚СЊ С€РёСЂРёРЅСѓ РІ #%
+.w-75 - С€РёСЂРёРЅР° 75% Рё С‚Рґ
 
 
 #height
-относительно родительского элемента
+РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
 <div class="h-25
 <div class="h-auto d-inline-block"
 
-.mh-100  --- максимальная высота 100%
+.mh-100  --- РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РІС‹СЃРѕС‚Р° 100%
 
-.mw-100 - установит высоту и ширину в 100%
+.mw-100 - СѓСЃС‚Р°РЅРѕРІРёС‚ РІС‹СЃРѕС‚Сѓ Рё С€РёСЂРёРЅСѓ РІ 100%
 
 
-Относительно области просмотра
+РћС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РѕР±Р»Р°СЃС‚Рё РїСЂРѕСЃРјРѕС‚СЂР°
 
 
 <div class="min-vw-100">Min-width 100vw</div>
@@ -1499,11 +1499,11 @@ col-auto
 
 
 
-//#TODO не понял вообще
+//#TODO РЅРµ РїРѕРЅСЏР» РІРѕРѕР±С‰Рµ
 <div class="container px-lg-5">
   <div class="row mx-lg-n5">
-    <div class="col py-3 px-lg-5 border bg-light">Пользовательская вставка столбцов</div>
-    <div class="col py-3 px-lg-5 border bg-light">Пользовательская вставка столбцов</div>
+    <div class="col py-3 px-lg-5 border bg-light">РџРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєР°СЏ РІСЃС‚Р°РІРєР° СЃС‚РѕР»Р±С†РѕРІ</div>
+    <div class="col py-3 px-lg-5 border bg-light">РџРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєР°СЏ РІСЃС‚Р°РІРєР° СЃС‚РѕР»Р±С†РѕРІ</div>
   </div>
 </div>
 
@@ -1516,42 +1516,42 @@ col-auto
 
 
 
-#alert #уведомление
-//////вроде переписал https://bootstrap-4.ru/docs/4.3.1/components/alerts/#dismissing
+#alert #СѓРІРµРґРѕРјР»РµРЅРёРµ
+//////РІСЂРѕРґРµ РїРµСЂРµРїРёСЃР°Р» https://bootstrap-4.ru/docs/4.3.1/components/alerts/#dismissing
 
 <div class="alert alert-primary" role="alert">
-<h4 class="alert-heading">Отличная работа!</h4>
-  Это основное уведомление — на синем фоне
-устанавливаем соответствие между ссылкой и цветом алерта
-<a href="#" class="alert-link">примером ссылки</a>
+<h4 class="alert-heading">РћС‚Р»РёС‡РЅР°СЏ СЂР°Р±РѕС‚Р°!</h4>
+  Р­С‚Рѕ РѕСЃРЅРѕРІРЅРѕРµ СѓРІРµРґРѕРјР»РµРЅРёРµ вЂ” РЅР° СЃРёРЅРµРј С„РѕРЅРµ
+СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РјРµР¶РґСѓ СЃСЃС‹Р»РєРѕР№ Рё С†РІРµС‚РѕРј Р°Р»РµСЂС‚Р°
+<a href="#" class="alert-link">РїСЂРёРјРµСЂРѕРј СЃСЃС‹Р»РєРё</a>
 </div>
 
-alert alert-secondary серый фон
-alert alert-success зеленый фон
-alert alert-danger красный фон
-alert alert-warning желтый фон
-alert alert-info другой синий фон
-alert alert-light очень светло серый фон
-alert alert-dark темно серый фон
+alert alert-secondary СЃРµСЂС‹Р№ С„РѕРЅ
+alert alert-success Р·РµР»РµРЅС‹Р№ С„РѕРЅ
+alert alert-danger РєСЂР°СЃРЅС‹Р№ С„РѕРЅ
+alert alert-warning Р¶РµР»С‚С‹Р№ С„РѕРЅ
+alert alert-info РґСЂСѓРіРѕР№ СЃРёРЅРёР№ С„РѕРЅ
+alert alert-light РѕС‡РµРЅСЊ СЃРІРµС‚Р»Рѕ СЃРµСЂС‹Р№ С„РѕРЅ
+alert alert-dark С‚РµРјРЅРѕ СЃРµСЂС‹Р№ С„РѕРЅ
 
 
-//вот так можно включить режим отслеживания кнопки "закрыть"
+//РІРѕС‚ С‚Р°Рє РјРѕР¶РЅРѕ РІРєР»СЋС‡РёС‚СЊ СЂРµР¶РёРј РѕС‚СЃР»РµР¶РёРІР°РЅРёСЏ РєРЅРѕРїРєРё "Р·Р°РєСЂС‹С‚СЊ"
 $(".alert").alert()
-//Закрывает уведомление методом удаления его из DOM-структуры.
+//Р—Р°РєСЂС‹РІР°РµС‚ СѓРІРµРґРѕРјР»РµРЅРёРµ РјРµС‚РѕРґРѕРј СѓРґР°Р»РµРЅРёСЏ РµРіРѕ РёР· DOM-СЃС‚СЂСѓРєС‚СѓСЂС‹.
 $().alert('close')
-//Уничтожает уведомление элемента.
+//РЈРЅРёС‡С‚РѕР¶Р°РµС‚ СѓРІРµРґРѕРјР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р°.
 $().alert('dispose')
 
 //event
-close.bs.alert	Это событие запускается немедленно при вызове экземпляра метода close.
-closed.bs.alert	Это событие запускается, когда уведомление закрыто (событие будет ждать завершения «переходов» СSS).
+close.bs.alert	Р­С‚Рѕ СЃРѕР±С‹С‚РёРµ Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ РЅРµРјРµРґР»РµРЅРЅРѕ РїСЂРё РІС‹Р·РѕРІРµ СЌРєР·РµРјРїР»СЏСЂР° РјРµС‚РѕРґР° close.
+closed.bs.alert	Р­С‚Рѕ СЃРѕР±С‹С‚РёРµ Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ, РєРѕРіРґР° СѓРІРµРґРѕРјР»РµРЅРёРµ Р·Р°РєСЂС‹С‚Рѕ (СЃРѕР±С‹С‚РёРµ Р±СѓРґРµС‚ Р¶РґР°С‚СЊ Р·Р°РІРµСЂС€РµРЅРёСЏ В«РїРµСЂРµС…РѕРґРѕРІВ» РЎSS).
 $('#myAlert').on('closed.bs.alert', function () {
-  // do something…
+  // do somethingвЂ¦
 })
 
-уведомления которое можно закрыть
-если закрыть, то оно будет удалено из dom
-это потребует util.js.
+СѓРІРµРґРѕРјР»РµРЅРёСЏ РєРѕС‚РѕСЂРѕРµ РјРѕР¶РЅРѕ Р·Р°РєСЂС‹С‚СЊ
+РµСЃР»Рё Р·Р°РєСЂС‹С‚СЊ, С‚Рѕ РѕРЅРѕ Р±СѓРґРµС‚ СѓРґР°Р»РµРЅРѕ РёР· dom
+СЌС‚Рѕ РїРѕС‚СЂРµР±СѓРµС‚ util.js.
 
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
   <strong>Holy guacamole!</strong> You should check in on some of those fields below.
@@ -1568,19 +1568,19 @@ $('#myAlert').on('closed.bs.alert', function () {
 
 
 
-#push #пуш #toast
-пуш #уведомления
+#push #РїСѓС€ #toast
+РїСѓС€ #СѓРІРµРґРѕРјР»РµРЅРёСЏ
 +util.js.
 
-инициализация $('.toast').toast(option)
+РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ $('.toast').toast(option)
 
 
-//если есть несколько(прям блоки html подряд, то они будут вертикально располагаться
+//РµСЃР»Рё РµСЃС‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ(РїСЂСЏРј Р±Р»РѕРєРё html РїРѕРґСЂСЏРґ, С‚Рѕ РѕРЅРё Р±СѓРґСѓС‚ РІРµСЂС‚РёРєР°Р»СЊРЅРѕ СЂР°СЃРїРѕР»Р°РіР°С‚СЊСЃСЏ
 
 
 
-//--обертка для уведомлений
-//для внешнего блока можно так class="d-flex justify-content-center align-items-center"
+//--РѕР±РµСЂС‚РєР° РґР»СЏ СѓРІРµРґРѕРјР»РµРЅРёР№
+//РґР»СЏ РІРЅРµС€РЅРµРіРѕ Р±Р»РѕРєР° РјРѕР¶РЅРѕ С‚Р°Рє class="d-flex justify-content-center align-items-center"
 <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
   <!-- Position it -->
   <div style="position: absolute; top: 0; right: 0;">
@@ -1612,29 +1612,29 @@ $('#myAlert').on('closed.bs.alert', function () {
 
 
 
-#badge #значки #значок #icon #иконка
-подстроится под внешний элемент
+#badge #Р·РЅР°С‡РєРё #Р·РЅР°С‡РѕРє #icon #РёРєРѕРЅРєР°
+РїРѕРґСЃС‚СЂРѕРёС‚СЃСЏ РїРѕРґ РІРЅРµС€РЅРёР№ СЌР»РµРјРµРЅС‚
 
-badge-primary - синий
-badge-secondary - темный фон
+badge-primary - СЃРёРЅРёР№
+badge-secondary - С‚РµРјРЅС‹Р№ С„РѕРЅ
 badge-success
 badge-danger
 badge-warning
-badge-info - другой синий
-badge-light - светлый фон
+badge-info - РґСЂСѓРіРѕР№ СЃРёРЅРёР№
+badge-light - СЃРІРµС‚Р»С‹Р№ С„РѕРЅ
 badge-dark
 
-если добавить еще и класс "badge-pill" то границы будут закруглены значительно
-если эти значики засунуть в тег A(ссылку) то они будут активными(выглядят как кнопки)
+РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ РµС‰Рµ Рё РєР»Р°СЃСЃ "badge-pill" С‚Рѕ РіСЂР°РЅРёС†С‹ Р±СѓРґСѓС‚ Р·Р°РєСЂСѓРіР»РµРЅС‹ Р·РЅР°С‡РёС‚РµР»СЊРЅРѕ
+РµСЃР»Рё СЌС‚Рё Р·РЅР°С‡РёРєРё Р·Р°СЃСѓРЅСѓС‚СЊ РІ С‚РµРі A(СЃСЃС‹Р»РєСѓ) С‚Рѕ РѕРЅРё Р±СѓРґСѓС‚ Р°РєС‚РёРІРЅС‹РјРё(РІС‹РіР»СЏРґСЏС‚ РєР°Рє РєРЅРѕРїРєРё)
 
-при использовании значков лучше добавлять писание к нему через sr-only .. оно будет не видимо
-<h1>Пример заголовка 
+РїСЂРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё Р·РЅР°С‡РєРѕРІ Р»СѓС‡С€Рµ РґРѕР±Р°РІР»СЏС‚СЊ РїРёСЃР°РЅРёРµ Рє РЅРµРјСѓ С‡РµСЂРµР· sr-only .. РѕРЅРѕ Р±СѓРґРµС‚ РЅРµ РІРёРґРёРјРѕ
+<h1>РџСЂРёРјРµСЂ Р·Р°РіРѕР»РѕРІРєР° 
 <span class="badge badge-secondary">New</span>
-<span class="sr-only">описание</span></h1>
+<span class="sr-only">РѕРїРёСЃР°РЅРёРµ</span></h1>
 
-//кнопка с надписью и числом похожим на количество сообщений ввк
+//РєРЅРѕРїРєР° СЃ РЅР°РґРїРёСЃСЊСЋ Рё С‡РёСЃР»РѕРј РїРѕС…РѕР¶РёРј РЅР° РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРѕРѕР±С‰РµРЅРёР№ РІРІРє
 <button type="button" class="btn btn-primary">
-  Уведомления <span class="badge badge-light">4</span>
+  РЈРІРµРґРѕРјР»РµРЅРёСЏ <span class="badge badge-light">4</span>
 </button>
 
 
@@ -1662,36 +1662,36 @@ badge-dark
 
 
 
-#slider #карусель
+#slider #РєР°СЂСѓСЃРµР»СЊ
 
-используется util.js.
-и не рекомендуестя к использованию тк не всем поддерживается
+РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ util.js.
+Рё РЅРµ СЂРµРєРѕРјРµРЅРґСѓРµСЃС‚СЏ Рє РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЋ С‚Рє РЅРµ РІСЃРµРј РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ
 
-как минимум 1 слайд должен быть помечен как active
-можно вызвать в ручную $('.carousel').carousel()
+РєР°Рє РјРёРЅРёРјСѓРј 1 СЃР»Р°Р№Рґ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїРѕРјРµС‡РµРЅ РєР°Рє active
+РјРѕР¶РЅРѕ РІС‹Р·РІР°С‚СЊ РІ СЂСѓС‡РЅСѓСЋ $('.carousel').carousel()
 
 
-можем добавить еще атрибуты, которые повлияют на выполнение, добавляются через data-NAMEATTR
-можем изменить интервал пролистывания, по умолчанию 5000. Если false – карусель не будет автоматически сменять слайды.
+РјРѕР¶РµРј РґРѕР±Р°РІРёС‚СЊ РµС‰Рµ Р°С‚СЂРёР±СѓС‚С‹, РєРѕС‚РѕСЂС‹Рµ РїРѕРІР»РёСЏСЋС‚ РЅР° РІС‹РїРѕР»РЅРµРЅРёРµ, РґРѕР±Р°РІР»СЏСЋС‚СЃСЏ С‡РµСЂРµР· data-NAMEATTR
+РјРѕР¶РµРј РёР·РјРµРЅРёС‚СЊ РёРЅС‚РµСЂРІР°Р» РїСЂРѕР»РёСЃС‚С‹РІР°РЅРёСЏ, РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ 5000. Р•СЃР»Рё false вЂ“ РєР°СЂСѓСЃРµР»СЊ РЅРµ Р±СѓРґРµС‚ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃРјРµРЅСЏС‚СЊ СЃР»Р°Р№РґС‹.
  <div class="carousel-item active" data-interval="10000">
-keyboard - bool - Будет ли карусель реагировать на события клавиатуры. по умолчанию true
-pause - string|bool- Если стоит "hover" – смена слайдов тормозится по mouseenter, и начинает смену по mouseleave. Если false – наведение на карусель не остановит смену слайдов. Устройства, активируемые касанием: "hover" – пауза при touchend (когда пользователь закончил взаимодействие с каруселью) на два интервала, потом опять смена слайдов. Заметьте, что это поведение – дополнение к описанному выше поведению мыши. по умолчанию hover
-ride - string-Автосмена слайдов карусели после первой ручной смены слайда юзером. Если carousel – автосмена включается после загрузки.? по умолчанию false
-wrep - bool-Должна ли карусель сменяться плавно или дискретно. по умолчанию true
-touch - bool- Карусель должна поддерживать взаимодействие влево / вправо на сенсорных устройствах. по умолчанию true
+keyboard - bool - Р‘СѓРґРµС‚ Р»Рё РєР°СЂСѓСЃРµР»СЊ СЂРµР°РіРёСЂРѕРІР°С‚СЊ РЅР° СЃРѕР±С‹С‚РёСЏ РєР»Р°РІРёР°С‚СѓСЂС‹. РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ true
+pause - string|bool- Р•СЃР»Рё СЃС‚РѕРёС‚ "hover" вЂ“ СЃРјРµРЅР° СЃР»Р°Р№РґРѕРІ С‚РѕСЂРјРѕР·РёС‚СЃСЏ РїРѕ mouseenter, Рё РЅР°С‡РёРЅР°РµС‚ СЃРјРµРЅСѓ РїРѕ mouseleave. Р•СЃР»Рё false вЂ“ РЅР°РІРµРґРµРЅРёРµ РЅР° РєР°СЂСѓСЃРµР»СЊ РЅРµ РѕСЃС‚Р°РЅРѕРІРёС‚ СЃРјРµРЅСѓ СЃР»Р°Р№РґРѕРІ. РЈСЃС‚СЂРѕР№СЃС‚РІР°, Р°РєС‚РёРІРёСЂСѓРµРјС‹Рµ РєР°СЃР°РЅРёРµРј: "hover" вЂ“ РїР°СѓР·Р° РїСЂРё touchend (РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р·Р°РєРѕРЅС‡РёР» РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ СЃ РєР°СЂСѓСЃРµР»СЊСЋ) РЅР° РґРІР° РёРЅС‚РµСЂРІР°Р»Р°, РїРѕС‚РѕРј РѕРїСЏС‚СЊ СЃРјРµРЅР° СЃР»Р°Р№РґРѕРІ. Р—Р°РјРµС‚СЊС‚Рµ, С‡С‚Рѕ СЌС‚Рѕ РїРѕРІРµРґРµРЅРёРµ вЂ“ РґРѕРїРѕР»РЅРµРЅРёРµ Рє РѕРїРёСЃР°РЅРЅРѕРјСѓ РІС‹С€Рµ РїРѕРІРµРґРµРЅРёСЋ РјС‹С€Рё. РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ hover
+ride - string-РђРІС‚РѕСЃРјРµРЅР° СЃР»Р°Р№РґРѕРІ РєР°СЂСѓСЃРµР»Рё РїРѕСЃР»Рµ РїРµСЂРІРѕР№ СЂСѓС‡РЅРѕР№ СЃРјРµРЅС‹ СЃР»Р°Р№РґР° СЋР·РµСЂРѕРј. Р•СЃР»Рё carousel вЂ“ Р°РІС‚РѕСЃРјРµРЅР° РІРєР»СЋС‡Р°РµС‚СЃСЏ РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё.? РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ false
+wrep - bool-Р”РѕР»Р¶РЅР° Р»Рё РєР°СЂСѓСЃРµР»СЊ СЃРјРµРЅСЏС‚СЊСЃСЏ РїР»Р°РІРЅРѕ РёР»Рё РґРёСЃРєСЂРµС‚РЅРѕ. РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ true
+touch - bool- РљР°СЂСѓСЃРµР»СЊ РґРѕР»Р¶РЅР° РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ РІР»РµРІРѕ / РІРїСЂР°РІРѕ РЅР° СЃРµРЅСЃРѕСЂРЅС‹С… СѓСЃС‚СЂРѕР№СЃС‚РІР°С…. РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ true
 
 
 
 
-//картинки сами перелистываются
-//при class="carousel slide" слайды именно листаются, если ДОБАВИТЬ сюда еще и "carousel-fade" то слайды начнут не листаться а как бы растворяться и на их месте появляться новые
+//РєР°СЂС‚РёРЅРєРё СЃР°РјРё РїРµСЂРµР»РёСЃС‚С‹РІР°СЋС‚СЃСЏ
+//РїСЂРё class="carousel slide" СЃР»Р°Р№РґС‹ РёРјРµРЅРЅРѕ Р»РёСЃС‚Р°СЋС‚СЃСЏ, РµСЃР»Рё Р”РћР‘РђР’РРўР¬ СЃСЋРґР° РµС‰Рµ Рё "carousel-fade" С‚Рѕ СЃР»Р°Р№РґС‹ РЅР°С‡РЅСѓС‚ РЅРµ Р»РёСЃС‚Р°С‚СЊСЃСЏ Р° РєР°Рє Р±С‹ СЂР°СЃС‚РІРѕСЂСЏС‚СЊСЃСЏ Рё РЅР° РёС… РјРµСЃС‚Рµ РїРѕСЏРІР»СЏС‚СЊСЃСЏ РЅРѕРІС‹Рµ
 
 
 
 
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
 
-//------------добавление кнопок для каждого слайда, если не нужны то просто убрать
+//------------РґРѕР±Р°РІР»РµРЅРёРµ РєРЅРѕРїРѕРє РґР»СЏ РєР°Р¶РґРѕРіРѕ СЃР»Р°Р№РґР°, РµСЃР»Рё РЅРµ РЅСѓР¶РЅС‹ С‚Рѕ РїСЂРѕСЃС‚Рѕ СѓР±СЂР°С‚СЊ
 <ol class="carousel-indicators">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -1703,7 +1703,7 @@ touch - bool- Карусель должна поддерживать взаимодействие влево / вправо на сенс
     <div class="carousel-item active">
         <img src="..." class="d-block w-100" alt="...">
 
-//если надо добавить надписи к слайду, если не надо то просто убрать.. в данном случае скрываются на малых устройствах, и показываются на средних
+//РµСЃР»Рё РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ РЅР°РґРїРёСЃРё Рє СЃР»Р°Р№РґСѓ, РµСЃР»Рё РЅРµ РЅР°РґРѕ С‚Рѕ РїСЂРѕСЃС‚Рѕ СѓР±СЂР°С‚СЊ.. РІ РґР°РЅРЅРѕРј СЃР»СѓС‡Р°Рµ СЃРєСЂС‹РІР°СЋС‚СЃСЏ РЅР° РјР°Р»С‹С… СѓСЃС‚СЂРѕР№СЃС‚РІР°С…, Рё РїРѕРєР°Р·С‹РІР°СЋС‚СЃСЏ РЅР° СЃСЂРµРґРЅРёС…
 <div class="carousel-caption d-none d-md-block">
           <h5>First slide label</h5>
           <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
@@ -1719,7 +1719,7 @@ touch - bool- Карусель должна поддерживать взаимодействие влево / вправо на сенс
     </div>
   </div>
 
-//---------- если надо добавить кнопки "далее "назад, если не надо то просто убрать теги А
+//---------- РµСЃР»Рё РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ РєРЅРѕРїРєРё "РґР°Р»РµРµ "РЅР°Р·Р°Рґ, РµСЃР»Рё РЅРµ РЅР°РґРѕ С‚Рѕ РїСЂРѕСЃС‚Рѕ СѓР±СЂР°С‚СЊ С‚РµРіРё Рђ
 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
@@ -1734,30 +1734,30 @@ touch - bool- Карусель должна поддерживать взаимодействие влево / вправо на сенс
 
 
 
-Инициализирует объект object карусели с установленными параметрами и начинает смену слайдов.
+РРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚ object РєР°СЂСѓСЃРµР»Рё СЃ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё Рё РЅР°С‡РёРЅР°РµС‚ СЃРјРµРЅСѓ СЃР»Р°Р№РґРѕРІ.
 $('.carousel').carousel({
   interval: 2000
 })
 
-.carousel('cycle') Сменяет слайды карусели слева направо.
-.carousel('pause') Останавливает смену слайдов.
-.carousel(number) Прокручивает слайды до определенного момента (основано на 0, схоже с рядами). Возвращает значение функции-вызову до того, как элемент-«цель» показан (т.е. до того, как возникает событие slid.bs.carousel).
-.carousel('prev') Прокручивает к предыдущему слайду. Возвращает значение функции-вызову до того, как элемент-«цель» показан (т.е. до того, как возникает событие slid.bs.carousel).
-.carousel('next') К следующему слайду. Возвращает значение функции-вызову до того, как элемент-«цель» показан (т.е. до того, как возникает событие slid.bs.carousel).
-.carousel('dispose') Уничтожает карусель элемента.
+.carousel('cycle') РЎРјРµРЅСЏРµС‚ СЃР»Р°Р№РґС‹ РєР°СЂСѓСЃРµР»Рё СЃР»РµРІР° РЅР°РїСЂР°РІРѕ.
+.carousel('pause') РћСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЃРјРµРЅСѓ СЃР»Р°Р№РґРѕРІ.
+.carousel(number) РџСЂРѕРєСЂСѓС‡РёРІР°РµС‚ СЃР»Р°Р№РґС‹ РґРѕ РѕРїСЂРµРґРµР»РµРЅРЅРѕРіРѕ РјРѕРјРµРЅС‚Р° (РѕСЃРЅРѕРІР°РЅРѕ РЅР° 0, СЃС…РѕР¶Рµ СЃ СЂСЏРґР°РјРё). Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ С„СѓРЅРєС†РёРё-РІС‹Р·РѕРІСѓ РґРѕ С‚РѕРіРѕ, РєР°Рє СЌР»РµРјРµРЅС‚-В«С†РµР»СЊВ» РїРѕРєР°Р·Р°РЅ (С‚.Рµ. РґРѕ С‚РѕРіРѕ, РєР°Рє РІРѕР·РЅРёРєР°РµС‚ СЃРѕР±С‹С‚РёРµ slid.bs.carousel).
+.carousel('prev') РџСЂРѕРєСЂСѓС‡РёРІР°РµС‚ Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ СЃР»Р°Р№РґСѓ. Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ С„СѓРЅРєС†РёРё-РІС‹Р·РѕРІСѓ РґРѕ С‚РѕРіРѕ, РєР°Рє СЌР»РµРјРµРЅС‚-В«С†РµР»СЊВ» РїРѕРєР°Р·Р°РЅ (С‚.Рµ. РґРѕ С‚РѕРіРѕ, РєР°Рє РІРѕР·РЅРёРєР°РµС‚ СЃРѕР±С‹С‚РёРµ slid.bs.carousel).
+.carousel('next') Рљ СЃР»РµРґСѓСЋС‰РµРјСѓ СЃР»Р°Р№РґСѓ. Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ С„СѓРЅРєС†РёРё-РІС‹Р·РѕРІСѓ РґРѕ С‚РѕРіРѕ, РєР°Рє СЌР»РµРјРµРЅС‚-В«С†РµР»СЊВ» РїРѕРєР°Р·Р°РЅ (С‚.Рµ. РґРѕ С‚РѕРіРѕ, РєР°Рє РІРѕР·РЅРёРєР°РµС‚ СЃРѕР±С‹С‚РёРµ slid.bs.carousel).
+.carousel('dispose') РЈРЅРёС‡С‚РѕР¶Р°РµС‚ РєР°СЂСѓСЃРµР»СЊ СЌР»РµРјРµРЅС‚Р°.
 
-События
-Карусель в Bootstrap располагает 2-мя событиями для применения функциональности. У обоих событий есть следующие дополнительные свойства:
+РЎРѕР±С‹С‚РёСЏ
+РљР°СЂСѓСЃРµР»СЊ РІ Bootstrap СЂР°СЃРїРѕР»Р°РіР°РµС‚ 2-РјСЏ СЃРѕР±С‹С‚РёСЏРјРё РґР»СЏ РїСЂРёРјРµРЅРµРЅРёСЏ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚Рё. РЈ РѕР±РѕРёС… СЃРѕР±С‹С‚РёР№ РµСЃС‚СЊ СЃР»РµРґСѓСЋС‰РёРµ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СЃРІРѕР№СЃС‚РІР°:
 
-direction: Направление, в котором движутся слайды ("left" или "right").
-relatedTarget: Элемент DOM, который движется на место «пролистанного» слайда.
-from: Индекс текущего слайда
-to: Индекс следующего слайда
-Все события карусели запускаются непосредственно в карусель (т.е. в <div class="carousel">).
-slide.bs.carousel	Это событие запускается немедленно, когда вызван метод slide.
-slid.bs.carousel	Это событие запускается, когда карусель завершила переходы своих слайдов.
+direction: РќР°РїСЂР°РІР»РµРЅРёРµ, РІ РєРѕС‚РѕСЂРѕРј РґРІРёР¶СѓС‚СЃСЏ СЃР»Р°Р№РґС‹ ("left" РёР»Рё "right").
+relatedTarget: Р­Р»РµРјРµРЅС‚ DOM, РєРѕС‚РѕСЂС‹Р№ РґРІРёР¶РµС‚СЃСЏ РЅР° РјРµСЃС‚Рѕ В«РїСЂРѕР»РёСЃС‚Р°РЅРЅРѕРіРѕВ» СЃР»Р°Р№РґР°.
+from: РРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ СЃР»Р°Р№РґР°
+to: РРЅРґРµРєСЃ СЃР»РµРґСѓСЋС‰РµРіРѕ СЃР»Р°Р№РґР°
+Р’СЃРµ СЃРѕР±С‹С‚РёСЏ РєР°СЂСѓСЃРµР»Рё Р·Р°РїСѓСЃРєР°СЋС‚СЃСЏ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РІ РєР°СЂСѓСЃРµР»СЊ (С‚.Рµ. РІ <div class="carousel">).
+slide.bs.carousel	Р­С‚Рѕ СЃРѕР±С‹С‚РёРµ Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ РЅРµРјРµРґР»РµРЅРЅРѕ, РєРѕРіРґР° РІС‹Р·РІР°РЅ РјРµС‚РѕРґ slide.
+slid.bs.carousel	Р­С‚Рѕ СЃРѕР±С‹С‚РёРµ Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ, РєРѕРіРґР° РєР°СЂСѓСЃРµР»СЊ Р·Р°РІРµСЂС€РёР»Р° РїРµСЂРµС…РѕРґС‹ СЃРІРѕРёС… СЃР»Р°Р№РґРѕРІ.
 $('#myCarousel').on('slide.bs.carousel', function () {
-  // do something…
+  // do somethingвЂ¦
 })
 
 
@@ -1767,16 +1767,16 @@ $('#myCarousel').on('slide.bs.carousel', function () {
 
 
 
-#progress #process #bar #прогрессбар #бар #процессбар #progress-bar
+#progress #process #bar #РїСЂРѕРіСЂРµСЃСЃР±Р°СЂ #Р±Р°СЂ #РїСЂРѕС†РµСЃСЃР±Р°СЂ #progress-bar
 
 <div class="progress" style="height: 20px;">
   <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
 0%</div>
-//---сюда можно засунуть несколько полосок, они будут в 1 линию друг за другом по порядку
+//---СЃСЋРґР° РјРѕР¶РЅРѕ Р·Р°СЃСѓРЅСѓС‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ РїРѕР»РѕСЃРѕРє, РѕРЅРё Р±СѓРґСѓС‚ РІ 1 Р»РёРЅРёСЋ РґСЂСѓРі Р·Р° РґСЂСѓРіРѕРј РїРѕ РїРѕСЂСЏРґРєСѓ
 </div>
 
-ширину можно и так задать <div class="progress-bar w-75"
-можно полосу сделать полосатой #progress-bar-striped а если добавить #progress-bar-animated то будет еще и анимированной  <div class="progress-bar progress-bar-striped progress-bar-animated"
+С€РёСЂРёРЅСѓ РјРѕР¶РЅРѕ Рё С‚Р°Рє Р·Р°РґР°С‚СЊ <div class="progress-bar w-75"
+РјРѕР¶РЅРѕ РїРѕР»РѕСЃСѓ СЃРґРµР»Р°С‚СЊ РїРѕР»РѕСЃР°С‚РѕР№ #progress-bar-striped Р° РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ #progress-bar-animated С‚Рѕ Р±СѓРґРµС‚ РµС‰Рµ Рё Р°РЅРёРјРёСЂРѕРІР°РЅРЅРѕР№  <div class="progress-bar progress-bar-striped progress-bar-animated"
 
 
 
@@ -1790,35 +1790,35 @@ $('#myCarousel').on('slide.bs.carousel', function () {
 
 
 
-#модальное #дополнительное #окно #modal #alert
-окно которое появится при определенных условиях,  и его можно будет закрыть
-основное окно блокируется, прокрутка работат на модальное
+#РјРѕРґР°Р»СЊРЅРѕРµ #РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ #РѕРєРЅРѕ #modal #alert
+РѕРєРЅРѕ РєРѕС‚РѕСЂРѕРµ РїРѕСЏРІРёС‚СЃСЏ РїСЂРё РѕРїСЂРµРґРµР»РµРЅРЅС‹С… СѓСЃР»РѕРІРёСЏС…,  Рё РµРіРѕ РјРѕР¶РЅРѕ Р±СѓРґРµС‚ Р·Р°РєСЂС‹С‚СЊ
+РѕСЃРЅРѕРІРЅРѕРµ РѕРєРЅРѕ Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ, РїСЂРѕРєСЂСѓС‚РєР° СЂР°Р±РѕС‚Р°С‚ РЅР° РјРѕРґР°Р»СЊРЅРѕРµ
 
-кнопка для того что бы показать окно
+РєРЅРѕРїРєР° РґР»СЏ С‚РѕРіРѕ С‡С‚Рѕ Р±С‹ РїРѕРєР°Р·Р°С‚СЊ РѕРєРЅРѕ
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Запустить модальное окно
+  Р—Р°РїСѓСЃС‚РёС‚СЊ РјРѕРґР°Р»СЊРЅРѕРµ РѕРєРЅРѕ
 </button>
 
-можно запустить из js
+РјРѕР¶РЅРѕ Р·Р°РїСѓСЃС‚РёС‚СЊ РёР· js
 $('#myModal').modal({keyboard: false})
-параметры можно передать объектом в js или атрибутами через data-attrname, все параметры имеют значение true по умолчанию
-backdrop- затемненный фон вокруг окна
-keyboard - закрывает окно при нажатии на ESC
-focus - фокусировка на окне при инициализации
-show - показывает окно при инициализации
+РїР°СЂР°РјРµС‚СЂС‹ РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ РѕР±СЉРµРєС‚РѕРј РІ js РёР»Рё Р°С‚СЂРёР±СѓС‚Р°РјРё С‡РµСЂРµР· data-attrname, РІСЃРµ РїР°СЂР°РјРµС‚СЂС‹ РёРјРµСЋС‚ Р·РЅР°С‡РµРЅРёРµ true РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+backdrop- Р·Р°С‚РµРјРЅРµРЅРЅС‹Р№ С„РѕРЅ РІРѕРєСЂСѓРі РѕРєРЅР°
+keyboard - Р·Р°РєСЂС‹РІР°РµС‚ РѕРєРЅРѕ РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° ESC
+focus - С„РѕРєСѓСЃРёСЂРѕРІРєР° РЅР° РѕРєРЅРµ РїСЂРё РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
+show - РїРѕРєР°Р·С‹РІР°РµС‚ РѕРєРЅРѕ РїСЂРё РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
 
-$('#myModal').modal('toggle') - Вручную изменяет состояние модального элемента
-$('#myModal').modal('show') Вручную открывает модальный элемент
-$('#myModal').modal('hide') Вручную прячет модальный элемент
-$('#myModal').modal('handleUpdate') Вручную обновляет позицию модального элемента, если высота его изменяется во время открытия (т.е. в случае возникновения полосы прокрутки).
-$('#myModal').modal('dispose') Уничтожает модальный элемент.
+$('#myModal').modal('toggle') - Р’СЂСѓС‡РЅСѓСЋ РёР·РјРµРЅСЏРµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РјРѕРґР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+$('#myModal').modal('show') Р’СЂСѓС‡РЅСѓСЋ РѕС‚РєСЂС‹РІР°РµС‚ РјРѕРґР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚
+$('#myModal').modal('hide') Р’СЂСѓС‡РЅСѓСЋ РїСЂСЏС‡РµС‚ РјРѕРґР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚
+$('#myModal').modal('handleUpdate') Р’СЂСѓС‡РЅСѓСЋ РѕР±РЅРѕРІР»СЏРµС‚ РїРѕР·РёС†РёСЋ РјРѕРґР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°, РµСЃР»Рё РІС‹СЃРѕС‚Р° РµРіРѕ РёР·РјРµРЅСЏРµС‚СЃСЏ РІРѕ РІСЂРµРјСЏ РѕС‚РєСЂС‹С‚РёСЏ (С‚.Рµ. РІ СЃР»СѓС‡Р°Рµ РІРѕР·РЅРёРєРЅРѕРІРµРЅРёСЏ РїРѕР»РѕСЃС‹ РїСЂРѕРєСЂСѓС‚РєРё).
+$('#myModal').modal('dispose') РЈРЅРёС‡С‚РѕР¶Р°РµС‚ РјРѕРґР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚.
 
 
-если добавить так то оно будет расположено по центру вертикали
+РµСЃР»Рё РґРѕР±Р°РІРёС‚СЊ С‚Р°Рє С‚Рѕ РѕРЅРѕ Р±СѓРґРµС‚ СЂР°СЃРїРѕР»РѕР¶РµРЅРѕ РїРѕ С†РµРЅС‚СЂСѓ РІРµСЂС‚РёРєР°Р»Рё
  <div class="modal-dialog modal-dialog-centered" role="document">
 
 
-//---само окно
+//---СЃР°РјРѕ РѕРєРЅРѕ
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -1841,14 +1841,14 @@ $('#myModal').modal('dispose') Уничтожает модальный элемент.
 </div>
 
 
-можно использовать сетку
+РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЃРµС‚РєСѓ
 <div class="modal-body">
   <div class="container-fluid">
     <div class="row">
 
 
 
-//можно изменить ширину, стандартно ширина 500px
+//РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ С€РёСЂРёРЅСѓ, СЃС‚Р°РЅРґР°СЂС‚РЅРѕ С€РёСЂРёРЅР° 500px
 <div class="modal-dialog modal-lg">
 sm-300px
 lg-800px
@@ -1861,7 +1861,7 @@ xl-1140px
 
 
 
-можно немного изменять содержимое(не считая прямое формирование и замену через innerhtml)
+РјРѕР¶РЅРѕ РЅРµРјРЅРѕРіРѕ РёР·РјРµРЅСЏС‚СЊ СЃРѕРґРµСЂР¶РёРјРѕРµ(РЅРµ СЃС‡РёС‚Р°СЏ РїСЂСЏРјРѕРµ С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ Рё Р·Р°РјРµРЅСѓ С‡РµСЂРµР· innerhtml)
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
 $('#exampleModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
@@ -1884,40 +1884,38 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 
 
 
-#help #всплывающая #подсказка
-при нажатии на кнопку рядом появится окно с текстом, при повторном нажатии пропадет
+#help #РІСЃРїР»С‹РІР°СЋС‰Р°СЏ #РїРѕРґСЃРєР°Р·РєР°
+РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРЅРѕРїРєСѓ СЂСЏРґРѕРј РїРѕСЏРІРёС‚СЃСЏ РѕРєРЅРѕ СЃ С‚РµРєСЃС‚РѕРј, РїСЂРё РїРѕРІС‚РѕСЂРЅРѕРј РЅР°Р¶Р°С‚РёРё РїСЂРѕРїР°РґРµС‚
 <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
   
 
 
-#поповер #popover
+#РїРѕРїРѕРІРµСЂ #popover
 
-Таковой плагин использует для позиционирования 3-ю часть библиотеки Popper.js. Чтобы плагин работал, Вы должны подключать popper.min.js ПЕРЕД bootstrap.j + util.js
+РўР°РєРѕРІРѕР№ РїР»Р°РіРёРЅ РёСЃРїРѕР»СЊР·СѓРµС‚ РґР»СЏ РїРѕР·РёС†РёРѕРЅРёСЂРѕРІР°РЅРёСЏ 3-СЋ С‡Р°СЃС‚СЊ Р±РёР±Р»РёРѕС‚РµРєРё Popper.js. Р§С‚РѕР±С‹ РїР»Р°РіРёРЅ СЂР°Р±РѕС‚Р°Р», Р’С‹ РґРѕР»Р¶РЅС‹ РїРѕРґРєР»СЋС‡Р°С‚СЊ popper.min.js РџР•Р Р•Р” bootstrap.j + util.js
 
-//включаем $('#example').popover(options) или так
+//РІРєР»СЋС‡Р°РµРј $('#example').popover(options) РёР»Рё С‚Р°Рє
 $(function () {
   $('[data-toggle="popover"]').popover(
-//сюда можно передать объект или не передавать ничего
+//СЃСЋРґР° РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ РѕР±СЉРµРєС‚ РёР»Рё РЅРµ РїРµСЂРµРґР°РІР°С‚СЊ РЅРёС‡РµРіРѕ
 )
 })
 
-этот объект для параметра, доступно много свойств, посмотреть можно тут https://bootstrap-4.ru/docs/4.3.1/components/popovers/
-{container: 'body' ////--это нужно дописать Когда у вас есть некие стили родительского элемента, которые взаимодействуют с поповером
-trigger: 'focus'//будет прятать подсказку, если мы кликаем в любое место вне кнопки(в таком случае нужно использовать не button а тег A)
+СЌС‚РѕС‚ РѕР±СЉРµРєС‚ РґР»СЏ РїР°СЂР°РјРµС‚СЂР°, РґРѕСЃС‚СѓРїРЅРѕ РјРЅРѕРіРѕ СЃРІРѕР№СЃС‚РІ, РїРѕСЃРјРѕС‚СЂРµС‚СЊ РјРѕР¶РЅРѕ С‚СѓС‚ https://bootstrap-4.ru/docs/4.3.1/components/popovers/
+{container: 'body' ////--СЌС‚Рѕ РЅСѓР¶РЅРѕ РґРѕРїРёСЃР°С‚СЊ РљРѕРіРґР° Сѓ РІР°СЃ РµСЃС‚СЊ РЅРµРєРёРµ СЃС‚РёР»Рё СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ СЌР»РµРјРµРЅС‚Р°, РєРѕС‚РѕСЂС‹Рµ РІР·Р°РёРјРѕРґРµР№СЃС‚РІСѓСЋС‚ СЃ РїРѕРїРѕРІРµСЂРѕРј
+trigger: 'focus'//Р±СѓРґРµС‚ РїСЂСЏС‚Р°С‚СЊ РїРѕРґСЃРєР°Р·РєСѓ, РµСЃР»Рё РјС‹ РєР»РёРєР°РµРј РІ Р»СЋР±РѕРµ РјРµСЃС‚Рѕ РІРЅРµ РєРЅРѕРїРєРё(РІ С‚Р°РєРѕРј СЃР»СѓС‡Р°Рµ РЅСѓР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РЅРµ button Р° С‚РµРі A)
 }
 
-data-placement="top"-будет показываться сверху
+data-placement="top"-Р±СѓРґРµС‚ РїРѕРєР°Р·С‹РІР°С‚СЊСЃСЏ СЃРІРµСЂС…Сѓ
 data-placement="right"
 data-placement="bottom"
 data-placement="left"
 
-<button type="button" class="btn btn-lg btn-danger" data-placement="top" data-toggle="popover" title="заголовок подсказки" data-content="текст подсказки">текст кнопки</button>
+<button type="button" class="btn btn-lg btn-danger" data-placement="top" data-toggle="popover" title="Р·Р°РіРѕР»РѕРІРѕРє РїРѕРґСЃРєР°Р·РєРё" data-content="С‚РµРєСЃС‚ РїРѕРґСЃРєР°Р·РєРё">С‚РµРєСЃС‚ РєРЅРѕРїРєРё</button>
 
-<a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="заголовок подсказки" data-content="текст подсказки?">текст кнопки</a>
+<a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Р·Р°РіРѕР»РѕРІРѕРє РїРѕРґСЃРєР°Р·РєРё" data-content="С‚РµРєСЃС‚ РїРѕРґСЃРєР°Р·РєРё?">С‚РµРєСЃС‚ РєРЅРѕРїРєРё</a>
 
-если элемент с атрибутом "disabled" то поповер перестает работать(можно его перенести в оберточный блок)
-
-
+РµСЃР»Рё СЌР»РµРјРµРЅС‚ СЃ Р°С‚СЂРёР±СѓС‚РѕРј "disabled" С‚Рѕ РїРѕРїРѕРІРµСЂ РїРµСЂРµСЃС‚Р°РµС‚ СЂР°Р±РѕС‚Р°С‚СЊ(РјРѕР¶РЅРѕ РµРіРѕ РїРµСЂРµРЅРµСЃС‚Рё РІ РѕР±РµСЂС‚РѕС‡РЅС‹Р№ Р±Р»РѕРє)
 
 
 
@@ -1925,13 +1923,15 @@ data-placement="left"
 
 
 
-#nav  #нацигация #nav-item #nav-link
-
-Заметьте, что навигационные панели, даже если они стилизованы как вкладки классами .nav-tabs, не должны содержать role="tablist", role="tab" или role="tabpanel". 
-все меню лучше обернуть в div с role="navigation" или обернуть все в nav
 
 
-стандартно просто надписи горизонтальные без границ
+#nav  #РЅР°С†РёРіР°С†РёСЏ #nav-item #nav-link
+
+Р—Р°РјРµС‚СЊС‚Рµ, С‡С‚Рѕ РЅР°РІРёРіР°С†РёРѕРЅРЅС‹Рµ РїР°РЅРµР»Рё, РґР°Р¶Рµ РµСЃР»Рё РѕРЅРё СЃС‚РёР»РёР·РѕРІР°РЅС‹ РєР°Рє РІРєР»Р°РґРєРё РєР»Р°СЃСЃР°РјРё .nav-tabs, РЅРµ РґРѕР»Р¶РЅС‹ СЃРѕРґРµСЂР¶Р°С‚СЊ role="tablist", role="tab" РёР»Рё role="tabpanel". 
+РІСЃРµ РјРµРЅСЋ Р»СѓС‡С€Рµ РѕР±РµСЂРЅСѓС‚СЊ РІ div СЃ role="navigation" РёР»Рё РѕР±РµСЂРЅСѓС‚СЊ РІСЃРµ РІ nav
+
+
+СЃС‚Р°РЅРґР°СЂС‚РЅРѕ РїСЂРѕСЃС‚Рѕ РЅР°РґРїРёСЃРё РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Рµ Р±РµР· РіСЂР°РЅРёС†
 <ul class="nav">
   <li class="nav-item active">
     <a class="nav-link" href="#">Active</a></li>
@@ -1939,7 +1939,7 @@ data-placement="left"
     <a class="nav-link disabled" href="#">Disabled</a></li>
 </ul>
 
-<nav class="nav">  //--если будем добавлять еще классы кроме .nav тут надо будет добавить .nav-item к ссылкам, если не будет работать
+<nav class="nav">  //--РµСЃР»Рё Р±СѓРґРµРј РґРѕР±Р°РІР»СЏС‚СЊ РµС‰Рµ РєР»Р°СЃСЃС‹ РєСЂРѕРјРµ .nav С‚СѓС‚ РЅР°РґРѕ Р±СѓРґРµС‚ РґРѕР±Р°РІРёС‚СЊ .nav-item Рє СЃСЃС‹Р»РєР°Рј, РµСЃР»Рё РЅРµ Р±СѓРґРµС‚ СЂР°Р±РѕС‚Р°С‚СЊ
   <a class="nav-link active" href="#">Active</a>
   <a class="nav-link disabled" href="#">Disabled</a>
 </nav>
@@ -1948,31 +1948,31 @@ data-placement="left"
 
 
 
-//горизонтальный, который станет вертикальным на малых устройствах
+//РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Р№, РєРѕС‚РѕСЂС‹Р№ СЃС‚Р°РЅРµС‚ РІРµСЂС‚РёРєР°Р»СЊРЅС‹Рј РЅР° РјР°Р»С‹С… СѓСЃС‚СЂРѕР№СЃС‚РІР°С…
 <nav class="nav nav-pills flex-column flex-sm-row">
   <a class="flex-sm-fill text-sm-center nav-link active" href="#">Active</a>
 
 
-//если надо выровнять по центру #justify-content-center <ul class="nav justify-content-center">
-по правому краю #justify-content-end
+//РµСЃР»Рё РЅР°РґРѕ РІС‹СЂРѕРІРЅСЏС‚СЊ РїРѕ С†РµРЅС‚СЂСѓ #justify-content-center <ul class="nav justify-content-center">
+РїРѕ РїСЂР°РІРѕРјСѓ РєСЂР°СЋ #justify-content-end
 
-//расположить вертикально #flex-column
+//СЂР°СЃРїРѕР»РѕР¶РёС‚СЊ РІРµСЂС‚РёРєР°Р»СЊРЅРѕ #flex-column
 <ul class="nav flex-column">
 
-//элементы становятся на всю ширину(каждый может быть разной ширины) <ul class="nav nav-pills nav-fill">
-//элементы становятся на всю ширину(каждый одинаковой ширины) <ul class="nav nav-pills nav-justified">
+//СЌР»РµРјРµРЅС‚С‹ СЃС‚Р°РЅРѕРІСЏС‚СЃСЏ РЅР° РІСЃСЋ С€РёСЂРёРЅСѓ(РєР°Р¶РґС‹Р№ РјРѕР¶РµС‚ Р±С‹С‚СЊ СЂР°Р·РЅРѕР№ С€РёСЂРёРЅС‹) <ul class="nav nav-pills nav-fill">
+//СЌР»РµРјРµРЅС‚С‹ СЃС‚Р°РЅРѕРІСЏС‚СЃСЏ РЅР° РІСЃСЋ С€РёСЂРёРЅСѓ(РєР°Р¶РґС‹Р№ РѕРґРёРЅР°РєРѕРІРѕР№ С€РёСЂРёРЅС‹) <ul class="nav nav-pills nav-justified">
 
-#fade класс что бы элементы появлялись медленно
+#fade РєР»Р°СЃСЃ С‡С‚Рѕ Р±С‹ СЌР»РµРјРµРЅС‚С‹ РїРѕСЏРІР»СЏР»РёСЃСЊ РјРµРґР»РµРЅРЅРѕ
 
 
-#подушки #nav-pills
-в виде обычных кнопок
+#РїРѕРґСѓС€РєРё #nav-pills
+РІ РІРёРґРµ РѕР±С‹С‡РЅС‹С… РєРЅРѕРїРѕРє
 <ul class="nav nav-pills">
 
-#вкладки #вкладка #nav-tabs открытая будет с  <a class="nav-link active"
+#РІРєР»Р°РґРєРё #РІРєР»Р°РґРєР° #nav-tabs РѕС‚РєСЂС‹С‚Р°СЏ Р±СѓРґРµС‚ СЃ  <a class="nav-link active"
 <ul class="nav nav-tabs"> 
 
-в вкладку и подушку можно добавить дроп лист
+РІ РІРєР»Р°РґРєСѓ Рё РїРѕРґСѓС€РєСѓ РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РґСЂРѕРї Р»РёСЃС‚
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
     <div class="dropdown-menu">
@@ -1980,9 +1980,9 @@ data-placement="left"
 
 
 
-//если нужны вкладки но не для навигации (просто отображение некоторого блока) отображаться будет именно по href="#home"
-//nav-tabs можно заменить на nav-pills  и data-toggle="tab" заменить на data-toggle="pill"и тогда будет тоже самое но подушками
-<ul class="nav nav-tabs" id="myTab" role="tablist"> ///----тут можно написать так <nav><div class="nav nav-tabs" id="nav-tab" role="tablist">
+//РµСЃР»Рё РЅСѓР¶РЅС‹ РІРєР»Р°РґРєРё РЅРѕ РЅРµ РґР»СЏ РЅР°РІРёРіР°С†РёРё (РїСЂРѕСЃС‚Рѕ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ РЅРµРєРѕС‚РѕСЂРѕРіРѕ Р±Р»РѕРєР°) РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ Р±СѓРґРµС‚ РёРјРµРЅРЅРѕ РїРѕ href="#home"
+//nav-tabs РјРѕР¶РЅРѕ Р·Р°РјРµРЅРёС‚СЊ РЅР° nav-pills  Рё data-toggle="tab" Р·Р°РјРµРЅРёС‚СЊ РЅР° data-toggle="pill"Рё С‚РѕРіРґР° Р±СѓРґРµС‚ С‚РѕР¶Рµ СЃР°РјРѕРµ РЅРѕ РїРѕРґСѓС€РєР°РјРё
+<ul class="nav nav-tabs" id="myTab" role="tablist"> ///----С‚СѓС‚ РјРѕР¶РЅРѕ РЅР°РїРёСЃР°С‚СЊ С‚Р°Рє <nav><div class="nav nav-tabs" id="nav-tab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
   </li>
@@ -1994,7 +1994,7 @@ data-placement="left"
 </div>
 
 
-//если нужно вертикально подушками(слева будут подушки вертикально, справа текст)
+//РµСЃР»Рё РЅСѓР¶РЅРѕ РІРµСЂС‚РёРєР°Р»СЊРЅРѕ РїРѕРґСѓС€РєР°РјРё(СЃР»РµРІР° Р±СѓРґСѓС‚ РїРѕРґСѓС€РєРё РІРµСЂС‚РёРєР°Р»СЊРЅРѕ, СЃРїСЂР°РІР° С‚РµРєСЃС‚)
 <div class="row">
   <div class="col-3">
     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -2005,7 +2005,7 @@ data-placement="left"
 
 
 
-можно переключать из js
+РјРѕР¶РЅРѕ РїРµСЂРµРєР»СЋС‡Р°С‚СЊ РёР· js
 $('#myTab a[href="#profile"]').tab('show') // Select tab by name
 $('#myTab li:first-child a').tab('show') // Select first tab
 $('#myTab li:last-child a').tab('show') // Select last tab
@@ -2018,18 +2018,18 @@ $('#myTab li:nth-child(3) a').tab('show') // Select third tab
 
 
 #navbar
-классы:
-#navbar-brand для названия вашей компании, продукта или имени проекта. лучше применять к тегу A в который уже можно что то засунуть(картинку например)
-#navbar-nav для навигации полной высоты (включая выпадающие элементы).
-#navbar-toggler для использования с нашим JS-«плагином свертывания» и других изменяющихся состояний навигации.
-#form-inline для любых органов контроля форм и действий с ними.
-#navbar-text для добавления вертикально центрированных строк текста.
-#collapse #navbar-collapse для группирования и скрытия содержимого навбара на определенном брейкпойнте родителя.
+РєР»Р°СЃСЃС‹:
+#navbar-brand РґР»СЏ РЅР°Р·РІР°РЅРёСЏ РІР°С€РµР№ РєРѕРјРїР°РЅРёРё, РїСЂРѕРґСѓРєС‚Р° РёР»Рё РёРјРµРЅРё РїСЂРѕРµРєС‚Р°. Р»СѓС‡С€Рµ РїСЂРёРјРµРЅСЏС‚СЊ Рє С‚РµРіСѓ A РІ РєРѕС‚РѕСЂС‹Р№ СѓР¶Рµ РјРѕР¶РЅРѕ С‡С‚Рѕ С‚Рѕ Р·Р°СЃСѓРЅСѓС‚СЊ(РєР°СЂС‚РёРЅРєСѓ РЅР°РїСЂРёРјРµСЂ)
+#navbar-nav РґР»СЏ РЅР°РІРёРіР°С†РёРё РїРѕР»РЅРѕР№ РІС‹СЃРѕС‚С‹ (РІРєР»СЋС‡Р°СЏ РІС‹РїР°РґР°СЋС‰РёРµ СЌР»РµРјРµРЅС‚С‹).
+#navbar-toggler РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ СЃ РЅР°С€РёРј JS-В«РїР»Р°РіРёРЅРѕРј СЃРІРµСЂС‚С‹РІР°РЅРёСЏВ» Рё РґСЂСѓРіРёС… РёР·РјРµРЅСЏСЋС‰РёС…СЃСЏ СЃРѕСЃС‚РѕСЏРЅРёР№ РЅР°РІРёРіР°С†РёРё.
+#form-inline РґР»СЏ Р»СЋР±С‹С… РѕСЂРіР°РЅРѕРІ РєРѕРЅС‚СЂРѕР»СЏ С„РѕСЂРј Рё РґРµР№СЃС‚РІРёР№ СЃ РЅРёРјРё.
+#navbar-text РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІРµСЂС‚РёРєР°Р»СЊРЅРѕ С†РµРЅС‚СЂРёСЂРѕРІР°РЅРЅС‹С… СЃС‚СЂРѕРє С‚РµРєСЃС‚Р°.
+#collapse #navbar-collapse РґР»СЏ РіСЂСѓРїРїРёСЂРѕРІР°РЅРёСЏ Рё СЃРєСЂС‹С‚РёСЏ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ РЅР°РІР±Р°СЂР° РЅР° РѕРїСЂРµРґРµР»РµРЅРЅРѕРј Р±СЂРµР№РєРїРѕР№РЅС‚Рµ СЂРѕРґРёС‚РµР»СЏ.
 
 
 . #fixed-top
 . #fixed-bottom
-. #sticky-top будет располагаться где то и после прокрутки прилипнет к верху
+. #sticky-top Р±СѓРґРµС‚ СЂР°СЃРїРѕР»Р°РіР°С‚СЊСЃСЏ РіРґРµ С‚Рѕ Рё РїРѕСЃР»Рµ РїСЂРѕРєСЂСѓС‚РєРё РїСЂРёР»РёРїРЅРµС‚ Рє РІРµСЂС…Сѓ
 
 
 navbar-light
@@ -2044,10 +2044,10 @@ navbar-light
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-//тут сами пункты можно сделать списком(ul), но можно и без него через div
+//С‚СѓС‚ СЃР°РјРё РїСѓРЅРєС‚С‹ РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ СЃРїРёСЃРєРѕРј(ul), РЅРѕ РјРѕР¶РЅРѕ Рё Р±РµР· РЅРµРіРѕ С‡РµСЂРµР· div
 <div class="navbar-nav">
       <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a></div>
-//через список ul
+//С‡РµСЂРµР· СЃРїРёСЃРѕРє ul
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -2070,7 +2070,7 @@ navbar-light
 
 
 
-скрывающееся меню при маленьком экране  #Тогглер 
+СЃРєСЂС‹РІР°СЋС‰РµРµСЃСЏ РјРµРЅСЋ РїСЂРё РјР°Р»РµРЅСЊРєРѕРј СЌРєСЂР°РЅРµ  #РўРѕРіРіР»РµСЂ 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Navbar</a>
@@ -2093,11 +2093,11 @@ navbar-light
 
 
 
-если нужен блок который будет открывать содержимое
+РµСЃР»Рё РЅСѓР¶РµРЅ Р±Р»РѕРє РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РѕС‚РєСЂС‹РІР°С‚СЊ СЃРѕРґРµСЂР¶РёРјРѕРµ
 <div class="pos-f-t">
   <div class="collapse" id="navbarToggleExternalContent">
     <div class="bg-dark p-4">
-      //контент который будет закрыт и открываться
+      //РєРѕРЅС‚РµРЅС‚ РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ Р·Р°РєСЂС‹С‚ Рё РѕС‚РєСЂС‹РІР°С‚СЊСЃСЏ
     </div>
   </div>
   <nav class="navbar navbar-dark bg-dark">
@@ -2113,21 +2113,21 @@ navbar-light
 
 
 
-#scroll #scrollspy #скроллспай
-можно сделать блок который скролится и ссылки которые будут его скролить так что бы что то в нем отобразилось
-+ в меню с помощью которого и отображается что то , в зависимости от того что сейчас отображено, будет выделяться нужный пункт
+#scroll #scrollspy #СЃРєСЂРѕР»Р»СЃРїР°Р№
+РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ Р±Р»РѕРє РєРѕС‚РѕСЂС‹Р№ СЃРєСЂРѕР»РёС‚СЃСЏ Рё СЃСЃС‹Р»РєРё РєРѕС‚РѕСЂС‹Рµ Р±СѓРґСѓС‚ РµРіРѕ СЃРєСЂРѕР»РёС‚СЊ С‚Р°Рє С‡С‚Рѕ Р±С‹ С‡С‚Рѕ С‚Рѕ РІ РЅРµРј РѕС‚РѕР±СЂР°Р·РёР»РѕСЃСЊ
++ РІ РјРµРЅСЋ СЃ РїРѕРјРѕС‰СЊСЋ РєРѕС‚РѕСЂРѕРіРѕ Рё РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ С‡С‚Рѕ С‚Рѕ , РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С‚РѕРіРѕ С‡С‚Рѕ СЃРµР№С‡Р°СЃ РѕС‚РѕР±СЂР°Р¶РµРЅРѕ, Р±СѓРґРµС‚ РІС‹РґРµР»СЏС‚СЊСЃСЏ РЅСѓР¶РЅС‹Р№ РїСѓРЅРєС‚
 
-нужен util.js.
+РЅСѓР¶РµРЅ util.js.
 
-для того элемента где текст
+РґР»СЏ С‚РѕРіРѕ СЌР»РµРјРµРЅС‚Р° РіРґРµ С‚РµРєСЃС‚
 position: relative; 
-удостоверьтесь, что задали height и overflow-y: scroll;
+СѓРґРѕСЃС‚РѕРІРµСЂСЊС‚РµСЃСЊ, С‡С‚Рѕ Р·Р°РґР°Р»Рё height Рё overflow-y: scroll;
 
 
 <nav id="navbar-example2" class="navbar navbar-light bg-light">
   <a class="navbar-brand" href="#">Navbar</a>
 
-//---если такой список то все будет горизонтально
+//---РµСЃР»Рё С‚Р°РєРѕР№ СЃРїРёСЃРѕРє С‚Рѕ РІСЃРµ Р±СѓРґРµС‚ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕ
   <ul class="nav nav-pills">
     <li class="nav-item">
       <a class="nav-link" href="#fat">@fat</a>
@@ -2145,17 +2145,17 @@ position: relative;
       </div>
     </li>
   </ul>
-//--вот так можно сделать вертикальным с блоками(типо кнопок) и вложенными в них блоками
+//--РІРѕС‚ С‚Р°Рє РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РІРµСЂС‚РёРєР°Р»СЊРЅС‹Рј СЃ Р±Р»РѕРєР°РјРё(С‚РёРїРѕ РєРЅРѕРїРѕРє) Рё РІР»РѕР¶РµРЅРЅС‹РјРё РІ РЅРёС… Р±Р»РѕРєР°РјРё
 <nav class="nav nav-pills flex-column">
-    <a class="nav-link" href="#item-1">Пункт 1</a>
+    <a class="nav-link" href="#item-1">РџСѓРЅРєС‚ 1</a>
     <nav class="nav nav-pills flex-column">
-      <a class="nav-link ml-3 my-1" href="#item-1-1">Пункт 1-1</a>
-      <a class="nav-link ml-3 my-1" href="#item-1-2">Пункт 1-2</a>
+      <a class="nav-link ml-3 my-1" href="#item-1-1">РџСѓРЅРєС‚ 1-1</a>
+      <a class="nav-link ml-3 my-1" href="#item-1-2">РџСѓРЅРєС‚ 1-2</a>
     </nav>
 
-//--тоже самое что и выше с кнопками но они красиво растянуты
+//--С‚РѕР¶Рµ СЃР°РјРѕРµ С‡С‚Рѕ Рё РІС‹С€Рµ СЃ РєРЅРѕРїРєР°РјРё РЅРѕ РѕРЅРё РєСЂР°СЃРёРІРѕ СЂР°СЃС‚СЏРЅСѓС‚С‹
 <div id="list-example" class="list-group">
-  <a class="list-group-item list-group-item-action" href="#list-item-1">Пункт 1</a>
+  <a class="list-group-item list-group-item-action" href="#list-item-1">РџСѓРЅРєС‚ 1</a>
 
 
 
@@ -2181,24 +2181,24 @@ position: relative;
 
 
 
-#preloader #spiner #spinner #Спиннер
-круглая черная штука крутится
+#preloader #spiner #spinner #РЎРїРёРЅРЅРµСЂ
+РєСЂСѓРіР»Р°СЏ С‡РµСЂРЅР°СЏ С€С‚СѓРєР° РєСЂСѓС‚РёС‚СЃСЏ
 
 <div class="spinner-border text-primary spinner-border-sm" role="status">
   <span class="sr-only">Loading...</span>
 </div>
 
 
-круг который из маленького становится большим
+РєСЂСѓРі РєРѕС‚РѕСЂС‹Р№ РёР· РјР°Р»РµРЅСЊРєРѕРіРѕ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ Р±РѕР»СЊС€РёРј
 <div class="spinner-grow text-primary spinner-grow-sm" role="status">
   <span class="sr-only">Loading...</span>
 </div>
 
 
-.float-right .justify-content-center .m-5 для отступов  или можно обернуть в блок с .text-center
+.float-right .justify-content-center .m-5 РґР»СЏ РѕС‚СЃС‚СѓРїРѕРІ  РёР»Рё РјРѕР¶РЅРѕ РѕР±РµСЂРЅСѓС‚СЊ РІ Р±Р»РѕРє СЃ .text-center
 
 
-можно засунуть в кнопку
+РјРѕР¶РЅРѕ Р·Р°СЃСѓРЅСѓС‚СЊ РІ РєРЅРѕРїРєСѓ
 <button class="btn btn-primary" type="button" disabled>
   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...
@@ -2213,14 +2213,14 @@ position: relative;
 
 
 
-#iframe  <#embed>, <#video> и <#object>
+#iframe  <#embed>, <#video> Рё <#object>
 
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
 </div>
 
 
-можно задать соотношение сторон 21 на 9, также доступны 16 на 9, 4 на 3, 1 на 1 
+РјРѕР¶РЅРѕ Р·Р°РґР°С‚СЊ СЃРѕРѕС‚РЅРѕС€РµРЅРёРµ СЃС‚РѕСЂРѕРЅ 21 РЅР° 9, С‚Р°РєР¶Рµ РґРѕСЃС‚СѓРїРЅС‹ 16 РЅР° 9, 4 РЅР° 3, 1 РЅР° 1 
 embed-responsive-21by9
 
 
