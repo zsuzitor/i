@@ -59,8 +59,6 @@ interop - взаимодействие
 interact - взаимодействие
 newer - новее
 onward - вперед
-further - в дальнейшем
-Furthermore - более того
 inheritance - наследство
 comprehensive - всеобъемлющий \ всесторонний
 simplified - упрощенный
@@ -165,10 +163,12 @@ awful - ужасный
 rude - грубо
 whose - чей
 inaccurate - неточно
+accurate - точный
 notion - понятие
 opposed - против
 Moreover  - более того
 Furthermore -  более того
+further - в дальнейшем
 advent - пришествие \ наступление
 Nevertheless - тем не менее
 bulk - масса
@@ -199,6 +199,56 @@ folk - народ
 overall - общий
 fuss - суматоха
 bother - беспокоить
+emit - испускать \ излучать
+abbreviation - сокращение \ аббревиатура
+facilitate - способствовать
+vivid  - яркий
+concern - беспокойство
+unable - не мочь
+emits - испускать \ излучать
+tweaked - настроен
+slightly - немного
+Therefore - следовательно
+accustom - приучать
+subset - подмножество
+conclusion - вывод
+underlie - лежать в основе
+handheld  - портативный
+correspond - соответствовать
+manner  - манера \ способ
+invocation - призыв
+retain - удерживать
+Thankfully - к счастью
+meticulous - дотошный
+wickedly - злобный
+browsing - просмотр
+backbone - позвоночник
+maintain - поддерживать
+launching - запуск
+distinct - отчетливый
+deeply - глубоко
+cornerstone - краеугольный камень
+compose - сочинять \ составлять
+pertaining - относящийся к
+On their own - сам по себе
+pleased - довольный
+behave - вести себя
+hood - капот
+subtlety - тонкость
+suit - костюм \ подходить(не ногами)
+handy - удобный
+demand - требование
+derive  - выводить \ происходить(как класс происходит от своего родителя)
+nested - вложенный
+adornment - украшение
+associate - ассоциация \ связь
+enforce - принуждать
+canned - консервы
+Intrinsic - внутренний
+establish - учреждать \ устанавливать
+resolve - резрешить(конфликт?)
+
+
 
 ----
 nurse - медсестра
@@ -247,7 +297,7 @@ stole
 
 
 книга-
-70-9 после 1 списка
+79-17 после таблицы
 
 
 
