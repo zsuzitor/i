@@ -18,6 +18,7 @@ https://metanit.com/sharp/patterns/3.5.php
 
 Команда (Command)
 Шаблонный метод (Template Method)
+#proxy #прокси
 Состояние (State)
 Цепочка Обязанностей (Chain of responsibility)
 Хранитель (Memento)
@@ -401,34 +402,29 @@ class ConcreteObserver :IObserver
 
 
 #Шаблонный метод (#Template Method)
+есть какой то основной метод, этот метод поделен на мелкие куски, которые уже реализуются в наследниках
 
 
-abstract class AbstractClass
-{
-    public void TemplateMethod()
-    {
-        Operation1();
-        Operation2();
-    }
-    public abstract void Operation1();
-    public abstract void Operation2();
-}
- 
-class ConcreteClass : AbstractClass
-{
-    public override void Operation1()
-    {
-    }
- 
-    public override void Operation2()
-    {
-    }
+//и потом этот класс наследуется
+public abstract class LogReader{
+    private int _currentPosition;   
+	// Метод ReadLogEntry невиртуальный: определяет алгоритм импорта   
+	public IEnumerable<LogEntry> ReadLogEntry()    
+	{      
+		return ReadEntries(ref _currentPosition).Select(ParseLogEntry);  
+	}  
+	protected abstract IEnumerable<string> ReadEntries(ref int position); 
+	protected abstract LogEntry ParseLogEntry(string stringEntry);
 }
 
 
 
 
 
+#proxy #прокси
+у класса должны быть определенные методы(возможно из интерфейса мб просто так)
+мы в каждом методе формируем делегат который способен его выполнить(например объявили какие то переменные которые делегат сможет захватить)
+потом этот делегат передает в общий метод (метод прокси), в котором выполняем какие то действия которые должны быть выполнены для всех методов, как итог мы не дублируем код
 
 
 
