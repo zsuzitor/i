@@ -1,4 +1,4 @@
-#docker
+﻿#docker
 
 #image- образ
 #container -Контейнер 
@@ -33,6 +33,7 @@ docker rm $(docker ps -qa) - удалить все контейнеры
 docker rmi - удалить image
 docker rmi $(docker images -q)
 docker stop - остановить контейнер
+docker commit container_name new_image_name - создать image по контейнеру
 --rm можно добавить например к build или к run, если не добавить то не будет удалять старое, а будет создавать новое(старое вроде останется и будет висеть)
 
 
