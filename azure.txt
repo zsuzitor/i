@@ -31,6 +31,14 @@ https://www.c-sharpcorner.com/article/upload-files-in-azure-blob-storage-using-a
 Create an Azure Storage Account
 select Storage V2 options
 get connection string
+left menu->containers->"..."->change access lvl
+blob access lvl for imgs
+
+
+
+volume
+создать blob
+зайти в app service->configuration->path mapping-> добавить тут блоб и смапить его с папкой(например /wwwroot/)
 
 
 

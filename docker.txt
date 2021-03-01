@@ -25,6 +25,13 @@ docker ps - посмотреть запущенные контейнеры
 docker ps -a - просмотреть остановленные контейнеры
 docker build - создать image
 docker run - запустить контейнер
+docker volume ls - просмотреть volumes
+docker volume create my-vol - создать volumes
+docker volume create --name my_test_volume --opt type=none --opt device=c:/Test_volume --opt o=bind
+docker volume rm my-vol - удалить volumes
+docker volume inspect my-vol - подробнее о  volume
+docker cp /path/of/the/file <Container_ID>:/path/of/he/container/folder - закинуть файлы в контейнер 
+
 ==
 -v {path:path2} - вот так можно указать, что в контейнере будет расшарена папка с внешней системой, тоесть мы например в эту папку(как в обычную) пишем логи, а читаем на внешней машине. это аналог docker #volumes
 ==
@@ -57,6 +64,14 @@ find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
 
 
+#command
+при 
+docker run 
+--rm -удаляет старый
+-it  - ??
+-p 8000:80 -указываем порт
+--mount source=menu-volume,target=/app/wwwroot - маппим volume
+
 
 
 
@@ -68,6 +83,7 @@ copy - копирует,
 cmd - то что надо сделать когда контейнер будет запущен
 explose 8080 - декларируем что порт будет открыт для доступа извне, это не делает его открытым. см команду -p//// docker run -p 8080:80  /// вот так мапим порт контейнера на порт внешней системы
 env [TZ Europe/Moscow] - создать переменную окружения, в данном случае указываем часовой пояс. ее еще можно передать как параметр при запуске контейнера через параметр "-e"
+VOLUME volume-name - указываем что будет использоваться volume
 
 
 
