@@ -60,11 +60,11 @@ the
 
 
 ============
-present continuous
+past continuous
 то что началось но не успело закончиться на момент про который мы говорим, и это происходило в прошлом
 допустим кто то играл в теннис с 10 до 11.30 тогда
 at 10.30 they were playing tennis
-i was walking ho when i met Dave
+i was walking home when i met Dave
 конструкция 
 was \ were + ing
 единственное число i\he\she\it - was
@@ -85,7 +85,7 @@ have you just arrived?
 
 
 ====================
-
+#TODO это что за время? , оно дублируется ниже вроде
 
 i am(be) going to (do something)
 мы давно что то решили сделать в будущем
@@ -94,6 +94,7 @@ i am going to have early night.
 когда есть какое то действие которое происходит прямо сейчас, и из за этого действия мы знаем что что то произойдет в будущем
 человек с закрытыми глазами идет в сторону люка - he [is going to fall]
 
+#TODO это что за время?
 
 [i am doing] / i am going to do 
 i am doing
@@ -101,30 +102,41 @@ i am doing
 i [am leaving] tomorrow. i have got my plane ticket
 
 
+#TODO это что за время?
 [i am going to do]
 i have decided not to stay here any longer. tomorrow i [am going to look] for somewhere else to stay
 
 
+#TODO это что за время?
 [i was going to] do something
 мы хотели сделать что то в будущем но решили(в прошлом) этого не делать
 wa were going to travel by train but then we decided to go by car instead
 
 
 
+future simple
+
 will
 когда мы решили что то сделать только что
 i have left the door open, i will go and shut it
 will you please be quiet
 
-shall (i\we)
+shall (i\we) - устарело, не используется
 shall i shut the door
 will you shut the door
 
 
+
+грамматически это present continus, но это стороняя конструкция будущего времени
 (be) going to
 это тоже самое что will НО, когда мы приняли решение заранее
 we have decided to have a party. we are going to invite lost of people
 
+
+
+TODO present continus
+то что происходит прямо сейчас
+be(наст время. am is are) +ing
 
 
 

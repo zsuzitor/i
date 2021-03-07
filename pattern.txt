@@ -2,12 +2,30 @@ https://metanit.com/sharp/patterns/3.5.php
 
 сейчас https://metanit.com/sharp/patterns/3.8.php
 
+страница 90
 
+
+порождающие паттерны
+паттерны поведения
+
+
+TODO
+«Поставщик»/«Потребитель» (Producer/Consumer),
+ «Агрегатор событий» (Event Aggregator)
+Команда (Command)
+
+
+
+
+зависимость можно "развернуть", тоесть:
+кейс 1- класс А вызывает метод класса Б(может через интерфейс фабрику или еще как) == А знает о Б, но Б не знает об А
+кейс 2- класс А генерит событие, а класс Б уже на него подписывается и делает что надо == наоборот
 
 
 
 Фабричный метод (Factory Method)
 Абстрактная фабрика (Abstract Factory)
+строитель builder
 
 Одиночка (Singleton, Синглтон)
 
@@ -16,7 +34,7 @@ https://metanit.com/sharp/patterns/3.5.php
 Стратегия (Strategy)
 Наблюдатель (Observer)
 
-Команда (Command)
+
 Шаблонный метод (Template Method)
 #proxy #прокси
 Состояние (State)
@@ -25,6 +43,11 @@ https://metanit.com/sharp/patterns/3.5.php
 
 Адаптер (Adapter)
 Фасад (Facade)
+
+Посредник Mediator 
+визитор Visitor
+
+
 
 SOLID
 
@@ -99,6 +122,7 @@ class WoodHouse : House
 
 
 Абстрактная фабрика (Abstract Factory)
+отвечает за создание группы(семейства) объектов, мы заменяя всю фабрику меняем логику создания всего семейства
 *:1
 abstract class AbstractFactory
 {
@@ -181,66 +205,52 @@ class ElfFactory : HeroFactory
 
 
 
+
+
+
+строитель builder
+позволяет клиентам собирать сложный объект по кусочкам, не вдаваясь в подробности того, как из этих кусочков получается окончательный результат.
+
+
+
+
+
+
+
+
+
+
 #Одиночка (#Singleton, Синглтон)
+
+для того что бы его можно было мокать, можно добавить internal метод который будут инициализировать пропс который мы возвращаем, и этот пропс должен быть интерфейс\абстракт
 
 class Singleton
 {
-    private static Singleton instance;
+    private static volatile Singleton _instance;//еще норм способ:можно проинициализировать прям тут. тогда надо явно добавть пустой статический конструктор, а в getInstance просто вернуть поле
+	private static readonly object _syncRoot = new object();
  
     private Singleton()
     {}
  
     public static Singleton getInstance()
     {
-//lock тут нужен если не 1 поток
-        if (instance == null)
-            instance = new Singleton();
-        return instance;
+		if (_instance == null)
+		 {
+			lock (_syncRoot)
+			{
+				 if (_instance == null)
+				 {
+					_instance = new DoubleCheckedLock();
+				 }
+			}
+		 }
+		 return _instance;
     }
 }
 
 
 
-без использования lock
-public class Singleton
-{
-    private static readonly Singleton instance = new Singleton();
- 
-    public string Name { get; private set; }
- 
-    private Singleton()
-    {
-        Name = System.Guid.NewGuid().ToString();
-    }
- 
-    public static Singleton GetInstance()
-    {
-        return instance;
-    }
-}
-Lazy-реализация
-
-public class Singleton
-{
-    public string Name { get; private set; }
- 
-    private Singleton()
-    {
-        Name = System.Guid.NewGuid().ToString();
-    }
-     
-    public static Singleton GetInstance()
-    {
-        return Nested.instance;
-    }
- 
-    private class Nested
-    {
-        internal static readonly Singleton instance = new Singleton();
-    }
-}
-
-Реализация через класс Lazy<T>
+Реализация через класс Lazy<T> , предпочтительно при .net 4.0+
 
 public class Singleton
 {
@@ -339,6 +349,9 @@ public class Context
 
 #Наблюдатель (#Observer)
 
+EventArgs EventHandler
+
+вместо интерфейсов может быть например просто событие или делегат(в параметрах метода анпример)
 
 interface IObservable
 {
@@ -738,6 +751,50 @@ class Client
         facade.Operation1();
         facade.Operation2();
     }
+}
+
+
+
+
+
+#Посредник #Mediator 
+
+допустим есть класс(A) который логи читает и есть класс(B) которые логи сохраняет
+каждый отвечает за что то 1. так вот вызывать сохранение из класса чтения - это неправильно
+надо создать отдельный класс например LogImporter, в котором уже будем вызывать чтение, запись и все остальное что понадобится
+
+бывает явный и неявный
+явный - когда A или B знают о классе которых их использует
+неявный - наоборот
+
+
+
+
+
+
+визитор Visitor
+есть коллекция объектов определенного типа, но в коллекции есть не только этот тип но и его наследники 
+для которых нужна особая логика(сторонняя, ее нет в интерфейсе объекта, она внешняя),
+это способ без ветвления через if as определить какой метод будет вызван для объекта
+
+
+public interface ILogEntryVisitor
+{
+	void Visit(ExceptionLogEntry exceptionLogEntry);
+	void Visit(SimpleLogEntry simpleLogEntry);
+}
+public abstract class LogEntry
+{
+	public abstract void Accept(ILogEntryVisitor logEntryVisitor);
+}
+public class ExceptionLogEntry : LogEntry
+{
+	public override void Accept(ILogEntryVisitor logEntryVisitor)
+	 {
+		 // Благодаря перегрузке методов выбирается метод
+		 // Visit(ExceptionLogEntry)
+		 logEntryVisitor.Visit(this);
+	 }
 }
 
 
