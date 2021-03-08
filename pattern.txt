@@ -210,6 +210,27 @@ class ElfFactory : HeroFactory
 
 строитель builder
 позволяет клиентам собирать сложный объект по кусочкам, не вдаваясь в подробности того, как из этих кусочков получается окончательный результат.
+в общем просто какой то класс с пачкой методов, каждый метод заполняет некоторые поля
+дальше добавляем метод который будет возвращать уже нормальный объект(другого класса)
+fluent(return this) вроде считается очень важным
+public sealed class MailMessageBuilder
+{
+	 private readonly MailMessage _mailMessage = new MailMessage();
+	 public MailMessageBuilder From(string address)
+	 {
+		 _mailMessage.From = new MailAddress(address);
+		 return this;
+	 }
+	 public MailMessageBuilder To(string address)
+	 {
+		 _mailMessage.To.Add(address);
+		 return this;
+	 }
+	 public MailMessage Build()
+	 {
+		return _mailMessage;
+	 }
+ }
 
 
 
