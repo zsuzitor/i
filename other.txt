@@ -1,2 +1,11 @@
-#cd #disk #e  Для случая если требуется просто перейти в корень другого диска, просто укажите имя диска без команды cd
+﻿#cd #disk #e  Для случая если требуется просто перейти в корень другого диска, просто укажите имя диска без команды cd
 b:
+
+
+тесты запускаются но не отображаются как выполненные
+[Right click test project] -> properties -> Build -> Platform target - e.g. x64
+
+[Main Menu] -> Test -> Test Settings -> Default Processor Architecture -> X64
+
+
+
