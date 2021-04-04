@@ -1,4 +1,4 @@
-
+﻿
 
 
 
@@ -30,7 +30,7 @@ blob
 https://www.c-sharpcorner.com/article/upload-files-in-azure-blob-storage-using-asp-net-core/
 Create an Azure Storage Account
 select Storage V2 options
-get connection string
+get connection string(access keys и тут есть ключи и строки)
 left menu->containers->"..."->change access lvl
 blob access lvl for imgs
 
