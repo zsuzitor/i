@@ -1,0 +1,42 @@
+пути до расширений и вообще полезные штуки студии
+C:\Users\Stanislav_Avdosev\AppData\Local\Microsoft\VisualStudio\16.0_629ab83c\Extensions
+
+
+если сломалась подсветка кода
+ Tools > Options > Text Editor > C# > Advanced, and finally selecting Visual Studio 2019 in the Editor Color Scheme dropdown.
+—редства-ѕараметры-“екстовый редактор-Basic-ƒополнительно-÷ветова€ схема редактора(в самом низу почти)
+“ам помен€й на 2019
+можно накатить свои - https://studiostyl.es/
+
+
+
+тесты запускаютс€ но не отображаютс€ как выполненные
+[Right click test project] -> properties -> Build -> Platform target - e.g. x64
+
+[Main Menu] -> Test -> Test Settings -> Default Processor Architecture -> X64
+
+
+
+#error #точка #останова #pdb 
+не работает точка останова  удалить все файлы в проекте .pdb
+
+
+студи€ не отображает проект по умолчанию, можно ликнуть по проекту  там установить его как startup project
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

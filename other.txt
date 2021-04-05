@@ -2,10 +2,7 @@
 b:
 
 
-тесты запускаются но не отображаются как выполненные
-[Right click test project] -> properties -> Build -> Platform target - e.g. x64
 
-[Main Menu] -> Test -> Test Settings -> Default Processor Architecture -> X64
 
 
 

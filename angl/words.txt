@@ -250,9 +250,27 @@ resolve - резрешить(конфликт?)
 incredible - невероятный
 advice - совет
 advantage - преимущество
-
-
-
+unaided -без посторонней помощи
+sufficiently - достаточно
+alleges - утверждать
+involvement - участие
+collapse - крах \ обвал
+remain - остаться
+Nevertheless - тем не менее
+statement - утверждение
+Regain - восстанавливать \ вернуть себе
+Maintain - поддерживать
+revealed  - раскрытый
+initially  - изначально
+landing  - посадка
+persuaded  - убеждать
+demanded - потребовать
+condemn - осуждать
+transparent - прозрачный
+fool - дурак
+accuse - обвинять
+expel - игнать
+discharge  - увольнять \ выписаться (из больницы)
 
 ----
 nurse - медсестра

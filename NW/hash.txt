@@ -25,7 +25,7 @@ string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
             return hashed;
 
 
-
+ Convert.FromBase64String(str);
 
 
 

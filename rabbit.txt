@@ -1,0 +1,28 @@
+﻿C:\Users\zsuz\AppData\Roaming\RabbitMQ - логи, дб
+
+
+
+C:\Users\zsuz\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\RabbitMQ Server
+всякие файлики по рестарту логам и тд
+
+
+rabbitmq-plugins enable rabbitmq_management - включить плагин для доступа к веб версии
+сама веб версия - http://localhost:15672/#/queues - guest\guest
+
+
+C:\Program Files\RabbitMQ Server\rabbitmq_server-3.8.14\sbin
+список очередей\сообщений
+rabbitmqctl list_queues
+список сообщений которые помечены как подвисшие из за "падения консьюмеров"
+rabbitmqctl.bat list_queues name messages_ready messages_unacknowledged
+
+
+
+
+
+
+
+
+
+
+

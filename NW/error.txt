@@ -1,6 +1,5 @@
 
 
-студия не отображает проект по умолчанию, можно ликнуть по проекту  там установить его как startup project
 
 
 Update-Database : The term 'Update-Database' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a 
@@ -9,8 +8,7 @@ nuget->Microsoft.EntityFrameworkCore.Tools
 
 
 
-#error #точка #останова #pdb 
-не работает точка останова  удалить все файлы в проекте .pdb
+
 
 
 
