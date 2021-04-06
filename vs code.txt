@@ -3,6 +3,19 @@ c#
 css formatter
 debugger for chrome
 sftp
+auto rename tag
+ES7 React/Redux/GraphQL/React-Native snippets
+eslint
+gitlens
+npm intellisense
+react native tools
+Typescript React code snippets
+
+
+
+docker
+
+
 
 
 
