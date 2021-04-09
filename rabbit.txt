@@ -1,4 +1,32 @@
-﻿C:\Users\zsuz\AppData\Roaming\RabbitMQ - логи, дб
+﻿переопределить(тоже имя) очередь нельзя, только удалить и создать новую
+
+
+Exchanges
+обычно процесс устроен так. продьюсер отправляет сообщение в очередь, и оттуда оно уже уходит в консьюмера
+но эта штука добавляет еще 1 звено перед очередью, и сообщение сначала уходит туда
+когда мы не используем это явно, оно все равно используется под капотом с значением по умолчанию channel.BasicPublish(exchange: "",
+бывают такие типы= direct, topic, headers and fanout(отправляет сообщение во все очереди о которых знает)
+channel.ExchangeDeclare("logs", ExchangeType.Fanout);
+
+
+ExchangeType.direct -
+если подписать несколько консьюмеров по одному ключу то они будут работать как Fanout. тоесть каждое сообщение получит каждый из подписчиков
+
+ExchangeType.Topic
+тоже самое что ExchangeType.direct НО
+
+BasicPublish.routingKey - может быть не четко задан:
+количество слов любое, но строка до 255 байт
+
+    * (star) can substitute for exactly one word.
+    # (hash) can substitute for zero or more words.
+
+*.orange.* -словит любое_слово.orange.любое_слово
+lazy.# - словит lazy.любое_слово.любое_слово.любое_слово.любое_слово....
+
+
+
+C:\Users\zsuz\AppData\Roaming\RabbitMQ - логи, дб
 
 
 
@@ -17,8 +45,15 @@ rabbitmqctl list_queues
 rabbitmqctl.bat list_queues name messages_ready messages_unacknowledged
 
 
+rabbitmqctl list_exchanges - список  exchanges
 
 
+
+
+
+rpc - когда нам нужен ответ
+https://www.rabbitmq.com/tutorials/tutorial-six-dotnet.html
+https://github.com/rabbitmq/rabbitmq-tutorials/tree/master/dotnet/RPCClient
 
 
 
