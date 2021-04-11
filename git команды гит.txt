@@ -1,4 +1,4 @@
-$ git init  создание репозитория
+﻿$ git init  создание репозитория
 git remote add origin https://github.com/zsuzitor/4elleng.git           настройка куда заливать
 git push -u origin master          =залить мудл куда настроено
 git add .                 добавить все файлы
@@ -30,6 +30,14 @@ Host github.com
 после генерации ssh надо добавить его в агента
 стартануть ssh агента   eval `ssh-agent -s`
 после этого в него надо засунуть сгенеренный ключ ssh-add ~/.ssh/github_21
+
+
+если ssh агент падает советуют включить его сервис явно
+power shell admin
+1 . Check the current status of ssh-agent: "Get-Service | select -property name,starttype"
+2. Set the new type : "Set-Service -Name ssh-agent -StartupType Manual"
+3. Start it: "Start-Service ssh-agent"
+
 
 
 

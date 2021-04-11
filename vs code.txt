@@ -1,3 +1,6 @@
+куча расширений https://medium.com/productivity-freak/the-ultimate-vscode-setup-for-js-react-6a4f7bd51a2
+какая то вроде бы норм либа по js, форматирование, соблюдение стандартов и тд https://standardjs.com/
+
 
 c#
 css formatter
