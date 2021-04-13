@@ -271,44 +271,101 @@ fool - дурак
 accuse - обвинять
 expel - игнать
 discharge  - увольнять \ выписаться (из больницы)
-
-----
+oatmeal - овсянка
+frightened - испуганный
+shutdown - выключить(свет)
+plaster - штукатурка \ гипс
+beard - борода
+fare - плата за проезд
+give up - сдаться \ бросить что то
+postcard - открытка
+lende - кредит
+realise - понимать \ реализовать
+head{ache} - головная боль
+ache - болеть
+ceiling - потолок
+petrol - бензин
+tank - бак
+cheaply - дешего
+expensive - дорого
+bagel - рогалик \ булка
+delicious - очень вкусно
+countryside - сельская местность
+shop mall - торговый центр
+trail - тащить \ тропа
+inhabitant - житель
+soap - мыло
+annual - ежегодный
+bold - жирный(слово выделенное жирным)
+bald - лысый
+cable - кабель \ провод
+discover - обнаружить \ открыть
+flippe - перевернуть
+adopt - принимать
+involve - вовлекать
+mother tongue - родной язык
+violin - скрипка
+speculation - спекуляция \ предположение
+deduction - вывод
+advice - совет
+practically - практически - почти
+careless - беспечный \ невнимательный
+pork - свинина
+spoil - портить
+might - мощь \ вероятно
+cucumber - огурец
+shy - застенчивый
+focal - центральный \ под фокусом
+proposed - предлагать
+annually - ежегодно
+suffrage - избирательное право
+predominantly - преимущественно
+celebrate - праздновать
+adopt - принять
+womanhood - женственность
+besides - кроме
+watery - водянистый
+whose - чей
+purse - кошелек
+possessions - имущество
+distinguish - различать
+powder - порошок
+mud - грузь
+enjoy - наслаждаться
+dish - блюдо
+hurt - повредить \ боль \ ущерб
+sore - больной
+stomach - желудок
+fizzy - газировка
+habit - привычка
+cure - излечивать
+fame - слава
+borrow - одолжить
+tip - чаевые
+earn - зарабатывать
+bill - налоги
+armament - все что касается войны - оружее\техника и тд
+clue - ключ (к загадке)
+coward - трус
+tenant - арендатор
 nurse - медсестра
-knee
+knee - колено
 coat - пальто
-kbg -губы
+lip -губы
 pale - бледный
-weddings
-lively
-shy - застенчевый
 confident - уверенный
-genereos
-aunt - тетя
-niece-племянница
-nephew
+generous - щедрый
 daughter - дочь
 husbend - муж
-generous - щедрый
 mean - средний\означать\скупой
 to get on well - ладить
-garlic - 
+garlic - чеснок
 waiter - официант
 store  - большой магазин
-thin
--замок
 mood - настроение
-borrow - 
 Matches - спички
-cap
-receptionist
-blouse
-shirt
-sweat
-pedestrian
-meals
-victim
-divorced - 
-stole
+blouse - блузка
+stole - украл
 
 
 
