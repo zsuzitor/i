@@ -1,4 +1,16 @@
-﻿переопределить(тоже имя) очередь нельзя, только удалить и создать новую
+﻿дока
+https://www.rabbitmq.com/documentation.html
+https://www.rabbitmq.com/dotnet-api-guide.html
+https://www.rabbitmq.com/confirms.html
+
+https://github.com/zsuzitor/rabbit_try
+
+
+переопределить(тоже имя) очередь нельзя, только удалить и создать новую
+
+
+connections - должны быть долговечными
+Channels - тоже, но их можно покороче
 
 
 Exchanges
@@ -54,6 +66,22 @@ rabbitmqctl list_exchanges - список  exchanges
 rpc - когда нам нужен ответ
 https://www.rabbitmq.com/tutorials/tutorial-six-dotnet.html
 https://github.com/rabbitmq/rabbitmq-tutorials/tree/master/dotnet/RPCClient
+
+
+
+
+
+
+
+#delete
+channel.QueueDelete("queue-name", false, false);
+channel.QueuePurge("queue-name") - удалить все сообщения
+
+
+
+
+
+
 
 
 
