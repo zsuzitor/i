@@ -267,14 +267,35 @@ wa were going to travel by train but then we decided to go by car instead
 
 
 
+comparatives - длинный-длиннее
+superlatives - длинный-самый длинный
+степени прилагательных
 
 
+если 1-2слога то
+comparatives:
+...+er
+superlatives:
+the ...+est
+
+доп условия
+
+-заканчивается на -e
+тоже самое просто дополнительная "e" не добавляется
+-заканчивается на -y
+тоже самое просто y меняется на i
+-CVC - состоит из 3х букв
+тоже самое просто последняя буква дублируется
 
 
+если больше чем 2 слога
+comparatives:
+more\less ...
+superlatives:
+the most\less ...
 
-
-
-
+если слова исключения
+например good bad far
 
 
 
