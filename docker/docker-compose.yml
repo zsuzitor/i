@@ -1,0 +1,25 @@
+﻿version: '3'
+
+services:
+  api: #название сервиса(контейнера) 1
+    image: conference/api
+    container_name: conference_api
+    build:
+      context: . #путь до dockerfile
+    ports:
+      - 5000:80 # мапим порты
+    environment: #переменные окружения
+      ASPNETCORE_ENVIRONMENT: Production 
+    depends_on: #указываем что этот контейнер зависит от других
+      - postgres
+  postgres:
+    image: postgres:9.6.3
+    container_name: conference_db
+    environment:
+      POSTGRES_DB: conference
+      POSTGRES_USER: conf_app
+      POSTGRES_PASSWORD: docker
+    ports:
+      - 5432:5432 #открываем порт для например pgAdmin, это дефолтный порт для postgres
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d # local_folder: что то типо спец скрипта который инитнит бд

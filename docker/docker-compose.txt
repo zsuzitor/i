@@ -1,0 +1,9 @@
+
+
+docker compose up - запустит docker-compose.yml в текущей папке
+
+
+
+
+
+
