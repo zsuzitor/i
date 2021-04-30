@@ -21,6 +21,7 @@ docker compose - технология для управления контейн
 
 
 docker images - посмотреть созданные image
+docker image list - отображает вообще все images в том числе спуленные nginx .net например
 docker ps - посмотреть запущенные контейнеры
 docker ps -a - просмотреть остановленные контейнеры
 docker build - создать image
@@ -31,6 +32,9 @@ docker volume create --name my_test_volume --opt type=none --opt device=c:/Test_
 docker volume rm my-vol - удалить volumes
 docker volume inspect my-vol - подробнее о  volume
 docker cp /path/of/the/file <Container_ID>:/path/of/he/container/folder - закинуть файлы в контейнер 
+
+docker pull nginx:1.13.8 - скачиваем image либы:версия
+docker logs container_name - посмотреть логи контейнера
 
 ==
 -v {path:path2} - вот так можно указать, что в контейнере будет расшарена папка с внешней системой, тоесть мы например в эту папку(как в обычную) пишем логи, а читаем на внешней машине. это аналог docker #volumes
