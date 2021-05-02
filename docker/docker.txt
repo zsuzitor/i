@@ -25,7 +25,8 @@ docker image list - отображает вообще все images в том ч
 docker ps - посмотреть запущенные контейнеры
 docker ps -a - просмотреть остановленные контейнеры
 docker build - создать image
-docker run - запустить контейнер
+docker run - запустить контейнер по image
+docker start - запуск именно контейнера
 docker volume ls - просмотреть volumes
 docker volume create my-vol - создать volumes
 docker volume create --name my_test_volume --opt type=none --opt device=c:/Test_volume --opt o=bind
@@ -35,16 +36,27 @@ docker cp /path/of/the/file <Container_ID>:/path/of/he/container/folder - зак
 
 docker pull nginx:1.13.8 - скачиваем image либы:версия
 docker logs container_name - посмотреть логи контейнера
+docker attach container_name - мы мапим текущую консоль с запущенным контейнером
+
 
 ==
 -v {path:path2} - вот так можно указать, что в контейнере будет расшарена папка с внешней системой, тоесть мы например в эту папку(как в обычную) пишем логи, а читаем на внешней машине. это аналог docker #volumes
+
+тут можно указать только 1 путь -v {path}, тогда он НЕ пошарится с внешней системой, но этот путь
+можно будет пошарить между контейнерами. при запуске другого контейнера добавить
+--volumes-from {container_1_name}, и он пошарится. такой volume удалится когда остановится последний контейнер
+
+example: 
+docker run -ti -v //c/Users/Stanislav_Avdosev/volume_test:/shared-folder ubuntu bash
+
+
 ==
 docker rm - удалить контейнер
 docker rm $(docker ps -qa) - удалить все контейнеры
 docker rmi - удалить image
 docker rmi $(docker images -q)
 docker stop - остановить контейнер
-docker commit container_name new_image_name - создать image по контейнеру
+docker commit container_name new_image_name - создать image по контейнеру. сохранит в image все изменения крнтейнера
 --rm можно добавить например к build или к run, если не добавить то не будет удалять старое, а будет создавать новое(старое вроде останется и будет висеть)
 
 
@@ -77,6 +89,16 @@ docker run
 --mount source=menu-volume,target=/app/wwwroot - маппим volume
 
 
+в bash есть такая переменная
+host.docker.internal - это ip компа который запустил контейнер
+
+
+network - штука которая позволяет размещать контейнеры в 1 сети
+
+
+
+
+
 
 
 #dockerfile
@@ -87,7 +109,7 @@ copy - копирует,
 cmd - то что надо сделать когда контейнер будет запущен
 explose 8080 - декларируем что порт будет открыт для доступа извне, это не делает его открытым. см команду -p//// docker run -p 8080:80  /// вот так мапим порт контейнера на порт внешней системы
 env [TZ Europe/Moscow] - создать переменную окружения, в данном случае указываем часовой пояс. ее еще можно передать как параметр при запуске контейнера через параметр "-e"
-VOLUME volume-name - указываем что будет использоваться volume
+VOLUME volume-name - указываем что будет использоваться volume. PS это возможно не так работает
 
 
 
