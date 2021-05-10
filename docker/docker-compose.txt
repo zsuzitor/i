@@ -3,6 +3,13 @@
 docker compose up - запустит docker-compose.yml в текущей папке
 
 
+в секцию envirenment:
+можно докинуть вот так, и это заменит значения в конфиге
+в конфиге путь Services -> Products
+envirenment:
+- Services__Products=some_text
+
+
 
 
 

@@ -1,4 +1,4 @@
-
+﻿
 
 #TODO
 
@@ -314,6 +314,37 @@ if (env.IsDevelopment())
 //app.#UseStatusCodePagesWithReExecute("/error/{0}");//тоже что и UseStatusCodePagesWithRedirects но браузер получит правильный статус
 
 Настройка обработки ошибок в web.config - также можно но значительные ограничения https://metanit.com/sharp/aspnet5/17.1.php
+
+
+
+
+
+
+
+
+
+#microservices
+//если нужно несколько разных подключений к разным сервисам, то просто AddHttpClient несколько раз
+services.AddHttpClient("NAME_OF_SERVICE", config=>
+{
+config.BaseAddress = new Uri(path_to_service);
+});
+
+#polly
+nuget пакет для ретраев к сервисам и тд
+к AddHttpClient еще добавляется
+.AddTransientHttpErrorPolicy(p=>p.WaitAndRetryAsync(5,_=> TimeSpan...))
+
+
+IHttpClientFactory _httpClientFactory - di
+_httpClientFactory.CreateClient("NAME_OF_SERVICE");
+var response = await client.GetAsync("api/orders..");//suburl
+if(response.IsSuccessStatusCode){
+var content = await response.Content.ReadAsByteArrayAsync();
+var options = await JsonSerializerOptions(){PropertyNameCaseInsensitive = true};
+var result JsonSerializer.Deserialize<TYPE>(content, options);
+}
+
 
 
 
