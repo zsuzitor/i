@@ -1,0 +1,30 @@
+
+FROM nginx:alpine
+WORKDIR /app
+
+COPY test_volume.txt ./vol/
+
+
+#COPY index.html ./
+COPY index.html /usr/share/nginx/html
+
+
+
+#FROM scratch
+
+#ADD hello /
+#CMD ["/hello"]
+
+
+#COPY test_volume.txt ./app
+#CMD ["/app"]
+
+
+#WORKDIR /app
+
+
+
+
+#COPY test_volume.txt ./
+#CMD ["../bin/bash"]
+#CMD ["./"]

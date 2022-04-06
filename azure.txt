@@ -43,6 +43,21 @@ volume
 
 
 
+с курса epam
+az login - авторизация в azure cli
+az group list
+az group list --output table - получить все ресурсные группы
+az group create --name <name> --location <location> - создать рес группу
+az webapp create --name $AZURE_WEB_APP --resource-group $RESOURCE_GROUP --plan $AZURE_APP_PLAN - создать webapp
+az appservice plan create --name $AZURE_APP_PLAN --resource-group $RESOURCE_GROUP --location $AZURE_REGION --sku FREE
+
+
+
+
+
+
+
+
 
 
 

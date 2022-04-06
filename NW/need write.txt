@@ -12,7 +12,7 @@ https://stackoverflow.com/questions/425389/c-sharp-equivalent-of-sql-server-data
 #resharper
 visual studio cannot resolve symbol
 1-clean solution
-2-resnore nuget packages
+2-restore nuget packages
 3- extensions-resharper-options-general-clear cache+ reopen VS
 
 https://stackoverflow.com/questions/15713167/resharper-cannot-resolve-symbol-even-when-project-builds
