@@ -18,6 +18,12 @@ git diff ветка сравнить чем отличаются по строк
 git config --global user.name "zsuzitor"
 git config --global user.email test@example.com
 
+cd ~/.ssh
+ssh-keygen -o
+
+добавить ssh в агент
+eval $(ssh-agent)   //запуск агента
+ssh-add ~/.ssh/<private_key_file>    //добавляем ssh
 
 c:\Program Files\Git\etc\ssh\
 C:\Users\zsuz\.ssh    --- этот путь из баша -- cd ~/.ssh/
